@@ -11,7 +11,7 @@
     <div class="nav-item" [routerLink]="['/dashboard']" routerLinkActive="active" (click)="onMenuClick('Dashboard')">
       <div class="nav-icon">⊞</div>Dashboard
     </div>
-    <div class="nav-item" onclick="nav('customer')" (click)="onMenuClick('customer')">
+    <div class="nav-item" [routerLink]="['/customer']" routerLinkActive="active"  (click)="onMenuClick('customer')">
       <div class="nav-icon">👤</div>Customer
     </div>
     <div class="nav-item" [routerLink]="['/lead']" routerLinkActive="active" (click)="onMenuClick('Lead')">
