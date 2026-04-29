@@ -112,6 +112,15 @@
                 box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
               }
 
+              &.error {
+                border-color: #ff4757;
+                background: #fff5f5;
+
+                &:focus {
+                  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.2);
+                }
+              }
+
               &::placeholder {
                 color: #999999;
               }

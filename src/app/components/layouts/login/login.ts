@@ -13,6 +13,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AuthService } from '../../../shared/services/auth.service';
 import { CommonService } from '../../../shared/services/common.service';
 import { IdentityService } from '../../../shared/services/identity.service';
+import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +34,7 @@ export class Login implements OnInit {
     private commonService: CommonService,
     private authService: AuthService,
     private toasterService: ToastrService,
+    private sweetAlertService: SweetAlertService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
@@ -116,15 +118,13 @@ export class Login implements OnInit {
           }, 1000);
 
         } else {
-          this.toasterService.error(response.errorMessage);
-          // this.commonService.updateLoader(false);
+          this.sweetAlertService.error(response.errorMessage);
           this.loading = false;
         }
       },
       error: (response: any) => {
         this.loading = false;
-        // this.commonService.updateLoader(false);
-        this.toasterService.error(response.error.message);
+        this.sweetAlertService.error(response.error.message);
       },
     });
   }
