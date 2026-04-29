@@ -3,19 +3,19 @@ import { CommonModule } from '@angular/common';
 import { HeaderService } from '../../shared/services/header.service';
 
 @Component({
-  selector: 'app-lead-list',
+  selector: 'app-call-list',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './lead-list.html',
-  styleUrl: './lead-list.scss'
+  templateUrl: './call-list.html',
+  styleUrl: './call-list.scss'
 })
-export class LeadList implements OnInit {
+export class CallList implements OnInit {
   private headerService = inject(HeaderService);
 
   constructor() { }
 
   ngOnInit(): void {
-    this.headerService.updateHeader('Lead');
+    this.headerService.updateHeader('Call');
   }
 
 }

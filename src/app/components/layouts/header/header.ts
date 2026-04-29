@@ -10,8 +10,10 @@ import { HeaderService } from '../../../shared/services/header.service';
   styleUrl: './header.scss'
 })
 export class Header {
-  public commonService = inject(CommonService);
   public headerService = inject(HeaderService);
+  public headerTitle$ = this.headerService.headerTitle$;
+  public commonService = inject(CommonService);
+
 
   constructor() {}
 
@@ -21,13 +23,5 @@ export class Header {
 
   isSidebarCollapsed() {
     return this.commonService.isSidebarCollapsed();
-  }
-
-  updateHeader(title: string, subtitle: string = '') {
-    this.headerService.updateHeader(title, subtitle);
-  }
-
-  updateHeaderFromMenu(menuKey: string) {
-    this.headerService.updateHeaderFromMenu(menuKey);
   }
 }

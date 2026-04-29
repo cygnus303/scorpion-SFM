@@ -15,8 +15,7 @@
     </ng-template>
   </button>
   <div>
-    <div class="topbar-title" id="page-title">Dashboard</div>
-    <div class="topbar-sub" id="page-sub">All Modules Overview</div>
+    <div class="topbar-title" id="page-title">{{ headerTitle$ | async }}</div>
   </div>
   <div class="tsp"></div>
   <div class="tc on" id="filter-today" onclick="setFilter('today')">Today</div>
