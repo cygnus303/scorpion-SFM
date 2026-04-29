@@ -1,6 +1,6 @@
 .login-container {
   min-height: 100vh;
-  background: 
+  background:
     linear-gradient(135deg, rgba(158 158 158 / 80%) 0%, rgba(78 67 89 / 80%) 100%),
     url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
@@ -96,7 +96,8 @@
           .input-group {
             position: relative;
 
-            input, select {
+            input,
+            select {
               width: 100%;
               padding: 12px 45px 12px 15px;
               border: 2px solid #e0e0e0;
@@ -204,7 +205,7 @@
               }
             }
 
-            input:checked ~ .checkmark {
+            input:checked~.checkmark {
               background-color: #ff4757;
               border-color: #ff4757;
 
@@ -357,9 +358,12 @@
 
 // Animation
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-20px);
   }

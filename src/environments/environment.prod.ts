@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
+    production: true,
     apiUrl: 'https://sfmuatapi.cygnux.in/api/v1/',
-    env: 'Dev'
+    env: 'Prod'
 }

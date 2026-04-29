@@ -1,11 +1,15 @@
-<div class="app-container">
+@if (isLoginPage) {
+<router-outlet></router-outlet>
+} @else {
+<div class="layout-wrapper" [class.mini-sidebar]="commonService.isSidebarCollapsed()">
   <app-sidebar></app-sidebar>
-  <app-header></app-header>
-  <main class="main">
-    <div class="content-wrapper">
-      <app-main-content></app-main-content>
-    </div>
-  </main>
+  <div class="app-container">
+    <main class="main-content">
+      <app-header></app-header>
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
 </div>
-
-<!-- <app-login></app-login> -->
+}

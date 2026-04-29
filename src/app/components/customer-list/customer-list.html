@@ -1,0 +1,184 @@
+<!-- ══ CUSTOMER ══ -->
+<div class="page" id="p-customer">
+    <div class="g4">
+        <div class="kpi" style="--kc:var(--blue)">
+            <div class="kpi-label">Total Customers</div>
+            <div class="kpi-val">284</div>
+            <div class="kpi-sub up">▲ +8 this month</div>
+        </div>
+        <div class="kpi" style="--kc:var(--green)">
+            <div class="kpi-label">Active Accounts</div>
+            <div class="kpi-val">241</div>
+            <div class="kpi-sub up">85% retention</div>
+        </div>
+        <div class="kpi" style="--kc:var(--amber)">
+            <div class="kpi-label">At Risk</div>
+            <div class="kpi-val">18</div>
+            <div class="kpi-sub wn">CSAT below 3.5</div>
+        </div>
+        <div class="kpi" style="--kc:var(--red)">
+            <div class="kpi-label">Churned MTD</div>
+            <div class="kpi-val">3</div>
+            <div class="kpi-sub dn">Needs review</div>
+        </div>
+    </div>
+    <div class="g2">
+        <div class="card">
+            <div class="card-head">
+                <div class="ci b">👤</div>
+                <div class="card-title">Customer List</div><button class="tbtn"
+                    style="margin-left:auto;padding:5px 12px;font-size:11px">＋ Add Customer</button>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:12px">
+                <input placeholder="Search customers..." style="flex:1">
+                <select>
+                    <option>All Zones</option>
+                    <option>Mumbai North</option>
+                    <option>Mumbai South</option>
+                    <option>Pune</option>
+                    <option>Nashik</option>
+                </select>
+                <select>
+                    <option>All Status</option>
+                    <option>Active</option>
+                    <option>At Risk</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+            <table class="mt">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Zone</th>
+                        <th>Rep</th>
+                        <th>Revenue MTD</th>
+                        <th>CSAT</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Reliance Freight</strong><br><span
+                                style="font-size:10px;color:var(--text3)">REL-0021 · Logistics</span></td>
+                        <td>Mumbai N.</td>
+                        <td>Arjun S.</td>
+                        <td style="font-weight:600">₹42L</td>
+                        <td><span class="pill pg">4.8</span></td>
+                        <td><span class="pill pg">Active</span></td>
+                        <td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>BlueDart Corp</strong><br><span style="font-size:10px;color:var(--text3)">BDC-0045 ·
+                                Courier</span></td>
+                        <td>Mumbai S.</td>
+                        <td>Priya M.</td>
+                        <td style="font-weight:600">₹36L</td>
+                        <td><span class="pill pa">3.9</span></td>
+                        <td><span class="pill pa">At Risk</span></td>
+                        <td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sunrise Traders</strong><br><span style="font-size:10px;color:var(--text3)">SUN-0089
+                                · FMCG</span></td>
+                        <td>Pune</td>
+                        <td>Rahul S.</td>
+                        <td style="font-weight:600">₹21L</td>
+                        <td><span class="pill pr">3.2</span></td>
+                        <td><span class="pill pr">At Risk</span></td>
+                        <td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nexus Logistics</strong><br><span style="font-size:10px;color:var(--text3)">NEX-0112
+                                · 3PL</span></td>
+                        <td>Thane</td>
+                        <td>Sneha P.</td>
+                        <td style="font-weight:600">₹29L</td>
+                        <td><span class="pill pg">4.5</span></td>
+                        <td><span class="pill pg">Active</span></td>
+                        <td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>GlobalPack Ltd</strong><br><span style="font-size:10px;color:var(--text3)">GBP-0067
+                                · Retail</span></td>
+                        <td>Nashik</td>
+                        <td>Karan M.</td>
+                        <td style="font-weight:600">₹14L</td>
+                        <td><span class="pill pr">2.9</span></td>
+                        <td><span class="pill pr">Critical</span></td>
+                        <td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+            <div class="card">
+                <div class="card-head">
+                    <div class="ci g">📊</div>
+                    <div class="card-title">Zone-wise Customer Count</div>
+                </div>
+                <div class="hbar">
+                    <div class="hbr">
+                        <div class="hbl">Mumbai North</div>
+                        <div class="hbt">
+                            <div class="hbf" style="width:76%;background:var(--red)"></div>
+                        </div>
+                        <div class="hbv">84</div>
+                    </div>
+                    <div class="hbr">
+                        <div class="hbl">Mumbai South</div>
+                        <div class="hbt">
+                            <div class="hbf" style="width:67%;background:var(--red)"></div>
+                        </div>
+                        <div class="hbv">72</div>
+                    </div>
+                    <div class="hbr">
+                        <div class="hbl">Thane / Navi</div>
+                        <div class="hbt">
+                            <div class="hbf" style="width:48%;background:var(--amber)"></div>
+                        </div>
+                        <div class="hbv">52</div>
+                    </div>
+                    <div class="hbr">
+                        <div class="hbl">Pune</div>
+                        <div class="hbt">
+                            <div class="hbf" style="width:41%;background:var(--amber)"></div>
+                        </div>
+                        <div class="hbv">44</div>
+                    </div>
+                    <div class="hbr">
+                        <div class="hbl">Nashik / Aurang.</div>
+                        <div class="hbt">
+                            <div class="hbf" style="width:30%;background:var(--text3)"></div>
+                        </div>
+                        <div class="hbv">32</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-head">
+                    <div class="ci">⭐</div>
+                    <div class="card-title">CSAT Health Summary</div>
+                </div>
+                <div class="sg">
+                    <div class="sb">
+                        <div class="sbv" style="color:var(--green)">186</div>
+                        <div class="sbl">Healthy (CSAT ≥4)</div>
+                    </div>
+                    <div class="sb">
+                        <div class="sbv" style="color:var(--amber)">62</div>
+                        <div class="sbl">At Risk (3–3.9)</div>
+                    </div>
+                    <div class="sb">
+                        <div class="sbv" style="color:var(--red)">18</div>
+                        <div class="sbl">Critical (&lt;3)</div>
+                    </div>
+                    <div class="sb">
+                        <div class="sbv">4.1</div>
+                        <div class="sbl">Avg CSAT Score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

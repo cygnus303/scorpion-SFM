@@ -1,4 +1,4 @@
-<div class="page" id="p-lead">
+<!-- <div class="page" id="p-lead">
   <div class="kpi-row">
     <div class="kpi" style="--kc:var(--blue)"><div class="kpi-label">Total Active Leads</div><div class="kpi-val">47</div><div class="kpi-sub up">▲ +12 this week</div></div>
     <div class="kpi" style="--kc:var(--amber)"><div class="kpi-label">Proposals Sent</div><div class="kpi-val">21</div><div class="kpi-sub wn">8 awaiting response</div></div>
@@ -24,6 +24,218 @@
           <tr><td><strong>FastTrack Courier</strong></td><td>Mr. Deepak V.</td><td>Arjun S.</td><td><span class="pill pr">Cold</span></td><td>₹2L/mo</td><td>18 days ago</td><td><span class="pill pr">22</span></td></tr>
         </tbody>
       </table>
+    </div>
+  </div>
+</div> -->
+
+<!-- ══ DASHBOARD ══ -->
+<div class="page active">
+  <div class="g5">
+    <div class="card" style="border-top:3px solid var(--red);cursor:pointer" onclick="nav('lead')">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+        <div class="ci" style="width:26px;height:26px;font-size:13px">📋</div><span
+          style="font-size:12px;font-weight:600">SFM Pipeline</span>
+      </div>
+      <div style="font-size:22px;font-weight:700;color:var(--text1)">47</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:2px">active leads</div>
+      <div
+        style="display:inline-block;margin-top:6px;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--red-lt);color:var(--red)">
+        LIVE</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green);cursor:pointer" onclick="nav('sales-dashboard')">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+        <div class="ci g" style="width:26px;height:26px;font-size:13px">💰</div><span
+          style="font-size:12px;font-weight:600">Sales & Collection</span>
+      </div>
+      <div style="font-size:22px;font-weight:700;color:var(--text1)">₹2.4Cr</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:2px">80% of target</div>
+      <div
+        style="display:inline-block;margin-top:6px;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--amber-lt);color:var(--amber)">
+        THIS MONTH</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--amber);cursor:pointer" onclick="nav('quotation')">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+        <div class="ci a" style="width:26px;height:26px;font-size:13px">📄</div><span
+          style="font-size:12px;font-weight:600">QMS V2</span>
+      </div>
+      <div style="font-size:22px;font-weight:700;color:var(--text1)">8</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:2px">quotes active</div>
+      <div
+        style="display:inline-block;margin-top:6px;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--amber-lt);color:var(--amber)">
+        NEW MODULE</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--red);cursor:pointer" onclick="nav('prq')">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+        <div class="ci" style="width:26px;height:26px;font-size:13px">🚚</div><span
+          style="font-size:12px;font-weight:600">PRQ Module</span>
+      </div>
+      <div style="font-size:22px;font-weight:700;color:var(--red)">47<span
+          style="font-size:12px;font-weight:400;color:var(--text3)">/112</span></div>
+      <div style="font-size:11px;color:var(--red);margin-top:2px">raised today ⚠</div>
+      <div
+        style="display:inline-block;margin-top:6px;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--red-lt);color:var(--red)">
+        LIVE</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue);cursor:pointer" onclick="nav('cs-dashboard')">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+        <div class="ci b" style="width:26px;height:26px;font-size:13px">⭐</div><span
+          style="font-size:12px;font-weight:600">CS Level</span>
+      </div>
+      <div style="font-size:22px;font-weight:700;color:var(--red)">3</div>
+      <div style="font-size:11px;color:var(--red);margin-top:2px">critical accounts</div>
+      <div
+        style="display:inline-block;margin-top:6px;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--blue-lt);color:var(--blue)">
+        CS VIEW</div>
+    </div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi" style="--kc:var(--red)">
+      <div class="kpi-label">Revenue vs Target</div>
+      <div class="kpi-val">₹2.4Cr</div>
+      <div class="kpi-sub dn">▼ 80% of ₹3.0Cr</div>
+    </div>
+    <div class="kpi" style="--kc:var(--red)">
+      <div class="kpi-label">Outstanding Collection</div>
+      <div class="kpi-val">₹38.2L</div>
+      <div class="kpi-sub dn">24 accounts overdue</div>
+    </div>
+    <div class="kpi" style="--kc:var(--green)">
+      <div class="kpi-label">Active Leads</div>
+      <div class="kpi-val">47</div>
+      <div class="kpi-sub up">▲ +12 this week</div>
+    </div>
+    <div class="kpi" style="--kc:var(--amber)">
+      <div class="kpi-label">PRQ Success Rate</div>
+      <div class="kpi-val">68%</div>
+      <div class="kpi-sub wn">⚠ Target: 95%</div>
+    </div>
+    <div class="kpi" style="--kc:var(--red)">
+      <div class="kpi-label">Open Complaints</div>
+      <div class="kpi-val">23</div>
+      <div class="kpi-sub dn">7 breaching SLA</div>
+    </div>
+  </div>
+  <div class="g3">
+    <div class="card">
+      <div class="card-head">
+        <div class="ci">📋</div>
+        <div class="card-title">Lead Pipeline</div>
+        <div class="ctag tr">SFM</div>
+      </div>
+      <div class="funnel">
+        <div class="fr">
+          <div class="fl">Lead</div>
+          <div class="ft">
+            <div class="ff" style="width:100%;background:#CC0000"><span class="fp">100%</span></div>
+          </div>
+          <div class="fn">47</div>
+        </div>
+        <div class="fr">
+          <div class="fl">Qualified</div>
+          <div class="ft">
+            <div class="ff" style="width:68%;background:#990000"><span class="fp">68%</span></div>
+          </div>
+          <div class="fn">32</div>
+        </div>
+        <div class="fr">
+          <div class="fl">Proposal</div>
+          <div class="ft">
+            <div class="ff" style="width:45%;background:#660000"><span class="fp">45%</span></div>
+          </div>
+          <div class="fn">21</div>
+        </div>
+        <div class="fr">
+          <div class="fl">Prospect</div>
+          <div class="ft">
+            <div class="ff" style="width:28%;background:#3D0000"><span class="fp">28%</span></div>
+          </div>
+          <div class="fn">13</div>
+        </div>
+        <div class="fr">
+          <div class="fl">Customer ✓</div>
+          <div class="ft">
+            <div class="ff" style="width:18%;background:#16A34A"><span class="fp">18%</span></div>
+          </div>
+          <div class="fn">8</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div class="ci dk">🏆</div>
+        <div class="card-title">Rep Leaderboard</div>
+        <div class="ctag ta">Month</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1px">
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><span
+            style="font-size:16px">🥇</span><span style="font-size:12px;font-weight:500;flex:1">Arjun Sharma</span><span
+            style="width:50px;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;display:inline-block"><span
+              style="display:block;height:100%;width:100%;background:var(--green);border-radius:4px"></span></span><span
+            class="pill pg" style="margin-left:6px">105%</span></div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><span
+            style="font-size:16px">🥈</span><span style="font-size:12px;font-weight:500;flex:1">Priya Menon</span><span
+            style="width:50px;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;display:inline-block"><span
+              style="display:block;height:100%;width:86%;background:var(--green);border-radius:4px"></span></span><span
+            class="pill pg" style="margin-left:6px">90%</span></div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><span
+            style="font-size:16px">🥉</span><span style="font-size:12px;font-weight:500;flex:1">Rahul Singh</span><span
+            style="width:50px;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;display:inline-block"><span
+              style="display:block;height:100%;width:69%;background:var(--amber);border-radius:4px"></span></span><span
+            class="pill pa" style="margin-left:6px">72%</span></div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0"><span
+            style="font-size:14px;width:22px;text-align:center;color:var(--text3)">4</span><span
+            style="font-size:12px;font-weight:500;flex:1">Sneha Patel</span><span
+            style="width:50px;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;display:inline-block"><span
+              style="display:block;height:100%;width:51%;background:var(--red);border-radius:4px"></span></span><span
+            class="pill pr" style="margin-left:6px">53%</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div class="ci" style="background:#DC2626">🔔</div>
+        <div class="card-title">Smart Alerts</div>
+        <div class="ctag tr">Action Reqd.</div>
+      </div>
+      <div class="ai">
+        <div class="ad" style="background:var(--red)"></div>
+        <div>
+          <div class="at">PRQ #4821 (Sunrise Traders) SLA breach in 12 mins</div>
+          <div class="as2">PRQ Module</div>
+        </div>
+        <div class="atm">2m</div>
+      </div>
+      <div class="ai">
+        <div class="ad" style="background:var(--red)"></div>
+        <div>
+          <div class="at">CCM-0291 (DEPS damage) SLA breached — escalate</div>
+          <div class="as2">Complaint</div>
+        </div>
+        <div class="atm">30m</div>
+      </div>
+      <div class="ai">
+        <div class="ad" style="background:var(--amber)"></div>
+        <div>
+          <div class="at">Quote QMS-0044 no response 48hrs — follow up</div>
+          <div class="as2">QMS V2</div>
+        </div>
+        <div class="atm">1h</div>
+      </div>
+      <div class="ai">
+        <div class="ad" style="background:var(--amber)"></div>
+        <div>
+          <div class="at">Rahul Singh — 0 visits logged today (target: 4)</div>
+          <div class="as2">SFM Activity</div>
+        </div>
+        <div class="atm">4h</div>
+      </div>
+      <div class="ai">
+        <div class="ad" style="background:var(--green)"></div>
+        <div>
+          <div class="at">Arjun Sharma crossed monthly target — 105%!</div>
+          <div class="as2">Sales Dashboard</div>
+        </div>
+        <div class="atm">5h</div>
+      </div>
     </div>
   </div>
 </div>

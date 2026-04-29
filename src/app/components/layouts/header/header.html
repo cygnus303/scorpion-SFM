@@ -1,5 +1,11 @@
 <div class="topbar">
-  <div><div class="topbar-title" id="page-title">Dashboard</div><div class="topbar-sub" id="page-sub">All Modules Overview</div></div>
+  <button class="menu-toggle" (click)="toggleSidebar()">
+    <span class="icon">☰</span>
+  </button>
+  <div>
+    <div class="topbar-title" id="page-title">Dashboard</div>
+    <div class="topbar-sub" id="page-sub">All Modules Overview</div>
+  </div>
   <div class="tsp"></div>
   <div class="tc on" id="filter-today" onclick="setFilter('today')">Today</div>
   <div class="tc" id="filter-week" onclick="setFilter('week')">This Week</div>
@@ -7,6 +13,9 @@
   <button class="tbtn" id="topbar-action" onclick="openModal()">＋ New Lead</button>
   <div class="upill">
     <div class="av">MK</div>
-    <div><div class="un">Manoj Kumar</div><div class="ur">CTO · 3673</div></div>
+    <div>
+      <div class="un">Manoj Kumar</div>
+      <div class="ur">CTO · 3673</div>
+    </div>
   </div>
 </div>
