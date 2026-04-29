@@ -8,47 +8,47 @@
   </div>
   <div class="sb-scroll">
     <div class="sb-sec">Main</div>
-    <div class="nav-item active" onclick="nav('dashboard')">
+    <div class="nav-item" [routerLink]="['/dashboard']" routerLinkActive="active">
       <div class="nav-icon">⊞</div>Dashboard
     </div>
-    <div class="nav-item" onclick="nav('customer')">
+    <div class="nav-item" onclick="nav('customer')" (click)="onMenuClick('customer')">
       <div class="nav-icon">👤</div>Customer
     </div>
-    <div class="nav-item" onclick="nav('lead')">
+    <div class="nav-item" [routerLink]="['/lead']" routerLinkActive="active">
       <div class="nav-icon">◎</div>Lead <span class="nb">14</span>
     </div>
-    <div class="nav-item" onclick="nav('meeting')">
+    <div class="nav-item" [routerLink]="['/meeting']" routerLinkActive="active">
       <div class="nav-icon">◷</div>Meeting
     </div>
-    <div class="nav-item" onclick="nav('call')">
+    <div class="nav-item" onclick="nav('call')" (click)="onMenuClick('call')">
       <div class="nav-icon">☎</div>Call
     </div>
 
     <div class="sb-sec">Sales Tools</div>
-    <div class="nav-item" onclick="nav('quotation')">
+    <div class="nav-item" onclick="nav('quotation')" (click)="onMenuClick('quotation')">
       <div class="nav-icon">📄</div>Quotation — QMS V2 <span class="nb">3</span>
     </div>
-    <div class="nav-item" onclick="nav('prq')">
+    <div class="nav-item" onclick="nav('prq')" (click)="onMenuClick('prq')">
       <div class="nav-icon">🚚</div>PRQ — Pickup Req <span class="nb a">7</span>
     </div>
-    <div class="nav-item" onclick="nav('expense')">
+    <div class="nav-item" onclick="nav('expense')" (click)="onMenuClick('expense')">
       <div class="nav-icon">💸</div>Expense
     </div>
-    <div class="nav-item" onclick="nav('expense-master')">
+    <div class="nav-item" onclick="nav('expense-master')" (click)="onMenuClick('expense-master')">
       <div class="nav-icon">⚙</div>Expense General Master
     </div>
-    <div class="nav-item" onclick="nav('expense-approval')">
+    <div class="nav-item" onclick="nav('expense-approval')" (click)="onMenuClick('expense-approval')">
       <div class="nav-icon">✔</div>Expense Approval <span class="nb a">2</span>
     </div>
 
     <div class="sb-sec">Performance</div>
-    <div class="nav-item" onclick="nav('sales-dashboard')">
+    <div class="nav-item" onclick="nav('sales-dashboard')" (click)="onMenuClick('sales-dashboard')">
       <div class="nav-icon">📈</div>Sales Dashboard
     </div>
-    <div class="nav-item" onclick="nav('collection-dashboard')">
+    <div class="nav-item" onclick="nav('collection-dashboard')" (click)="onMenuClick('collection-dashboard')">
       <div class="nav-icon">💰</div>Collection Dashboard
     </div>
-    <div class="nav-item" onclick="nav('cs-dashboard')">
+    <div class="nav-item" onclick="nav('cs-dashboard')" (click)="onMenuClick('cs-dashboard')">
       <div class="nav-icon">⭐</div>CS Level Dashboard
     </div>
 

@@ -36,12 +36,7 @@ export class IdentityService {
 
   login(loginDetails: any): Observable<IApiBaseResponse<any>> {
     const headers = new HttpHeaders().set('no-auth', 'true');
-    return this.apiHandlerService.Post(
-      'external/login',
-      loginDetails,
-      undefined,
-      headers
-    );
+    return this.apiHandlerService.Post('external/login',loginDetails,undefined,headers);
   }
 
   generateRefreshToken(): Observable<IApiBaseResponse<any>> {

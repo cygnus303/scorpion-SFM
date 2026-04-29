@@ -67,7 +67,7 @@ body{background:var(--bg);color:var(--text1);font-size:13px;min-height:100vh}
 .tp{background:var(--purple-lt);color:var(--purple)}.tdk{background:#f0f0f5;color:var(--dark)}
 
 /* GRIDS */
-.g2{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:14px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .g5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}

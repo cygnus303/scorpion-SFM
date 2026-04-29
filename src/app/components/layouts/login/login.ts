@@ -22,7 +22,7 @@ import { IdentityService } from '../../../shared/services/identity.service';
   styleUrl: './login.scss',
 })
 export class Login implements OnInit {
-  public loginFormGroup!: FormGroup;
+  public loginForm!: FormGroup;
   public isFormSubmit = false;
   isPasswordVisible: boolean = false;
   password: string = '';
@@ -55,7 +55,7 @@ export class Login implements OnInit {
   }
 
   buildLoginForm(): void {
-    this.loginFormGroup = new FormGroup({
+    this.loginForm = new FormGroup({
       password: new FormControl(null, [
         Validators.required,
       ]),
@@ -91,44 +91,42 @@ export class Login implements OnInit {
   }
 
   get loginControls(): { [key: string]: AbstractControl } {
-    let loginDetail = this.loginFormGroup.controls;
+    let loginDetail = this.loginForm.controls;
     return loginDetail;
   }
 
-  public onSubmitLogin(): void {
-    if (this.loginFormGroup.invalid) {
-      return;
-    }
-    this.login();
-  }
 
   login() {
-    this.router.navigateByUrl('/dashboard');
+     if (this.loginForm.invalid) {
+      return;
+    }
     // this.commonService.updateLoader(true);
-    // this.loading = true;
-    // this.identityService.login(this.loginFormGroup.getRawValue()).subscribe({
-    //   next: (response) => {
-    //     if (response && response.data && response.data.token) {
-    //       console.log(response && response.data)
-    //       this.toasterService.success('Login Successfully.');
-    //       this.identityService.setToken(response.data.token);
-    //       localStorage.setItem('loginUser', JSON.stringify(response.data));
-    //       this.loading = false;
-    //       setTimeout(() => {
-    //         this.refreshToken();
-    //       }, 3000);
+    this.loading = true;
+    this.identityService.login(this.loginForm.value).subscribe({
+      next: (response) => {
+        if (response && response.data && response.data.token) {
+          console.log(response && response.data)
+          this.identityService.setToken(response.data.token);
+          localStorage.setItem('loginUser', JSON.stringify(response.data));
+          this.toasterService.success('Login Successfully.');
+          this.router.navigateByUrl('/dashboard');
+          this.loading = false;
+          setTimeout(() => {
+            this.refreshToken();
+          }, 1000);
 
-    //     } else {
-    //       this.toasterService.error(response.errorMessage);
-    //       this.commonService.updateLoader(false);
-    //     }
-    //   },
-    //   error: (response: any) => {
-    //     this.loading = false;
-    //     this.commonService.updateLoader(false);
-    //     this.toasterService.error(response.error.message);
-    //   },
-    // });
+        } else {
+          this.toasterService.error(response.errorMessage);
+          // this.commonService.updateLoader(false);
+          this.loading = false;
+        }
+      },
+      error: (response: any) => {
+        this.loading = false;
+        // this.commonService.updateLoader(false);
+        this.toasterService.error(response.error.message);
+      },
+    });
   }
 
   refreshToken() {
