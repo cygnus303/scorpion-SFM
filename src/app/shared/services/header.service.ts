@@ -13,6 +13,9 @@ export class HeaderService {
   updateHeaderFromMenu(menuKey: string) {
     let title = '';
     switch (menuKey) {
+      case 'Dashboard':
+        title = 'Dashboard';
+        break;
       case 'customer':
         title = 'Customer';
         break;
@@ -28,11 +31,38 @@ export class HeaderService {
       case 'quotation':
         title = 'Quotation — QMS V2';
         break;
-      case 'prq':
-        title = 'PRQ — Pickup Req';
+      case 'pickup-request':
+        title = 'PRQ — Pickup Request';
         break;
       case 'expense':
         title = 'Expense';
+        break;
+      case 'expense-master':
+        title = 'Expense General Master';
+        break;
+      case 'expense-approval':
+        title = 'Expense Approval';
+        break;
+      case 'sales-dashboard':
+        title = 'Sales Dashboard';
+        break;
+      case 'collection-dashboard':
+        title = 'Collection Dashboard';
+        break;
+      case 'cs-dashboard':
+        title = 'CS Level Dashboard';
+        break;
+      case 'complaint':
+        title = 'Complaint (CCM)';
+        break;
+      case 'task':
+        title = 'Task';
+        break;
+      case 'calendar':
+        title = 'My Calendar';
+        break;
+      case 'training':
+        title = 'Training Hub';
         break;
       default:
         title = 'Dashboard';

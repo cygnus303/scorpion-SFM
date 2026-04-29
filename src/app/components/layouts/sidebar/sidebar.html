@@ -25,46 +25,46 @@
     </div>
 
     <div class="sb-sec">Sales Tools</div>
-    <div class="nav-item"   routerLinkActive="active"  (click)="onMenuClick('quotation')">
+    <div class="nav-item" [routerLink]="['/quotation']" routerLinkActive="active" (click)="onMenuClick('quotation')">
       <div class="nav-icon">📄</div>Quotation — QMS V2 <span class="nb">3</span>
     </div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('prq')">
+    <div class="nav-item" [routerLink]="['/pickup-request']" routerLinkActive="active" (click)="onMenuClick('pickup-request')">
       <div class="nav-icon">🚚</div>PRQ — Pickup Req <span class="nb a">7</span>
     </div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('expense')">
+    <div class="nav-item" [routerLink]="['/expense']" routerLinkActive="active" (click)="onMenuClick('expense')">
       <div class="nav-icon">💸</div>Expense
     </div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('expense-master')">
+    <div class="nav-item"  [routerLink]="['/general-master']" routerLinkActive="active" (click)="onMenuClick('expense-master')">
       <div class="nav-icon">⚙</div>Expense General Master
     </div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('expense-approval')">
+    <div class="nav-item" [routerLink]="['/expense-approval']" routerLinkActive="active" (click)="onMenuClick('expense-approval')">
       <div class="nav-icon">✔</div>Expense Approval <span class="nb a">2</span>
     </div>
 
     <div class="sb-sec">Performance</div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('sales-dashboard')">
+    <div class="nav-item" [routerLink]="['/sales-dashboard']" routerLinkActive="active" (click)="onMenuClick('sales-dashboard')">
       <div class="nav-icon">📈</div>Sales Dashboard
     </div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('collection-dashboard')">
+    <div class="nav-item" [routerLink]="['/collection-dashboard']" routerLinkActive="active" (click)="onMenuClick('collection-dashboard')">
       <div class="nav-icon">💰</div>Collection Dashboard
     </div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('cs-dashboard')">
+    <div class="nav-item" [routerLink]="['/cs-dashboard']" routerLinkActive="active" (click)="onMenuClick('cs-dashboard')">
       <div class="nav-icon">⭐</div>CS Level Dashboard
     </div>
 
     <div class="sb-sec">Customer Service</div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('complaint')">
+    <div class="nav-item" [routerLink]="['/complaint']" routerLinkActive="active" (click)="onMenuClick('complaint')">
       <div class="nav-icon">🎫</div>Complaint (CCM) <span class="nb">5</span>
     </div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('task')">
+    <div class="nav-item" [routerLink]="['/task']" routerLinkActive="active" (click)="onMenuClick('task')">
       <div class="nav-icon">✅</div>Task <span class="nb g">4</span>
     </div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('calendar')">
+    <div class="nav-item" [routerLink]="['/calendar']" routerLinkActive="active" (click)="onMenuClick('calendar')">
       <div class="nav-icon">📅</div>My Calendar
     </div>
 
     <div class="sb-sec">Learning</div>
-    <div class="nav-item" routerLinkActive="active" (click)="onMenuClick('training')">
+    <div class="nav-item" [routerLink]="['/training']" routerLinkActive="active" (click)="onMenuClick('training')">
       <div class="nav-icon">🎓</div>Training Hub
     </div>
   </div>

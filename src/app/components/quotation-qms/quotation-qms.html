@@ -1,0 +1,55 @@
+<!-- ══ QUOTATION QMS V2 ══ -->
+<div class="page active">
+  <div class="kpi-row">
+    <div class="kpi" style="--kc:var(--amber)"><div class="kpi-label">Quotes Sent MTD</div><div class="kpi-val">24</div><div class="kpi-sub up">▲ +4 vs last month</div></div>
+    <div class="kpi" style="--kc:var(--green)"><div class="kpi-label">Win Rate</div><div class="kpi-val">62%</div><div class="kpi-sub up">▲ +8% vs Q3</div></div>
+    <div class="kpi" style="--kc:var(--amber)"><div class="kpi-label">Pending Approval</div><div class="kpi-val">3</div><div class="kpi-sub wn">Awaiting manager</div></div>
+    <div class="kpi" style="--kc:var(--red)"><div class="kpi-label">Expired / Lost</div><div class="kpi-val">4</div><div class="kpi-sub dn">This month</div></div>
+    <div class="kpi" style="--kc:var(--green)"><div class="kpi-label">Avg Turnaround</div><div class="kpi-val">1.8h</div><div class="kpi-sub up">Target: &lt;2 hrs</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-head"><div class="ci a">📄</div><div class="card-title">Quote List</div><button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px" onclick="openModal()">＋ New Quote</button></div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <input placeholder="Search quotes..." style="flex:1">
+        <select><option>All Status</option><option>Pending Approval</option><option>Sent</option><option>Accepted</option><option>Expired</option></select>
+      </div>
+      <table class="mt">
+        <thead><tr><th>Quote #</th><th>Customer</th><th>Rep</th><th>Value</th><th>Status</th><th>Sent</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong>QMS-0051</strong></td><td>Vikram Exports</td><td>Arjun S.</td><td style="font-weight:600">₹6.2L/mo</td><td><span class="pill pg">Accepted</span></td><td>Today</td><td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td></tr>
+          <tr><td><strong>QMS-0050</strong></td><td>IndoFreight Ltd</td><td>Priya M.</td><td style="font-weight:600">₹3.8L/mo</td><td><span class="pill pa">Pending Appr.</span></td><td>Yesterday</td><td><button class="btn btn-red" style="font-size:10px;padding:3px 8px">Approve</button></td></tr>
+          <tr><td><strong>QMS-0049</strong></td><td>Apex Cargo</td><td>Rahul S.</td><td style="font-weight:600">₹2.1L/mo</td><td><span class="pill pb">Sent · Waiting</span></td><td>2 days ago</td><td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">Follow Up</button></td></tr>
+          <tr><td><strong>QMS-0044</strong></td><td>BlueDart Corp</td><td>Priya M.</td><td style="font-weight:600">₹9.4L/mo</td><td><span class="pill pr">No Response 48h</span></td><td>3 days ago</td><td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">Follow Up</button></td></tr>
+          <tr><td><strong>QMS-0038</strong></td><td>GlobalPack Ltd</td><td>Karan M.</td><td style="font-weight:600">₹1.4L/mo</td><td><span class="pill pr">Expired</span></td><td>12 days ago</td><td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">Re-send</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <div class="card-head"><div class="ci">📊</div><div class="card-title">Quote Analytics</div></div>
+        <div class="sg" style="margin-bottom:12px">
+          <div class="sb"><div class="sbv" style="color:var(--green)">15</div><div class="sbl">Won this month</div></div>
+          <div class="sb"><div class="sbv" style="color:var(--red)">4</div><div class="sbl">Lost / Expired</div></div>
+        </div>
+        <div class="srow"><div class="sk">Avg deal size</div><div class="sv">₹4.2L/mo</div></div>
+        <div class="srow"><div class="sk">Largest quote MTD</div><div class="sv">₹9.4L — BlueDart</div></div>
+        <div class="srow"><div class="sk">Below floor price alerts</div><div class="sv up">0 — None</div></div>
+        <div class="srow"><div class="sk">Rogue discounts blocked</div><div class="sv up">2 this month</div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="ci a">⚡</div><div class="card-title">Build New Quote</div></div>
+        <div class="form-row three">
+          <div class="fg"><label>Customer</label><select><option>Select customer</option><option>Reliance Freight</option><option>BlueDart Corp</option></select></div>
+          <div class="fg"><label>Service Type</label><select><option>Express Delivery</option><option>Freight</option><option>Last Mile</option></select></div>
+          <div class="fg"><label>Zone</label><select><option>Mumbai North</option><option>Mumbai South</option><option>Pune</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Rate per Shipment (₹)</label><input type="number" placeholder="Auto from rate card"></div>
+          <div class="fg"><label>Volume Commitment</label><input type="number" placeholder="Est. shipments/month"></div>
+        </div>
+        <div style="display:flex;gap:8px"><button class="btn btn-red">Generate Quote</button><button class="btn btn-outline">Save Draft</button></div>
+      </div>
+    </div>
+  </div>
+</div>

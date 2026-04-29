@@ -5,6 +5,18 @@ import { CustomerList } from './components/customer-list/customer-list';
 import { LeadList } from './components/lead-list/lead-list';
 import { MeetingList } from './components/meeting-list/meeting-list';
 import { CallList } from './components/call-list/call-list';
+import { ExpenseList } from './components/expense-list/expense-list';
+import { ExpenseGeneralMaster } from './components/expense-general-master/expense-general-master';
+import { ExpenseApproval } from './components/expense-approval/expense-approval';
+import { QuotationQMS } from './components/quotation-qms/quotation-qms';
+import { PickupRequestList } from './components/pickup-request-list/pickup-request-list';
+import { SalesDashboard } from './components/sales-dashboard/sales-dashboard';
+import { CollectionDashboard } from './components/collection-dashboard/collection-dashboard';
+import { CSLevelDashboard } from './components/cslevel-dashboard/cslevel-dashboard';
+import { ComplaintList } from './components/complaint-list/complaint-list';
+import { TaskList } from './components/task-list/task-list';
+import { MyCalendar } from './components/my-calendar/my-calendar';
+import { TrainingHub } from './components/training-hub/training-hub';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -13,6 +25,18 @@ export const routes: Routes = [
   { path: 'lead', component: LeadList },
   { path: 'meeting', component: MeetingList },
   { path: 'call', component: CallList },
+  { path: 'expense', component: ExpenseList },
+  { path: 'general-master', component: ExpenseGeneralMaster },
+  { path: 'expense-approval', component: ExpenseApproval },
+  { path: 'quotation', component: QuotationQMS },
+  { path: 'pickup-request', component: PickupRequestList },
+  { path: 'sales-dashboard', component: SalesDashboard },
+  { path: 'collection-dashboard', component: CollectionDashboard },
+  { path: 'cs-dashboard', component: CSLevelDashboard },
+  { path: 'complaint', component: ComplaintList },
+  { path: 'task', component: TaskList },
+  { path: 'calendar', component: MyCalendar },
+  { path: 'training', component: TrainingHub },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

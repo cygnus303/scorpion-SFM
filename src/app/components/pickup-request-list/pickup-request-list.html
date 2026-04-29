@@ -1,0 +1,52 @@
+<!-- ══ PRQ ══ -->
+<div class="page active">
+  <div class="kpi-row">
+    <div class="kpi" style="--kc:var(--red)"><div class="kpi-label">PRQs Raised Today</div><div class="kpi-val">47</div><div class="kpi-sub dn">of 112 expected ⚠</div></div>
+    <div class="kpi" style="--kc:var(--amber)"><div class="kpi-label">Pickup Success Rate</div><div class="kpi-val">68%</div><div class="kpi-sub wn">Target: 95%</div></div>
+    <div class="kpi" style="--kc:var(--red)"><div class="kpi-label">Avg Response Time</div><div class="kpi-val">3.4h</div><div class="kpi-sub dn">SLA: within 2 hrs</div></div>
+    <div class="kpi" style="--kc:var(--red)"><div class="kpi-label">SLA Breaches MTD</div><div class="kpi-val">184</div><div class="kpi-sub dn">Unescalated</div></div>
+    <div class="kpi" style="--kc:var(--text3)"><div class="kpi-label">Auto-Escalations</div><div class="kpi-val">0</div><div class="kpi-sub" style="color:var(--text3)">System not yet live</div></div>
+  </div>
+  <div class="g3">
+    <div class="card s2">
+      <div class="card-head"><div class="ci">🚚</div><div class="card-title">Pickup Request List</div><button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px">＋ Raise PRQ</button></div>
+      <table class="mt">
+        <thead><tr><th>PRQ #</th><th>Customer</th><th>Zone</th><th>Raised By</th><th>Time</th><th>Status</th><th>SLA</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong>PRQ-4825</strong></td><td>Reliance Freight</td><td>Mumbai N.</td><td>Arjun S.</td><td>Today 9:15 AM</td><td><span class="pill pg">Completed</span></td><td><span class="pill pg">Within SLA</span></td><td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td></tr>
+          <tr><td><strong>PRQ-4824</strong></td><td>BlueDart Corp</td><td>Mumbai S.</td><td>CS Team</td><td>Today 10:30 AM</td><td><span class="pill pb">Dispatched</span></td><td><span class="pill pg">Within SLA</span></td><td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td></tr>
+          <tr style="background:#FFF8F8"><td><strong>PRQ-4823</strong></td><td>Sunrise Traders</td><td>Pune</td><td>Customer App</td><td>Today 11:00 AM</td><td><span class="pill pa">Pending</span></td><td><span class="pill pr">SLA Risk ⚠</span></td><td><button class="btn btn-red" style="font-size:10px;padding:3px 8px">Escalate</button></td></tr>
+          <tr><td><strong>PRQ-4822</strong></td><td>Nexus Logistics</td><td>Thane</td><td>Priya M.</td><td>Today 11:30 AM</td><td><span class="pill pg">Assigned</span></td><td><span class="pill pg">Within SLA</span></td><td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td></tr>
+          <tr style="background:#FFF8F8"><td><strong>PRQ-4821</strong></td><td>Sunrise Traders</td><td>Pune</td><td>CS Team</td><td>Today 8:40 AM</td><td><span class="pill pr">Unacknowledged</span></td><td><span class="pill pr">BREACH ⚠</span></td><td><button class="btn btn-red" style="font-size:10px;padding:3px 8px">Escalate Now</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <div class="card-head"><div class="ci g">📍</div><div class="card-title">Zone Fulfilment</div></div>
+        <div class="hbar">
+          <div class="hbr"><div class="hbl">Mumbai North</div><div class="hbt"><div class="hbf" style="width:82%;background:var(--amber)"></div></div><div class="hbv wn">82%</div></div>
+          <div class="hbr"><div class="hbl">Mumbai South</div><div class="hbt"><div class="hbf" style="width:93%;background:var(--green)"></div></div><div class="hbv up">93%</div></div>
+          <div class="hbr"><div class="hbl">Thane / Navi</div><div class="hbt"><div class="hbf" style="width:58%;background:var(--red)"></div></div><div class="hbv dn">58%</div></div>
+          <div class="hbr"><div class="hbl">Pune</div><div class="hbt"><div class="hbf" style="width:61%;background:var(--red)"></div></div><div class="hbv dn">61%</div></div>
+          <div class="hbr"><div class="hbl">Nashik</div><div class="hbt"><div class="hbf" style="width:50%;background:var(--red)"></div></div><div class="hbv dn">50%</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="ci">⚡</div><div class="card-title">Raise New PRQ</div></div>
+        <div class="form-row">
+          <div class="fg"><label>Customer</label><select><option>Select customer</option><option>Reliance Freight</option><option>BlueDart Corp</option></select></div>
+          <div class="fg"><label>Pickup Zone</label><select><option>Mumbai North</option><option>Mumbai South</option><option>Pune</option></select></div>
+        </div>
+        <div class="form-row one">
+          <div class="fg"><label>Pickup Address</label><input placeholder="Enter full pickup address"></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Requested Time</label><input type="datetime-local"></div>
+          <div class="fg"><label>Estimated Shipments</label><input type="number" placeholder="No. of packages"></div>
+        </div>
+        <button class="btn btn-red">Submit PRQ</button>
+      </div>
+    </div>
+  </div>
+</div>

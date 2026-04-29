@@ -1,0 +1,38 @@
+<!-- ══ EXPENSE ══ -->
+<div class="page active">
+  <div class="g4">
+    <div class="kpi" style="--kc:var(--blue)"><div class="kpi-label">My Expenses MTD</div><div class="kpi-val">₹14,200</div><div class="kpi-sub wn">72% of limit</div></div>
+    <div class="kpi" style="--kc:var(--green)"><div class="kpi-label">Approved</div><div class="kpi-val">₹11,800</div><div class="kpi-sub up">83% approval rate</div></div>
+    <div class="kpi" style="--kc:var(--amber)"><div class="kpi-label">Pending Approval</div><div class="kpi-val">₹2,400</div><div class="kpi-sub wn">2 claims</div></div>
+    <div class="kpi" style="--kc:var(--red)"><div class="kpi-label">Rejected</div><div class="kpi-val">₹0</div><div class="kpi-sub up">None this month</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-head"><div class="ci a">💸</div><div class="card-title">Expense Claims</div><button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px">＋ Add Expense</button></div>
+      <table class="mt">
+        <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Today</td><td><span class="pill pb">Travel</span></td><td>Cab to BlueDart Corp meeting</td><td>₹480</td><td><span class="pill pa">Pending</span></td></tr>
+          <tr><td>Yesterday</td><td><span class="pill pgy">Meals</span></td><td>Client lunch — Nexus Logistics</td><td>₹1,920</td><td><span class="pill pa">Pending</span></td></tr>
+          <tr><td>3 days ago</td><td><span class="pill pb">Travel</span></td><td>Flight to Pune — quarterly review</td><td>₹4,200</td><td><span class="pill pg">Approved</span></td></tr>
+          <tr><td>4 days ago</td><td><span class="pill pgy">Stationery</span></td><td>Printed brochures — trade fair</td><td>₹800</td><td><span class="pill pg">Approved</span></td></tr>
+          <tr><td>1 week ago</td><td><span class="pill pb">Travel</span></td><td>Fuel reimbursement — zone visits</td><td>₹6,800</td><td><span class="pill pg">Approved</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="ci">＋</div><div class="card-title">New Expense Claim</div></div>
+      <div class="form-row">
+        <div class="fg"><label>Expense Category</label><select><option>Travel</option><option>Meals & Entertainment</option><option>Accommodation</option><option>Stationery</option><option>Other</option></select></div>
+        <div class="fg"><label>Date</label><input type="date"></div>
+      </div>
+      <div class="form-row one"><div class="fg"><label>Description</label><input placeholder="Brief description of expense"></div></div>
+      <div class="form-row">
+        <div class="fg"><label>Amount (₹)</label><input type="number" placeholder="0.00"></div>
+        <div class="fg"><label>Customer / Project</label><select><option>General</option><option>Reliance Freight</option><option>BlueDart Corp</option></select></div>
+      </div>
+      <div class="form-row one"><div class="fg"><label>Receipt / Bill (attach)</label><input type="file" accept="image/*,.pdf"></div></div>
+      <div style="display:flex;gap:8px"><button class="btn btn-red">Submit Claim</button><button class="btn btn-outline">Save Draft</button></div>
+    </div>
+  </div>
+</div>

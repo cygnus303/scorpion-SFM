@@ -1,0 +1,42 @@
+<!-- ══ TASK ══ -->
+<div class="page active">
+  <div class="g4">
+    <div class="kpi" style="--kc:var(--amber)"><div class="kpi-label">My Open Tasks</div><div class="kpi-val">7</div><div class="kpi-sub wn">4 due today</div></div>
+    <div class="kpi" style="--kc:var(--red)"><div class="kpi-label">Overdue Tasks</div><div class="kpi-val">2</div><div class="kpi-sub dn">Needs attention</div></div>
+    <div class="kpi" style="--kc:var(--green)"><div class="kpi-label">Completed Today</div><div class="kpi-val">5</div><div class="kpi-sub up">On track</div></div>
+    <div class="kpi" style="--kc:var(--blue)"><div class="kpi-label">Team Tasks</div><div class="kpi-val">24</div><div class="kpi-sub">Across all reps</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-head"><div class="ci g">✅</div><div class="card-title">My Task List</div><button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px">＋ New Task</button></div>
+      <table class="mt">
+        <thead><tr><th>Task</th><th>Related To</th><th>Due</th><th>Priority</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr style="background:#FFF8F8"><td>Follow up on QMS-0044 — BlueDart</td><td>Lead / Quote</td><td style="color:var(--red)">Today ⚠</td><td><span class="pill pr">High</span></td><td><span class="pill pa">Pending</span></td></tr>
+          <tr style="background:#FFF8F8"><td>Collect outstanding from Reliance</td><td>Collection</td><td style="color:var(--red)">Overdue !</td><td><span class="pill pr">High</span></td><td><span class="pill pa">In Progress</span></td></tr>
+          <tr><td>Schedule Pune zone visits — Q2</td><td>Planning</td><td>Tomorrow</td><td><span class="pill pa">Medium</span></td><td><span class="pill pa">Pending</span></td></tr>
+          <tr><td>Send revised rate card to Apex Cargo</td><td>QMS V2</td><td>Tomorrow</td><td><span class="pill pa">Medium</span></td><td><span class="pill pa">Pending</span></td></tr>
+          <tr><td>Complete PRQ training module</td><td>Training Hub</td><td>This week</td><td><span class="pill pgy">Normal</span></td><td><span class="pill pb">In Progress</span></td></tr>
+          <tr><td>Monthly performance report — April</td><td>Sales Dashboard</td><td>End of month</td><td><span class="pill pgy">Normal</span></td><td><span class="pill pgy">Not started</span></td></tr>
+          <tr><td>Review CS ticket CCM-0291 outcome</td><td>Complaint</td><td>Today</td><td><span class="pill pr">High</span></td><td><span class="pill pg">Done ✓</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <div class="card-head"><div class="ci">＋</div><div class="card-title">Create Task</div></div>
+        <div class="form-row one"><div class="fg"><label>Task Title</label><input placeholder="Describe the task"></div></div>
+        <div class="form-row">
+          <div class="fg"><label>Assign To</label><select><option>Myself</option><option>Arjun Sharma</option><option>Priya Menon</option><option>Rahul Singh</option></select></div>
+          <div class="fg"><label>Due Date</label><input type="date"></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Priority</label><select><option>Normal</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+          <div class="fg"><label>Related Module</label><select><option>General</option><option>Lead / Sales</option><option>QMS V2</option><option>PRQ</option><option>Complaint</option><option>Collection</option></select></div>
+        </div>
+        <div class="form-row one"><div class="fg"><label>Notes</label><textarea placeholder="Additional notes (optional)..."></textarea></div></div>
+        <button class="btn btn-red">Create Task</button>
+      </div>
+    </div>
+  </div>
+</div>
