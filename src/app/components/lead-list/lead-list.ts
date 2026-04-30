@@ -1,21 +1,26 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderService } from '../../shared/services/header.service';
+import { AddLead } from '../add-lead/add-lead';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-lead-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AddLead,FormsModule],
   templateUrl: './lead-list.html',
   styleUrl: './lead-list.scss'
 })
 export class LeadList implements OnInit {
-  private headerService = inject(HeaderService);
+  @ViewChild('addLeadComponent') addLeadComponent!: AddLead;
+
 
   constructor() { }
 
   ngOnInit(): void {
-    this.headerService.updateHeader('Lead');
+  }
+
+  openLeadModal() {
+   this.addLeadComponent.showPopup();
   }
 
 }

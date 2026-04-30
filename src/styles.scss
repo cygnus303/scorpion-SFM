@@ -194,3 +194,11 @@ textarea{resize:vertical;min-height:70px}
 .trp{width:70px;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
 .trf{height:100%;border-radius:3px}
 
+/* MODAL OVERLAY */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4); display:flex;z-index:200;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex}
+.modal{padding:24px;background:var(--white);border-radius:14px;width:520px;max-width:90%;max-height:80vh;overflow-y:auto;z-index:10000;position:relative}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.modal-title{font-size:16px;font-weight:600;color:var(--text1)}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text2);line-height:1}
+

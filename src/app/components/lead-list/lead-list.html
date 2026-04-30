@@ -8,7 +8,7 @@
   </div>
   <div class="g2">
     <div class="card">
-      <div class="card-head"><div class="ci">◎</div><div class="card-title">Lead List</div><button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px" onclick="openModal()">＋ New Lead</button></div>
+      <div class="card-head"><div class="ci">◎</div><div class="card-title">Lead List</div><button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px" (click)="openLeadModal()">＋ New Lead</button></div>
       <div style="display:flex;gap:8px;margin-bottom:12px">
         <input placeholder="Search leads..." style="flex:1">
         <select><option>All Stages</option><option>Lead</option><option>Qualified</option><option>Proposal</option><option>Prospect</option></select>
@@ -47,3 +47,4 @@
     </div>
   </div>
 </div>
+<app-add-lead #addLeadComponent></app-add-lead>
