@@ -1,0 +1,52 @@
+
+
+  <div class="modal-overlay" (click)="closeModal()" *ngIf="isModalShow">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-head">
+          <div class="modal-title" id="modal-title">New Lead</div>
+          <button class="modal-close" (click)="closeModal()">×</button>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Company Name</label><input placeholder="e.g. Vikram Exports Pvt Ltd"></div>
+          <div class="fg"><label>Contact Person</label><input placeholder="Full name"></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Phone</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
+          <div class="fg"><label>Email</label><input type="email" placeholder="contact@company.com"></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Zone / City</label><select>
+              <option>Mumbai North</option>
+              <option>Mumbai South</option>
+              <option>Pune</option>
+              <option>Nashik</option>
+              <option>Thane</option>
+            </select></div>
+          <div class="fg"><label>Lead Source</label><select>
+              <option>Cold Call</option>
+              <option>Referral</option>
+              <option>Email Campaign</option>
+              <option>Trade Fair</option>
+              <option>Walk-in</option>
+            </select></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Est. Monthly Volume (₹)</label><input type="number"
+              placeholder="Estimated monthly revenue"></div>
+          <div class="fg"><label>Assign To</label><select>
+              <option>Arjun Sharma</option>
+              <option>Priya Menon</option>
+              <option>Rahul Singh</option>
+              <option>Sneha Patel</option>
+            </select></div>
+        </div>
+        <div class="form-row one">
+          <div class="fg"><label>Notes / Requirements</label><textarea
+              placeholder="Any specific service requirements or notes..."></textarea></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn btn-outline" (click)="closeModal()">Cancel</button>
+          <button class="btn btn-red" (click)="closeModal()">Create Lead</button>
+        </div>
+    </div>
+  </div>
