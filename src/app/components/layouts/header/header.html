@@ -22,11 +22,17 @@
   <div class="tc" id="filter-week" onclick="setFilter('week')">This Week</div>
   <div class="tc" id="filter-month" onclick="setFilter('month')">This Month</div>
   <button class="tbtn" id="topbar-action" onclick="openModal()">＋ New Lead</button>
-  <div class="upill">
+  <div class="upill user-profile-dropdown">
     <div class="av">MK</div>
     <div>
       <div class="un">Manoj Kumar</div>
       <div class="ur">CTO · 3673</div>
+    </div>
+    <div class="dropdown-menu">
+      <div class="dropdown-item" (click)="logout()">
+        <i class="logout-icon">🚪</i>
+        <span>Logout</span>
+      </div>
     </div>
   </div>
 </div>

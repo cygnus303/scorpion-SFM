@@ -3,13 +3,11 @@
 } @else {
 <div [class.mini-sidebar]="commonService.isSidebarCollapsed()">
   <app-sidebar></app-sidebar>
-  <!-- <div class="app-container"> -->
     <main class="main">
       <app-header></app-header>
       <div class="content">
         <router-outlet></router-outlet>
       </div>
     </main>
-<!-- </div> -->
 </div>
 }

@@ -38,6 +38,12 @@ export class Header {
     return this.commonService.isSidebarCollapsed();
   }
 
+  logout() {
+    localStorage.removeItem('loginUser');
+    localStorage.removeItem('token');
+    this.router.navigateByUrl('/login');
+  }
+
   private updateHeaderFromUrl(url: string) {
     // Remove leading slash and query params
     const cleanUrl = url.replace(/^\//, '').split('?')[0];
