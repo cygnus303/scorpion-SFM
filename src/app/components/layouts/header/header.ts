@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { CommonService } from '../../../shared/services/common.service';
 import { HeaderService } from '../../../shared/services/header.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -16,12 +16,15 @@ export class Header {
   public headerTitle$ = this.headerService.headerTitle$;
   public commonService = inject(CommonService);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
   public userInfo: any = null;
-public showDropdown: boolean = false;
+  public showDropdown: boolean = false;
 
   constructor() {
-    // Get user info from localStorage
-    this.getUserInfo();
+    // Get user info from localStorage only if in browser
+    if (isPlatformBrowser(this.platformId)) {
+      this.getUserInfo();
+    }
     
     // Listen to route changes to update header title
     this.router.events.pipe(
@@ -45,8 +48,10 @@ public showDropdown: boolean = false;
 
   logout() {
     this.closeDropdown();
-    localStorage.removeItem('loginUser');
-    localStorage.removeItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('loginUser');
+      localStorage.removeItem('token');
+    }
     this.router.navigateByUrl('/login');
   }
 

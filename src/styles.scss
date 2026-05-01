@@ -47,8 +47,8 @@ body{background:var(--bg);color:var(--text1);font-size:13px;min-height:100vh}
 .mini-sidebar .sb-footer-name,
 .mini-sidebar .sb-footer-ver{display:none}
 .mini-sidebar .nav-item{justify-content:center;padding:7px}
-.mini-sidebar .nav-item.active{border-left-color:transparent;border-bottom:2px solid var(--red)}
-.mini-sidebar .nb{position:absolute;top:5px;right:5px}
+// .mini-sidebar .nav-item.active{border-left-color:transparent;border-bottom:2px solid var(--red)}
+// .mini-sidebar .nb{position:absolute;top:5px;right:5px}
 
 /* TOPBAR */
 .topbar{height:var(--topbar-h);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 20px;position:sticky;top:0;z-index:50;box-shadow:var(--shadow)}
