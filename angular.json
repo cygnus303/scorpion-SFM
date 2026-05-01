@@ -30,7 +30,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets"
               }
             ],
             "styles": [
@@ -88,8 +88,8 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+          }
         }
       }
     }
   }
-}

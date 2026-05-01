@@ -22,15 +22,14 @@
   <div class="tc" id="filter-week" >This Week</div>
   <div class="tc" id="filter-month" >This Month</div>
   <button class="tbtn" id="topbar-action" >＋ New Lead</button>
-  <div class="upill">
-    <div class="av">MK</div>
+  <div class="upill" (click)="toggleDropdown()">
+    <div class="av">{{ userInfo?.name?.substring(0,2)?.toUpperCase() || 'U' }}</div>
     <div>
-      <div class="un">Manoj Kumar</div>
-      <div class="ur">CTO · 3673</div>
+      <div class="un">{{ userInfo?.emailId || 'User' }}</div>
+      <div class="ur">{{ userInfo?.designation || 'User' }} · {{ userInfo?.userId || 'ID' }}</div>
     </div>
-    <div class="dropdown-menu">
+    <div class="dropdown-menu" [class.show]="showDropdown" (click)="$event.stopPropagation()">
       <div class="dropdown-item" (click)="logout()">
-        <i class="logout-icon">🚪</i>
         <span>Logout</span>
       </div>
     </div>

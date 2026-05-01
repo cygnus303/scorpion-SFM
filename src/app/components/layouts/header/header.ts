@@ -16,8 +16,13 @@ export class Header {
   public headerTitle$ = this.headerService.headerTitle$;
   public commonService = inject(CommonService);
   private router = inject(Router);
+  public userInfo: any = null;
+public showDropdown: boolean = false;
 
   constructor() {
+    // Get user info from localStorage
+    this.getUserInfo();
+    
     // Listen to route changes to update header title
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -39,9 +44,29 @@ export class Header {
   }
 
   logout() {
+    this.closeDropdown();
     localStorage.removeItem('loginUser');
     localStorage.removeItem('token');
     this.router.navigateByUrl('/login');
+  }
+
+  getUserInfo() {
+    const loginUser = localStorage.getItem('loginUser');
+    if (loginUser) {
+      try {
+        this.userInfo = JSON.parse(loginUser);
+      } catch (e) {
+        this.userInfo = null;
+      }
+    }
+  }
+
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  closeDropdown() {
+    this.showDropdown = false;
   }
 
   private updateHeaderFromUrl(url: string) {

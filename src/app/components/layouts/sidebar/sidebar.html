@@ -1,6 +1,6 @@
 <aside class="sidebar">
   <div class="sb-logo" (click)="toggleSidebar()" style="cursor: pointer;">
-    <div class="sb-logo-mark">S</div>
+    <img src="assets/images/logo.png" alt="ScorpForce Logo">
     <div>
       <div class="sb-logo-text">ScorpForce</div>
       <div class="sb-logo-sub">Sales Force Module</div>
@@ -9,63 +9,63 @@
   <div class="sb-scroll">
     <div class="sb-sec">Main</div>
     <div class="nav-item" [routerLink]="['/dashboard']" routerLinkActive="active" (click)="onMenuClick('Dashboard')">
-      <div class="nav-icon">⊞</div>Dashboard
+      <div class="nav-icon">⊞</div><span class="nav-text">Dashboard</span>
     </div>
     <div class="nav-item" [routerLink]="['/customer']" routerLinkActive="active"  (click)="onMenuClick('customer')">
-      <div class="nav-icon">👤</div>Customer
+      <div class="nav-icon">👤</div><span class="nav-text">Customer</span>
     </div>
     <div class="nav-item" [routerLink]="['/lead']" routerLinkActive="active" (click)="onMenuClick('Lead')">
-      <div class="nav-icon">◎</div>Lead <span class="nb">14</span>
+      <div class="nav-icon">◎</div><span class="nav-text">Lead</span> <span class="nb">14</span>
     </div>
     <div class="nav-item" [routerLink]="['/meeting']" routerLinkActive="active" (click)="onMenuClick('Meeting')">
-      <div class="nav-icon">◷</div>Meeting
+      <div class="nav-icon">◷</div><span class="nav-text">Meeting</span>
     </div>
     <div class="nav-item" [routerLink]="['/call']" routerLinkActive="active" (click)="onMenuClick('call')">
-      <div class="nav-icon">☎</div>Call
+      <div class="nav-icon">☎</div><span class="nav-text">Call</span>
     </div>
 
     <div class="sb-sec">Sales Tools</div>
     <div class="nav-item" [routerLink]="['/quotation']" routerLinkActive="active" (click)="onMenuClick('quotation')">
-      <div class="nav-icon">📄</div>Quotation — QMS V2 <span class="nb">3</span>
+      <div class="nav-icon">📄</div><span class="nav-text">Quotation - QMS V2</span> <span class="nb">3</span>
     </div>
     <div class="nav-item" [routerLink]="['/pickup-request']" routerLinkActive="active" (click)="onMenuClick('pickup-request')">
-      <div class="nav-icon">🚚</div>PRQ — Pickup Req <span class="nb a">7</span>
+      <div class="nav-icon">🚚</div><span class="nav-text">PRQ — Pickup Req</span> <span class="nb a">7</span>
     </div>
     <div class="nav-item" [routerLink]="['/expense']" routerLinkActive="active" (click)="onMenuClick('expense')">
-      <div class="nav-icon">💸</div>Expense
+      <div class="nav-icon">💸</div><span class="nav-text">Expense</span>
     </div>
     <div class="nav-item"  [routerLink]="['/general-master']" routerLinkActive="active" (click)="onMenuClick('expense-master')">
-      <div class="nav-icon">⚙</div>Expense General Master
+      <div class="nav-icon">⚙</div><span class="nav-text">Expense General Master</span>
     </div>
     <div class="nav-item" [routerLink]="['/expense-approval']" routerLinkActive="active" (click)="onMenuClick('expense-approval')">
-      <div class="nav-icon">✔</div>Expense Approval <span class="nb a">2</span>
+      <div class="nav-icon">✔</div><span class="nav-text">Expense Approval</span> <span class="nb a">2</span>
     </div>
 
     <div class="sb-sec">Performance</div>
     <div class="nav-item" [routerLink]="['/sales-dashboard']" routerLinkActive="active" (click)="onMenuClick('sales-dashboard')">
-      <div class="nav-icon">📈</div>Sales Dashboard
+      <div class="nav-icon">📈</div><span class="nav-text">Sales Dashboard</span>
     </div>
     <div class="nav-item" [routerLink]="['/collection-dashboard']" routerLinkActive="active" (click)="onMenuClick('collection-dashboard')">
-      <div class="nav-icon">💰</div>Collection Dashboard
+      <div class="nav-icon">💰</div><span class="nav-text">Collection Dashboard</span>
     </div>
     <div class="nav-item" [routerLink]="['/cs-dashboard']" routerLinkActive="active" (click)="onMenuClick('cs-dashboard')">
-      <div class="nav-icon">⭐</div>CS Level Dashboard
+      <div class="nav-icon">⭐</div><span class="nav-text">CS Level Dashboard</span>
     </div>
 
     <div class="sb-sec">Customer Service</div>
     <div class="nav-item" [routerLink]="['/complaint']" routerLinkActive="active" (click)="onMenuClick('complaint')">
-      <div class="nav-icon">🎫</div>Complaint (CCM) <span class="nb">5</span>
+      <div class="nav-icon">🎫</div><span class="nav-text">Complaint (CCM)</span> <span class="nb">5</span>
     </div>
     <div class="nav-item" [routerLink]="['/task']" routerLinkActive="active" (click)="onMenuClick('task')">
-      <div class="nav-icon">✅</div>Task <span class="nb g">4</span>
+      <div class="nav-icon">✅</div><span class="nav-text">Task</span> <span class="nb g">4</span>
     </div>
     <div class="nav-item" [routerLink]="['/calendar']" routerLinkActive="active" (click)="onMenuClick('calendar')">
-      <div class="nav-icon">📅</div>My Calendar
+      <div class="nav-icon">📅</div><span class="nav-text">My Calendar</span>
     </div>
 
     <div class="sb-sec">Learning</div>
     <div class="nav-item" [routerLink]="['/training']" routerLinkActive="active" (click)="onMenuClick('training')">
-      <div class="nav-icon">🎓</div>Training Hub
+      <div class="nav-icon">🎓</div><span class="nav-text">Training Hub</span>
     </div>
   </div>
   <div class="sb-footer">
