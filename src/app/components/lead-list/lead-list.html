@@ -1,50 +1,229 @@
 <div class="page active">
   <div class="kpi-row">
-    <div class="kpi" style="--kc:var(--blue)"><div class="kpi-label">Total Active Leads</div><div class="kpi-val">47</div><div class="kpi-sub up">▲ +12 this week</div></div>
-    <div class="kpi" style="--kc:var(--amber)"><div class="kpi-label">Proposals Sent</div><div class="kpi-val">21</div><div class="kpi-sub wn">8 awaiting response</div></div>
-    <div class="kpi" style="--kc:var(--green)"><div class="kpi-label">Won This Month</div><div class="kpi-val">8</div><div class="kpi-sub up">₹14L new revenue</div></div>
-    <div class="kpi" style="--kc:var(--red)"><div class="kpi-label">Cold / At Risk</div><div class="kpi-val">6</div><div class="kpi-sub dn">No contact &gt;14 days</div></div>
-    <div class="kpi" style="--kc:var(--amber)"><div class="kpi-label">Conversion Rate</div><div class="kpi-val">17%</div><div class="kpi-sub wn">Target: 25%</div></div>
+    <div class="kpi" style="--kc:var(--blue)">
+      <div class="kpi-label">Total Active Leads</div>
+      <div class="kpi-val">47</div>
+      <div class="kpi-sub up">▲ +12 this week</div>
+    </div>
+    <div class="kpi" style="--kc:var(--amber)">
+      <div class="kpi-label">Proposals Sent</div>
+      <div class="kpi-val">21</div>
+      <div class="kpi-sub wn">8 awaiting response</div>
+    </div>
+    <div class="kpi" style="--kc:var(--green)">
+      <div class="kpi-label">Won This Month</div>
+      <div class="kpi-val">8</div>
+      <div class="kpi-sub up">₹14L new revenue</div>
+    </div>
+    <div class="kpi" style="--kc:var(--red)">
+      <div class="kpi-label">Cold / At Risk</div>
+      <div class="kpi-val">6</div>
+      <div class="kpi-sub dn">No contact &gt;14 days</div>
+    </div>
+    <div class="kpi" style="--kc:var(--amber)">
+      <div class="kpi-label">Conversion Rate</div>
+      <div class="kpi-val">17%</div>
+      <div class="kpi-sub wn">Target: 25%</div>
+    </div>
   </div>
   <div class="g2">
     <div class="card">
-      <div class="card-head"><div class="ci">◎</div><div class="card-title">Lead List</div><button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px" (click)="openLeadModal()">＋ New Lead</button></div>
+      <div class="card-head">
+        <div class="ci">◎</div>
+        <div class="card-title">Lead List</div>
+        <div style="margin-left:auto; display:flex; gap:8px;">
+           <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
+              (click)="downloadLeads()">
+              <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
+              <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
+            </button>
+          <button class="tbtn" style="padding:5px 12px;font-size:11px" (click)="openLeadModal()">＋ New Lead</button>
+        </div>
+      </div>
       <div style="display:flex;gap:8px;margin-bottom:12px">
-        <input placeholder="Search leads..." style="flex:1">
-        <select><option>All Stages</option><option>Lead</option><option>Qualified</option><option>Proposal</option><option>Prospect</option></select>
-        <select><option>All Reps</option><option>Arjun Sharma</option><option>Priya Menon</option><option>Rahul Singh</option></select>
+        <select>
+          <option>All Stages</option>
+          <option>Lead</option>
+          <option>Qualified</option>
+          <option>Proposal</option>
+          <option>Prospect</option>
+        </select>
+        <ng-select [items]="commonService.users" bindLabel="name" bindValue="userId" [placeholder]="'Search User'"
+          [clearable]="true" [searchable]="true" (change)="getLeads()" [(ngModel)]="selectedUser"
+          class="form-control border-start-1 line-height p-0 border-remover">
+        </ng-select>
       </div>
       <table class="mt">
-        <thead><tr><th>Company</th><th>Contact</th><th>Rep</th><th>Stage</th><th>Est. Value</th><th>Last Contact</th><th>AI Score</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Lead ID</th>
+            <th>Company</th>
+            <th>Contact</th>
+            <th>Customer Name</th>
+            <th>Stage</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td><strong>Vikram Exports</strong></td><td>Mr. Vikram Patel</td><td>Arjun S.</td><td><span class="pill pa">Proposal</span></td><td>₹8L/mo</td><td>Today</td><td><span class="pill pg">82</span></td></tr>
-          <tr><td><strong>IndoFreight Ltd</strong></td><td>Ms. Riya Shah</td><td>Priya M.</td><td><span class="pill pb">Qualified</span></td><td>₹5L/mo</td><td>2 days ago</td><td><span class="pill pg">74</span></td></tr>
-          <tr><td><strong>Apex Cargo</strong></td><td>Mr. Suresh K.</td><td>Rahul S.</td><td><span class="pill pa">Proposal</span></td><td>₹3L/mo</td><td>3 days ago</td><td><span class="pill pa">61</span></td></tr>
-          <tr><td><strong>SkyBridge Logistics</strong></td><td>Ms. Nisha R.</td><td>Sneha P.</td><td><span class="pill pgy">Lead</span></td><td>₹12L/mo</td><td>1 week ago</td><td><span class="pill pa">58</span></td></tr>
-          <tr><td><strong>FastTrack Courier</strong></td><td>Mr. Deepak V.</td><td>Arjun S.</td><td><span class="pill pr">Cold</span></td><td>₹2L/mo</td><td>18 days ago</td><td><span class="pill pr">22</span></td></tr>
+          <!-- Local Table Loader -->
+          <tr *ngIf="isLoading">
+            <td colspan="7" class="py-5 text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="mt-2 text-muted small">Loading leads...</div>
+            </td>
+          </tr>
+
+          <ng-container *ngIf="!isLoading">
+            <tr *ngFor="let lead of leads">
+              <td><small class="text-muted">{{ lead.leadId }}</small></td>
+              <td><strong>{{ lead.companyName }}</strong></td>
+              <td><span class="pill pgy">{{ lead.contactName }}</span></td>
+              <td>{{ lead.customerName }}</td>
+              <td>{{ lead.leadCategory }}</td>
+
+              <td>
+                <span class="pill" [ngClass]="lead.isActive ? 'pg' : 'pr'">
+                  {{ lead.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td>
+                <div class="btn-group dropstart">
+                  <button type="button"
+                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                    data-bs-toggle="dropdown" aria-expanded="false" style="width:32px; height:32px; padding:0;">
+                    <i class="ri-more-2-fill" style="font-size: 18px;"></i>
+                  </button>
+                  <ul class="dropdown-menu shadow-lg border-0 py-1" style="min-width: fit-content;">
+                    <li class="d-flex px-2 gap-2">
+                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:30px; height:30px; background:#4b5b8d; color:white;" (click)="getLead(lead.leadId, 'edit')"
+                        [popover]="'Edit'" placement="auto" triggers="hover" [outsideClick]="true" container="body">
+                        <i class="ri-pencil-fill"></i>
+                      </button>
+                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;" (click)="getLead(lead.leadId, 'view')"
+                        [popover]="'View'" placement="auto" triggers="hover" [outsideClick]="true" container="body">
+                        <i class="ri-eye-fill"></i>
+                      </button>
+                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;" title="Call">
+                        <i class="ri-phone-line"></i>
+                      </button>
+                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;" title="Meeting">
+                        <i class="ri-team-fill"></i>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Empty State -->
+            <tr *ngIf="leads.length === 0">
+              <td colspan="7" class="text-center py-5">
+                <div class="empty-state">
+                  <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
+                  <h6 class="mt-3 text-dark fw-bold">No Leads Found</h6>
+                  <p class="text-muted small">We couldn't find any leads matching your filters.</p>
+                  <button class="btn btn-sm btn-outline-primary rounded-pill mt-2" (click)="openLeadModal()">
+                    <i class="ri-add-line"></i> Create New Lead
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-3"
+        *ngIf="totalItems > commonService.globalFilters.PageSize">
+        <div class="small text-muted">
+          Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
+          commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
+          totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+          of {{ totalItems }} entries
+        </div>
+        <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
+          [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="onPageChange($event)" [maxSize]="5"
+          [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+        </pagination>
+      </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
       <div class="card">
-        <div class="card-head"><div class="ci">📋</div><div class="card-title">Pipeline Funnel</div></div>
+        <div class="card-head">
+          <div class="ci">📋</div>
+          <div class="card-title">Pipeline Funnel</div>
+        </div>
         <div class="funnel">
-          <div class="fr"><div class="fl">Lead</div><div class="ft"><div class="ff" style="width:100%;background:#CC0000"><span class="fp">47 leads</span></div></div></div>
-          <div class="fr"><div class="fl">Qualified</div><div class="ft"><div class="ff" style="width:68%;background:#990000"><span class="fp">32</span></div></div></div>
-          <div class="fr"><div class="fl">Proposal</div><div class="ft"><div class="ff" style="width:45%;background:#660000"><span class="fp">21</span></div></div></div>
-          <div class="fr"><div class="fl">Prospect</div><div class="ft"><div class="ff" style="width:28%;background:#3D0000"><span class="fp">13</span></div></div></div>
-          <div class="fr"><div class="fl">Customer ✓</div><div class="ft"><div class="ff" style="width:18%;background:#16A34A"><span class="fp">8 won</span></div></div></div>
+          <div class="fr">
+            <div class="fl">Lead</div>
+            <div class="ft">
+              <div class="ff" style="width:100%;background:#CC0000"><span class="fp">47 leads</span></div>
+            </div>
+          </div>
+          <div class="fr">
+            <div class="fl">Qualified</div>
+            <div class="ft">
+              <div class="ff" style="width:68%;background:#990000"><span class="fp">32</span></div>
+            </div>
+          </div>
+          <div class="fr">
+            <div class="fl">Proposal</div>
+            <div class="ft">
+              <div class="ff" style="width:45%;background:#660000"><span class="fp">21</span></div>
+            </div>
+          </div>
+          <div class="fr">
+            <div class="fl">Prospect</div>
+            <div class="ft">
+              <div class="ff" style="width:28%;background:#3D0000"><span class="fp">13</span></div>
+            </div>
+          </div>
+          <div class="fr">
+            <div class="fl">Customer ✓</div>
+            <div class="ft">
+              <div class="ff" style="width:18%;background:#16A34A"><span class="fp">8 won</span></div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="card">
-        <div class="card-head"><div class="ci b">🤖</div><div class="card-title">AI Lead Scoring</div><div class="ctag tb">Roadmap Q1</div></div>
-        <div class="srow"><div class="sk">Top scored lead</div><div class="sv">Vikram Exports · 82</div></div>
-        <div class="srow"><div class="sk">High intent (score &gt;70)</div><div class="sv up">9 leads</div></div>
-        <div class="srow"><div class="sk">Cold / at risk</div><div class="sv dn">6 leads</div></div>
-        <div class="srow"><div class="sk">Predicted wins this month</div><div class="sv">4–6 leads</div></div>
-        <div class="rb" style="margin-top:10px"><div class="rb-ico">🤖</div><div class="rb-t">AI scoring coming Q1 2025–26<div class="rb-s">ML model trained on pipeline history</div></div><div class="rb-tag">SOON</div></div>
+        <div class="card-head">
+          <div class="ci b">🤖</div>
+          <div class="card-title">AI Lead Scoring</div>
+          <div class="ctag tb">Roadmap Q1</div>
+        </div>
+        <div class="srow">
+          <div class="sk">Top scored lead</div>
+          <div class="sv">Vikram Exports · 82</div>
+        </div>
+        <div class="srow">
+          <div class="sk">High intent (score &gt;70)</div>
+          <div class="sv up">9 leads</div>
+        </div>
+        <div class="srow">
+          <div class="sk">Cold / at risk</div>
+          <div class="sv dn">6 leads</div>
+        </div>
+        <div class="srow">
+          <div class="sk">Predicted wins this month</div>
+          <div class="sv">4–6 leads</div>
+        </div>
+        <div class="rb" style="margin-top:10px">
+          <div class="rb-ico">🤖</div>
+          <div class="rb-t">AI scoring coming Q1 2025–26<div class="rb-s">ML model trained on pipeline history</div>
+          </div>
+          <div class="rb-tag">SOON</div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-<app-add-lead #addLeadComponent></app-add-lead>
+<app-add-lead #addLeadComponent (dataEmitter)="getLeads()"></app-add-lead>
+<app-lead-detail #leadDetailComponent></app-lead-detail>

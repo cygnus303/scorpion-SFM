@@ -1,0 +1,31 @@
+/* Hover Dropdown Logic */
+.btn-group.dropstart:hover .dropdown-menu {
+    display: block;
+    position: absolute;
+    right: 100%;
+    top: 0;
+    margin-right: 0.5rem;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Ensure the menu is hidden by default but transitions smoothly */
+.btn-group.dropstart .dropdown-menu {
+    transition: all 0.2s ease-in-out;
+    margin-top: 0;
+}
+
+/* Custom shadow and rounding for the action menu */
+.dropdown-menu.shadow-lg {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 50px !important;
+    /* Circular look for the horizontal bar */
+    padding: 0.5rem 1rem !important;
+}
+
+/* Optional: Add a slight delay to hover out so it doesn't close immediately */
+.btn-group.dropstart:hover .dropdown-menu {
+    display: block !important;
+}

@@ -12,6 +12,9 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+// Allow self-signed certificates for local development SSR (Removed as UAT API is now used)
+// process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
 /**
  * Example Express Rest API endpoints can be defined here.
  * Uncomment and define endpoints as necessary.

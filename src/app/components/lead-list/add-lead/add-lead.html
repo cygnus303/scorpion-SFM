@@ -1,0 +1,154 @@
+<ng-template #Templatepod>
+  <div class="modal-header border-0 pb-0">
+    <h5 class="modal-title fw-bold" id="modal-title" style="color: var(--dark);">
+      {{ leadId == "" ? "Add Lead" : "Update Lead" }}
+    </h5>
+    <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
+  </div>
+
+  <form [formGroup]="leadForm" class="horizontal-form" autocomplete="off" (submit)="onSubmitLead(leadForm)">
+    <div class="modal-body pt-2">
+      <input type="hidden" id="id-field" />
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Lead Category*</label>
+          <ng-select [items]="leadCategories" bindLabel="codeDesc" bindValue="codeId" formControlName="leadCategoryId"
+            placeholder="Search Lead Category" [searchable]="true" [readonly]="leadId?false:true"
+            [ngClass]="{ 'border-danger': leadForm.controls['leadCategoryId'].invalid && leadForm.controls['leadCategoryId'].touched}">
+          </ng-select>
+          <div *ngIf="leadForm.controls['leadCategoryId'].invalid && leadForm.controls['leadCategoryId']?.touched"
+            class="text-danger small mt-1">
+            <span *ngIf="leadForm.controls['leadCategoryId'].errors?.['required']">Category is required.</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Lead Date*</label>
+          <div class="input-group">
+            <input class="form-control disabled-field" placeholder="dd/mm/yyyy" formControlName="LeadDate" bsDatepicker
+              #d2="bsDatepicker" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red' }"
+              [ngClass]="{ 'border-danger': leadForm.controls['LeadDate'].invalid && leadForm.controls['LeadDate'].touched}" />
+            <button class="btn btn-outline-secondary border shadow-none" type="button" disabled>
+              📅
+            </button>
+          </div>
+          <div *ngIf="leadForm.controls['LeadDate'].invalid && leadForm.controls['LeadDate']?.touched"
+            class="text-danger small mt-1">
+            <span *ngIf="leadForm.controls['LeadDate'].errors?.['required']">Lead date is required.</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Company Name*</label>
+          <input style="text-transform: uppercase;" class="form-control" maxlength="255" formControlName="companyName"
+            placeholder="Enter Company Name" type="text"
+            [ngClass]="{ 'border-danger': leadForm.controls['companyName'].invalid && leadForm.controls['companyName'].touched}" />
+          <div *ngIf="leadForm.controls['companyName'].invalid && leadForm.controls['companyName']?.touched"
+            class="text-danger small mt-1">
+            <span *ngIf="leadForm.controls['companyName'].errors?.['required']">Company name is required.</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Contact Name*</label>
+          <input class="form-control" maxlength="255" formControlName="contactName" placeholder="Enter Contact Name"
+            type="text"
+            [ngClass]="{ 'border-danger': leadForm.controls['contactName'].invalid && leadForm.controls['contactName'].touched}" />
+          <div *ngIf="leadForm.controls['contactName'].invalid && leadForm.controls['contactName']?.touched"
+            class="text-danger small mt-1">
+            <span *ngIf="leadForm.controls['contactName'].errors?.['required']">Contact name is required.</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Contact No*</label>
+          <input class="form-control" maxlength="10" formControlName="contactNo" placeholder="Enter Contact No"
+            type="text"
+            [ngClass]="{ 'border-danger': leadForm.controls['contactNo'].invalid && leadForm.controls['contactNo'].touched}" />
+          <div *ngIf="leadForm.controls['contactNo'].invalid && leadForm.controls['contactNo']?.touched"
+            class="text-danger small mt-1">
+            <span *ngIf="leadForm.controls['contactNo'].errors?.['required']">Contact No. is required.</span>
+            <span *ngIf="leadForm.controls['contactNo'].errors?.['pattern']">Contact No. is invalid.</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Address</label>
+          <input class="form-control" placeholder="Enter Address" maxlength="500" formControlName="address"
+            type="text" />
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Email*</label>
+          <input class="form-control" maxlength="255" formControlName="email" placeholder="Enter Email" type="text"
+            [ngClass]="{ 'border-danger': leadForm.controls['email'].invalid && leadForm.controls['email'].touched}" />
+          <div *ngIf="leadForm.controls['email'].invalid && leadForm.controls['email']?.touched"
+            class="text-danger small mt-1">
+            <span *ngIf="leadForm.controls['email'].errors?.['required']">Email is required.</span>
+            <span *ngIf="leadForm.controls['email'].errors?.['pattern']">Email is invalid.</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">City</label>
+          <ng-select formControlName="cityId" placeholder="Search City" [items]="cities" bindLabel="location"
+            bindValue="city_code" [clearable]="true" [searchable]="true">
+          </ng-select>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Lead Source</label>
+          <ng-select formControlName="LeadSourceId" [items]="leadSources" bindLabel="codeDesc" bindValue="codeId"
+            placeholder="Search Lead Source" [clearable]="true" [searchable]="true">
+          </ng-select>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Assigned To</label>
+          <ng-select formControlName="assignedToId" [items]="users" bindLabel="displayText" bindValue="userId"
+            placeholder="Search Assigned To" [clearable]="true" [searchable]="true">
+          </ng-select>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Industry Type</label>
+          <ng-select [items]="industryTypes" bindLabel="codeDesc" bindValue="codeId" formControlName="industryTypeId"
+            placeholder="Search Industry Type" [searchable]="true">
+          </ng-select>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Services Interested*</label>
+          <ng-select formControlName="ServiceInterestedIDs" [items]="serviceInterests" bindLabel="codeDesc"
+            bindValue="codeId" [multiple]="true" placeholder="Search Service Interesteds" [clearable]="true"
+            [searchable]="true"
+            [ngClass]="{ 'border-danger': leadForm.controls['ServiceInterestedIDs'].invalid && leadForm.controls['ServiceInterestedIDs'].touched}">
+          </ng-select>
+          <div
+            *ngIf="leadForm.controls['ServiceInterestedIDs'].invalid && leadForm.controls['ServiceInterestedIDs']?.touched"
+            class="text-danger small mt-1">
+            <span *ngIf="leadForm.controls['ServiceInterestedIDs'].errors?.['required']">Services Interested is
+              required.</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6" *ngIf="leadId != ''">
+          <div class="d-flex align-items-center mt-4">
+            <input id="dafault-checkbox" type="checkbox" formControlName="isActive" class="form-check-input me-2" />
+            <label class="form-check-label" for="dafault-checkbox">Active</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer border-0 pt-0">
+      <button type="button" class="btn btn-outline-secondary px-4 py-2 rounded-3 fw-bold" (click)="onClose()">
+        Close
+      </button>
+      <button type="submit" class="btn btn-red px-4 py-2 rounded-3 fw-bold shadow-none" [disabled]="isSubmitting"
+        style="background-color: var(--red); border: none; color: white;">
+        {{ leadId === '' ? "Add Lead" : "Update Lead" }}
+      </button>
+    </div>
+  </form>
+</ng-template>

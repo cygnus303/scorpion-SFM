@@ -1,0 +1,6 @@
+.disabled-field {
+    pointer-events: none;
+    background-color: #e9ecef !important;
+    opacity: 0.8;
+    cursor: not-allowed;
+}
