@@ -43,7 +43,6 @@ export class LeadList implements OnInit {
       this.getLeads();
     });
 
-    this.getLeads();
     this.commonService.getUsers()
   }
 
@@ -111,7 +110,7 @@ export class LeadList implements OnInit {
     const startDate = this.commonService.globalFilters.startDate;
     const endDate = this.commonService.globalFilters.endDate;
     this.isExportLoading = true;
-    this.leadService.exportLead(startDate, endDate, this.selectedUser ? this.selectedUser : this.identityService.getLoggedUserId(),'').subscribe({
+    this.leadService.exportLead(startDate, endDate, this.selectedUser ? this.selectedUser : this.identityService.getLoggedUserId(), '').subscribe({
       next: (response) => {
         if (response) {
           this.exportService.exportToExcel(response.data);

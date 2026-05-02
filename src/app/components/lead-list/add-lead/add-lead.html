@@ -7,9 +7,17 @@
   </div>
 
   <form [formGroup]="leadForm" class="horizontal-form" autocomplete="off" (submit)="onSubmitLead(leadForm)">
-    <div class="modal-body pt-2">
+    <div class="modal-body pt-2 position-relative" style="min-height: 400px;">
+      <!-- Loading Overlay -->
+      <div *ngIf="isSubmitting"
+        class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-white"
+        style="z-index: 10; opacity: 0.8;">
+        <div class="spinner-border text-danger mb-2" role="status"></div>
+        <span class="text-muted fw-medium">Fetching lead information...</span>
+      </div>
+
       <input type="hidden" id="id-field" />
-      <div class="row g-3">
+      <div class="row g-3" [class.opacity-25]="isSubmitting">
         <div class="col-lg-6">
           <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Lead Category*</label>
           <ng-select [items]="leadCategories" bindLabel="codeDesc" bindValue="codeId" formControlName="leadCategoryId"

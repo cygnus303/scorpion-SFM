@@ -28,7 +28,8 @@
   <div class="tc" [class.on]="activeQuickFilter === 'today'" (click)="setFilter('today')">Today</div>
   <div class="tc" [class.on]="activeQuickFilter === 'week'" (click)="setFilter('week')">This Week</div>
   <div class="tc" [class.on]="activeQuickFilter === 'month'" (click)="setFilter('month')">This Month</div>
-  <app-date-range-picker id="topbar-action" (dateSelected)="onDateSelected($event)"></app-date-range-picker>
+  <app-date-range-picker id="topbar-action" [bsValue]="selectedDateRange"
+    (dateSelected)="onDateSelected($event)"></app-date-range-picker>
   <div class="upill" (click)="toggleDropdown()">
     <div class="av">{{ userInfo?.name?.substring(0,2)?.toUpperCase() || 'U' }}</div>
     <div>

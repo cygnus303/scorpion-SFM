@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "@ng-select/ng-select/themes/default.theme.css";
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -17,6 +18,50 @@ body {
   display: flex;
   min-height: 100vh
 }
+
+
+.glassy-info-popup {
+  font-family: none !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  padding: 28px;
+}
+
+.glassy-info-title {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: #2c3e50 !important;
+}
+
+.glassy-info-body,
+.glassy-info-body div {
+  font-size: 14px !important;
+  padding: 10px 0 !important;
+  color: #444 !important;
+}
+
+.glassy-info-btn {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  background-color: #2c3e50 !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  padding: 8px 18px !important;
+}
+
+/* 🔹 Bigger icon */
+.glassy-info-icon {
+  transform: scale(1.4) !important;
+  /* increase size */
+  margin-bottom: 10px !important;
+}
+
+.glassy-info-icon .swal2-icon-content {
+  transform: scale(1.6) !important;
+  /* increase size */
+  margin-bottom: 10px !important;
+  font-size: 21px !important;
+}
+
 
 :root {
   --red: #CC0000;
@@ -260,21 +305,29 @@ body {
 }
 
 .tc {
-  padding: 5px 12px;
+  padding: 6px 16px;
   border-radius: 20px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text2);
+  background: #fff;
+  color: var(--blue, #2563EB);
   cursor: pointer;
-  white-space: nowrap
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    background: var(--blue-lt, #EFF6FF);
+    border-color: var(--blue, #2563EB);
+  }
 }
 
 .tc.on {
-  background: var(--red);
-  color: #fff;
-  border-color: var(--red)
+  background: var(--red) !important;
+  color: #fff !important;
+  border-color: var(--red) !important;
+  box-shadow: 0 2px 6px rgba(204, 0, 0, 0.2);
 }
 
 .tbtn {
@@ -1291,7 +1344,39 @@ textarea {
 }
 
 .bs-datepicker-predefined-btns button.selected {
-  background: #2563EB !important;
+  background: var(--red) !important;
   color: white !important;
-  border-color: #2563EB !important;
+  border-color: var(--red) !important;
+}
+
+/* Hover Dropdown Logic */
+.btn-group.dropstart:hover .dropdown-menu {
+  display: block;
+  position: absolute;
+  right: 100%;
+  top: 0;
+  margin-right: 0.5rem;
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Ensure the menu is hidden by default but transitions smoothly */
+.btn-group.dropstart .dropdown-menu {
+  transition: all 0.2s ease-in-out;
+  margin-top: 0;
+}
+
+/* Custom shadow and rounding for the action menu */
+.dropdown-menu.shadow-lg {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 10px !important;
+  /* Circular look for the horizontal bar */
+  padding: 0.5rem 1rem !important;
+}
+
+/* Optional: Add a slight delay to hover out so it doesn't close immediately */
+.btn-group.dropstart:hover .dropdown-menu {
+  display: block !important;
 }

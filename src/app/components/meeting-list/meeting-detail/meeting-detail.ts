@@ -1,22 +1,27 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-lead-detail',
+  selector: 'app-meeting-detail',
   imports: [CommonModule],
-  templateUrl: './lead-detail.html',
-  styleUrl: './lead-detail.scss',
+  templateUrl: './meeting-detail.html',
+  styleUrl: './meeting-detail.scss',
 })
-export class LeadDetail {
+export class MeetingDetail {
   public modalRef!: BsModalRef;
   public modalService = inject(BsModalService);
-  public leadResponse: any = null;
+  public meetingResponse: any = null;
+  public isLoading: boolean = false;
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
 
-  showPopup(lead: any) {
-    this.leadResponse = lead;
+  showPopup(meeting?: any) {
+    this.meetingResponse = meeting;
     this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered', backdrop: true });
+  }
+
+  patchData(data: any) {
+    this.meetingResponse = data;
   }
 
   onClose() {

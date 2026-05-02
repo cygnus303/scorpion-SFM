@@ -72,7 +72,7 @@ export class MeetingService {
 
 
   getMeetingCustomer(userId: string, searchText: string): Observable<IApiBaseResponse<CustomersListResponse>> {
-    return this.apiHandlerService.Get(`Meeting/PanIndiaCustomer?userid=${userId}&FilterText=${searchText}`);
+    return this.apiHandlerService.Get(`Meeting/PanIndiaCustomer?userid=${userId}&SearchText=${searchText}`);
   }
 
   getGeoLocationList(

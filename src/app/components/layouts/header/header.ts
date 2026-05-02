@@ -29,6 +29,7 @@ export class Header implements OnInit, OnDestroy {
   public modalRef?: BsModalRef;
   public searchQuery: string = '';
   public activeQuickFilter: string = 'today';
+  public selectedDateRange: Date[] = [new Date(), new Date()];
 
   private searchSubject = new Subject<string>();
   private searchSubscription?: Subscription;
@@ -59,7 +60,10 @@ export class Header implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    // Initialize with today's filter to sync UI and Service
+    this.setFilter('today');
+  }
 
   ngOnDestroy() {
     if (this.searchSubscription) {
@@ -123,6 +127,7 @@ export class Header implements OnInit, OnDestroy {
       end = new Date();
     }
 
+    this.selectedDateRange = [start, end];
     this.commonService.updateFilters({
       startDate: start.toLocaleDateString("en-GB"),
       endDate: end.toLocaleDateString("en-GB"),
@@ -131,12 +136,51 @@ export class Header implements OnInit, OnDestroy {
   }
 
   onDateSelected(dates: Date[]) {
-    this.activeQuickFilter = 'custom';
+    this.selectedDateRange = dates;
+    this.checkAndSetActiveFilter(dates);
     this.commonService.updateFilters({
       startDate: dates?.[0]?.toLocaleDateString("en-GB") || null,
       endDate: dates?.[1]?.toLocaleDateString("en-GB") || null,
       Page: 1
     });
+  }
+
+  private checkAndSetActiveFilter(dates: Date[]) {
+    if (!dates || dates.length !== 2) {
+      this.activeQuickFilter = 'custom';
+      return;
+    }
+
+    const start = dates[0].toLocaleDateString("en-GB");
+    const end = dates[1].toLocaleDateString("en-GB");
+    const now = new Date();
+
+    // Check Today
+    const todayStr = now.toLocaleDateString("en-GB");
+    if (start === todayStr && end === todayStr) {
+      this.activeQuickFilter = 'today';
+      return;
+    }
+
+    // Check Week
+    const day = now.getDay();
+    const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+    const weekStart = new Date(now.setDate(diff)).toLocaleDateString("en-GB");
+    const weekEnd = new Date().toLocaleDateString("en-GB");
+    if (start === weekStart && end === weekEnd) {
+      this.activeQuickFilter = 'week';
+      return;
+    }
+
+    // Check Month
+    const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toLocaleDateString("en-GB");
+    const monthEnd = new Date().toLocaleDateString("en-GB");
+    if (start === monthStart && end === monthEnd) {
+      this.activeQuickFilter = 'month';
+      return;
+    }
+
+    this.activeQuickFilter = 'custom';
   }
 
   onSearch() {
