@@ -12,6 +12,7 @@ export class CommonService {
   private loading: boolean = false;
   public users: UserResponse[] = [];
   public isSidebarCollapsed = signal(false);
+  public calendarViewSubject = new Subject<string>();
   private externalService = inject(ExternalService);
   // Global Filter State
   public globalFilters: any = {

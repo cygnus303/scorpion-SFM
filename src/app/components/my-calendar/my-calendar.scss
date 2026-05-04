@@ -1,0 +1,170 @@
+:host {
+    display: block;
+    --primary: #f03e3e;
+    --bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-main: #212529;
+    --text-muted: #6c757d;
+    --border: #edf2f7;
+    --green: #2ecc71;
+    --amber: #f39c12;
+}
+
+.g3 {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 1200px) {
+    .g3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &.s2 {
+        grid-column: span 1;
+    }
+}
+
+/* ══ FullCalendar Customization ══ */
+::ng-deep {
+    .fc {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        --fc-border-color: #edf2f7;
+        --fc-button-bg-color: #ffffff;
+        --fc-button-border-color: #edf2f7;
+        --fc-button-text-color: #4a5568;
+        --fc-button-hover-bg-color: #f7fafc;
+        --fc-button-hover-border-color: #cbd5e0;
+        --fc-button-active-bg-color: #edf2f7;
+        --fc-today-bg-color: rgba(240, 62, 62, 0.05);
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #2d3748;
+    }
+
+    .fc .fc-button {
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: capitalize;
+        padding: 8px 16px;
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s;
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .fc .fc-button-primary:not(:disabled).fc-button-active,
+    .fc .fc-button-primary:not(:disabled):active {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: white;
+    }
+
+    .fc th {
+        padding: 12px 0;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-muted);
+        background: #fcfcfd;
+    }
+
+    .fc-daygrid-day {
+        transition: background 0.2s;
+
+        &:hover {
+            background: #f7fafc;
+        }
+    }
+
+    .fc-day-today {
+        .fc-daygrid-day-number {
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 4px;
+        }
+    }
+
+    .fc-event {
+        border-radius: 6px;
+        padding: 2px 6px;
+        font-size: 11px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+        &.meeting-event {
+            background: rgba(52, 152, 219, 0.1) !important;
+            color: #3498db !important;
+            border-left: 3px solid #3498db !important;
+        }
+
+        &.call-event {
+            background: rgba(155, 89, 182, 0.1) !important;
+            color: #9b59b6 !important;
+            border-left: 3px solid #9b59b6 !important;
+        }
+    }
+
+    /* Custom Scrollbar for Calendar */
+    .fc-scroller {
+        &::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e0;
+        }
+    }
+}
+
+.tbtn {
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &.dk {
+        background: #2d3436;
+        color: white;
+
+        &:hover {
+            background: #000;
+        }
+    }
+}

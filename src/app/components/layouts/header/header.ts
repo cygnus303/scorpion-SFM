@@ -133,6 +133,7 @@ export class Header implements OnInit, OnDestroy {
       endDate: end.toLocaleDateString("en-GB"),
       Page: 1
     });
+    this.commonService.calendarViewSubject.next(type);
   }
 
   onDateSelected(dates: Date[]) {
