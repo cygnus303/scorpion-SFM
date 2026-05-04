@@ -1,0 +1,44 @@
+<ng-template #Templatepod>
+    <div class="modal-header border-0 pb-0">
+        <div class="d-flex align-items-center">
+            <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
+                style="width: 40px; height: 40px;">
+                <i class="ri-file-list-3-line fs-5"></i>
+            </div>
+            <h5 class="modal-title fw-bold text-dark" id="modal-title">Expense General Master Details</h5>
+        </div>
+        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
+    </div>
+
+    <div class="modal-body">
+        <div class="table-container">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <td><strong class="me-2">Designation:</strong>{{ expenseResponse?.designation}}</td>
+                        <td><strong class="me-2">Transport Mode:</strong>{{ expenseResponse?.transportMode}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Rate Per KM:</strong> {{ expenseResponse?.ratePerKM}}</td>
+                        <td><strong class="me-2">Expense Added By:</strong>{{ expenseResponse?.createdBy}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Expense Added By Date:</strong>{{ expenseResponse?.createdDate | date :
+                            "dd/MM/yyyy"}}</td>
+                        <td><strong class="me-2">Expense Edited By:</strong>{{ expenseResponse?.modifiedBy}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Expense Edited By Date:</strong>{{ expenseResponse?.modifiedDate | date
+                            : "dd/MM/yyyy"}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-footer border-0 pt-0">
+        <button type="button" class="btn btn-secondary rounded-pill px-4" (click)="modalRef.hide()">
+            Close
+        </button>
+    </div>
+</ng-template>

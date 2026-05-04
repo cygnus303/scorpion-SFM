@@ -1,31 +1,133 @@
 <!-- ══ EXPENSE MASTER ══ -->
 <div class="page active">
   <div class="card">
-    <div class="card-head"><div class="ci dk">⚙</div><div class="card-title">Expense General Master</div><div class="ctag tdk">Admin Only</div></div>
+    <div class="card-head">
+      <div class="ci dk">⚙</div>
+      <div class="card-title">Expense General Master</div>
+      <div style="margin-left:auto; display:flex; gap:8px;">
+        <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
+          (click)="downloadExpenseGeneral()">
+          <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
+          <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
+        </button>
+        <button class="tbtn" style="padding:5px 12px;font-size:11px" (click)="openAddExpenseModal()">＋ New
+          Master</button>
+      </div>
+    </div>
     <div class="g2">
       <div>
-        <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Expense Categories</div>
+        <div
+          style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">
+          Expense Categories</div>
         <table class="mt">
-          <thead><tr><th>Category</th><th>Monthly Limit (₹)</th><th>Requires Receipt</th><th>Status</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Designation</th>
+              <th>Transport Mode</th>
+              <th>Rate Per KM (₹)</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>Travel — Local</td><td>₹8,000</td><td><span class="pill pg">Yes</span></td><td><span class="pill pg">Active</span></td></tr>
-            <tr><td>Travel — Outstation</td><td>₹25,000</td><td><span class="pill pg">Yes</span></td><td><span class="pill pg">Active</span></td></tr>
-            <tr><td>Meals & Entertainment</td><td>₹5,000</td><td><span class="pill pa">Optional</span></td><td><span class="pill pg">Active</span></td></tr>
-            <tr><td>Accommodation</td><td>₹15,000</td><td><span class="pill pg">Yes</span></td><td><span class="pill pg">Active</span></td></tr>
-            <tr><td>Stationery / Printing</td><td>₹2,000</td><td><span class="pill pa">Optional</span></td><td><span class="pill pg">Active</span></td></tr>
-            <tr><td>Miscellaneous</td><td>₹1,000</td><td><span class="pill pg">Yes</span></td><td><span class="pill pa">Review</span></td></tr>
+            <tr *ngIf="isLoading">
+              <td colspan="5" class="py-5 text-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="mt-2 text-muted small">Loading records...</div>
+              </td>
+            </tr>
+
+            <ng-container *ngIf="!isLoading">
+              <tr *ngFor="let item of expenses">
+                <td>{{ item.designation ? item.designation : '--' }}</td>
+                <td><span class="pill pgy">{{ item.transportMode ? item.transportMode : '--' }}</span></td>
+                <td>₹{{ item.ratePerKM }}</td>
+                <td>
+                  <span class="pill" [ngClass]="item.isActive ? 'pg' : 'pr'">
+                    {{ item.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="btn-group dropstart">
+                    <button type="button"
+                      class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                      data-bs-toggle="dropdown" aria-expanded="false" style="width:32px; height:32px; padding:0;">
+                      <i class="ri-more-2-fill" style="font-size: 18px;"></i>
+                    </button>
+                    <ul class="dropdown-menu shadow-lg border-0 py-1" style="min-width: fit-content;">
+                      <li class="d-flex px-2 gap-2">
+                        <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                          style="width:30px; height:30px; background:#4b5b8d; color:white;" [popover]="'Edit'"
+                          (click)="openAddExpenseModal(item)" placement="auto" triggers="hover" [outsideClick]="true"
+                          container="body">
+                          <i class="ri-pencil-fill"></i>
+                        </button>
+                        <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                          (click)="openExpenseGeneralmasterDetailModal(item)"
+                          style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
+                          [popover]="'View'" placement="auto" triggers="hover" [outsideClick]="true" container="body">
+                          <i class="ri-eye-fill"></i>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="!expenses || expenses.length === 0">
+                <td colspan="5" class="text-center py-4 text-muted small">No records found.</td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="totalItems > 0">
+          <div class="small text-muted">
+            Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
+            commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
+            totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+            of {{ totalItems }} entries
+          </div>
+          <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
+            [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="onPageChange($event)" [maxSize]="5"
+            [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+          </pagination>
+        </div>
       </div>
       <div>
-        <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Approval Hierarchy</div>
+        <div
+          style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">
+          Approval Hierarchy</div>
         <table class="mt">
-          <thead><tr><th>Amount Range</th><th>Approver Level</th><th>TAT</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Amount Range</th>
+              <th>Approver Level</th>
+              <th>TAT</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>Up to ₹2,000</td><td><span class="pill pgy">Team Lead</span></td><td>Same day</td></tr>
-            <tr><td>₹2,001 – ₹10,000</td><td><span class="pill pb">Sales Manager</span></td><td>1 business day</td></tr>
-            <tr><td>₹10,001 – ₹25,000</td><td><span class="pill pa">Regional Head</span></td><td>2 business days</td></tr>
-            <tr><td>Above ₹25,000</td><td><span class="pill pr">CTO / Finance</span></td><td>3 business days</td></tr>
+            <tr>
+              <td>Up to ₹2,000</td>
+              <td><span class="pill pgy">Team Lead</span></td>
+              <td>Same day</td>
+            </tr>
+            <tr>
+              <td>₹2,001 – ₹10,000</td>
+              <td><span class="pill pb">Sales Manager</span></td>
+              <td>1 business day</td>
+            </tr>
+            <tr>
+              <td>₹10,001 – ₹25,000</td>
+              <td><span class="pill pa">Regional Head</span></td>
+              <td>2 business days</td>
+            </tr>
+            <tr>
+              <td>Above ₹25,000</td>
+              <td><span class="pill pr">CTO / Finance</span></td>
+              <td>3 business days</td>
+            </tr>
           </tbody>
         </table>
         <div style="margin-top:16px">
@@ -33,7 +135,11 @@
           <div class="form-row three">
             <div class="fg"><label>Category Name</label><input placeholder="e.g. Conference"></div>
             <div class="fg"><label>Monthly Limit (₹)</label><input type="number"></div>
-            <div class="fg"><label>Receipt Required</label><select><option>Yes</option><option>Optional</option><option>No</option></select></div>
+            <div class="fg"><label>Receipt Required</label><select>
+                <option>Yes</option>
+                <option>Optional</option>
+                <option>No</option>
+              </select></div>
           </div>
           <button class="btn btn-red">Add Category</button>
         </div>
@@ -41,3 +147,7 @@
     </div>
   </div>
 </div>
+
+<expense-generalmaster-detail #expenseGeneralmasterDetail></expense-generalmaster-detail>
+<app-add-expense-general-master #addExpenseGeneralMaster
+  (dataEmitter)="getExpensesGeneralMaster()"></app-add-expense-general-master>

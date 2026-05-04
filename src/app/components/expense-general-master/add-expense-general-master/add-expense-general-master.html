@@ -1,0 +1,94 @@
+<ng-template #Templatepod>
+    <div class="modal-header border-0 pb-0">
+        <div class="d-flex align-items-center">
+            <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
+                style="width: 40px; height: 40px;">
+                <i class="ri-money-rupee-circle-line fs-5"></i>
+            </div>
+            <h5 class="modal-title fw-bold text-dark" id="modal-title">{{ type }}</h5>
+        </div>
+        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
+    </div>
+
+    <form [formGroup]="expenseMasterForm" class="horizontal-form" autocomplete="off"
+        (submit)="onSubmitExpense(expenseMasterForm)">
+        <div class="modal-body py-4">
+            <input type="hidden" id="id-field" />
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div>
+                        <label class="form-label fw-medium text-muted">Designation <span
+                                class="text-danger">*</span></label>
+                        <ng-select [items]="designationList" bindLabel="codeDesc" bindValue="codeId"
+                            formControlName="designationId" placeholder="Select Designation" [searchable]="true"
+                            [clearable]="true" [readonly]="type === 'Update Expense' ? true:false"
+                            class="custom-ng-select"
+                            [ngClass]="{ 'is-invalid border-danger': expenseMasterForm.controls['designationId'].invalid && expenseMasterForm.controls['designationId'].touched}">
+                        </ng-select>
+                        <div *ngIf="expenseMasterForm.controls['designationId'].invalid && expenseMasterForm.controls['designationId']?.touched"
+                            class="text-danger mt-1 small">
+                            <i class="ri-error-warning-line me-1"></i> Designation is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        <label class="form-label fw-medium text-muted">Transport Mode <span
+                                class="text-danger">*</span></label>
+                        <ng-select [items]="transportModes" bindLabel="codeDesc" bindValue="codeId"
+                            formControlName="transportModeId" placeholder="Select Transport Mode" [searchable]="true"
+                            [clearable]="true" [readonly]="type === 'Update Expense' ? true:false"
+                            class="custom-ng-select"
+                            [ngClass]="{ 'is-invalid border-danger': expenseMasterForm.controls['transportModeId'].invalid && expenseMasterForm.controls['transportModeId'].touched}">
+                        </ng-select>
+                        <div *ngIf="expenseMasterForm.controls['transportModeId'].invalid && expenseMasterForm.controls['transportModeId']?.touched"
+                            class="text-danger mt-1 small">
+                            <i class="ri-error-warning-line me-1"></i> Transport Mode is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        <label class="form-label fw-medium text-muted">Rate Per KM <span
+                                class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted">₹</span>
+                            <input type="number" class="form-control border-start-0 ps-0" formControlName="ratePerKM"
+                                placeholder="0.00"
+                                [ngClass]="{ 'is-invalid border-danger': expenseMasterForm.controls['ratePerKM'].invalid && expenseMasterForm.controls['ratePerKM'].touched}" />
+                        </div>
+                        <div *ngIf="expenseMasterForm.controls['ratePerKM'].invalid && expenseMasterForm.controls['ratePerKM']?.touched"
+                            class="text-danger mt-1 small">
+                            <i class="ri-error-warning-line me-1"></i> Rate Per KM is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 d-flex align-items-center">
+                    <div class="mt-lg-4 mt-2">
+                        <div class="form-check form-switch form-switch-lg form-switch-success" dir="ltr">
+                            <input type="checkbox" class="form-check-input" id="activeSwitch" formControlName="active">
+                            <label class="form-check-label fw-medium ms-2 mt-1" for="activeSwitch">
+                                {{ expenseMasterForm.get('active')?.value ? 'Active' : 'Inactive' }} Status
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer border-0 pt-0">
+            <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal" (click)="onClose()">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center"
+                [disabled]="isSubmitting">
+                <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status"></span>
+                <i *ngIf="!isSubmitting" class="ri-save-line me-2"></i>
+                {{ type === 'Add Expense' ? 'Save' : 'Update' }}
+            </button>
+        </div>
+    </form>
+</ng-template>
