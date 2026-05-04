@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MeetingResponse } from '../../shared/models/meeting.model';
 import { MeetingService } from '../../shared/services/meeting.service';
@@ -12,6 +12,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { AddMeeting } from './add-meeting/add-meeting';
 import { MeetingDetail } from './meeting-detail/meeting-detail';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-meeting-list',
@@ -20,7 +22,7 @@ import { MeetingDetail } from './meeting-detail/meeting-detail';
   templateUrl: './meeting-list.html',
   styleUrl: './meeting-list.scss'
 })
-export class MeetingList implements OnInit {
+export class MeetingList implements OnInit, OnDestroy {
   public meetings: MeetingResponse[] = [];
   public isLoading: boolean = false;
   public selectedUser: any = null;
@@ -35,14 +37,21 @@ export class MeetingList implements OnInit {
   private identityService = inject(IdentityService);
   private exportService = inject(ExportService);
 
+  private destroy$ = new Subject<void>();
+
   constructor() { }
 
   ngOnInit(): void {
-    this.commonService.filterChanged$.subscribe(() => {
+    this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getMeetings();
     });
 
     this.commonService.getUsers()
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getMeetings(page: number = this.commonService.globalFilters.Page) {

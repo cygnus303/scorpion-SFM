@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ApiHandlerService } from './api-handler.service';
-import { debounceTime, distinctUntilChanged, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, Observable, Subject } from 'rxjs';
 import { IdentityService } from './identity.service';
 import { ExternalService } from './external.service';
 import { UserResponse } from '../models/meeting.model';
@@ -23,7 +23,7 @@ export class CommonService {
     searchText: ''
   };
 
-  private filterSubject = new Subject<any>();
+  private filterSubject = new BehaviorSubject<any>(this.globalFilters);
   public filterChanged$ = this.filterSubject.asObservable().pipe(
     debounceTime(200),
     distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))

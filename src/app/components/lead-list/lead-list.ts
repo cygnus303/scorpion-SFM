@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AddLead } from './add-lead/add-lead';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +13,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { LeadDetail } from './lead-detail/lead-detail';
 import { ExportService } from '../../shared/services/export.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lead-list',
@@ -22,7 +24,7 @@ import { ExportService } from '../../shared/services/export.service';
   styleUrl: './lead-list.scss',
   providers: [BsModalService]
 })
-export class LeadList implements OnInit {
+export class LeadList implements OnInit, OnDestroy {
   @ViewChild('addLeadComponent') addLeadComponent!: AddLead;
   @ViewChild('leadDetailComponent') leadDetailComponent!: LeadDetail;
 
@@ -36,14 +38,21 @@ export class LeadList implements OnInit {
   private identityService = inject(IdentityService);
   private exportService = inject(ExportService);
 
+  private destroy$ = new Subject<void>();
+
   constructor() { }
 
   ngOnInit(): void {
-    this.commonService.filterChanged$.subscribe(() => {
+    this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getLeads();
     });
 
     this.commonService.getUsers()
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public isLoading: boolean = false;

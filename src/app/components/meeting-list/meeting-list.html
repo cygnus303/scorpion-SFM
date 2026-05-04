@@ -26,22 +26,26 @@
       <div class="card-head">
         <div class="ci b">◷</div>
         <div style="margin-left:auto; display:flex; gap:8px;">
+          <ng-select [items]="commonService.users" bindLabel="name" bindValue="userId" [placeholder]="'Search User'"
+            [clearable]="true" [searchable]="true" (change)="getMeetings()" [(ngModel)]="selectedUser"
+            class="form-control border-start-1 line-height p-0 border-remover" style="width: 250px;">
+          </ng-select>
           <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
             (click)="downloadMeetings()">
             <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
             <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
           </button>
           <button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px" (click)="openMeetingModal()">
-            ＋ Log Meeting
+            ＋ Meeting
           </button>
         </div>
       </div>
-      <div style="display:flex;gap:8px;margin-bottom:12px">
+      <!-- <div style="display:flex;gap:8px;margin-bottom:12px">
         <ng-select [items]="commonService.users" bindLabel="name" bindValue="userId" [placeholder]="'Search User'"
           [clearable]="true" [searchable]="true" (change)="getMeetings()" [(ngModel)]="selectedUser"
-          class="form-control border-start-1 line-height p-0 border-remover">
+          class="form-control border-start-1 line-height p-0 border-remover" style="width: 250px;">
         </ng-select>
-      </div>
+      </div> -->
       <div class="table-responsive">
         <table class="mt">
           <thead>

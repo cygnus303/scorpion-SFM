@@ -136,11 +136,21 @@ export class Header implements OnInit, OnDestroy {
   }
 
   onDateSelected(dates: Date[]) {
+    // Check if dates actually changed to prevent double triggers and NG0100
+    const prevStart = this.selectedDateRange?.[0]?.toLocaleDateString("en-GB");
+    const prevEnd = this.selectedDateRange?.[1]?.toLocaleDateString("en-GB");
+    const newStart = dates?.[0]?.toLocaleDateString("en-GB");
+    const newEnd = dates?.[1]?.toLocaleDateString("en-GB");
+
+    if (prevStart === newStart && prevEnd === newEnd) {
+      return;
+    }
+
     this.selectedDateRange = dates;
     this.checkAndSetActiveFilter(dates);
     this.commonService.updateFilters({
-      startDate: dates?.[0]?.toLocaleDateString("en-GB") || null,
-      endDate: dates?.[1]?.toLocaleDateString("en-GB") || null,
+      startDate: newStart || null,
+      endDate: newEnd || null,
       Page: 1
     });
   }
