@@ -1,38 +1,156 @@
 <!-- ══ EXPENSE ══ -->
 <div class="page active">
   <div class="g4">
-    <div class="kpi" style="--kc:var(--blue)"><div class="kpi-label">My Expenses MTD</div><div class="kpi-val">₹14,200</div><div class="kpi-sub wn">72% of limit</div></div>
-    <div class="kpi" style="--kc:var(--green)"><div class="kpi-label">Approved</div><div class="kpi-val">₹11,800</div><div class="kpi-sub up">83% approval rate</div></div>
-    <div class="kpi" style="--kc:var(--amber)"><div class="kpi-label">Pending Approval</div><div class="kpi-val">₹2,400</div><div class="kpi-sub wn">2 claims</div></div>
-    <div class="kpi" style="--kc:var(--red)"><div class="kpi-label">Rejected</div><div class="kpi-val">₹0</div><div class="kpi-sub up">None this month</div></div>
-  </div>
-  <div class="g2">
-    <div class="card">
-      <div class="card-head"><div class="ci a">💸</div><div class="card-title">Expense Claims</div><button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px">＋ Add Expense</button></div>
-      <table class="mt">
-        <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td>Today</td><td><span class="pill pb">Travel</span></td><td>Cab to BlueDart Corp meeting</td><td>₹480</td><td><span class="pill pa">Pending</span></td></tr>
-          <tr><td>Yesterday</td><td><span class="pill pgy">Meals</span></td><td>Client lunch — Nexus Logistics</td><td>₹1,920</td><td><span class="pill pa">Pending</span></td></tr>
-          <tr><td>3 days ago</td><td><span class="pill pb">Travel</span></td><td>Flight to Pune — quarterly review</td><td>₹4,200</td><td><span class="pill pg">Approved</span></td></tr>
-          <tr><td>4 days ago</td><td><span class="pill pgy">Stationery</span></td><td>Printed brochures — trade fair</td><td>₹800</td><td><span class="pill pg">Approved</span></td></tr>
-          <tr><td>1 week ago</td><td><span class="pill pb">Travel</span></td><td>Fuel reimbursement — zone visits</td><td>₹6,800</td><td><span class="pill pg">Approved</span></td></tr>
-        </tbody>
-      </table>
+    <div class="kpi" style="--kc:var(--blue)">
+      <div class="kpi-label">Total Expenses</div>
+      <div class="kpi-val">{{totalItems}}</div>
+      <div class="kpi-sub">Lifetime claims</div>
     </div>
+    <div class="kpi" style="--kc:var(--green)">
+      <div class="kpi-label">Approved</div>
+      <div class="kpi-val">₹ --</div>
+      <div class="kpi-sub up">Total approved amount</div>
+    </div>
+    <div class="kpi" style="--kc:var(--amber)">
+      <div class="kpi-label">Pending Approval</div>
+      <div class="kpi-val">--</div>
+      <div class="kpi-sub wn">Awaiting approval</div>
+    </div>
+    <div class="kpi" style="--kc:var(--red)">
+      <div class="kpi-label">Rejected</div>
+      <div class="kpi-val">₹0</div>
+      <div class="kpi-sub up">None this month</div>
+    </div>
+  </div>
+
+  <div>
+    <!-- Dynamic Expense Table Card -->
     <div class="card">
-      <div class="card-head"><div class="ci">＋</div><div class="card-title">New Expense Claim</div></div>
-      <div class="form-row">
-        <div class="fg"><label>Expense Category</label><select><option>Travel</option><option>Meals & Entertainment</option><option>Accommodation</option><option>Stationery</option><option>Other</option></select></div>
-        <div class="fg"><label>Date</label><input type="date"></div>
+      <div class="card-head">
+        <div class="ci a">💸</div>
+        <div class="card-title">Expense Claims</div>
+        <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+          <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
+            (click)="exportExpenses($event)">
+            <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
+            <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
+          </button>
+        </div>
       </div>
-      <div class="form-row one"><div class="fg"><label>Description</label><input placeholder="Brief description of expense"></div></div>
-      <div class="form-row">
-        <div class="fg"><label>Amount (₹)</label><input type="number" placeholder="0.00"></div>
-        <div class="fg"><label>Customer / Project</label><select><option>General</option><option>Reliance Freight</option><option>BlueDart Corp</option></select></div>
+      <div style="overflow-x: auto;">
+        <table class="mt">
+          <thead>
+            <tr>
+              <th>Exp No.</th>
+              <th>Meeting ID</th>
+              <th>Exp Date</th>
+              <th>Customer</th>
+              <th>Meeting date</th>
+              <th>Check In Time</th>
+              <th>Check Out Time</th>
+              <th>Dist (KM)</th>
+              <th>Payment ID</th>
+              <th>Payment Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading && expenses.length === 0">
+              <td colspan="12" style="text-align:center; padding:40px;">
+                <div class="spinner-border spinner-border-sm text-primary"></div>
+                <div style="font-size:11px; color:#999; margin-top:8px;">Fetching data...</div>
+              </td>
+            </tr>
+            <tr *ngFor="let expense of expenses; let i = index">
+              <td><strong>{{ expense.expenseId || '--' }}</strong></td>
+              <td>
+                <div [popover]="hourPopover" [popoverContext]="{expense: expense}" placement="right" triggers="hover"
+                  popoverTitle="Attendees Details" [outsideClick]="true" container="body"
+                  style="cursor:help; color:var(--blue);">
+                  {{ expense.meetingId || '--' }}
+                </div>
+              </td>
+              <td>{{ expense.expenseDate || '--' }}</td>
+              <td style="max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{
+                expense.companyName || '--' }}</td>
+              <td>{{ expense.meetingDate || '--' }}</td>
+              <td>{{ expense.checkIn || '--' }}</td>
+              <td>{{ expense.checkOut || '--' }}</td>
+              <td>{{ expense.distanceTravelled || '0' }}</td>
+              <td>{{ expense.requestID || '--' }}</td>
+              <td>{{ expense.requestIdDate ? (expense.requestIdDate | date:'dd/MM/yyyy') :'--' }}</td>
+              <td><strong>₹{{ expense.amount || '0' }}</strong></td>
+              <td>
+                <span class="pill" [ngClass]="{
+                  'pg': expense.exp_Status === 5 || expense.status?.includes('APPROVED'),
+                  'pa': expense.exp_Status === 2 || expense.status?.includes('PENDING'),
+                  'pr': expense.exp_Status === 6 || expense.status?.includes('REJECTED'),
+                  'pgy': expense.exp_Status === 1
+                }">{{ expense.status || '--' }}</span>
+              </td>
+              <td>
+                <div class="btn-group dropstart" (click)="$event.stopPropagation()">
+                  <button type="button"
+                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                    (click)="toggleActions(expense)" style="width:28px; height:28px; padding:0;">
+                    <i class="ri-more-2-fill"></i>
+                  </button>
+                  <ul class="dropdown-menu shadow-lg border-0 py-1" [class.show]="expense.showActions"
+                    style="min-width: fit-content; position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(-32px, 0px, 0px);">
+                    <li class="d-flex px-2 gap-2">
+                      <button *ngIf="expense.isEdit === 'Y'"
+                        class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:28px; height:28px; background:var(--amber); color:white;"
+                        (click)="editModal($event, expense, 'EditExpense'); expense.showActions = false"
+                        [popover]="'Edit'" placement="top" triggers="hover">
+                        <i class="ri-pencil-fill" style="font-size:12px;"></i>
+                      </button>
+                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:28px; height:28px; background:var(--dark); color:white;"
+                        (click)="viewModal($event, expense); expense.showActions = false" [popover]="'View'"
+                        placement="top" triggers="hover">
+                        <i class="ri-eye-fill" style="font-size:12px;"></i>
+                      </button>
+                      <button *ngIf="userType?.toLowerCase() === 'manager'"
+                        class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:28px; height:28px; background:var(--green); color:white;"
+                        (click)="approveModal($event, expense); expense.showActions = false" [popover]="'Approve'"
+                        placement="top" triggers="hover">
+                        <i class="ri-check-line" style="font-size:12px;"></i>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="!loading && expenses.length === 0">
+              <td colspan="12" style="text-align:center; padding:40px;">
+                <img src="assets/images/noData.png" height="80">
+                <div style="font-size:12px; color:#999; margin-top:12px;">Sorry! No Data Found</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="form-row one"><div class="fg"><label>Receipt / Bill (attach)</label><input type="file" accept="image/*,.pdf"></div></div>
-      <div style="display:flex;gap:8px"><button class="btn btn-red">Submit Claim</button><button class="btn btn-outline">Save Draft</button></div>
+      <!-- Pagination -->
+      <div
+        style="padding:16px; border-top:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:11px; color:#666;">Total: <strong>{{totalItems}}</strong></div>
+        <pagination [totalItems]="totalItems" [(ngModel)]="page" [itemsPerPage]="pageSize" [maxSize]="3"
+          (pageChanged)="onPageChange($event)" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;">
+        </pagination>
+      </div>
     </div>
   </div>
 </div>
+
+
+
+<ng-template #hourPopover let-expense="expense">
+  <div style="font-size:11px;">
+    <strong>IDs:</strong> {{expense?.attendeeIDs}}<br>
+    <strong>Names:</strong> {{expense?.attendeeName}}
+  </div>
+</ng-template>
