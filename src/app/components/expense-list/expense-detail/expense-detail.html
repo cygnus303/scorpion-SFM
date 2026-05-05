@@ -1,1 +1,119 @@
-<p>expense-detail works!</p>
+<ng-template #Templatepod>
+    <div class="modal-header border-0 pb-0">
+        <div class="d-flex align-items-center">
+            <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
+                style="width: 40px; height: 40px;">
+                <i class="ri-file-list-3-line fs-5"></i>
+            </div>
+            <h5 class="modal-title fw-bold text-dark" id="modal-title">Expense Details</h5>
+        </div>
+        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
+    </div>
+
+    <div class="modal-body">
+        <div *ngIf="isLoading" class="text-center py-5">
+            <span class="spinner-border spinner-border-sm"></span>
+            <div class="mt-2 text-muted">Loading complaint details...</div>
+        </div>
+        <div class="table-responsive" *ngIf="!isLoading && expenseResponse">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <td width="50%"><strong class="me-2">Expense Code:</strong> {{ expenseResponse?.expenseId ||
+                            '--' }}</td>
+                        <td width="50%"><strong class="me-2">Customer Name:</strong> {{ expenseResponse?.companyName ||
+                            expenseResponse?.customerName || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Meeting ID:</strong> {{ expenseResponse?.meetingId || '--' }}</td>
+                        <td><strong class="me-2">Meeting MOM:</strong> {{ expenseResponse?.meetingMOM || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Payment ID:</strong> {{ expenseResponse?.requestID || '--' }}</td>
+                        <td><strong class="me-2">Meeting Date:</strong> {{ (expenseResponse?.meetingDate &&
+                            expenseResponse?.meetingDate !== '0001-01-01T00:00:00') ? (expenseResponse?.meetingDate |
+                            date:'dd/MM/yyyy') : '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">UTR Date:</strong> {{ (expenseResponse?.utrDate &&
+                            expenseResponse?.utrDate !== '0001-01-01T00:00:00') ? (expenseResponse?.utrDate |
+                            date:'dd/MM/yyyy') : '--' }}</td>
+                        <td><strong class="me-2">UTR No.:</strong> {{ expenseResponse?.utrNo || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Expense Date:</strong> {{ expenseResponse?.expenseDate || '--' }}</td>
+                        <td><strong class="me-2">Transport Mode:</strong> {{ expenseResponse?.transportMode || '--' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Checked In Location:</strong> <span class="small">{{
+                                expenseResponse?.checkedInLocation || '--' }}</span></td>
+                        <td><strong class="me-2">Checked Out Location:</strong> <span class="small">{{
+                                expenseResponse?.checkedOutLocation || '--' }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Distance In Km:</strong> {{ expenseResponse?.distanceInKm ||
+                            expenseResponse?.distanceTravelled || '0' }}</td>
+                        <td><strong class="me-2">Amount:</strong> <span class="text-success fw-bold">₹{{
+                                expenseResponse?.amount || '0' }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Supporting Document:</strong>
+                            <a *ngIf="expenseResponse?.supportingDocument" [href]="expenseResponse.supportingDocument"
+                                target="_blank" class="btn btn-xs btn-outline-primary py-0 px-2 small">View Doc</a>
+                            <span *ngIf="!expenseResponse?.supportingDocument">--</span>
+                        </td>
+                        <td><strong class="me-2">Remarks:</strong> {{ expenseResponse?.remarks || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Expense Added By:</strong> {{ expenseResponse?.expenseAddedBy ||
+                            expenseResponse?.createdBy || '--' }}</td>
+                        <td><strong class="me-2">Expense Added Date:</strong> {{ expenseResponse?.expenseAddedDate ||
+                            '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Expense Edited By:</strong> {{ expenseResponse?.expenseEditedBy ||
+                            expenseResponse?.modifiedBy || '--' }}</td>
+                        <td><strong class="me-2">Expense Edited Date:</strong> {{ expenseResponse?.expensEditDate ||
+                            expenseResponse?.modifiedDate || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Approved By Manager:</strong> {{ expenseResponse?.approveByManagerName
+                            || '--' }}</td>
+                        <td><strong class="me-2">Manager Approved Date:</strong> {{
+                            (expenseResponse?.approvedManagerDate && expenseResponse?.approvedManagerDate !==
+                            '0001-01-01T00:00:00') ? expenseResponse?.approvedManagerDate : '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Approved By Auditor:</strong> {{ expenseResponse?.approvedByAuditorName
+                            || '--' }}</td>
+                        <td><strong class="me-2">Auditor Approved Date:</strong> {{ expenseResponse?.approvedByAuditDate
+                            || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong class="me-2">Auditor Remarks:</strong> {{ expenseResponse?.auditRemark ||
+                            expenseResponse?.auditRemarks || '--' }}</td>
+                        <td><strong class="me-2">Manager Remarks:</strong> {{ expenseResponse?.managerRemark || '--' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><strong class="me-2">Status:</strong>
+                            <span class="badge"
+                                [ngClass]="{'bg-success': expenseResponse?.exp_Status === 5, 'bg-danger': expenseResponse?.exp_Status === 6, 'bg-warning text-dark': expenseResponse?.exp_Status === 2}">
+                                {{ expenseResponse?.status || '--' }}
+                            </span>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="modal-footer border-0 pt-0">
+        <button type="button" class="btn btn-secondary rounded-pill px-4" (click)="modalRef.hide()">
+            Close
+        </button>
+    </div>
+</ng-template>

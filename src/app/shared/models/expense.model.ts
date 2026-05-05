@@ -53,5 +53,23 @@ export interface ExpenseResponse {
 }
 
 export interface ExpenseDetailResponse extends ExpenseResponse {
-  // Add any extra fields if needed for detail view
+  punchedInLocation?: string;
+  checkedInLocation?: string;
+  checkedOutLocation?: string;
+  distanceInKm?: number;
+  supportingDocument?: string;
+  remarks?: string;
+  customerName?: string;
+  transportMode?: string;
+  designation?: string;
+  ratePerKM?: number;
+  createdDate?: string;
+
+  modifiedBy?: string;
+  modifiedDate?: string;
+  transportModeId?: string;
+  meetingMOM?: string;
+  utrDate?: string;
 }
+
+

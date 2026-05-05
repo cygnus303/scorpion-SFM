@@ -103,23 +103,22 @@
                       <button *ngIf="expense.isEdit === 'Y'"
                         class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:28px; height:28px; background:var(--amber); color:white;"
-                        (click)="editModal($event, expense, 'EditExpense'); expense.showActions = false"
-                        [popover]="'Edit'" placement="top" triggers="hover">
+                        (click)="expense.showActions=false" [popover]="'Edit'" placement="top" triggers="hover">
                         <i class="ri-pencil-fill" style="font-size:12px;"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:28px; height:28px; background:var(--dark); color:white;"
-                        (click)="viewModal($event, expense); expense.showActions = false" [popover]="'View'"
+                        (click)="viewModal($event,expense); expense.showActions = false" [popover]="'View'"
                         placement="top" triggers="hover">
                         <i class="ri-eye-fill" style="font-size:12px;"></i>
                       </button>
-                      <button *ngIf="userType?.toLowerCase() === 'manager'"
+                      <!-- <button *ngIf="userType?.toLowerCase() === 'manager'"
                         class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:28px; height:28px; background:var(--green); color:white;"
                         (click)="approveModal($event, expense); expense.showActions = false" [popover]="'Approve'"
                         placement="top" triggers="hover">
                         <i class="ri-check-line" style="font-size:12px;"></i>
-                      </button>
+                      </button> -->
                     </li>
                   </ul>
                 </div>
@@ -146,11 +145,10 @@
   </div>
 </div>
 
-
-
 <ng-template #hourPopover let-expense="expense">
   <div style="font-size:11px;">
     <strong>IDs:</strong> {{expense?.attendeeIDs}}<br>
     <strong>Names:</strong> {{expense?.attendeeName}}
   </div>
 </ng-template>
+<app-expense-detail #expenseDetail></app-expense-detail>

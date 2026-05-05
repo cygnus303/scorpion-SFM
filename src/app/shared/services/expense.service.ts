@@ -19,7 +19,7 @@ export class ExpenseService {
   }
 
   getExpenseDetails(id: string, userId: string): Observable<IApiBaseResponse<ExpenseDetailResponse>> {
-    return this.apiHandlerService.Get(`Expense/details?id=${id}&userId=${userId}`);
+    return this.apiHandlerService.Get(`expense/${id}?userId=${userId}`);
   }
 
   deleteExpense(id: string): Observable<IApiBaseResponse<any>> {

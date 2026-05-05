@@ -6,7 +6,7 @@ import { saveAs } from 'file-saver';
   providedIn: 'root',
 })
 export class ExportService {
-  constructor() {}
+  constructor() { }
 
   /**
    * Export data to Excel

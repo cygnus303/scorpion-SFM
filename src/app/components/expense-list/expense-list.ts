@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, inject, PLATFORM_ID, HostListener, Inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject, PLATFORM_ID, HostListener, Inject, ViewChild } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import Swal from 'sweetalert2';
+import { ExpenseDetail } from './expense-detail/expense-detail';
 
 @Component({
   selector: 'app-expense-list',
@@ -27,7 +28,8 @@ import Swal from 'sweetalert2';
     NgSelectModule,
     PaginationModule,
     PopoverModule,
-    BsDatepickerModule
+    BsDatepickerModule,
+    ExpenseDetail
   ],
   templateUrl: './expense-list.html',
   styleUrl: './expense-list.scss',
@@ -38,6 +40,8 @@ export class ExpenseList implements OnInit {
   public userType: string | null = null;
   public selectedExpense: ExpenseDetailResponse | null = null;
   public selectedCall: string | null = null;
+  @ViewChild('expenseDetail') expenseDetail!: ExpenseDetail;
+
 
   page = 1;
   pageSize = 10;
@@ -170,30 +174,6 @@ export class ExpenseList implements OnInit {
     });
   }
 
-  getExpense(data: any) {
-    this.loading = true;
-    this.commonService.updateLoader(true);
-    const filter = {
-      id: data.attendeeCode,
-      userId: this.identifyService.getLoggedUserId()
-    };
-    this.expenseService.getExpenseDetails(filter.id, filter.userId).subscribe({
-      next: (response) => {
-        if (response) {
-          this.selectedExpense = response.data;
-          this.edit.emit(response.data);
-        }
-        this.loading = false;
-        this.commonService.updateLoader(false);
-      },
-      error: (response: any) => {
-        this.toasterService.error(response);
-        this.loading = false;
-        this.commonService.updateLoader(false);
-      },
-    });
-  }
-
   clearDate() {
     this.filters['ExpenseDate'] = '';
     this.getExpenses();
@@ -204,72 +184,9 @@ export class ExpenseList implements OnInit {
     this.getExpenses();
   }
 
-  async closeEditModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const { Modal } = await import('bootstrap');
-      const modalElement: any = document.getElementById('showModal');
-      const modalInstance = Modal.getInstance(modalElement);
-      if (modalInstance) {
-        modalInstance.hide();
-        document.querySelectorAll('.modal-backdrop').forEach((backdrop) => {
-          backdrop.remove();
-        });
-        this.getExpenses();
-      }
-    }
-  }
-
-  async editModal(event: Event, expense: any, type: string) {
-    if (isPlatformBrowser(this.platformId)) {
-      const storedUser = localStorage.getItem('loginUser');
-      const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-
-      if (parsedUser?.designationId === '') {
-        Swal.fire({
-          icon: 'info',
-          text: 'You do not have a designation. Please contact the admin.',
-          confirmButtonText: 'OK',
-          confirmButtonColor: '#405189',
-          iconColor: '#405189'
-        });
-        return;
-      }
-      event.preventDefault();
-      const { Modal } = await import('bootstrap');
-      const modalElement = document.getElementById('showModal');
-      if (modalElement) {
-        const modal = new Modal(modalElement);
-        modal.show();
-        this.expense = type;
-        this.isAddExpenseLoad = true;
-        this.getExpense(expense);
-      }
-    }
-  }
-
-  async viewModal(event: Event, expenseId: any) {
-    if (isPlatformBrowser(this.platformId)) {
-      event.preventDefault();
-      const { Modal } = await import('bootstrap');
-      const modalElement = document.getElementById('showModalDetail');
-      if (modalElement) {
-        const modal = new Modal(modalElement);
-        modal.show();
-        this.getExpense(expenseId);
-      }
-    }
-  }
-
-  async approveModal(event: Event, expense: any) {
-    if (isPlatformBrowser(this.platformId)) {
-      event.preventDefault();
-      const { Modal } = await import('bootstrap');
-      const modalElement = document.getElementById('showApproveExpense');
-      if (modalElement) {
-        const modal = new Modal(modalElement);
-        modal.show();
-        this.selectedExpense = expense;
-      }
-    }
+  viewModal(event: Event, data: any) {
+    this.expenseDetail.showPopup(() => {
+      return this.expenseService.getExpenseDetails(data.attendeeCode, this.commonService.globalFilters.UserID.toString());
+    });
   }
 }
