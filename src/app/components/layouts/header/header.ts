@@ -46,6 +46,7 @@ export class Header implements OnInit, OnDestroy {
     ).subscribe((event: any) => {
       const url = event.urlAfterRedirects || event.url;
       this.updateHeaderFromUrl(url);
+      this.commonService.resetFilters();
     });
 
     // Set initial header title based on current route
@@ -56,11 +57,36 @@ export class Header implements OnInit, OnDestroy {
       debounceTime(500),
       distinctUntilChanged()
     ).subscribe(searchValue => {
-      this.commonService.updateFilters({ searchText: searchValue, Page: 1 });
+      this.commonService.updateFilters({ 
+        searchText: searchValue, 
+        Page: 1,
+        StartDate: this.commonService.globalFilters.startDate,
+        EndDate: this.commonService.globalFilters.endDate 
+      });
     });
   }
 
   ngOnInit() {
+    // Sync UI with global filters
+    this.commonService.filterChanged$.subscribe(filters => {
+      if (this.searchQuery !== filters.searchText) {
+        this.searchQuery = filters.searchText || '';
+      }
+
+      if (filters.filterType) {
+        this.activeQuickFilter = filters.filterType;
+      }
+
+      // Parse dates if they exist and are strings
+      if (filters.startDate && filters.endDate) {
+        const [d, m, y] = filters.startDate.split('/').map(Number);
+        const [d2, m2, y2] = filters.endDate.split('/').map(Number);
+        this.selectedDateRange = [new Date(y, m - 1, d), new Date(y2, m2 - 1, d2)];
+        this.checkAndSetActiveFilter(this.selectedDateRange);
+      }
+    });
+
+
     // Initialize with today's filter to sync UI and Service
     this.setFilter('today');
   }
