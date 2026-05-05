@@ -50,6 +50,18 @@ export class CommonService {
     this.filterSubject.next(filter);
   }
 
+  resetFilters(type: string = 'today', start: Date = new Date(), end: Date = new Date()): void {
+    this.globalFilters = {
+      ...this.globalFilters,
+      Page: 1,
+      startDate: start.toLocaleDateString("en-GB"),
+      endDate: end.toLocaleDateString("en-GB"),
+      searchText: '',
+      filterType: type
+    };
+    this.filterSubject.next(this.globalFilters);
+  }
+
   toggleSidebar(): void {
     this.isSidebarCollapsed.set(!this.isSidebarCollapsed());
   }

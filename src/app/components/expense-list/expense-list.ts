@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, inject, PLATFORM_ID, HostListener, Inject, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, inject, PLATFORM_ID, HostListener, Inject, ViewChild } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -9,7 +9,6 @@ import { CommonService } from '../../shared/services/common.service';
 import { ExpenseService } from '../../shared/services/expense.service';
 import { ExportService } from '../../shared/services/export.service';
 import { IdentityService } from '../../shared/services/identity.service';
-import { CustomerService } from '../../shared/services/customer.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PopoverModule } from 'ngx-bootstrap/popover';
@@ -17,6 +16,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ExpenseDetail } from './expense-detail/expense-detail';
 import { AddExpense } from './add-expense/add-expense';
 import { SweetAlertService } from '../../shared/services/sweet-alert.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-expense-list',
@@ -34,7 +34,7 @@ import { SweetAlertService } from '../../shared/services/sweet-alert.service';
   templateUrl: './expense-list.html',
   styleUrl: './expense-list.scss',
 })
-export class ExpenseList implements OnInit {
+export class ExpenseList implements OnInit, OnDestroy {
   public expense: string = '';
   public expenses: ExpenseResponse[] = [];
   public selectedExpense: ExpenseDetailResponse | null = null;
@@ -55,6 +55,8 @@ export class ExpenseList implements OnInit {
   @Output() edit = new EventEmitter<ExpenseResponse>();
   public isExportLoading = false;
 
+  private destroy$ = new Subject<void>();
+
 
   constructor(private sweetAlertService: SweetAlertService, private expenseService: ExpenseService,
     private exportService: ExportService,
@@ -74,8 +76,16 @@ export class ExpenseList implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getExpenses();
+    this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.getExpenses();
+    });
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 
   timeoutRef: any;
   onStartTimeChange() {
@@ -97,6 +107,8 @@ export class ExpenseList implements OnInit {
       UserID: this.selectedUser ? this.selectedUser : this.identifyService.getLoggedUserId(),
       Page: page,
       PageSize: this.pageSize,
+      StartDate: this.commonService.globalFilters.startDate,
+      EndDate: this.commonService.globalFilters.endDate,
       ExpenseDate: this.filters['ExpenseDate'] ? this.commonService.formatDate(new Date(this.filters['ExpenseDate'])) : '',
       MeetingDate: this.filters['MeetingDate'] ? this.commonService.formatDate(new Date(this.filters['MeetingDate'])) : '',
     };
