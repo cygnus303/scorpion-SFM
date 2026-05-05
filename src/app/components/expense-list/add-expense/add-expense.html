@@ -1,0 +1,212 @@
+<ng-template #Templatepod>
+    <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold text-dark">
+            <i class="ri-calendar-event-line me-2 text-primary"></i>
+            Edit Expense
+        </h5>
+        <button type="button" class="btn-close shadow-none" (click)="onClose()"></button>
+    </div>
+
+    <form [formGroup]="expenseForm" class="horizontal-form" autocomplete="off" (submit)="onSubmitExpense(expenseForm)">
+        <div class="modal-body">
+            <input type="hidden" id="id-field" />
+            <div class="row g-3">
+                <div class="col-lg-6">
+                    <div>
+                        <label class="control-label">Expense Code:</label>
+                        <input class="form-control" formControlName="expenseCode" type="text" readonly
+                            [ngClass]="{ 'border-danger': expenseForm.controls['expenseCode'].invalid && expenseForm.controls['expenseCode'].touched}" />
+                        <div *ngIf="
+        expenseForm.controls['expenseCode'].invalid &&
+        expenseForm.controls['expenseCode']?.touched
+      " class="text-danger">
+                            <small *ngIf="expenseForm.controls['expenseCode'].errors?.['required']">Customer Name is
+                                required.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div>
+                        <label class="control-label">Customer Name:</label>
+                        <input class="form-control" formControlName="customerName" type="text" readonly
+                            [ngClass]="{ 'border-danger': expenseForm.controls['customerName'].invalid && expenseForm.controls['customerName'].touched}" />
+                        <div *ngIf="
+        expenseForm.controls['customerName'].invalid &&
+        expenseForm.controls['customerName']?.touched
+      " class="text-danger">
+                            <small *ngIf="expenseForm.controls['customerName'].errors?.['required']">Customer Name is
+                                required.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        <label>Meeting Date:</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="dd/mm/yyyy" formControlName="MeetingDate"
+                                bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" readonly
+                                [ngClass]="{ 'border-danger': expenseForm.controls['MeetingDate'].invalid && expenseForm.controls['MeetingDate'].touched}" />
+                            <button class="btn btn-sm btn-outline-secondary ri-calendar-line" type="button"
+                                style="pointer-events: none; opacity: 0.6;"></button>
+                        </div>
+
+
+                        <div *ngIf=" expenseForm.controls['MeetingDate'].invalid && expenseForm.controls['MeetingDate']?.touched"
+                            class="text-danger">
+                            <small *ngIf="expenseForm.controls['MeetingDate'].errors?.['required']">Meeting Date is
+                                required.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div>
+                        <label class="control-label">Transport Mode</label>
+                        <ng-select [items]="transportModes" bindLabel="codeDesc" bindValue="codeId"
+                            formControlName="TransportModeId" [placeholder]="'Search Transport Mode'"
+                            [searchable]="true" [clearable]="true" (change)="OntransportModeChange($event.codeId)"
+                            [ngClass]="{'border-danger': expenseForm.controls['TransportModeId'].invalid && expenseForm.controls['TransportModeId'].touched}">
+                        </ng-select>
+                        <div *ngIf="expenseForm.controls['TransportModeId'].invalid && expenseForm.controls['TransportModeId']?.touched"
+                            class="text-danger">
+                            <small *ngIf="expenseForm.controls['TransportModeId'].errors?.['required']">Transport mode
+                                is
+                                required.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        <label>Expense Date</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="dd/mm/yyyy" formControlName="ExpenseDate"
+                                bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" readonly
+                                [ngClass]="{ 'border-danger': expenseForm.controls['ExpenseDate'].invalid && expenseForm.controls['ExpenseDate'].touched}" />
+                            <button class="btn btn-sm btn-outline-secondary ri-calendar-line" type="button"
+                                style="pointer-events: none; opacity: 0.6;"></button>
+                        </div>
+
+
+
+                        <div *ngIf="
+              expenseForm.controls['ExpenseDate'].invalid &&
+              expenseForm.controls['ExpenseDate']?.touched
+            " class="text-danger">
+                            <small *ngIf="expenseForm.controls['ExpenseDate'].errors?.['required']">Expense date is
+                                required.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        <label class="control-label">Checked Out Location:</label>
+                        <input class="form-control" formControlName="checkedOutLocation" type="text" readonly />
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        <label class="control-label">Checked In Location</label>
+                        <input class="form-control" formControlName="checkedInLocation" type="text" readonly />
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        <label class="control-label"> Distance In Km</label>
+                        <input class="form-control" formControlName="DistanceInKm" type="text" readonly />
+
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        <label class="control-label">Exp. Rate</label>
+                        <input class="form-control" formControlName="expRate" type="text" readonly
+                            [ngClass]="{ 'border-danger': expenseForm.controls['expRate'].invalid && expenseForm.controls['expRate'].touched}" />
+                        <div *ngIf="
+              expenseForm.controls['expRate'].invalid &&
+              expenseForm.controls['expRate']?.touched
+            " class="text-danger">
+                            <small *ngIf="expenseForm.controls['expRate'].errors?.['required']">Exp. Rate is
+                                required.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        <label class="control-label">Amount</label>
+                        <input class="form-control" formControlName="Amount" type="text" readonly />
+
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        <label class="control-label">Supporting Document</label>
+                        <input id="file" type="file" (change)="handleInputChange($event)" accept="image/*"
+                            formControlName="SupportingDocument" [class.disabled]="true" />
+
+                        <!-- <label for="file-input" class="file-curser"> Upload</label>
+        <input
+          type="file"
+          (change)="handleInputChange($event)"
+          id="file-input"
+          accept="image/png, image/gif, image/jpeg, application/pdf"
+          class="opacity-0"
+        /> -->
+                        <!-- <img
+        src="D:/SFM/Cygnux.CRM.Backend/Cygnux.CRM.Api/Uploads/Expense/MT00000013_9.png"
+        class="d-inline-block auth-logo"
+        alt=""
+        height="100"
+      /> -->
+                        <!-- Show Image -->
+                        <img *ngIf="isImage || fileUrl !== ''" [src]="fileUrl" alt="Preview" width="100%"
+                            height="auto" />
+
+                        <!-- Show PDF -->
+                        <object *ngIf="isPdf" [attr.data]="fileUrl" type="application/pdf" width="100%" height="500px">
+                            <p>PDF preview not supported. <a [href]="fileUrl" target="_blank">Download it here</a>.</p>
+                        </object>
+
+                        <div *ngIf=" expenseForm.controls['SupportingDocument'].invalid && expenseForm.controls['SupportingDocument']?.touched"
+                            class="text-danger">
+                            <small
+                                *ngIf="expenseForm.controls['SupportingDocument'].errors?.['required']">SupportingDocument
+                                is required.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div>
+                        <label class="control-label">Remarks</label>
+                        <input class="form-control" formControlName="remarks" type="text"
+                            [ngClass]="{ 'border-danger': expenseForm.controls['remarks'].invalid && expenseForm.controls['remarks'].touched}" />
+                        <div *ngIf="
+              expenseForm.controls['remarks'].invalid &&
+              expenseForm.controls['remarks']?.touched
+            " class="text-danger">
+                            <small *ngIf="expenseForm.controls['remarks'].errors?.['required']">Remarks is
+                                required.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="onClose()">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-success" id="add-btn"
+                    [disabled]="expenseForm.invalid || isSubmitting">
+                    Update Expense
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>

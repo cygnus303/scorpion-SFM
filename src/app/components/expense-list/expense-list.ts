@@ -1,8 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, inject, PLATFORM_ID, HostListener, Inject, ViewChild } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../../environments/environment';
 import {
   ExpenseDetailResponse,
   ExpenseResponse,
@@ -16,8 +14,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import Swal from 'sweetalert2';
 import { ExpenseDetail } from './expense-detail/expense-detail';
+import { AddExpense } from './add-expense/add-expense';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 
 @Component({
   selector: 'app-expense-list',
@@ -29,7 +28,8 @@ import { ExpenseDetail } from './expense-detail/expense-detail';
     PaginationModule,
     PopoverModule,
     BsDatepickerModule,
-    ExpenseDetail
+    ExpenseDetail,
+    AddExpense
   ],
   templateUrl: './expense-list.html',
   styleUrl: './expense-list.scss',
@@ -37,11 +37,10 @@ import { ExpenseDetail } from './expense-detail/expense-detail';
 export class ExpenseList implements OnInit {
   public expense: string = '';
   public expenses: ExpenseResponse[] = [];
-  public userType: string | null = null;
   public selectedExpense: ExpenseDetailResponse | null = null;
   public selectedCall: string | null = null;
   @ViewChild('expenseDetail') expenseDetail!: ExpenseDetail;
-
+  @ViewChild('addExpense') addExpense!: AddExpense;
 
   page = 1;
   pageSize = 10;
@@ -56,13 +55,12 @@ export class ExpenseList implements OnInit {
   @Output() edit = new EventEmitter<ExpenseResponse>();
   public isExportLoading = false;
 
-  private expenseService = inject(ExpenseService);
-  public commonService = inject(CommonService);
-  private toasterService = inject(ToastrService);
-  private exportService = inject(ExportService);
-  public identifyService = inject(IdentityService);
-  public customerService = inject(CustomerService);
-  private platformId = inject(PLATFORM_ID);
+
+  constructor(private sweetAlertService: SweetAlertService, private expenseService: ExpenseService,
+    private exportService: ExportService,
+    public commonService: CommonService,
+    private identifyService: IdentityService,
+  ) { }
 
   toggleActions(expense: ExpenseResponse) {
     const currentState = expense.showActions;
@@ -75,14 +73,8 @@ export class ExpenseList implements OnInit {
     this.expenses.forEach(e => e.showActions = false);
   }
 
-  constructor() {
-  }
-
   ngOnInit(): void {
     this.getExpenses();
-    if (isPlatformBrowser(this.platformId)) {
-      this.userType = localStorage.getItem('UserType');
-    }
   }
 
   timeoutRef: any;
@@ -119,7 +111,7 @@ export class ExpenseList implements OnInit {
         this.commonService.updateLoader(false);
       },
       error: (response: any) => {
-        this.toasterService.error(response);
+        this.sweetAlertService.error(response);
         this.loading = false;
         this.commonService.updateLoader(false);
       },
@@ -147,7 +139,7 @@ export class ExpenseList implements OnInit {
         this.isExportLoading = false;
       },
       error: (response: any) => {
-        this.toasterService.error(response);
+        this.sweetAlertService.error(response);
         this.isExportLoading = false;
       },
     });
@@ -159,15 +151,15 @@ export class ExpenseList implements OnInit {
     this.expenseService.deleteExpense(customerCode).subscribe({
       next: (response) => {
         if (response.success) {
-          this.toasterService.success(response.data.message);
+          this.sweetAlertService.success(response.data.message);
         } else {
-          this.toasterService.error(response.error.message);
+          this.sweetAlertService.error(response.error.message);
         }
         this.loading = false;
         this.commonService.updateLoader(false);
       },
       error: (response: any) => {
-        this.toasterService.error(response);
+        this.sweetAlertService.error(response);
         this.loading = false;
         this.commonService.updateLoader(false);
       },
@@ -186,6 +178,12 @@ export class ExpenseList implements OnInit {
 
   viewModal(event: Event, data: any) {
     this.expenseDetail.showPopup(() => {
+      return this.expenseService.getExpenseDetails(data.attendeeCode, this.commonService.globalFilters.UserID.toString());
+    });
+  }
+
+  editModal(event: Event, data: ExpenseResponse) {
+    this.addExpense.showPopup(() => {
       return this.expenseService.getExpenseDetails(data.attendeeCode, this.commonService.globalFilters.UserID.toString());
     });
   }

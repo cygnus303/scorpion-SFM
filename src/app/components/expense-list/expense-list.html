@@ -84,9 +84,9 @@
               <td><strong>₹{{ expense.amount || '0' }}</strong></td>
               <td>
                 <span class="pill" [ngClass]="{
-                  'pg': expense.exp_Status === 5 || expense.status?.includes('APPROVED'),
-                  'pa': expense.exp_Status === 2 || expense.status?.includes('PENDING'),
-                  'pr': expense.exp_Status === 6 || expense.status?.includes('REJECTED'),
+                  'pg': expense.exp_Status === 5 || expense.status.includes('APPROVED'),
+                  'pa': expense.exp_Status === 2 || expense.status.includes('PENDING'),
+                  'pr': expense.exp_Status === 6 || expense.status.includes('REJECTED'),
                   'pgy': expense.exp_Status === 1
                 }">{{ expense.status || '--' }}</span>
               </td>
@@ -103,7 +103,8 @@
                       <button *ngIf="expense.isEdit === 'Y'"
                         class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:28px; height:28px; background:var(--amber); color:white;"
-                        (click)="expense.showActions=false" [popover]="'Edit'" placement="top" triggers="hover">
+                        (click)="editModal($event,expense);expense.showActions=false" [popover]="'Edit'" placement="top"
+                        triggers="hover">
                         <i class="ri-pencil-fill" style="font-size:12px;"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
@@ -126,7 +127,7 @@
             </tr>
             <tr *ngIf="!loading && expenses.length === 0">
               <td colspan="12" style="text-align:center; padding:40px;">
-                <img src="assets/images/noData.png" height="80">
+                <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
                 <div style="font-size:12px; color:#999; margin-top:12px;">Sorry! No Data Found</div>
               </td>
             </tr>
@@ -134,8 +135,8 @@
         </table>
       </div>
       <!-- Pagination -->
-      <div
-        style="padding:16px; border-top:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+      <div *ngIf="totalItems > commonService.globalFilters.PageSize" style=" padding:16px; border-top:1px solid #eee; display:flex; justify-content:space-between;
+        align-items:center;">
         <div style="font-size:11px; color:#666;">Total: <strong>{{totalItems}}</strong></div>
         <pagination [totalItems]="totalItems" [(ngModel)]="page" [itemsPerPage]="pageSize" [maxSize]="3"
           (pageChanged)="onPageChange($event)" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;">
@@ -152,3 +153,4 @@
   </div>
 </ng-template>
 <app-expense-detail #expenseDetail></app-expense-detail>
+<app-add-expense #addExpense></app-add-expense>

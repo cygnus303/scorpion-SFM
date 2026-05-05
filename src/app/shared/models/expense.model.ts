@@ -72,4 +72,20 @@ export interface ExpenseDetailResponse extends ExpenseResponse {
   utrDate?: string;
 }
 
+export interface AddExpenseRequest {
+  meetingId: string;
+  transportModeId: number;
+  expenseDate: Date;
+  punchInLocation: string;
+  checkedInLocation: string;
+  distanceInKm: number;
+  supportingDocument: string;
+  createdBy: string;
+  UserId: string;
+  modifiedBy: string;
+  amount: number;
+  file: string;
+  remarks: string;
+}
+
 
