@@ -1380,3 +1380,15 @@ textarea {
 .btn-group.dropstart:hover .dropdown-menu {
   display: block !important;
 }
+
+// clear-icon////////////////////////////////////
+.clear-icon.ng-select {
+  .ng-clear-wrapper {
+    display: none !important;
+  }
+}
+
+.disabled-image {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

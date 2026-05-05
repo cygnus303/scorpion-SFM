@@ -1,9 +1,123 @@
-import { Component } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { ComplaintResponse } from '../../shared/models/complaint.model';
+import { CommonService } from '../../shared/services/common.service';
+import { ExportService } from '../../shared/services/export.service';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ComplaintService } from '../../shared/services/complaint.service';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ComplaintDetail } from './complaint-detail/complaint-detail';
+import { AddTicket } from './add-ticket/add-ticket';
 
 @Component({
   selector: 'app-complaint-list',
-  imports: [],
+  imports: [CommonModule, FormsModule, PopoverModule, PaginationModule, NgSelectModule, ComplaintDetail,AddTicket],
   templateUrl: './complaint-list.html',
   styleUrl: './complaint-list.scss',
 })
-export class ComplaintList {}
+export class ComplaintList {
+  public complaints: ComplaintResponse[] = [];
+  public totalItems: number = 0;
+  public isExportLoading: boolean = false;
+  public isLoading: boolean = false;
+
+  public statusList: any[] = [
+    { id: '', name: 'All' },
+    { id: 'New', name: 'New' },
+    { id: 'Closed', name: 'Closed' },
+    { id: 'Escalated', name: 'Escalated' },
+    { id: 'Updated', name: 'Updated' }
+  ];
+  public selectedStatus: string = '';
+  @ViewChild('ComplaintDetail') ComplaintDetail!: ComplaintDetail;
+  @ViewChild('AddTicket') AddTicket!: AddTicket;
+
+  private sweetAlertService = inject(SweetAlertService);
+  public complaintService = inject(ComplaintService);
+  public commonService = inject(CommonService); // Public to access globalFilters in HTML
+  private exportService = inject(ExportService);
+  private destroy$ = new Subject<void>();
+
+  constructor() { }
+
+  ngOnInit(): void {
+    this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.getComplaintList();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+
+  getComplaintList(page: number = this.commonService.globalFilters.Page) {
+    this.commonService.globalFilters.Page = page;
+    const data = {
+      Page: this.commonService.globalFilters.Page.toString(),
+      PageSize: this.commonService.globalFilters.PageSize.toString(),
+      SearchFilter: this.commonService.globalFilters.searchText,
+      startDate: this.commonService.globalFilters.startDate,
+      endDate: this.commonService.globalFilters.endDate,
+      userId: this.commonService.globalFilters.UserID.toString(),
+      export: false,
+      compaintStatus: this.selectedStatus
+    }
+    this.isLoading = true;
+    this.complaintService.getComplaintList(data).subscribe({
+      next: (response: any) => {
+        if (response) {
+          this.complaints = response.data;
+          this.totalItems = Number(response.totalCount) || 0;
+        }
+        this.isLoading = false;
+      },
+      error: (response: any) => {
+        this.sweetAlertService.error(response?.error?.Error?.Message);
+        this.isLoading = false;
+      },
+    });
+  }
+
+  openAddTicketModal(type: string, id?: string) {
+    if (id) {
+      // For Edit/Close/Escalation - set complaint type and fetch data
+      this.AddTicket.complaint = type; // Default to Update, can be changed based on button context
+      this.AddTicket.showPopupAddTicket(() => {
+        return this.complaintService.getComplaintDetails(id, this.commonService.globalFilters.UserID.toString());
+      });
+    } else {
+      // For New Ticket - set as Add mode with no API call
+      this.AddTicket.complaint = type;
+      this.AddTicket.showPopupAddTicket();
+    }
+  }
+
+  viewModal(id: any) {
+     this.ComplaintDetail.showPopupWithLoading(() => {
+      return this.complaintService.getComplaintDetails(id, this.commonService.globalFilters.UserID.toString());
+    });
+  }
+
+  exportComplaints() {
+    const startDate = this.commonService.globalFilters.startDate;
+    const endDate = this.commonService.globalFilters.endDate;
+    const filters: any = {
+      compaintStatus: this.selectedStatus
+    };
+    this.isExportLoading = true;
+    this.complaintService.getComplaintListexport(this.commonService.globalFilters.UserID.toString(), startDate, endDate, filters).subscribe({
+      next: (response) => {
+        if (response) {
+          this.exportService.exportToExcel(response.data);
+        }
+        this.isExportLoading = false;
+      }
+    });
+  }
+}

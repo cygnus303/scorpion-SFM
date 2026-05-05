@@ -1,53 +1,175 @@
 <!-- ══ COMPLAINT CCM ══ -->
 <div class="page active">
   <div class="kpi-row">
-    <div class="kpi" style="--kc:var(--red)"><div class="kpi-label">Open Tickets</div><div class="kpi-val">23</div><div class="kpi-sub dn">7 breaching SLA</div></div>
-    <div class="kpi" style="--kc:var(--green)"><div class="kpi-label">Resolved Today</div><div class="kpi-val">12</div><div class="kpi-sub up">Avg 1.8 hrs</div></div>
-    <div class="kpi" style="--kc:var(--amber)"><div class="kpi-label">SLA Compliance</div><div class="kpi-val">87%</div><div class="kpi-sub wn">Target: 95%</div></div>
-    <div class="kpi" style="--kc:var(--red)"><div class="kpi-label">DEPS Complaints</div><div class="kpi-val">4</div><div class="kpi-sub dn">Damage / Error</div></div>
-    <div class="kpi" style="--kc:var(--green)"><div class="kpi-label">First Call Resolution</div><div class="kpi-val">74%</div><div class="kpi-sub up">Target: 80%</div></div>
+    <div class="kpi" style="--kc:var(--red)">
+      <div class="kpi-label">Open Tickets</div>
+      <div class="kpi-val">23</div>
+      <div class="kpi-sub dn">7 breaching SLA</div>
+    </div>
+    <div class="kpi" style="--kc:var(--green)">
+      <div class="kpi-label">Resolved Today</div>
+      <div class="kpi-val">12</div>
+      <div class="kpi-sub up">Avg 1.8 hrs</div>
+    </div>
+    <div class="kpi" style="--kc:var(--amber)">
+      <div class="kpi-label">SLA Compliance</div>
+      <div class="kpi-val">87%</div>
+      <div class="kpi-sub wn">Target: 95%</div>
+    </div>
+    <div class="kpi" style="--kc:var(--red)">
+      <div class="kpi-label">DEPS Complaints</div>
+      <div class="kpi-val">4</div>
+      <div class="kpi-sub dn">Damage / Error</div>
+    </div>
+    <div class="kpi" style="--kc:var(--green)">
+      <div class="kpi-label">First Call Resolution</div>
+      <div class="kpi-val">74%</div>
+      <div class="kpi-sub up">Target: 80%</div>
+    </div>
   </div>
-  <div class="g2">
+  <div>
     <div class="card">
-      <div class="card-head"><div class="ci p">🎫</div><div class="card-title">Complaint Ticket List</div><button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px">＋ New Ticket</button></div>
-      <div style="display:flex;gap:8px;margin-bottom:12px">
-        <input placeholder="Search tickets..." style="flex:1">
-        <select><option>All Status</option><option>Open</option><option>In Progress</option><option>Resolved</option><option>SLA Breach</option></select>
-        <select><option>All Categories</option><option>Wrong Delivery</option><option>Damage/DEPS</option><option>Delay</option><option>Other</option></select>
+      <div class="card-head">
+        <div class="ci p">🎫</div>
+        <div class="card-title">Complaint Ticket List</div>
+        <div style="margin-left:auto; display:flex; gap:8px;">
+          <ng-select [placeholder]="'Search Status'" [items]="statusList" bindLabel="name" bindValue="id"
+            [(ngModel)]="selectedStatus" (change)="getComplaintList()" [clearable]="true" [searchable]="true"
+            class="form-control border-start-1 line-height p-0 border-remover clear-icon" style="width: 250px;">
+          </ng-select>
+          <!-- <ng-select [placeholder]="'Search Category'" [clearable]="true" [searchable]="true"
+            class="form-control border-start-1 line-height p-0 border-remover" style="width: 250px;">
+          </ng-select> -->
+          <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
+            (click)="exportComplaints()">
+            <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
+            <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
+          </button>
+          <button class="tbtn" style="padding:5px 12px;font-size:11px" (click)="openAddTicketModal('Add')">＋ New Ticket</button>
+        </div>
       </div>
       <table class="mt">
-        <thead><tr><th>Ticket #</th><th>Customer</th><th>Category</th><th>Raised</th><th>Agent</th><th>SLA</th><th>Status</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Ticket #</th>
+            <th>Docket No</th>
+            <th>Customer</th>
+            <th>Category</th>
+            <th>Raised</th>
+            <th>Agent</th>
+            <th>SLA</th>
+            <th>Delivery Status</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr style="background:#FFF8F8"><td><strong>CCM-0291</strong></td><td>GlobalPack Ltd</td><td><span class="pill pr">DEPS Damage</span></td><td>2h ago</td><td>Riya CS</td><td><span class="pill pr">BREACHED ⚠</span></td><td><span class="pill pr">Escalated</span></td></tr>
-          <tr><td><strong>CCM-0290</strong></td><td>BlueDart Corp</td><td><span class="pill pa">Wrong Delivery</span></td><td>4h ago</td><td>Suresh CS</td><td><span class="pill pa">At Risk</span></td><td><span class="pill pa">In Progress</span></td></tr>
-          <tr><td><strong>CCM-0289</strong></td><td>Sunrise Traders</td><td><span class="pill pa">Delay</span></td><td>Today 9AM</td><td>Riya CS</td><td><span class="pill pg">Within SLA</span></td><td><span class="pill pb">In Progress</span></td></tr>
-          <tr><td><strong>CCM-0288</strong></td><td>Nexus Logistics</td><td><span class="pill pgy">Rate Query</span></td><td>Yesterday</td><td>Preethi CS</td><td><span class="pill pg">Within SLA</span></td><td><span class="pill pg">Resolved ✓</span></td></tr>
-          <tr><td><strong>CCM-0287</strong></td><td>Reliance Freight</td><td><span class="pill pgy">POD Request</span></td><td>Yesterday</td><td>Suresh CS</td><td><span class="pill pg">Within SLA</span></td><td><span class="pill pg">Resolved ✓</span></td></tr>
+          <tr *ngIf="isLoading">
+            <td colspan="9" class="py-5 text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="mt-2 text-muted small">Loading complaints...</div>
+            </td>
+          </tr>
+
+          <ng-container *ngIf="!isLoading">
+            <tr *ngFor="let complaint of complaints">
+              <td><strong>{{ complaint.complaintID }}</strong></td>
+              <td><strong>{{ complaint.documentNo ? complaint.documentNo : '-' }}</strong></td>
+              <td>{{ complaint.customerName }}</td>
+              <td><span class="pill pgy">{{ complaint.ticketType }}</span></td>
+              <td>{{ complaint.ticketDate }}</td>
+              <td>{{ complaint.assignedTo }}</td>
+              <td>
+                <span class="pill" [ngClass]="complaint.slaInHr === '-' ? 'pgy' : 'pa'">
+                  {{ complaint.slaInHr }}
+                </span>
+              </td>
+              <td>
+                <span class="pill" [ngClass]="{
+                  'pg': complaint.compaintStatus === 'Resolved' || complaint.compaintStatus === 'Closed',
+                  'pb': complaint.compaintStatus === 'In Progress' || complaint.compaintStatus === 'Updated',
+                  'pr': complaint.compaintStatus === 'Escalated' || complaint.compaintStatus === 'Open'
+                }">
+                  {{ complaint.compaintStatus }}
+                </span>
+              </td>
+              <td>{{ complaint.deliveryStatus ? complaint.deliveryStatus : '-' }}</td>
+              <td>
+                <div class="btn-group dropstart">
+                  <button type="button"
+                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                    data-bs-toggle="dropdown" aria-expanded="false" style="width:32px; height:32px; padding:0;">
+                    <i class="ri-more-2-fill" style="font-size: 18px;"></i>
+                  </button>
+                  <ul class="dropdown-menu shadow-lg border-0 py-1" style="min-width: fit-content;">
+                    <li class="d-flex px-2 gap-2">
+                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:30px; height:30px; background:#4b5b8d; color:white;" [popover]="'Edit'"
+                        placement="auto" triggers="hover" [outsideClick]="true" container="body"
+                        [ngClass]="{'disabled-image': complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'}"
+                        [disabled]="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'"
+                        (click)="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes' ? null : openAddTicketModal('Update',complaint.complaintID)">
+                        <i class="ri-pencil-fill"></i>
+                      </button>
+
+                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
+                        [popover]="'View'" placement="auto" triggers="hover" [outsideClick]="true" container="body"
+                        (click)="viewModal(complaint.complaintID)">
+                        <i class="ri-eye-fill"></i>
+                      </button>
+
+                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:30px; height:30px; background:transparent; border:none; padding:0"
+                        [popover]="'Closed'" placement="auto" triggers="hover" [outsideClick]="true" container="body"
+                        [ngClass]="{'disabled-image': complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'}"
+                        [disabled]="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'"
+                        (click)="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes' ? null : openAddTicketModal('Close', complaint.complaintID)">
+                        <img src="./assets/images/closed-icon.png"
+                          style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />
+                      </button>
+
+                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                        style="width:30px; height:30px; background:transparent; border:none; padding:0"
+                        [popover]="'Escalation'" placement="auto" triggers="hover" [outsideClick]="true"
+                        container="body"
+                        [ngClass]="{'disabled-image': complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'}"
+                        [disabled]="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'"
+                        (click)="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes' ? null : openAddTicketModal('Escalation',complaint.complaintID)">
+                        <img src="./assets/images/escalation-icon.jpg"
+                          style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="!complaints || complaints.length === 0">
+              <td colspan="9" class="text-center py-4 text-muted small">No records found.</td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="card">
-        <div class="card-head"><div class="ci">📊</div><div class="card-title">Complaint Categories</div></div>
-        <div class="hbar">
-          <div class="hbr"><div class="hbl">Delay</div><div class="hbt"><div class="hbf" style="width:70%;background:var(--amber)"></div></div><div class="hbv">11</div></div>
-          <div class="hbr"><div class="hbl">Wrong Delivery</div><div class="hbt"><div class="hbf" style="width:51%;background:var(--red)"></div></div><div class="hbv">8</div></div>
-          <div class="hbr"><div class="hbl">DEPS Damage</div><div class="hbt"><div class="hbf" style="width:26%;background:var(--red)"></div></div><div class="hbv">4</div></div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="totalItems > 0">
+        <div class="small text-muted">
+          Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
+          commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
+          totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+          of {{ totalItems }} entries
         </div>
-      </div>
-      <div class="card">
-        <div class="card-head"><div class="ci">＋</div><div class="card-title">Raise New Ticket</div></div>
-        <div class="form-row">
-          <div class="fg"><label>Customer</label><select><option>Select customer</option><option>Reliance Freight</option><option>BlueDart Corp</option><option>Sunrise Traders</option></select></div>
-          <div class="fg"><label>Category</label><select><option>Wrong Delivery</option><option>Damage / DEPS</option><option>Delay</option><option>Rate Query</option><option>Other</option></select></div>
-        </div>
-        <div class="form-row">
-          <div class="fg"><label>AWB / Shipment No.</label><input placeholder="Enter AWB number"></div>
-          <div class="fg"><label>Priority</label><select><option>Normal</option><option>High</option><option>Critical</option></select></div>
-        </div>
-        <div class="form-row one"><div class="fg"><label>Description</label><textarea placeholder="Describe the complaint in detail..."></textarea></div></div>
-        <button class="btn btn-red">Raise Ticket</button>
+        <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
+          [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="getComplaintList($event.page)"
+          [maxSize]="5" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+          lastText="&raquo;">
+        </pagination>
       </div>
     </div>
   </div>
 </div>
+
+<app-complaint-detail #ComplaintDetail></app-complaint-detail>
+<app-add-ticket #AddTicket (dataEmitter)="getComplaintList()"></app-add-ticket>

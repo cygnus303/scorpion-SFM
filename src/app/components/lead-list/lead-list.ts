@@ -31,6 +31,8 @@ export class LeadList implements OnInit, OnDestroy {
   public leads: LeadResponse[] = [];
   public totalItems: number = 0;
   public isExportLoading: boolean = false;
+  public isLoading: boolean = false;
+  public selectedUser: any = null;
 
   private leadService = inject(LeadService);
   public commonService = inject(CommonService); // Public to access globalFilters in HTML
@@ -54,9 +56,6 @@ export class LeadList implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
-  public isLoading: boolean = false;
-  public selectedUser: any = null;
 
   getLeads(page: number = this.commonService.globalFilters.Page) {
     this.commonService.globalFilters.Page = page;
