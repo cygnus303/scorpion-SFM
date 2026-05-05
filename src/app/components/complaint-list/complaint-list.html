@@ -147,7 +147,10 @@
               </td>
             </tr>
             <tr *ngIf="!complaints || complaints.length === 0">
-              <td colspan="9" class="text-center py-4 text-muted small">No records found.</td>
+              <td colspan="9" style="text-align:center; padding:40px;">
+                <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
+                <div style="font-size:12px; color:#999; margin-top:12px;">Sorry! No Data Found</div>
+              </td>
             </tr>
           </ng-container>
         </tbody>

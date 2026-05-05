@@ -31,7 +31,7 @@
         <div class="card-title">Expense Claims</div>
         <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
           <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
-            (click)="exportExpenses($event)">
+            (click)="exportExpenses()">
             <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
             <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
           </button>
@@ -105,13 +105,13 @@
                       <button *ngIf="expense.isEdit === 'Y'"
                         class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                           style="width:30px; height:30px; background:#4b5b8d; color:white;"
-                        (click)="editModal($event,expense);expense.showActions=false" [popover]="'Edit'" placement="top"
+                        (click)="editModal(expense);expense.showActions=false" [popover]="'Edit'" placement="top"
                         triggers="hover">
                         <i class="ri-pencil-fill"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                          style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
-                        (click)="viewModal($event,expense); expense.showActions = false" [popover]="'View'"
+                        (click)="viewModal(expense); expense.showActions = false" [popover]="'View'"
                         placement="top" triggers="hover">
                         <i class="ri-eye-fill"></i>
                       </button>
@@ -137,11 +137,17 @@
         </table>
       </div>
       <!-- Pagination -->
-      <div *ngIf="totalItems > commonService.globalFilters.PageSize" style=" padding:16px; border-top:1px solid #eee; display:flex; justify-content:space-between;
-        align-items:center;">
-        <div style="font-size:11px; color:#666;">Total: <strong>{{totalItems}}</strong></div>
-        <pagination [totalItems]="totalItems" [(ngModel)]="page" [itemsPerPage]="pageSize" [maxSize]="3"
-          (pageChanged)="onPageChange($event)" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;">
+      <div class="d-flex justify-content-between align-items-center mt-3"
+        *ngIf="totalItems > commonService.globalFilters.PageSize">
+        <div class="small text-muted">
+          Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
+          commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
+          totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+          of {{ totalItems }} entries
+        </div>
+        <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
+          [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="onPageChange($event)" [maxSize]="5"
+          [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
         </pagination>
       </div>
     </div>
