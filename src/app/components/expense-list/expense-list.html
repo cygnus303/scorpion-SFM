@@ -59,8 +59,10 @@
           <tbody>
             <tr *ngIf="loading && expenses.length === 0">
               <td colspan="12" style="text-align:center; padding:40px;">
-                <div class="spinner-border spinner-border-sm text-primary"></div>
-                <div style="font-size:11px; color:#999; margin-top:8px;">Fetching data...</div>
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="mt-2 text-muted small">Fetching data...</div>
               </td>
             </tr>
             <tr *ngFor="let expense of expenses; let i = index">
@@ -91,27 +93,27 @@
                 }">{{ expense.status || '--' }}</span>
               </td>
               <td>
-                <div class="btn-group dropstart" (click)="$event.stopPropagation()">
+                <div class="btn-group dropstart">
                   <button type="button"
-                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
-                    (click)="toggleActions(expense)" style="width:28px; height:28px; padding:0;">
-                    <i class="ri-more-2-fill"></i>
+                      class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                      data-bs-toggle="dropdown" aria-expanded="false" style="width:32px; height:32px; padding:0;">
+                     <i class="ri-more-2-fill" style="font-size: 18px;"></i>
                   </button>
                   <ul class="dropdown-menu shadow-lg border-0 py-1" [class.show]="expense.showActions"
                     style="min-width: fit-content; position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(-32px, 0px, 0px);">
                     <li class="d-flex px-2 gap-2">
                       <button *ngIf="expense.isEdit === 'Y'"
                         class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:28px; height:28px; background:var(--amber); color:white;"
+                          style="width:30px; height:30px; background:#4b5b8d; color:white;"
                         (click)="editModal($event,expense);expense.showActions=false" [popover]="'Edit'" placement="top"
                         triggers="hover">
-                        <i class="ri-pencil-fill" style="font-size:12px;"></i>
+                        <i class="ri-pencil-fill"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:28px; height:28px; background:var(--dark); color:white;"
+                         style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
                         (click)="viewModal($event,expense); expense.showActions = false" [popover]="'View'"
                         placement="top" triggers="hover">
-                        <i class="ri-eye-fill" style="font-size:12px;"></i>
+                        <i class="ri-eye-fill"></i>
                       </button>
                       <!-- <button *ngIf="userType?.toLowerCase() === 'manager'"
                         class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
