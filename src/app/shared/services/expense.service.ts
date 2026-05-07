@@ -2,39 +2,72 @@ import { Inject, Injectable } from '@angular/core';
 import { ApiHandlerService } from './api-handler.service';
 import { Observable } from 'rxjs';
 import { IApiBaseResponse } from '../interfaces/api-base-action-response';
-import { ExpenseResponse, ExpenseDetailResponse } from '../models/expense.model';
+import { ExpenseResponse, ExpenseDetailResponse, AddExpenseRequest, AddExpenseApprovalRequest, ApprovalRequest } from '../models/expense.model';
 import { CommonResponse } from '../models/common.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpenseService {
-
-  constructor(
+ constructor(
     @Inject(ApiHandlerService) private apiHandlerService: ApiHandlerService
-  ) { }
+  ) {}
 
-  getExpenseList(filters: any): Observable<IApiBaseResponse<ExpenseResponse[]>> {
+  getExpenseList(
+    filters: any
+  ): Observable<IApiBaseResponse<ExpenseResponse[]>> {
     return this.apiHandlerService.Get('expense', filters);
   }
 
-  getExpenseDetails(id: string, userId: string): Observable<IApiBaseResponse<ExpenseDetailResponse>> {
+  getExpenseApprovalList(
+    filters: any
+  ): Observable<IApiBaseResponse<ExpenseResponse[]>> {
+    return this.apiHandlerService.Get('Expense/ApprovalList', filters);
+  }
+  
+  exportExpense(filters: any): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get(`expense/ExportExpenseApproval`,filters);
+  }
+
+  getExpenseDetails(id: any,userId:any): Observable<IApiBaseResponse<ExpenseDetailResponse>> {
     return this.apiHandlerService.Get(`expense/${id}?userId=${userId}`);
   }
 
-  deleteExpense(id: string): Observable<IApiBaseResponse<any>> {
-    return this.apiHandlerService.Post(`Expense/delete?id=${id}`, {});
+  addExpense(
+    addExpenseRequest: AddExpenseRequest
+  ): Observable<IApiBaseResponse<CommonResponse>> {
+    return this.apiHandlerService.Post('expense', addExpenseRequest);
   }
 
-  exportexport(userId: string, fromDate: string, toDate: string, filters: any): Observable<IApiBaseResponse<any>> {
-    return this.apiHandlerService.Get(`Expense/ExportExpense?userid=${userId}&startdate=${fromDate}&enddate=${toDate}`, filters);
+  addExpenseApproval(
+    addExpenseApprovalRequest: AddExpenseApprovalRequest
+  ): Observable<IApiBaseResponse<CommonResponse>> {
+    return this.apiHandlerService.Post(
+      'expense/approval',
+      addExpenseApprovalRequest
+    );
   }
 
   updateExpense(
     id: string,
-    addExpenseRequest: any
+    addExpenseRequest: AddExpenseRequest
   ): Observable<IApiBaseResponse<CommonResponse>> {
     return this.apiHandlerService.Post('expense/' + id, addExpenseRequest);
   }
 
+  exportexport(userId:any,startDate:any,endDate:any,filters:any): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get(`Expense/ExportExpense?userid=${userId}&startdate=${startDate}&enddate=${endDate}`,filters);
+  }
+
+  deleteExpense(id: string): Observable<IApiBaseResponse<CommonResponse>> {
+    return this.apiHandlerService.Patch('expense/' + id, null);
+  }
+
+  expenseApproval(approvalRequest: ApprovalRequest): Observable<IApiBaseResponse<CommonResponse>> {
+    return this.apiHandlerService.Post('Expense/approval', approvalRequest);
+  }
+  
+  multipleExpenseApproval(approvalRequest:any): Observable<IApiBaseResponse<CommonResponse>> {
+    return this.apiHandlerService.Post('Expense/MultipleExpenseAproveList', approvalRequest);
+  }
 }

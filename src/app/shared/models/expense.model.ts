@@ -1,75 +1,78 @@
 export interface ExpenseResponse {
   expenseId: string;
-  expenseCreated: boolean;
   expenseCode: string;
   expenseDate: string;
-  expenseRate: number;
   amount: number;
   status: string;
-  totalCount: number;
-  meetingId: string;
   createdBy: string;
-  attendeeIDs: string;
-  attendeeName: string;
-  leadId: string;
-  companyName: string;
-  meetingLat: number;
-  meetingLng: number;
-  checkIn: string;
-  checkOut: string;
-  distanceTravelled: number;
-  requestID: string;
-  requestDate: string;
-  meetingDate: string;
-  isApproved: boolean;
-  approvedBy: string;
-  approvedDate: string;
-  isAuditApproved: boolean;
-  auditedBy: string;
-  auditDate: string;
-  auditRemarks: string;
-  expenseAddedDate: string;
-  expenseAddedTime: string;
-  expenseModifiedDate: string;
-  expenseModifiedTime: string;
-  adminApproved: boolean;
-  managerApproved: boolean;
-  isEdit: string;
-  managerRemark: string;
-  auditRemark: string;
-  expenseAddedBy: string;
-  expenseEditedBy: string;
-  expensEditDate: string;
-  approveByManagerName: string;
-  approvedManagerDate: string;
-  approvedByAuditorName: string;
-  approvedByAuditDate: string;
+  
+  checkIn:string;
+  checkOut:string;
+  distanceTravelled:string;
+  requestDate:string;
+  companyName:string;
+  expenseRate:number;
+  expenseCreated:boolean;
+  contactName:string;
+  adminApproved:boolean;
+  managerApproved:boolean;
+  isEdit:string;
+  isManagerApproved:boolean;
+  isAuditApproved:boolean;
+  isManager_AuditApproved:boolean;
+  reqId:string;
+  meetingDate:string;
+  meetingId:string;
+  attendeeName:string;
+  attendeeIDs:string;
+  userName:string;
+  isSelected:boolean;
+  attendeeCode:string;
+  meetingMOM:string;
   exp_Status: number;
-  attendeeCode: string;
-  requestIdDate: string;
-  rtgsNo: string;
-  utrNo: string;
   showActions?: boolean;
+  requestID?: string;
+  requestIdDate?: string;
 }
 
 export interface ExpenseDetailResponse extends ExpenseResponse {
-  punchedInLocation?: string;
-  checkedInLocation?: string;
-  checkedOutLocation?: string;
-  distanceInKm?: number;
-  supportingDocument?: string;
-  remarks?: string;
-  customerName?: string;
-  transportMode?: string;
-  designation?: string;
-  ratePerKM?: number;
-  createdDate?: string;
-
-  modifiedBy?: string;
-  modifiedDate?: string;
-  transportModeId?: string;
-  meetingMOM?: string;
-  utrDate?: string;
+  punchedInLocation: string;
+  checkedInLocation: string;
+  checkedOutLocation:string;
+  distanceInKm: number;
+  meetingLat:string;
+  meetingId:string;
+  supportingDocument: string;
+  remarks: string;
+  customerName: string;
+  transportMode: string;
+  createdBy: string;
+  createdDate: string;
+  modifiedBy: string;
+  modifiedDate: string;
+  expenseCreated:boolean;
+  transportModeId:string;
+  requestID:string;
+  auditRemarks:string;
+  expenseRate:number;
+  auditedBy:string;
+  auditDate:string;
+  approvedDate:string;
+  approvedBy:string;
+  expenseAddedDate:string;
+  expenseAddedTime:string;
+  expenseModifiedDate:string;
+  expenseModifiedBy:string;
+  auditRemark:string;
+  expenseAddedBy:string;
+  managerRemark:string;
+  approveByManagerName:string;
+  approvedManagerDate:string;
+  approvedByAuditorName:string;
+  approvedByAuditDate:string;
+  expensEditDate:string;
+  expenseEditedBy:string;
+  attendeeCode:any;
 }
 
 export interface AddExpenseRequest {
@@ -79,13 +82,24 @@ export interface AddExpenseRequest {
   punchInLocation: string;
   checkedInLocation: string;
   distanceInKm: number;
-  supportingDocument: string;
-  createdBy: string;
-  UserId: string;
-  modifiedBy: string;
+  supportingDocument:string;
+  createdBy:string;
+  UserId:string;
+  modifiedBy:string;
   amount: number;
-  file: string;
+  file:string;
   remarks: string;
 }
 
+export interface AddExpenseApprovalRequest {
+  expenseId: string;
+  approvalStatus: number;
+}
 
+export interface ApprovalRequest {
+    expenseId: string;
+    meetingId: string;
+    isApproved: boolean;
+    approvedBy: string;
+    reasonRemark: string;
+}
