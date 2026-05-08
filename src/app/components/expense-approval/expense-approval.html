@@ -26,81 +26,176 @@
     <div class="card-head">
       <div class="ci a">✔</div>
       <div class="card-title">Approval Queue</div>
+      <div style="margin-left:auto; display:flex; gap:8px;">
+        <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
+          (click)="exportExpenses()">
+          <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
+          <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
+        </button>
+        <button class="btn btn-square btn-success rounded-3" [disabled]="isApprovalExportLoading"
+          (click)="downLoadAuditorExpense()">
+          <span *ngIf="isApprovalExportLoading" class="spinner-border spinner-border-sm me-1"></span>
+          <i *ngIf="!isApprovalExportLoading" class="ri-download-fill me-1"></i>
+          Expense Approval
+        </button>
+        <div *ngIf="selectedAny" style="display:flex; gap:8px;">
+          <button class="btn btn-success" (click)="openReasonSwal('Approve')">Approve</button>
+          <button class="btn btn-danger" (click)="openReasonSwal('Reject')">Reject</button>
+        </div>
+      </div>
     </div>
-   <table class="mt">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Expense Code</th>
-            <th>Expense Date</th>
-            <th>Meeting ID</th>
-            <th>Customer</th>
-            <th>User</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th width="170">Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <!-- Loader -->
-          <tr *ngIf="loading">
-            <td colspan="9" class="text-center py-4">
-              Loading...
-            </td>
-          </tr>
-
-          <!-- No Data -->
-          <tr *ngIf="!loading && expenses.length === 0">
-            <td colspan="9" class="text-center py-4">
-              No expense found
-            </td>
-          </tr>
-
-          <!-- Data -->
-          <tr *ngFor="let item of expenses; let i = index">
-
-            <td>{{ i + 1 }}</td>
-
-            <td>
-              <strong>{{ item.expenseCode }}</strong>
-            </td>
-
-            <td>{{ item.expenseDate }}</td>
-
-            <td>{{ item.meetingId }}</td>
-
-            <td>{{ item.contactName }}</td>
-
-            <td>{{ item.userName }}</td>
-
-            <td style="font-weight:600">
-              ₹{{ item.amount | number }}
-            </td>
-
-            <td>
-              <span class="pill pa">
-                {{ item.status }}
-              </span>
-            </td>
-
-            <td>
-              <div style="display:flex;gap:6px">
-
-                <button class="btn btn-green" style="font-size:10px;padding:3px 8px">Approve
-                </button>
-
-                <button class="btn btn-outline" style="font-size:10px;padding:3px 8px">
-                  Reject
-                </button>
-
-              </div>
-            </td>
-
-          </tr>
-
-        </tbody>
-      </table>
+  <table class="mt">
+    <thead>
+      <tr>
+        <th><input type="checkbox" class="pure-checkbox cursor-pointer" [(ngModel)]="selectAll" (change)="toggleSelectAll()"   ></th>
+        <th>Expense Code</th>
+        <th>Expense Date</th>
+        <th>Meeting ID</th>
+        <th>Customer</th>
+        <th>User</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Receipt</th>
+        <th width="170">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Loader -->
+      <tr *ngIf="loading">
+        <td colspan="11" class="py-5 text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <div class="mt-2 text-muted small">Fetching data...</div>
+        </td>
+      </tr>
+      <!-- No Data -->
+        <tr *ngIf="!loading && expenses.length === 0">
+          <td colspan="11" style="text-align:center; padding:40px;">
+            <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
+            <div style="font-size:12px; color:#999; margin-top:12px;">Sorry! No Data Found</div>
+          </td>
+        </tr>
+      <!-- Data -->
+      <tr *ngFor="let item of expenses; let i = index">
+        <td>
+          <input type="checkbox" class="pure-checkbox cursor-pointer" [(ngModel)]="item.isSelected" (change)="onRowSelect(item)"
+            [class.disabled-image]="item.isManager_AuditApproved || item.createdBy === this.commonService.globalFilters.UserID||item.isEdit==='Y'"
+            [disabled]="item.isManager_AuditApproved || item.createdBy === this.commonService.globalFilters.UserID||item.isEdit==='Y'">
+        </td>
+        <td>
+          <strong>{{ item.expenseCode }}</strong>
+        </td>
+        <td>{{ item.expenseDate }}</td>
+        <td>{{ item.meetingId }}</td>
+        <td>{{ item.contactName }}</td>
+        <td>{{ item.userName }}</td>
+        <td style="font-weight:600">
+          ₹{{ item.amount | number }}
+        </td>
+        <td>
+          <span class="pill pa">
+            {{ item.status }}
+          </span>
+        </td>
+        <td>
+          <span class="pill pg">
+            Attached
+          </span>
+        </td>
+        <td>
+          <div style="display:flex;gap:6px" [ngClass]="{
+          'opacity-50 pe-none':
+          item.isEdit === 'Y' ||
+          item.isManager_AuditApproved ||
+          item.createdBy === this.commonService.globalFilters.UserID
+        }">
+            <button class="btn btn-green"
+              (click)="!(item.isEdit === 'Y' || item.isManager_AuditApproved || item.createdBy === this.commonService.globalFilters.UserID) && showRejectModal(item ,'Approve')"
+              style="font-size:10px;padding:3px 8px">Approve</button>
+            <button class="btn btn-outline"
+              (click)="!(item.isEdit === 'Y' || item.isManager_AuditApproved || item.createdBy === this.commonService.globalFilters.UserID) && showRejectModal(item,'Reject')"
+              style="font-size:10px;padding:3px 8px">Reject</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="totalItems > 0">
+        <div class="small text-muted">
+          Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
+          commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
+          totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+          of {{ totalItems }} entries
+        </div>
+        <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
+          [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="getExpenses($event.page)"
+          [maxSize]="5" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+          lastText="&raquo;">
+        </pagination>
+      </div>
   </div>
 </div>
+
+<!-- Modal Template -->
+<ng-template #Templatepod>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Are you want to {{typeEvent}}?</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  (click)="onCancel()"></button>
+    </div>
+    <div class="modal-body">
+      <div class="mb-3">
+        <label for="remarks" class="form-label">Remarks</label>
+        <textarea type="text" [(ngModel)]="isDefaultComment" class="form-control" #remarksInput="ngModel" minlength="5"
+          required rows="3" id="remarks">
+            </textarea>
+        <div *ngIf="remarksInput.invalid && remarksInput.touched" class="text-danger">
+          <small *ngIf="remarksInput.errors?.['required']">Remarks are required.</small>
+          <small *ngIf="remarksInput.errors?.['minlength']">Remarks must be at least 5 characters long.</small>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" [disabled]="remarksInput.invalid" class="btn btn-success"
+        (click)="updateAdditionalInfo(isDefaultComment)">
+        Yes
+      </button>
+      <button type="button" data-bs-dismiss="modal" class="btn btn-secondary" (click)="onCancel()">
+        No
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Modal Template multiple Expense Approval -->
+<ng-template #TemplateMultipleApproval>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Are you want to {{typeEvent}}?</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  (click)="onCancel()"></button>
+    </div>
+    <div class="modal-body">
+      <div class="mb-3">
+        <label for="remarks" class="form-label">Remarks</label>
+        <textarea type="text" [(ngModel)]="isDefaultComment" class="form-control" #remarksInput="ngModel" minlength="5"
+          required rows="3" id="remarks">
+            </textarea>
+        <div *ngIf="remarksInput.invalid && remarksInput.touched" class="text-danger">
+          <small *ngIf="remarksInput.errors?.['required']">Remarks are required.</small>
+          <small *ngIf="remarksInput.errors?.['minlength']">Remarks must be at least 5 characters long.</small>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" [disabled]="remarksInput.invalid" class="btn btn-success"
+        (click)="onSubmit()">
+        Yes
+      </button>
+      <button type="button" data-bs-dismiss="modal" class="btn btn-secondary" (click)="onCancel()">
+        No
+      </button>
+    </div>
+  </div>
+</ng-template>

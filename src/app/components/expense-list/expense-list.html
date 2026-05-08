@@ -105,14 +105,14 @@
                       <button *ngIf="expense.isEdit === 'Y'"
                         class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                           style="width:30px; height:30px; background:#4b5b8d; color:white;"
-                        (click)="editModal(expense);expense.showActions=false" [popover]="'Edit'" placement="top"
+                        (click)="editModal(expense);expense.showActions=false" [popover]="'Edit'" placement="bottom"
                         triggers="hover">
                         <i class="ri-pencil-fill"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                          style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
                         (click)="viewModal(expense); expense.showActions = false" [popover]="'View'"
-                        placement="top" triggers="hover">
+                        placement="bottom" triggers="hover">
                         <i class="ri-eye-fill"></i>
                       </button>
                       <!-- <button *ngIf="userType?.toLowerCase() === 'manager'"

@@ -31,7 +31,7 @@
   <app-date-range-picker *ngIf="(headerTitle$ | async) !== 'My Calendar'" id="topbar-action"
     [bsValue]="selectedDateRange" (dateSelected)="onDateSelected($event)"></app-date-range-picker>
   <div class="selected-date-info" *ngIf="commonService.globalFilters.startDate"
-    style="font-size: 11px; color: #666; margin-left: 10px; font-weight: 500; background: #f0f0f0; padding: 4px 10px; border-radius: 4px;">
+    style="color: #666; font-weight: 500; background: #f0f0f0; padding: 10px 17px; border-radius: 4px;">
     {{ commonService.globalFilters.startDate }} - {{ commonService.globalFilters.endDate }}
   </div>
 

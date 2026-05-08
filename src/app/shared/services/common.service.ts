@@ -35,10 +35,19 @@ export class CommonService {
     private identityService: IdentityService
   ) {
     // Initialize default values
-    this.globalFilters.UserID = this.identityService.getLoggedUserId();
+    this.updateUserId();
     const now = new Date();
     this.globalFilters.startDate = new Date(now.setHours(0, 0, 0, 0)).toLocaleDateString("en-GB");
     this.globalFilters.endDate = new Date(now.setHours(23, 59, 59, 999)).toLocaleDateString("en-GB");
+    console.log(this.globalFilters)
+  }
+
+  updateUserId(): void {
+    const userId = this.identityService.getLoggedUserId();
+    if (userId) {
+      this.globalFilters.UserID = userId;
+      this.filterSubject.next(this.globalFilters);
+    }
   }
 
   updateFilters(newFilters: any): void {

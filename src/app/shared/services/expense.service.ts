@@ -9,7 +9,7 @@ import { CommonResponse } from '../models/common.model';
   providedIn: 'root'
 })
 export class ExpenseService {
- constructor(
+  constructor(
     @Inject(ApiHandlerService) private apiHandlerService: ApiHandlerService
   ) {}
 
@@ -69,5 +69,9 @@ export class ExpenseService {
   
   multipleExpenseApproval(approvalRequest:any): Observable<IApiBaseResponse<CommonResponse>> {
     return this.apiHandlerService.Post('Expense/MultipleExpenseAproveList', approvalRequest);
+  }
+
+  downloadAuditorExpense(userId:string): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get(`Expense/ExportExpenseApprovedButPaymentPendingData?userId=${userId}`);
   }
 }

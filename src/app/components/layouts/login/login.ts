@@ -72,6 +72,7 @@ export class Login implements OnInit {
         if (response.success) {
           if (response.data.isValid) {
             this.identityService.setToken(token);
+            this.commonService.updateUserId(); // Update user ID after token validation
             this.router.navigateByUrl('/dashboard');
           } else {
             this.router.navigateByUrl('/login');
@@ -110,6 +111,7 @@ export class Login implements OnInit {
           console.log(response && response.data)
           this.identityService.setToken(response.data.token);
           localStorage.setItem('loginUser', JSON.stringify(response.data));
+          this.commonService.updateUserId(); // Update user ID after login
           this.toasterService.success('Login Successfully.');
           this.router.navigateByUrl('/dashboard');
           this.loading = false;
