@@ -44,7 +44,6 @@ export class CallList implements OnInit {
   }
 
   getCalls(page: number = 1) {
-    this.commonService.updateLoader(true);
     const params: any = {
       Page: this.commonService.globalFilters.Page.toString(),
       PageSize: this.commonService.globalFilters.PageSize.toString(),
@@ -58,12 +57,10 @@ export class CallList implements OnInit {
           this.totalItems = response.totalCount;
         }
         this.loading = false;
-        this.commonService.updateLoader(false);
       },
       error: (response: any) => {
         this.sweetAlertService.error(response);
         this.loading = false;
-        this.commonService.updateLoader(false);
       },
     });
   }

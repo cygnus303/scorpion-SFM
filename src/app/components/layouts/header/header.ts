@@ -45,8 +45,15 @@ export class Header implements OnInit, OnDestroy {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       const url = event.urlAfterRedirects || event.url;
+      const cleanUrl = url.replace(/^\//, '').split('?')[0];
       this.updateHeaderFromUrl(url);
-      this.commonService.resetFilters();
+
+      if (cleanUrl === 'calendar') {
+        this.setFilter('month');
+      } else {
+        this.commonService.resetFilters();
+        this.activeQuickFilter = 'today';
+      }
     });
 
     // Set initial header title based on current route
@@ -57,11 +64,11 @@ export class Header implements OnInit, OnDestroy {
       debounceTime(500),
       distinctUntilChanged()
     ).subscribe(searchValue => {
-      this.commonService.updateFilters({ 
-        searchText: searchValue, 
+      this.commonService.updateFilters({
+        searchText: searchValue,
         Page: 1,
         StartDate: this.commonService.globalFilters.startDate,
-        EndDate: this.commonService.globalFilters.endDate 
+        EndDate: this.commonService.globalFilters.endDate
       });
     });
   }

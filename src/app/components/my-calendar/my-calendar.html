@@ -10,36 +10,19 @@
       <div class="card">
         <div class="card-head">
           <div class="ci g">📋</div>
-          <div class="card-title">Today's Events — Apr 8</div>
+          <div class="card-title">Today's Events — {{ currentFormattedDate }}</div>
         </div>
         <div class="tl">
-          <div class="tl-item">
+          <div class="tl-item" *ngFor="let event of todayEvents">
             <div class="tl-dot green">✓</div>
             <div class="tl-content">
-              <div class="tl-title">9:00 AM — PRQ Review Call</div>
-              <div class="tl-meta">Ops + CS Team · Done</div>
+              <div class="tl-title">{{ getEventTime(event.start) }} — {{ event.title }}</div>
+              <div class="tl-meta">{{ event.description || 'Calendar Event' }}</div>
             </div>
           </div>
-          <div class="tl-item">
-            <div class="tl-dot green">✓</div>
-            <div class="tl-content">
-              <div class="tl-title">10:00 AM — Reliance Freight Meeting</div>
-              <div class="tl-meta">Rate negotiation · Arjun S.</div>
-            </div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot amber">!</div>
-            <div class="tl-content">
-              <div class="tl-title">2:30 PM — Nexus Logistics Demo</div>
-              <div class="tl-meta">New business pitch · In progress</div>
-            </div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot" style="border-color:var(--border)">4</div>
-            <div class="tl-content">
-              <div class="tl-title">4:00 PM — SkyBridge Contract Review</div>
-              <div class="tl-meta">Contract discussion · Upcoming</div>
-            </div>
+          <div class="no-events" *ngIf="todayEvents.length === 0"
+            style="padding: 10px; color: var(--text-muted); font-size: 12px; text-align: center;">
+            No events for today
           </div>
         </div>
       </div>
@@ -48,21 +31,19 @@
           <div class="ci">📅</div>
           <div class="card-title">Upcoming — This Week</div>
         </div>
-        <div class="srow">
-          <div class="sk">Apr 9 — Pune Zone Visits</div>
-          <div class="sv">Rahul S. · 4 accounts</div>
-        </div>
-        <div class="srow">
-          <div class="sk">Apr 10 — Sales Review Meeting</div>
-          <div class="sv">All reps · 10 AM</div>
-        </div>
-        <div class="srow">
-          <div class="sk">Apr 11 — PRQ Training Refresher</div>
-          <div class="sv">CS + Sales Teams</div>
-        </div>
-        <div class="srow">
-          <div class="sk">Apr 12 — Collection Drive</div>
-          <div class="sv">Overdue accounts</div>
+        <div class="tl">
+          <div class="tl-item" *ngFor="let event of upcomingEvents"
+            (click)="editMeetingModal(event.meetingId || event.callId)">
+            <div class="tl-dot amber">!</div>
+            <div class="tl-content">
+              <div class="tl-title">{{ getEventDate(event.start) }} — {{ event.title }}</div>
+              <div class="tl-meta">{{ getEventTime(event.start) }}</div>
+            </div>
+          </div>
+          <div class="no-events" *ngIf="upcomingEvents.length === 0"
+            style="padding: 10px; color: var(--text-muted); font-size: 12px; text-align: center;">
+            No upcoming events
+          </div>
         </div>
       </div>
     </div>

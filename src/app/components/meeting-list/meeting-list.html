@@ -91,13 +91,13 @@
                     <li class="d-flex px-2 gap-2">
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:30px; height:30px; background:#4b5b8d; color:white;"
-                        (click)="getMeetingDetails(meeting.attendeeCode, 'edit')" [popover]="'Edit'" placement="auto"
+                        (click)="getMeetingDetails(meeting.attendeeCode, 'edit')" [popover]="'Edit'" placement="left"
                         triggers="hover" [outsideClick]="true" container="body">
                         <i class="ri-pencil-fill"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
-                        (click)="getMeetingDetails(meeting.attendeeCode, 'view')" [popover]="'View'" placement="auto"
+                        (click)="getMeetingDetails(meeting.attendeeCode, 'view')" [popover]="'View'" placement="left"
                         triggers="hover" [outsideClick]="true" container="body">
                         <i class="ri-eye-fill"></i>
                       </button>

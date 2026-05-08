@@ -29,6 +29,9 @@ export class MyCalendar implements OnInit, OnDestroy {
   public isCall: boolean = false;
   public isBrowser: boolean = false;
   public isLoadingMeeting: boolean = false;
+  public todayEvents: any[] = [];
+  public upcomingEvents: any[] = [];
+  public currentFormattedDate: string = '';
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -73,6 +76,13 @@ export class MyCalendar implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+    this.setCurrentDate();
+  }
+
+  setCurrentDate() {
+    const now = new Date();
+    const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+    this.currentFormattedDate = now.toLocaleDateString('en-US', options);
   }
 
   ngOnInit() {
@@ -100,8 +110,9 @@ export class MyCalendar implements OnInit, OnDestroy {
     }
     this.calendarService.getCalendar(filter).subscribe({
       next: (response) => {
-        if (response) {
+        if (response && response.data) {
           this.calendarOptions.events = response.data;
+          this.filterSidebarEvents(response.data);
         }
         this.commonService.updateLoader(false);
       },
@@ -110,6 +121,26 @@ export class MyCalendar implements OnInit, OnDestroy {
         this.commonService.updateLoader(false);
       },
     });
+  }
+
+  filterSidebarEvents(events: any[]) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const endOfWeek = new Date(today);
+    endOfWeek.setDate(today.getDate() + 7);
+
+    this.todayEvents = events.filter(event => {
+      const eventDate = new Date(event.start);
+      eventDate.setHours(0, 0, 0, 0);
+      return eventDate.getTime() === today.getTime();
+    });
+
+    this.upcomingEvents = events.filter(event => {
+      const eventDate = new Date(event.start);
+      eventDate.setHours(0, 0, 0, 0);
+      return eventDate > today && eventDate <= endOfWeek;
+    }).sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
   }
 
   changeView(view: string) {
@@ -172,5 +203,15 @@ export class MyCalendar implements OnInit, OnDestroy {
       default:
         return '#95a5a6'; // Grey
     }
+  }
+
+  getEventTime(dateStr: string): string {
+    const date = new Date(dateStr);
+    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  }
+
+  getEventDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 }
