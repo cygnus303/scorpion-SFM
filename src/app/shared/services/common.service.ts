@@ -111,4 +111,14 @@ export class CommonService {
     const y = date.getFullYear();
     return `${d}/${m}/${y}`;
   }
+
+   isDateDisabled = (date: { year: number; month: number; day: number }) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize today's date
+  
+    const selectedDate = new Date(date.year, date.month - 1, date.day);
+    selectedDate.setHours(0, 0, 0, 0); // Normalize selected date
+  
+    return selectedDate < today; // Disable only past dates, allow today
+  };
 }
