@@ -96,4 +96,8 @@ export class MeetingService {
   onSubmitMOM(userId: string, payload: any): Observable<any> {
     return this.apiHandlerService.Post(`Meeting/SubmitMom?UserId=${userId}`, payload);
   }
+
+  meetingCard(userId: string): Observable<any> {
+    return this.apiHandlerService.Get(`Meeting/DashboardCards?userid=${userId}`);
+  }
 }

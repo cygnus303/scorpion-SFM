@@ -4,7 +4,6 @@ import { MeetingResponse } from '../../shared/models/meeting.model';
 import { MeetingService } from '../../shared/services/meeting.service';
 import { CommonService } from '../../shared/services/common.service';
 import { IdentityService } from '../../shared/services/identity.service';
-import { ToastrService } from 'ngx-toastr';
 import { ExportService } from '../../shared/services/export.service';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -14,6 +13,7 @@ import { AddMeeting } from './add-meeting/add-meeting';
 import { MeetingDetail } from './meeting-detail/meeting-detail';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 
 @Component({
   selector: 'app-meeting-list',
@@ -28,12 +28,14 @@ export class MeetingList implements OnInit, OnDestroy {
   public selectedUser: any = null;
   public totalItems: number = 0;
   public isExportLoading: boolean = false;
+  public meetingCard:any;
+
   @ViewChild('addMeeting') addMeeting!: AddMeeting;
   @ViewChild('meetingDetail') meetingDetail!: MeetingDetail;
 
   public meetingService = inject(MeetingService);
   public commonService = inject(CommonService); // Public to access globalFilters in HTML
-  private toasterService = inject(ToastrService);
+  private sweetAlertService = inject(SweetAlertService);
   private identityService = inject(IdentityService);
   private exportService = inject(ExportService);
 
@@ -45,7 +47,7 @@ export class MeetingList implements OnInit, OnDestroy {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getMeetings();
     });
-
+    this.onMeetingCard();
     this.commonService.getUsers()
   }
 
@@ -75,7 +77,7 @@ export class MeetingList implements OnInit, OnDestroy {
         this.isLoading = false;
       },
       error: (response: any) => {
-        this.toasterService.error(response);
+        this.sweetAlertService.error(response);
         this.isLoading = false;
       },
     });
@@ -109,7 +111,7 @@ export class MeetingList implements OnInit, OnDestroy {
         this.meetingDetail.isLoading = false;
       },
       error: (response: any) => {
-        this.toasterService.error(response);
+        this.sweetAlertService.error(response);
         if (mode === 'edit') this.addMeeting.onClose();
         else this.meetingDetail.onClose();
       },
@@ -136,8 +138,21 @@ export class MeetingList implements OnInit, OnDestroy {
         this.isExportLoading = false;
       },
       error: (response: any) => {
-        this.toasterService.error(response);
+        this.sweetAlertService.error(response);
         this.isExportLoading = false;
+      },
+    });
+  }
+
+  onMeetingCard(){
+    this.meetingService.meetingCard(this.identityService.getLoggedUserId()).subscribe({
+      next: (response: any) => {
+        if (response) {
+         this.meetingCard=response.data;
+        }
+      },
+      error: (response: any) => {
+        this.sweetAlertService.error(response)
       },
     });
   }

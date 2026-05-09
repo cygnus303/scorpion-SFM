@@ -2,23 +2,23 @@
   <div class="g4">
     <div class="kpi" style="--kc:var(--blue)">
       <div class="kpi-label">Meetings This Week</div>
-      <div class="kpi-val">34</div>
-      <div class="kpi-sub up">▲ +6 vs last week</div>
+      <div class="kpi-val">{{meetingCard.meetingsThisWeek}}</div>
+      <div class="kpi-sub up">▲ {{meetingCard.meetingsThisWeekTrend}}</div>
     </div>
     <div class="kpi" style="--kc:var(--green)">
       <div class="kpi-label">Meetings Today</div>
-      <div class="kpi-val">7</div>
-      <div class="kpi-sub up">4 completed</div>
+      <div class="kpi-val">{{meetingCard.meetingsToday}}</div>
+      <div class="kpi-sub up">{{meetingCard.meetingsTodayCompleted}}</div>
     </div>
     <div class="kpi" style="--kc:var(--amber)">
       <div class="kpi-label">Avg per Rep/Day</div>
-      <div class="kpi-val">2.8</div>
-      <div class="kpi-sub wn">Target: 4.0</div>
+      <div class="kpi-val">{{meetingCard.avgPerRepDay}}</div>
+      <div class="kpi-sub wn">Target:{{meetingCard.avgPerRepDayTarget}}</div>
     </div>
     <div class="kpi" style="--kc:var(--red)">
       <div class="kpi-label">Missed Meetings</div>
-      <div class="kpi-val">4</div>
-      <div class="kpi-sub dn">No outcome logged</div>
+      <div class="kpi-val">{{meetingCard.missedMeetings}}</div>
+      <div class="kpi-sub dn">{{meetingCard.missedMeetingsNoOutcome}}</div>
     </div>
   </div>
   <div class="g2">

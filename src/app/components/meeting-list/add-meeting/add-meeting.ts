@@ -81,6 +81,7 @@ export class AddMeeting implements OnInit, OnDestroy {
   public isSubmitting: boolean = false;
   public customerData!: CustomerDetailResponse;
   isCustomerLoading = false;
+  public MeetingOutComes:any;
   public notCustomerNameValue = 'Please enter at least 3 characters';
 
   public modalRef!: BsModalRef;
@@ -142,6 +143,7 @@ export class AddMeeting implements OnInit, OnDestroy {
     this.getUsers();
     this.getCalendar();
     this.getMeetingMom();
+    this.getMeetingOutComes();
     this.getCustomerList();
 
     this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered', backdrop: 'static' });
@@ -516,4 +518,23 @@ export class AddMeeting implements OnInit, OnDestroy {
       this.meetingSubscription.unsubscribe();
     }
   }
+
+  getMeetingOutComes(searchText: string | null = null) {
+    this.commonService.updateLoader(true);
+    return this.externalService
+      .getGeneralMaster(searchText, 'MEETINGOUTCOME')
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.MeetingOutComes = response.data;
+          }
+          this.commonService.updateLoader(false);
+        },
+        error: (response: any) => {
+          this.sweetAlertService.error(response);
+          this.commonService.updateLoader(false);
+        },
+      });
+  }
+
 }

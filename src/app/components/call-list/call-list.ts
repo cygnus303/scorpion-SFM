@@ -73,6 +73,10 @@ export class CallList implements OnInit {
     this.addCallComponent.showPopup(data);
   }
 
+  openWebRTC() {
+    window.open('https://webrtc.telecmi.com/', '_blank');
+  }
+
   viewModal(data: any) {
     this.callDetailComponent.showPopup(() => {
       return this.callService.getCallDetails(data.callId, this.commonService.globalFilters.UserID.toString());

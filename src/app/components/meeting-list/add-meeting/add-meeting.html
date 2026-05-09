@@ -253,6 +253,20 @@
                                 required.</small>
                         </div>
                     </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold">Meeting Outcomes</label>
+                        <ng-select [items]="MeetingOutComes" bindLabel="codeDesc" bindValue="codeId" 
+                          
+                            placeholder="Search Mom" [multiple]="true" [clearable]="true" [searchable]="true"
+                            [class.disabled]="checkOutValue === '-'">
+                        </ng-select>
+                        <!-- <div *ngIf="meetingForm.controls['meetingMOM'].invalid && meetingForm.controls['meetingMOM']?.touched"
+                            class="text-danger">
+                            <small *ngIf="meetingForm.controls['meetingMOM'].errors?.['required']">Meeting Outcomes is
+                                required.</small>
+                        </div> -->
+                    </div>
                 </ng-container>
 
                 <div class="col-lg-12">
