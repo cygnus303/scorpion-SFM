@@ -74,4 +74,9 @@ export class ExpenseService {
   downloadAuditorExpense(userId:string): Observable<IApiBaseResponse<any[]>> {
     return this.apiHandlerService.Get(`Expense/ExportExpenseApprovedButPaymentPendingData?userId=${userId}`);
   }
+
+   expenseCard(userId: string): Observable<any> {
+    return this.apiHandlerService.Get(`Expense/DashboardCards?userid=${userId}`);
+  }
+
 }

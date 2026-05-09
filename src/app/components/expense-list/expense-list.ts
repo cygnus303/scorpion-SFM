@@ -36,6 +36,7 @@ export class ExpenseList implements OnInit {
   public expenses: ExpenseResponse[] = [];
   public loading: boolean = false;
   public isExportLoading = false;
+  public expenseCard:any;
   private destroy$ = new Subject<void>();
 
   @ViewChild('expenseDetail') expenseDetail!: ExpenseDetail;
@@ -50,6 +51,7 @@ export class ExpenseList implements OnInit {
       this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
         this.getExpenses();
       });
+      this.onExpenseCard()
     }
   
     ngOnDestroy(): void {
@@ -79,6 +81,19 @@ export class ExpenseList implements OnInit {
       error: (response: any) => {
         this.sweetAlertService.error(response);
         this.loading = false;
+      },
+    });
+  }
+
+  onExpenseCard(){
+    this.expenseService.expenseCard(this.commonService.globalFilters.UserID.toString()).subscribe({
+      next: (response: any) => {
+        if (response) {
+          this.expenseCard=response.data;
+        }
+      },
+      error: (response: any) => {
+        this.sweetAlertService.error(response);
       },
     });
   }
