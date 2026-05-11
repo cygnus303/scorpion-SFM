@@ -87,43 +87,53 @@ export class MeetingList implements OnInit, OnDestroy {
     this.getMeetings(event.page);
   }
 
-  getMeetingDetails(id: string, mode: 'edit' | 'view' = 'edit') {
-    // Open the correct modal immediately
-    if (mode === 'edit') {
-      this.addMeeting.showPopup();
-      this.addMeeting.isSubmitting = true;
+  // getMeetingDetails(id: string, mode: 'edit' | 'view' = 'edit') {
+  //   // Open the correct modal immediately
+  //   if (mode === 'edit') {
+  //     this.addMeeting.showPopup();
+  //     this.addMeeting.isSubmitting = true;
+  //   } else {
+  //     this.meetingDetail.showPopup();
+  //     this.meetingDetail.isLoading = true;
+  //   }
+
+  //   this.meetingService.getMeetingDetails(id, this.identityService.getLoggedUserId()).subscribe({
+  //     next: (response) => {
+  //       if (response) {
+  //         if (mode === 'edit') {
+  //           this.addMeeting.patchFormValues(response.data);
+  //           this.addMeeting.isMeetingList = 'Update';
+  //         } else {
+  //           this.meetingDetail.patchData(response.data);
+  //         }
+  //       }
+  //       this.addMeeting.isSubmitting = false;
+  //       this.meetingDetail.isLoading = false;
+  //     },
+  //     error: (response: any) => {
+  //       this.sweetAlertService.error(response);
+  //       if (mode === 'edit') this.addMeeting.onClose();
+  //       else this.meetingDetail.onClose();
+  //     },
+  //   });
+  // }
+
+  openMeetingModal(type: string, id?: string) {
+     if (id) {
+      this.addMeeting.isMeetingList = type;
+      this.addMeeting.showPopup(() => {
+        return this.meetingService.getMeetingDetails(id, this.commonService.globalFilters.UserID.toString());
+      });
     } else {
-      this.meetingDetail.showPopup();
-      this.meetingDetail.isLoading = true;
+      this.addMeeting.isMeetingList = type;
+      this.addMeeting.showPopup();
     }
-
-    this.meetingService.getMeetingDetails(id, this.identityService.getLoggedUserId()).subscribe({
-      next: (response) => {
-        if (response) {
-          if (mode === 'edit') {
-            this.addMeeting.patchFormValues(response.data);
-            this.addMeeting.isMeetingList = 'Update';
-          } else {
-            this.meetingDetail.patchData(response.data);
-          }
-        }
-        this.addMeeting.isSubmitting = false;
-        this.meetingDetail.isLoading = false;
-      },
-      error: (response: any) => {
-        this.sweetAlertService.error(response);
-        if (mode === 'edit') this.addMeeting.onClose();
-        else this.meetingDetail.onClose();
-      },
-    });
-  }
-
-  openMeetingModal(meeting?: any) {
-    this.addMeeting.showPopup(meeting);
   }
 
   openMeetingDetailModal(meeting?: any) {
-    this.meetingDetail.showPopup(meeting);
+     this.meetingDetail.showPopup(() => {
+      return this.meetingService.getMeetingDetails(meeting, this.identityService.getLoggedUserId());
+    });
   }
 
   downloadMeetings() {
@@ -152,7 +162,7 @@ export class MeetingList implements OnInit, OnDestroy {
         }
       },
       error: (response: any) => {
-        this.sweetAlertService.error(response)
+        this.sweetAlertService.error(response.error.message);
       },
     });
   }

@@ -106,12 +106,20 @@ export class LeadList implements OnInit, OnDestroy {
     });
   }
 
-  openLeadModal(lead?: any) {
-    this.addLeadComponent.showPopup(lead);
+  openLeadModal(id?: any) {
+      if (id) {
+      this.addLeadComponent.showPopup(() => {
+        return this.leadService.getLeadDetails(id, this.commonService.globalFilters.UserID.toString());
+      });
+    } else {
+      this.addLeadComponent.showPopup();
+    }
   }
 
   openLeadDetailModal(lead?: any) {
-    this.leadDetailComponent.showPopup(lead);
+     this.leadDetailComponent.showPopup(() => {
+      return this.leadService.getLeadDetails(lead, this.identityService.getLoggedUserId());
+    });
   }
 
   downloadLeads() {

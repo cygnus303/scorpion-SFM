@@ -1,10 +1,14 @@
 <ng-template #Templatepod>
+   
     <div class="modal-header border-0 pb-0">
         <h5 class="modal-title fw-bold text-dark">
             <i class="ri-calendar-event-line me-2 text-primary"></i>
             {{isMeetingList}} Meeting
         </h5>
         <button type="button" class="btn-close shadow-none" (click)="onClose()"></button>
+    </div>
+    <div class="loader-overlay" *ngIf="isLoading">
+        <div class="spinner"></div>
     </div>
 
     <form [formGroup]="meetingForm" (ngSubmit)="onSubmitMeeting(meetingForm)" class="horizontal-form"
@@ -17,6 +21,7 @@
                 <div class="spinner-border text-primary mb-2" role="status"></div>
                 <span class="text-muted fw-medium">Loading meeting data...</span>
             </div>
+
 
             <div class="row g-3" [class.opacity-25]="isSubmitting">
                 <!-- Customer Selection -->

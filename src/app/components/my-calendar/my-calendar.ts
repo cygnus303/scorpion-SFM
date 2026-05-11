@@ -167,28 +167,8 @@ export class MyCalendar implements OnInit, OnDestroy {
     this.getCalendar();
   }
   editMeetingModal(meetingId: string) {
-    this.getMeeting(meetingId);
-  }
-
-
-  getMeeting(id: string) {
-    this.isLoadingMeeting = true;
-    this.commonService.updateLoader(true);
-    this.meetingService.getMeetingDetails(id, this.identityService.getLoggedUserId()).subscribe({
-      next: (response) => {
-        if (response) {
-          this.selectedMeeting = response.data;
-          this.editMeeting.emit(response.data);
-          this.addMeetingComponent.showPopup(response.data);
-        }
-        this.commonService.updateLoader(false);
-        this.isLoadingMeeting = false;
-      },
-      error: (response: any) => {
-        this.toasterService.error(response);
-        this.commonService.updateLoader(false);
-        this.isLoadingMeeting = false;
-      },
+     this.addMeetingComponent.showPopup(() => {
+      return this.meetingService.getMeetingDetails(meetingId, this.identityService.getLoggedUserId());
     });
   }
 

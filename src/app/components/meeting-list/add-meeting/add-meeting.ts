@@ -79,6 +79,7 @@ export class AddMeeting implements OnInit, OnDestroy {
   calendarOptions: CalendarResponse[] = [];
   public meetingCustomerList: any;
   public isSubmitting: boolean = false;
+  public isLoading: boolean = false;
   public customerData!: CustomerDetailResponse;
   isCustomerLoading = false;
   public MeetingOutComes:any;
@@ -125,18 +126,11 @@ export class AddMeeting implements OnInit, OnDestroy {
     });
   }
 
-  showPopup(meeting?: any) {
+  showPopup(apiCall?: () => any) {
     this.meetingForm.reset();
     this.meetingId = '';
     this.isChecked = false;
 
-    if (meeting) {
-      this.patchFormValues(meeting);
-      this.isMeetingList = 'Update';
-    } else {
-      this.isMeetingList = 'Add';
-      this.meetingForm.patchValue({ CreateBy: this.identityService.getLoggedUserId(), isAllDayEvent: false });
-    }
     this.getCustomers();
     this.getLocations();
     this.getMeetingTypes();
@@ -145,8 +139,26 @@ export class AddMeeting implements OnInit, OnDestroy {
     this.getMeetingMom();
     this.getMeetingOutComes();
     this.getCustomerList();
-
+    this.isLoading = true;
     this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered', backdrop: 'static' });
+    if (apiCall) {
+      apiCall().subscribe({
+        next: (response: any) => {
+          const meetingResponse = response?.data;
+          if (meetingResponse) {
+            this.isLoading = false;
+            this.patchFormValues(meetingResponse);
+          }
+        },
+        error: (_response: any) => {
+          this.isLoading = false;
+          this.onClose();
+        },
+      });
+    } else {
+      this.isLoading = false;
+      this.meetingForm.patchValue({ CreateBy: this.identityService.getLoggedUserId(), isAllDayEvent: false });
+    }
   }
 
   patchFormValues(meeting: any) {

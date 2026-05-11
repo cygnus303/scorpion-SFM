@@ -55,6 +55,7 @@ export class AddLead {
   public regions: LocationResponse[] = [];
   public isSubmitting: boolean = false;
   public modalRef!: BsModalRef;
+  public isLoading: boolean = false;
   @ViewChild('Templatepod', { static: true }) Templatepod!: TemplateRef<any>;
   @Input() leadResponse: LeadResponse | null = null;
   @Output() dataEmitter: EventEmitter<string> = new EventEmitter<string>();
@@ -70,7 +71,7 @@ export class AddLead {
   constructor() {
     this.leadForm = new FormGroup({});
   }
-  showPopup(lead: any) {
+  showPopup(apiCall?: () => any) {
     this.buildForm();
     this.getIndustryTypes();
     this.getLeadSources();
@@ -80,31 +81,44 @@ export class AddLead {
     this.getLocations();
     this.getCities();
     this.getUsers();
-    if (lead) {
-
-      this.leadForm.patchValue({
-        leadCategoryId: lead.leadCategoryId?.toString(),
-        LeadDate: lead.leadDate,
-        companyName: lead.companyName,
-        contactName: lead.contactName,
-        contactNo: lead.contactNo,
-        address: lead.address,
-        email: lead.email,
-        cityId: lead.cityId,
-        BranchId: lead.branchId,
-        RegionId: lead.regionId,
-        designationId: lead.designationId,
-        LeadSourceId: lead.leadSourceId,
-        assignedToId: lead.assignedToId,
-        industryTypeId: lead.industryTypeId,
-        ServiceInterestedIDs: lead.serviceInteresteds ? lead.serviceInteresteds.toString().split(',') : [],
-        isActive: lead.isActive
+    this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered', backdrop: true });
+    this.isLoading = true;
+    if (apiCall) {
+      apiCall().subscribe({
+        next: (response: any) => {
+          const leadResponse = response?.data;
+          if (leadResponse) {
+            this.isLoading = false;
+            this.leadForm.patchValue({
+              leadCategoryId: leadResponse.leadCategoryId?.toString(),
+              LeadDate: leadResponse.leadDate,
+              companyName: leadResponse.companyName,
+              contactName: leadResponse.contactName,
+              contactNo: leadResponse.contactNo,
+              address: leadResponse.address,
+              email: leadResponse.email,
+              cityId: leadResponse.cityId,
+              BranchId: leadResponse.branchId,
+              RegionId: leadResponse.regionId,
+              designationId: leadResponse.designationId,
+              LeadSourceId: leadResponse.leadSourceId,
+              assignedToId: leadResponse.assignedToId,
+              industryTypeId: leadResponse.industryTypeId,
+              ServiceInterestedIDs: leadResponse.serviceInteresteds ? leadResponse.serviceInteresteds.toString().split(',') : [],
+              isActive: leadResponse.isActive
+            });
+            this.leadId = leadResponse.leadId;
+          }
+        },
+        error: (_response: any) => {
+          this.isLoading = false;
+          this.onClose();
+        },
       });
-      this.leadId = lead.leadId;
     } else {
+      this.isLoading = false;
       this.leadId = '';
     }
-    this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered', backdrop: true });
   }
 
   buildForm(): void {

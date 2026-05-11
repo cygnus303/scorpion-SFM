@@ -12,14 +12,12 @@
 
     <div class="modal-body position-relative" style="min-height: 400px;">
         <!-- Loading Overlay -->
-        <div *ngIf="isLoading"
-            class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-white"
-            style="z-index: 10; opacity: 0.8;">
-            <div class="spinner-border text-primary mb-2" role="status"></div>
-            <span class="text-muted fw-medium">Loading details...</span>
+        <div *ngIf="isLoading" class="text-center py-5">
+            <span class="spinner-border spinner-border-sm"></span>
+            <div class="mt-2 text-muted">Loading meeting details...</div>
         </div>
 
-        <div class="table-container" [class.opacity-25]="isLoading">
+        <div class="table-container"  *ngIf="!isLoading && meetingResponse">
             <table class="table table-bordered table-striped">
                 <table class="table table-bordered table-striped">
                     <tbody>

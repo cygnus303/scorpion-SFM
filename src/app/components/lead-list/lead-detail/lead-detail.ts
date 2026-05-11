@@ -12,11 +12,26 @@ export class LeadDetail {
   public modalRef!: BsModalRef;
   public modalService = inject(BsModalService);
   public leadResponse: any = null;
+  public isLoading: boolean = false;
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
 
-  showPopup(lead: any) {
-    this.leadResponse = lead;
+  showPopup(apiCall: () => any) {
+    this.isLoading = true;
     this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered', backdrop: true });
+     apiCall().subscribe({
+      next: (response: any) => {
+        const data = response?.data;
+        if (data) {
+          this.leadResponse = data;
+          this.isLoading = false;
+        }
+      },
+      error: (_response: any) => {
+        this.leadResponse = null;
+        this.isLoading = false;
+        this.onClose();
+      },
+    });
   }
 
   onClose() {

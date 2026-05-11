@@ -15,9 +15,23 @@ export class MeetingDetail {
   public isLoading: boolean = false;
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
 
-  showPopup(meeting?: any) {
-    this.meetingResponse = meeting;
+  showPopup(apiCall: () => any) {
+    this.isLoading = true;
     this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered', backdrop: true });
+    apiCall().subscribe({
+      next: (response: any) => {
+        const data = response?.data;
+        if (data) {
+          this.meetingResponse = data;
+          this.isLoading = false;
+        }
+      },
+      error: (_response: any) => {
+        this.meetingResponse = null;
+        this.isLoading = false;
+        this.onClose();
+      },
+    });
   }
 
   patchData(data: any) {

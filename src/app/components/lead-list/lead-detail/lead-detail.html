@@ -11,7 +11,12 @@
     </div>
 
     <div class="modal-body">
-        <div class="table-container">
+         <!-- Loading Overlay -->
+        <div *ngIf="isLoading" class="text-center py-5">
+            <span class="spinner-border spinner-border-sm"></span>
+            <div class="mt-2 text-muted">Loading lead details...</div>
+        </div>
+        <div  *ngIf="!isLoading && leadResponse" class="table-container">
             <table class="table table-bordered table-striped">
                 <tbody>
                     <tr>

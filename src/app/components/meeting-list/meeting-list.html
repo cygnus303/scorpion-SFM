@@ -2,23 +2,23 @@
   <div class="g4">
     <div class="kpi" style="--kc:var(--blue)">
       <div class="kpi-label">Meetings This Week</div>
-      <div class="kpi-val">{{meetingCard.meetingsThisWeek}}</div>
-      <div class="kpi-sub up">▲ {{meetingCard.meetingsThisWeekTrend}}</div>
+      <div class="kpi-val">{{meetingCard?.meetingsThisWeek || 0}}</div>
+      <div class="kpi-sub up">▲ {{meetingCard?.meetingsThisWeekTrend || ''}}</div>
     </div>
     <div class="kpi" style="--kc:var(--green)">
       <div class="kpi-label">Meetings Today</div>
-      <div class="kpi-val">{{meetingCard.meetingsToday}}</div>
-      <div class="kpi-sub up">{{meetingCard.meetingsTodayCompleted}}</div>
+      <div class="kpi-val">{{meetingCard?.meetingsToday || 0}}</div>
+      <div class="kpi-sub up">{{meetingCard?.meetingsTodayCompleted || ''}}</div>
     </div>
     <div class="kpi" style="--kc:var(--amber)">
       <div class="kpi-label">Avg per Rep/Day</div>
-      <div class="kpi-val">{{meetingCard.avgPerRepDay}}</div>
-      <div class="kpi-sub wn">Target:{{meetingCard.avgPerRepDayTarget}}</div>
+      <div class="kpi-val">{{meetingCard?.avgPerRepDay || 0}}</div>
+      <div class="kpi-sub wn">Target:{{meetingCard?.avgPerRepDayTarget || 0}}</div>
     </div>
     <div class="kpi" style="--kc:var(--red)">
       <div class="kpi-label">Missed Meetings</div>
-      <div class="kpi-val">{{meetingCard.missedMeetings}}</div>
-      <div class="kpi-sub dn">{{meetingCard.missedMeetingsNoOutcome}}</div>
+      <div class="kpi-val">{{meetingCard?.missedMeetings || 0}}</div>
+      <div class="kpi-sub dn">{{meetingCard?.missedMeetingsNoOutcome || ''}}</div>
     </div>
   </div>
   <div class="g2">
@@ -35,7 +35,7 @@
             <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
             <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
           </button>
-          <button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px" (click)="openMeetingModal()">
+          <button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px" (click)="openMeetingModal('Add')">
             ＋ Meeting
           </button>
         </div>
@@ -91,13 +91,13 @@
                     <li class="d-flex px-2 gap-2">
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:30px; height:30px; background:#4b5b8d; color:white;"
-                        (click)="getMeetingDetails(meeting.attendeeCode, 'edit')" [popover]="'Edit'" placement="left"
+                        (click)="openMeetingModal('Update', meeting.attendeeCode)" [popover]="'Edit'" placement="left"
                         triggers="hover" [outsideClick]="true" container="body">
                         <i class="ri-pencil-fill"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
-                        (click)="getMeetingDetails(meeting.attendeeCode, 'view')" [popover]="'View'" placement="left"
+                        (click)="openMeetingDetailModal(meeting.attendeeCode)" [popover]="'View'" placement="left"
                         triggers="hover" [outsideClick]="true" container="body">
                         <i class="ri-eye-fill"></i>
                       </button>

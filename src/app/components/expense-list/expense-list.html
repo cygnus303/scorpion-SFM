@@ -3,23 +3,23 @@
   <div class="g4">
     <div class="kpi" style="--kc:var(--blue)">
       <div class="kpi-label">Total Expenses</div>
-      <div class="kpi-val">{{expenseCard.myExpensesMTD}}</div>
-      <div class="kpi-sub">{{expenseCard.myExpensesMTDLimit}}</div>
+      <div class="kpi-val">{{expenseCard?.myExpensesMTD}}</div>
+      <div class="kpi-sub">{{expenseCard?.myExpensesMTDLimit}}</div>
     </div>
     <div class="kpi" style="--kc:var(--green)">
       <div class="kpi-label">Approved</div>
-      <div class="kpi-val">₹ {{expenseCard.approvedAmount}}</div>
-      <div class="kpi-sub up">{{expenseCard.approvedRate}}</div>
+      <div class="kpi-val">₹ {{expenseCard?.approvedAmount}}</div>
+      <div class="kpi-sub up">{{expenseCard?.approvedRate}}</div>
     </div>
     <div class="kpi" style="--kc:var(--amber)">
       <div class="kpi-label">Pending Approval</div>
-      <div class="kpi-val">{{expenseCard.pendingApprovalAmount}}</div>
-      <div class="kpi-sub wn">{{expenseCard.pendingApprovalClaims}}</div>
+      <div class="kpi-val">{{expenseCard?.pendingApprovalAmount}}</div>
+      <div class="kpi-sub wn">{{expenseCard?.pendingApprovalClaims}}</div>
     </div>
     <div class="kpi" style="--kc:var(--red)">
       <div class="kpi-label">Rejected</div>
-      <div class="kpi-val">₹{{expenseCard.rejectedAmount}}</div>
-      <div class="kpi-sub up">{{expenseCard.rejectedClaims}}</div>
+      <div class="kpi-val">₹{{expenseCard?.rejectedAmount}}</div>
+      <div class="kpi-sub up">{{expenseCard?.rejectedClaims}}</div>
     </div>
   </div>
 

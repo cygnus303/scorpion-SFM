@@ -5,7 +5,11 @@
     </h5>
     <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
   </div>
-
+   
+   <div class="loader-overlay" *ngIf="isLoading">
+        <div class="spinner"></div>
+    </div>
+ 
   <form [formGroup]="leadForm" class="horizontal-form" autocomplete="off" (submit)="onSubmitLead(leadForm)">
     <div class="modal-body pt-2 position-relative" style="min-height: 400px;">
       <!-- Loading Overlay -->
