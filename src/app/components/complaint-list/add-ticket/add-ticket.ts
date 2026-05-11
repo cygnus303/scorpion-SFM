@@ -22,7 +22,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   imports: [CommonModule, ReactiveFormsModule, FormsModule, NgSelectModule, BsDatepickerModule],
   templateUrl: './add-ticket.html',
   styleUrl: './add-ticket.scss',
-  providers: [DatePipe] 
+  providers: [DatePipe]
 })
 export class AddTicket {
   public ticketTypes: GeneralMasterResponse[] = [];
@@ -34,18 +34,18 @@ export class AddTicket {
   public escalationForm!: FormGroup;
   public docketNotFound = false;
   public emails: string[] = [];
-  public escEmail:string[]=[];
+  public escEmail: string[] = [];
   public emailInput: string = '';
   public emailError: boolean = false;
-  public locations: TicketAddressToResponse[]=[];
-  public userList!:ComplaintGetUser;
+  public locations: TicketAddressToResponse[] = [];
+  public userList!: ComplaintGetUser;
   public selectedFile: File | null = null;
-  public assignToList:AssignToList[]=[]
+  public assignToList: AssignToList[] = []
   private docketNoSubject = new Subject<string>();
-  public loading: boolean = true;
+  public loading: boolean = false;
   public modalRef!: BsModalRef;
   public isLoading: boolean = false;
-  public complaint:string=''
+  public complaint: string = ''
   minDate!: Date;
   datepickerMDY: any;
 
@@ -130,15 +130,15 @@ export class AddTicket {
     public commonService: CommonService,
     public externalService: ExternalService,
     private datePipe: DatePipe,
-    public toasterService: ToastrService, 
+    public toasterService: ToastrService,
     private complaintService: ComplaintService,) {
     this.docketNoSubject.pipe(debounceTime(100),distinctUntilChanged(),filter(value => value.length >= 2)).subscribe(docketNo => {
       this.loading = true;
-      this.onDocketNo(docketNo); 
+      this.onDocketNo(docketNo);
     });
-   }
+  }
 
-   formatDate(dateString: string | null | undefined): string | null {
+  formatDate(dateString: string | null | undefined): string | null {
     if (!dateString || dateString === '-' || dateString.trim() === '') {
       return null; // Handle invalid values safely
     }
@@ -150,29 +150,29 @@ export class AddTicket {
   }
 
   ngOnInit() {
-    
+
     // this.getAssignTo();
   }
 
-  onClose(){
-    this.emails=[];
+  onClose() {
+    this.emails = [];
     this.ticketForm.reset();
     this.buildForm();
     if (this.modalRef) {
       this.modalRef.hide();
     }
     this.ticketForm.patchValue({
-      managerName:this.userList.complaintManagerName,
-      managerId:this.userList.complaintManagerID,
-      userName:this.userList.userName,
-      userID:this.userList.userId,
+      managerName: this.userList.complaintManagerName,
+      managerId: this.userList.complaintManagerID,
+      userName: this.userList.userName,
+      userID: this.userList.userId,
     });
   }
-  onEscalationClose(){
+  onEscalationClose() {
     this.escalationForm.reset();
     this.createEscalationForm();
     this.escEmail = [];
-    this.emails=[];
+    this.emails = [];
     if (this.modalRef) {
       this.modalRef.hide();
     }
@@ -189,7 +189,7 @@ export class AddTicket {
       destination: new FormControl(''),
       managerId: new FormControl(''),
       EDD: new FormControl(''),
-      ticketAddressTo: new FormControl(null,Validators.required),
+      ticketAddressTo: new FormControl(null, Validators.required),
       managerName: new FormControl(''),
       billingParty: new FormControl(''),
       currentStatus: new FormControl(''),
@@ -203,16 +203,16 @@ export class AddTicket {
       browse: new FormControl(''),
       updateDate: new FormControl(new Date()),
       updateRemarks: new FormControl(''),
-      assignedToId: new FormControl([],[Validators.required]),
+      assignedToId: new FormControl([], [Validators.required]),
       complaintId: new FormControl(''),
       remarks: new FormControl(''),
       closeBy: new FormControl(assignedTo),
       closeRemark: new FormControl(''),
       customerID: new FormControl(''),
-      closureDate:new FormControl(new Date()),
-      currentLocation:new FormControl('')
+      closureDate: new FormControl(new Date()),
+      currentLocation: new FormControl('')
     });
- 
+
   }
 
   createEscalationForm(data?: any) {
@@ -255,7 +255,7 @@ export class AddTicket {
     }
   }
 
-  onEscKeyUp(event: KeyboardEvent){
+  onEscKeyUp(event: KeyboardEvent) {
     if (event.key === ';') {
       this.addEscEmail();
     }
@@ -266,7 +266,7 @@ export class AddTicket {
       .split(';')
       .map((email: any) => email.trim())
       .filter((email: any) => email);
-  
+
     emailList.forEach((email: any) => {
       if (MultipleEmailRegex.test(email) && !this.emails.includes(email)) {
         this.emails.push(email);
@@ -275,40 +275,40 @@ export class AddTicket {
         this.emailError = true;
       }
     });
-  
+
     this.ticketForm.get('customerEmail')?.setValue('');
   }
 
-  addEscEmail(){
+  addEscEmail() {
     let emailList = this.escalationForm.value.escalatedEmail
-    .split(';')
-    .map((email: any) => email.trim())
-    .filter((email: any) => email);
+      .split(';')
+      .map((email: any) => email.trim())
+      .filter((email: any) => email);
 
-  emailList.forEach((email: any) => {
-    if (MultipleEmailRegex.test(email) && !this.escEmail.includes(email)) {
-      this.escEmail.push(email);
-      this.emailError = false;
-    } else {
-      this.emailError = true;
-    }
-  });
+    emailList.forEach((email: any) => {
+      if (MultipleEmailRegex.test(email) && !this.escEmail.includes(email)) {
+        this.escEmail.push(email);
+        this.emailError = false;
+      } else {
+        this.emailError = true;
+      }
+    });
 
-  this.escalationForm.get('escalatedEmail')?.setValue('');
+    this.escalationForm.get('escalatedEmail')?.setValue('');
   }
-  
+
 
   removeEmail(index: number) {
     this.emails.splice(index, 1);
     this.ticketForm.get('customerEmail')?.setValue(this.emails.join(';'));
   }
 
-  removeEscEmail(index:number){
+  removeEscEmail(index: number) {
     this.escEmail.splice(index, 1);
     this.escalationForm.get('escalatedEmail')?.setValue(this.escEmail.join(';'));
   }
 
-  onAssignToList(event:any){
+  onAssignToList(event: any) {
     if (event && event.length) {
       const emailIds = event.map((user: any) => user.emailId);
       this.escEmail = [];
@@ -321,7 +321,7 @@ export class AddTicket {
           this.emailError = true;
         }
       });
-    }else{
+    } else {
       this.escEmail = [];
     }
   }
@@ -342,33 +342,29 @@ export class AddTicket {
   }
 
   onDocketNo(docketNo: string) {
-    this.loading=true;
-    this.commonService.updateLoader(true);
+    this.loading = true;
     this.complaintService.getDocDataDetail(docketNo).subscribe({
       next: (response) => {
         if (response && response.data) {
           this.ticketForm.patchValue({
             origin: response.data.origin,
             destination: response.data.destination,
-            docDate:response.data.documentDate,
-            EDD:response.data.edd,
-            billingParty:response.data.customerName,
-            currentStatus:response.data.currentStatus,
-            currentLocation:response.data.currentLocation
+            docDate: response.data.documentDate,
+            EDD: response.data.edd,
+            billingParty: response.data.customerName,
+            currentStatus: response.data.currentStatus,
+            currentLocation: response.data.currentLocation
           });
           this.loading = false;
-        } 
-        this.commonService.updateLoader(false);
+        }
       },
       error: (error: any) => {
         this.loading = false;
-        this.commonService.updateLoader(false);
       },
     });
   }
 
   getLocations() {
-    this.commonService.updateLoader(true);
     this.complaintService.getTicketAddressTo().subscribe({
       next: (response) => {
         if (response) {
@@ -377,20 +373,17 @@ export class AddTicket {
             locName: `${user.locCode}: ${user.locName}`,
           }));
         }
-        this.commonService.updateLoader(false);
       },
       error: (response: any) => {
         this.toasterService.error(response);
-        this.commonService.updateLoader(false);
       },
     });
   }
 
-  getAssignTo(locCode:string) {
+  getAssignTo(locCode: string) {
     this.ticketForm.patchValue({
-      assignedToId:null
+      assignedToId: null
     })
-    this.commonService.updateLoader(true);
     this.complaintService.getAssignTo(locCode).subscribe({
       next: (response) => {
         if (response) {
@@ -398,85 +391,80 @@ export class AddTicket {
           this.assignToList = response.data.map((user: any) => ({
             userId: user.userId,
             userName: `${user.userId}: ${user.userName}`,
-            emailId:user.emailId
+            emailId: user.emailId
           }));
         }
-        this.commonService.updateLoader(false);
       },
       error: (response: any) => {
         this.toasterService.error(response);
-        this.commonService.updateLoader(false);
       },
     });
   }
 
-  getComplaintGetUser(){
-    this.commonService.updateLoader(true);
+  getComplaintGetUser() {
     this.complaintService.getComplaintGetUser(this.identityService.getLoggedUserId()).subscribe({
       next: (response) => {
         if (response.success) {
           this.userList = response.data
           this.ticketForm.patchValue({
-            managerName:this.userList.complaintManagerName,
-            managerId:this.userList.complaintManagerID,
-            userName:this.userList.userName,
-            userID:this.userList.userId,
+            managerName: this.userList.complaintManagerName,
+            managerId: this.userList.complaintManagerID,
+            userName: this.userList.userName,
+            userID: this.userList.userId,
           });
-        } 
-        this.commonService.updateLoader(false);
+        }
       },
       error: (response: any) => {
         this.toasterService.error(response.error.message);
-        this.commonService.updateLoader(false);
       },
     });
   }
 
-success(message: string,id:string): Promise<any> {
-  return Swal.fire({
-    title: `Complaint ID : ${id}`,
-    html: `<div>${message}</div>`,
-    icon: 'success',
-    iconColor: '#7066e0' 
-  });
-}
- 
+  success(message: string, id: string): Promise<any> {
+    return Swal.fire({
+      title: `Complaint ID : ${id}`,
+      html: `<div>${message}</div>`,
+      icon: 'success',
+      iconColor: '#7066e0'
+    });
+  }
+
   onSubmitTicket() {
-    if(this.ticketForm.valid){
-    this.isLoading = true;
-    if (this.complaint === 'Update') {
-      const {customerID, closeDate, closeRemark,closureDate,docketNo, complaintDate,currentLocation,customerEmail,document,documentNo,priority,assignedToId,source,subType,type,closeBy, billingParty, browse, currentStatus, destination, docDate, EDD, managerId, managerName, origin, userName, ...update } = this.ticketForm.value;
-      update.documentNo=this.ticketForm.value.docketNo,
-      update.assignedToId = this.ticketForm.value.assignedToId,
-      update.CustomerEmail = this.emails.join(';'),
-      update.updateDate =  this.datePipe.transform(this.ticketForm.value.updateDate, 'dd/MM/yyyy') || '';  
-      update.document = 'docket',
-      this.updateTicket(update)
-    } else if (this.complaint === 'Add') {
-        const {customerID, closeDate, closeRemark,closureDate,userID,subType,type,docketNo,source,priority,description,customerEmail, closeBy,browse,assignedToId, remarks, complaintId, updateRemarks, updateDate, billingParty, destination, docDate, EDD, managerId, managerName, origin, userName, ...data } = this.ticketForm.value;
+    if (this.ticketForm.valid) {
+      this.isLoading = true;
+      if (this.complaint === 'Update') {
+        const { customerID, closeDate, closeRemark, closureDate, docketNo, complaintDate, currentLocation, customerEmail, document, documentNo, priority, assignedToId, source, subType, type, closeBy, billingParty, browse, currentStatus, destination, docDate, EDD, managerId, managerName, origin, userName, ...update } = this.ticketForm.value;
+        update.documentNo = this.ticketForm.value.docketNo,
+          update.assignedToId = this.ticketForm.value.assignedToId,
+          update.CustomerEmail = this.emails.join(';'),
+          update.updateDate = this.datePipe.transform(this.ticketForm.value.updateDate, 'dd/MM/yyyy') || '';
+        update.document = 'docket',
+          this.updateTicket(update)
+      } else if (this.complaint === 'Add') {
+        const { customerID, closeDate, closeRemark, closureDate, userID, subType, type, docketNo, source, priority, description, customerEmail, closeBy, browse, assignedToId, remarks, complaintId, updateRemarks, updateDate, billingParty, destination, docDate, EDD, managerId, managerName, origin, userName, ...data } = this.ticketForm.value;
         data.DocumentNo = this.ticketForm.value.docketNo,
-        data.Document = this.ticketForm.value.browse,
-        data.AssignedTo = this.ticketForm.value.assignedToId,
-        data.CustomerEmail = this.emails.join(';'),
-        data.Description = this.ticketForm.value.description,
-        data.Priority = this.ticketForm.value.priority,
-        data.Source = this.ticketForm.value.source,
-        data.SubType = this.ticketForm.value.subType,
-        data.Type = this.ticketForm.value.type,
-        data.UserID = this.ticketForm.value.userID,
-        // data.complaintDate =  this.datePipe.transform(this.ticketForm.value.complaintDate, 'dd/MM/yyyy') || '';  
-        this.addTicket(data);
-    } else if (this.complaint === 'Close') {
-      const close = {
-        ComplaintID: this.ticketForm.value.complaintId,
-        CloseBy: this.ticketForm.value.closeBy,
-        CloseRemark: this.ticketForm.value.closeRemark,
-        CustomerEmail : this.emails.join(';'),
-        // closureDate:this.ticketForm.value.closureDate
+          data.Document = this.ticketForm.value.browse,
+          data.AssignedTo = this.ticketForm.value.assignedToId,
+          data.CustomerEmail = this.emails.join(';'),
+          data.Description = this.ticketForm.value.description,
+          data.Priority = this.ticketForm.value.priority,
+          data.Source = this.ticketForm.value.source,
+          data.SubType = this.ticketForm.value.subType,
+          data.Type = this.ticketForm.value.type,
+          data.UserID = this.ticketForm.value.userID,
+          // data.complaintDate =  this.datePipe.transform(this.ticketForm.value.complaintDate, 'dd/MM/yyyy') || '';  
+          this.addTicket(data);
+      } else if (this.complaint === 'Close') {
+        const close = {
+          ComplaintID: this.ticketForm.value.complaintId,
+          CloseBy: this.ticketForm.value.closeBy,
+          CloseRemark: this.ticketForm.value.closeRemark,
+          CustomerEmail: this.emails.join(';'),
+          // closureDate:this.ticketForm.value.closureDate
+        }
+        this.closeTicket(close)
       }
-      this.closeTicket(close)
-    }
-    }else{
+    } else {
       this.ticketForm.markAllAsTouched()
     }
   }
@@ -487,30 +475,26 @@ success(message: string,id:string): Promise<any> {
     }
   }
   addTicket(dataToSubmit: any) {
-    this.commonService.updateLoader(true);
     this.complaintService.addComplaint(dataToSubmit).subscribe({
       next: (response) => {
         if (response.success) {
           // this.toasterService.success(response.data.message);
-          this.success(response.data.message,response.data.id)
+          this.success(response.data.message, response.data.id)
           this.dataEmitter.emit();
           this.onClose();
         } else {
           this.toasterService.error(response.error.message);
         }
         this.isLoading = false;
-        this.commonService.updateLoader(false);
       },
       error: (response: any) => {
         this.toasterService.error(response.error.message);
         this.isLoading = false;
-        this.commonService.updateLoader(false);
       },
     });
   }
-  
+
   closeTicket(dataToSubmit: any) {
-    this.commonService.updateLoader(true);
     this.complaintService.closeTicket(dataToSubmit).subscribe({
       next: (response) => {
         if (response.success) {
@@ -521,106 +505,91 @@ success(message: string,id:string): Promise<any> {
           this.toasterService.error(response.error.message);
         }
         this.isLoading = false;
-        this.commonService.updateLoader(false);
       },
       error: (response: any) => {
         this.toasterService.error(response.error.message);
         this.isLoading = false;
-        this.commonService.updateLoader(false);
       },
     });
   }
 
   updateTicket(dataToSubmit: any): void {
-    this.commonService.updateLoader(true);
     this.complaintService
       .updateComplaint(this.ticketForm.value.complaintId, dataToSubmit)
       .subscribe({
         next: (response) => {
           if (response.success) {
             // this.toasterService.success(response.data.message);
-            this.success(response.data.message,response.data.id)
+            this.success(response.data.message, response.data.id)
             this.dataEmitter.emit();
             this.onClose();
           } else {
             this.toasterService.error(response.error.message);
           }
           this.isLoading = false;
-          this.commonService.updateLoader(false);
         },
         error: (response: any) => {
           this.toasterService.error(response.error.message);
           this.isLoading = false;
-          this.commonService.updateLoader(false);
         },
       });
   }
 
   escalationTicket() {
     const { priority, status, assigned, description, type, docketNo, ...data } = this.escalationForm.value;
-    data.escalatedEmail =  this.escEmail.join(';')
+    data.escalatedEmail = this.escEmail.join(';')
     data.escalatedTo = this.escalationForm.value.escalatedTo.map((user: any) => user).join(',');
-    data.escalatedDate = this.datePipe.transform(this.escalationForm.value.escalatedDate, 'dd/MM/yyyy') || '';  
+    data.escalatedDate = this.datePipe.transform(this.escalationForm.value.escalatedDate, 'dd/MM/yyyy') || '';
     this.isLoading = true;
-    this.commonService.updateLoader(true);
     this.complaintService.AddEscTktComplaint(data).subscribe({
       next: (response) => {
         if (response.success) {
           // this.toasterService.success(response.data.message);
-           this.success(response.data.message,response.data.id)
+          this.success(response.data.message, response.data.id)
           this.dataEmitter.emit();
           this.onEscalationClose()
         } else {
           this.toasterService.error(response.error.message);
         }
         this.isLoading = false;
-        this.commonService.updateLoader(false);
       },
       error: (response: any) => {
         this.toasterService.error(response.error.message);
         this.isLoading = false;
-        this.commonService.updateLoader(false);
       },
     });
   }
 
   getTicketTypes(searchText: string | null = null) {
-    this.commonService.updateLoader(true);
     this.externalService.getGeneralMaster(searchText, 'CMPLNTYPE').subscribe({
       next: (response) => {
         if (response) {
           this.ticketTypes = response.data;
         }
-        this.commonService.updateLoader(false);
       },
       error: (response: any) => {
         this.toasterService.error(response);
-        this.commonService.updateLoader(false);
       },
     });
   }
 
-  getTicketSubTypes(event: any ) {
+  getTicketSubTypes(event: any) {
     this.ticketForm.patchValue({
-      subType:null
+      subType: null
     })
-    this.commonService.updateLoader(true);
     this.complaintService.getTicketSubType(event).subscribe({
       next: (response) => {
         if (response) {
           this.ticketSubTypes = response.data;
         }
-        this.commonService.updateLoader(false);
       },
       error: (response: any) => {
         this.toasterService.error(response);
-        this.commonService.updateLoader(false);
       },
     });
   }
 
   getPriorities(searchText: string | null = null) {
-    this.commonService.updateLoader(true);
     return this.externalService
       .getGeneralMaster(searchText, 'PRIORITY')
       .subscribe({
@@ -628,17 +597,14 @@ success(message: string,id:string): Promise<any> {
           if (response) {
             this.priorities = response.data;
           }
-          this.commonService.updateLoader(false);
         },
         error: (response: any) => {
           this.toasterService.error(response);
-          this.commonService.updateLoader(false);
         },
       });
   }
 
   getticketSources(searchText: string | null = null) {
-    this.commonService.updateLoader(true);
     return this.externalService
       .getGeneralMaster(searchText, 'LEADSRC')
       .subscribe({
@@ -646,27 +612,22 @@ success(message: string,id:string): Promise<any> {
           if (response) {
             this.ticketSources = response.data;
           }
-          this.commonService.updateLoader(false);
         },
         error: (response: any) => {
           this.toasterService.error(response);
-          this.commonService.updateLoader(false);
         },
       });
   }
 
   getUsers() {
-    this.commonService.updateLoader(true);
     this.externalService.getUserMaster().subscribe({
       next: (response) => {
         if (response) {
           this.users = response.data;
         }
-        this.commonService.updateLoader(false);
       },
       error: (response: any) => {
         this.toasterService.error(response);
-        this.commonService.updateLoader(false);
       },
     });
   }

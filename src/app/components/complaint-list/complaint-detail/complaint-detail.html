@@ -1,11 +1,13 @@
 <ng-template #Templatepod>
-    <div class="modal-header border-0 pb-0">
-        <div class="d-flex align-items-center">
-            <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
-                style="width: 40px; height: 40px;">
+    <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+        <div class="d-flex align-items-center gap-3">
+            <div style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
+                class="text-light">
                 <i class="ri-file-list-3-line fs-5"></i>
             </div>
-            <h5 class="modal-title fw-bold text-dark" id="modal-title">Complaint Details</h5>
+            <div>
+                <div class="modal-title">Complaint Details</div>
+            </div>
         </div>
         <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
     </div>
@@ -20,65 +22,65 @@
         <!-- Content (shown when not loading) -->
         <div *ngIf="!isLoading && complaintResponse">
             <div class="table-container">
-            <table class="table table-bordered table-striped">
-                <tbody>
-                    <tr>
-                        <td scope="row">
-                            <strong> Complaint ID: </strong> {{ complaintResponse?.complaintID }}
-                        </td>
-                        <td>
-                            <strong> Complaint Date: </strong>
-                            {{ complaintResponse?.compalaintDate }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <strong> Ticket Addressed To: </strong>
-                            {{ complaintResponse?.ticketAddressTo }}
-                        </td>
-                        <td>
-                            <strong> Ticket Source: </strong>
-                            {{ complaintResponse?.ticketSource }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <strong> Ticket Type: </strong>
-                            {{ complaintResponse?.ticketType }}
-                        </td>
-                        <td>
-                            <strong> Ticket Sub Type: </strong>
-                            {{ complaintResponse?.ticketSubType }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <strong> Ticket Priority: </strong>
-                            {{ complaintResponse?.ticketPriority }}
-                        </td>
-                        <td><strong>Ticket Description: </strong>
-                            {{ complaintResponse?.description }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <strong> EDD: </strong>
-                            {{ (complaintResponse?.edd | date:'dd/MM/yyyy') }}
-                        </td>
-                        <td><strong>ADD: </strong>
-                            {{ (complaintResponse?.addDate | date:'dd/MM/yyyy') }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <strong> Auto Closure: </strong>
-                            {{ complaintResponse?.autoClosure }}
-                        </td>
-                        <td><strong>Delivery Status: </strong>
-                            {{ complaintResponse?.deliveryStatus }}
-                        </td>
-                    </tr>
-                    <!-- <tr>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <td scope="row">
+                                <strong> Complaint ID: </strong> {{ complaintResponse?.complaintID }}
+                            </td>
+                            <td>
+                                <strong> Complaint Date: </strong>
+                                {{ complaintResponse?.compalaintDate }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <strong> Ticket Addressed To: </strong>
+                                {{ complaintResponse?.ticketAddressTo }}
+                            </td>
+                            <td>
+                                <strong> Ticket Source: </strong>
+                                {{ complaintResponse?.ticketSource }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <strong> Ticket Type: </strong>
+                                {{ complaintResponse?.ticketType }}
+                            </td>
+                            <td>
+                                <strong> Ticket Sub Type: </strong>
+                                {{ complaintResponse?.ticketSubType }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <strong> Ticket Priority: </strong>
+                                {{ complaintResponse?.ticketPriority }}
+                            </td>
+                            <td><strong>Ticket Description: </strong>
+                                {{ complaintResponse?.description }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <strong> EDD: </strong>
+                                {{ (complaintResponse?.edd | date:'dd/MM/yyyy') }}
+                            </td>
+                            <td><strong>ADD: </strong>
+                                {{ (complaintResponse?.addDate | date:'dd/MM/yyyy') }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <strong> Auto Closure: </strong>
+                                {{ complaintResponse?.autoClosure }}
+                            </td>
+                            <td><strong>Delivery Status: </strong>
+                                {{ complaintResponse?.deliveryStatus }}
+                            </td>
+                        </tr>
+                        <!-- <tr>
           <td scope="row">
           <strong>  Escalation ID:</strong>
             {{ complaintResponse?.escalationId }}
@@ -89,90 +91,90 @@
           </td> 
         </tr> -->
 
-                    <tr>
-                        <td>
-                            <strong> Closure By: </strong>
-                            {{ complaintResponse?.closeBy }}
-                        </td>
-                        <td>
-                            <strong> Closure Date: </strong>
-                            {{ complaintResponse?.closeDate }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <strong> Last Update Date: </strong>
-                            {{ complaintResponse?.updateDate }}
-                        </td>
-                        <td>
-                            <strong> Last Update Remarks: </strong>
-                            {{ complaintResponse?.updateRemark }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row" style="cursor: pointer;">
-                            <strong>Update History: </strong>
-                            <a (click)="openHistoryPopup()" class="color"> Update History</a>
-                        </td>
-                        <td style="cursor: pointer;">
-                            <strong> Escalation History: </strong>
-                            <a (click)="openEscalation()" class="color"> Escalation History</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <strong>Docket No: </strong>
-                            {{ complaintResponse?.documentNo }}
-                        </td>
-                        <td>
-                            <strong>Doc Date: </strong>
-                            {{ docketNoList?.documentDate }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <strong> EDD: </strong>
-                            {{ docketNoList?.edd }}
-                        </td>
-                        <td>
-                            <strong>Billing Party: </strong>
-                            {{ docketNoList?.customerName }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <strong>Origin: </strong>
-                            {{docketNoList?.origin }}
-                        </td>
-                        <td>
-                            <strong>Destination: </strong>
-                            {{ docketNoList?.destination }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <strong>Current Location: </strong>
-                            {{ docketNoList?.currentLocation }}
-                        </td>
-                        <td>
-                            <strong>Assigned To :</strong>
-                            {{ complaintResponse?.assignedTo }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <strong>Current Status: </strong>
-                            {{ docketNoList?.currentStatus }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        <tr>
+                            <td>
+                                <strong> Closure By: </strong>
+                                {{ complaintResponse?.closeBy }}
+                            </td>
+                            <td>
+                                <strong> Closure Date: </strong>
+                                {{ complaintResponse?.closeDate }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <strong> Last Update Date: </strong>
+                                {{ complaintResponse?.updateDate }}
+                            </td>
+                            <td>
+                                <strong> Last Update Remarks: </strong>
+                                {{ complaintResponse?.updateRemark }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row" style="cursor: pointer;">
+                                <strong>Update History: </strong>
+                                <a (click)="openHistoryPopup()" class="color"> Update History</a>
+                            </td>
+                            <td style="cursor: pointer;">
+                                <strong> Escalation History: </strong>
+                                <a (click)="openEscalation()" class="color"> Escalation History</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <strong>Docket No: </strong>
+                                {{ complaintResponse?.documentNo }}
+                            </td>
+                            <td>
+                                <strong>Doc Date: </strong>
+                                {{ docketNoList?.documentDate }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <strong> EDD: </strong>
+                                {{ docketNoList?.edd }}
+                            </td>
+                            <td>
+                                <strong>Billing Party: </strong>
+                                {{ docketNoList?.customerName }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <strong>Origin: </strong>
+                                {{docketNoList?.origin }}
+                            </td>
+                            <td>
+                                <strong>Destination: </strong>
+                                {{ docketNoList?.destination }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <strong>Current Location: </strong>
+                                {{ docketNoList?.currentLocation }}
+                            </td>
+                            <td>
+                                <strong>Assigned To :</strong>
+                                {{ complaintResponse?.assignedTo }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <strong>Current Status: </strong>
+                                {{ docketNoList?.currentStatus }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <div class="modal-footer border-0 pt-0">
-        <button type="button" class="btn btn-secondary rounded-pill px-4" (click)="modalRef.hide()">
+        <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" (click)="modalRef.hide()">
             Close
         </button>
     </div>

@@ -1,15 +1,24 @@
 <ng-template #Templatepod>
-  <div class="modal-header border-0 pb-0">
-    <h5 class="modal-title fw-bold" id="modal-title" style="color: var(--dark);">
-      {{ leadId == "" ? "Add Lead" : "Update Lead" }}
-    </h5>
+  <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+    <div class="d-flex align-items-center gap-3">
+      <div
+        style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
+        class="text-light">
+        <i class="ri-user-add-line"></i>
+      </div>
+      <div>
+        <div class="modal-title">{{ leadId == "" ? "Add Lead" : "Update Lead" }}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:1px">Create or update lead records — maintain high data
+          quality</div>
+      </div>
+    </div>
     <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
   </div>
-   
-   <div class="loader-overlay" *ngIf="isLoading">
-        <div class="spinner"></div>
-    </div>
- 
+
+  <div class="loader-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+  </div>
+
   <form [formGroup]="leadForm" class="horizontal-form" autocomplete="off" (submit)="onSubmitLead(leadForm)">
     <div class="modal-body pt-2 position-relative" style="min-height: 400px;">
       <!-- Loading Overlay -->

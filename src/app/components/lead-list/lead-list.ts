@@ -15,6 +15,8 @@ import { LeadDetail } from './lead-detail/lead-detail';
 import { ExportService } from '../../shared/services/export.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ExternalService } from '../../shared/services/external.service';
+import { GeneralMasterResponse } from '../../shared/models/external.model';
 
 @Component({
   selector: 'app-lead-list',
@@ -33,12 +35,15 @@ export class LeadList implements OnInit, OnDestroy {
   public isExportLoading: boolean = false;
   public isLoading: boolean = false;
   public selectedUser: any = null;
+  public selectedLeadCategory: any = null;
+  public leadCategories: GeneralMasterResponse[] = [];
 
   private leadService = inject(LeadService);
   public commonService = inject(CommonService); // Public to access globalFilters in HTML
   private toasterService = inject(ToastrService);
   private identityService = inject(IdentityService);
   private exportService = inject(ExportService);
+   private externalService = inject(ExternalService);
 
   private destroy$ = new Subject<void>();
 
@@ -48,7 +53,7 @@ export class LeadList implements OnInit, OnDestroy {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getLeads();
     });
-
+   this.getLeadCategories();
     this.commonService.getUsers()
   }
 
@@ -63,7 +68,8 @@ export class LeadList implements OnInit, OnDestroy {
       filters: {
         Page: this.commonService.globalFilters.Page.toString(),
         PageSize: this.commonService.globalFilters.PageSize.toString(),
-        SearchFilter: this.commonService.globalFilters.searchText
+        SearchFilter: this.commonService.globalFilters.searchText,
+        LeadCategory: this.selectedLeadCategory || ''
       },
       startDate: this.commonService.globalFilters.startDate,
       endDate: this.commonService.globalFilters.endDate,
@@ -87,6 +93,17 @@ export class LeadList implements OnInit, OnDestroy {
 
   onPageChange(event: any): void {
     this.getLeads(event.page);
+  }
+
+    getLeadCategories(searchText: string | null = null) {
+    this.externalService.getGeneralMaster(searchText, 'LEADCAT').subscribe({
+      next: (response) => {
+        if (response && response.data) {
+          this.leadCategories = response.data;
+        }
+      },
+      error: (err) => console.error(err)
+    });
   }
 
   getLead(leadCode: string, mode: 'edit' | 'view' = 'edit') {
