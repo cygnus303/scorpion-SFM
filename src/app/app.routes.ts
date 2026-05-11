@@ -17,26 +17,27 @@ import { ComplaintList } from './components/complaint-list/complaint-list';
 import { TaskList } from './components/task-list/task-list';
 import { MyCalendar } from './components/my-calendar/my-calendar';
 import { TrainingHub } from './components/training-hub/training-hub';
+import { authGuard } from './shared/guards/auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
-  { path: 'dashboard', component: MainContent },
-  { path: 'customer', component: CustomerList },
-  { path: 'lead', component: LeadList },
-  { path: 'meeting', component: MeetingList },
-  { path: 'call', component: CallList },
-  { path: 'expense', component: ExpenseList },
-  { path: 'general-master', component: ExpenseGeneralMaster },
-  { path: 'expense-approval', component: ExpenseApproval },
-  { path: 'quotation', component: QuotationQMS },
-  { path: 'pickup-request', component: PickupRequestList },
-  { path: 'sales-dashboard', component: SalesDashboard },
-  { path: 'collection-dashboard', component: CollectionDashboard },
-  { path: 'cs-dashboard', component: CSLevelDashboard },
-  { path: 'complaint', component: ComplaintList },
-  { path: 'task', component: TaskList },
-  { path: 'calendar', component: MyCalendar },
-  { path: 'training', component: TrainingHub },
+  { path: 'dashboard', component: MainContent, canActivate: [authGuard] },
+  { path: 'customer', component: CustomerList, canActivate: [authGuard] },
+  { path: 'lead', component: LeadList, canActivate: [authGuard] },
+  { path: 'meeting', component: MeetingList, canActivate: [authGuard] },
+  { path: 'call', component: CallList, canActivate: [authGuard] },
+  { path: 'expense', component: ExpenseList, canActivate: [authGuard] },
+  { path: 'general-master', component: ExpenseGeneralMaster, canActivate: [authGuard] },
+  { path: 'expense-approval', component: ExpenseApproval, canActivate: [authGuard] },
+  { path: 'quotation', component: QuotationQMS, canActivate: [authGuard] },
+  { path: 'pickup-request', component: PickupRequestList, canActivate: [authGuard] },
+  { path: 'sales-dashboard', component: SalesDashboard, canActivate: [authGuard] },
+  { path: 'collection-dashboard', component: CollectionDashboard, canActivate: [authGuard] },
+  { path: 'cs-dashboard', component: CSLevelDashboard, canActivate: [authGuard] },
+  { path: 'complaint', component: ComplaintList, canActivate: [authGuard] },
+  { path: 'task', component: TaskList, canActivate: [authGuard] },
+  { path: 'calendar', component: MyCalendar, canActivate: [authGuard] },
+  { path: 'training', component: TrainingHub, canActivate: [authGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];
