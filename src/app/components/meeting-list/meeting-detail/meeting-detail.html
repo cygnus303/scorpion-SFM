@@ -1,11 +1,12 @@
 <ng-template #Templatepod>
     <div class="modal-header border-0 pb-0">
-        <div class="d-flex align-items-center">
-            <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
-                style="width: 40px; height: 40px;">
-                <i class="ri-file-list-3-line fs-5"></i>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
+                class="text-light">
+                <i class="ri-file-list-3-line fs-5"></i></div>
+            <div>
+                <div class="modal-title"> Meeting Details</div>
             </div>
-            <h5 class="modal-title fw-bold text-dark" id="modal-title">Meeting Details</h5>
         </div>
         <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
     </div>

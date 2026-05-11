@@ -2,9 +2,39 @@
     pointer-events: none;
     opacity: 0.5;
 }
-/* For input-groups (icon + input) */
-.input-group.border-danger .form-control,
-.input-group.border-danger .input-group-text ,
-ng-select.border-danger .ng-select-container{
-    border-color: #dc3545 !important;
+
+.floating-group {
+    position: relative;
+}
+
+.custom-input {
+    border-radius: 4px;
+    font-size: 16px;
+    box-shadow: none !important;
+}
+
+.floating-group label {
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    color: #757575;
+    background: #fff;
+    padding: 0 4px;
+    transition: 0.2s ease all;
+    pointer-events: none;
+}
+
+/* Focus or value hoy tyare label upar jai */
+.custom-input:focus+label,
+.custom-input:valid+label {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #3182eb;
+}
+
+/* Focus border */
+.custom-input:focus {
+    border-color: #3182eb;
 }

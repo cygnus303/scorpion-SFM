@@ -1,10 +1,16 @@
 <ng-template #Templatepod>
-   
-    <div class="modal-header border-0 pb-0">
-        <h5 class="modal-title fw-bold text-dark">
-            <i class="ri-calendar-event-line me-2 text-primary"></i>
-            {{isMeetingList}} Meeting
-        </h5>
+
+    <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+        <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
+                class="text-light">
+                ◷</div>
+            <div>
+                <div class="modal-title"> {{isMeetingList}} Meeting</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:1px">Schedule a customer visit — conflicts
+                    auto-detected</div>
+            </div>
+        </div>
         <button type="button" class="btn-close shadow-none" (click)="onClose()"></button>
     </div>
     <div class="loader-overlay" *ngIf="isLoading">
@@ -26,8 +32,8 @@
             <div class="row g-3" [class.opacity-25]="isSubmitting">
                 <!-- Customer Selection -->
                 <div class="col-lg-6">
-                    <div class="form-group mb-3">
-                        <label class="form-label fw-semibold">Customer Name <span class="text-danger">*</span></label>
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Customer Name <span class="text-danger">*</span></label>
 
                         <!-- Readonly mode (for Edit or restricted routes) -->
                         <div *ngIf="!router.url.includes('/meeting') || isMeetingList === 'Update'">
@@ -40,8 +46,7 @@
                         </div>
 
                         <!-- Searchable mode (for New Meeting in List) -->
-                        <div *ngIf="router.url.includes('/meeting') && isMeetingList !== 'Update'"
-                            [ngClass]="{ 'border-danger': meetingForm.controls['customerName'].invalid && meetingForm.controls['customerName'].touched}">
+                        <div *ngIf="router.url.includes('/meeting') && isMeetingList !== 'Update'" class="form-group">
                             <ng-select [items]="meetingCustomerList" bindLabel="customerName" bindValue="item"
                                 formControlName="customerName" placeholder="Search Customer..."
                                 [disabled]="checkOutValue !== '-' || meetingResponse?.customerName ?true:false"
@@ -49,18 +54,17 @@
                                 (change)="getCustomerDetail($event)" (input)="getCustomerList($event)"
                                 (open)="resetMeetingDropdown()" class="custom-ng-select">
                             </ng-select>
-                        </div>
-
-                        <div *ngIf="meetingForm.controls['customerName'].invalid && meetingForm.controls['customerName'].touched"
-                            class="text-danger small mt-1">
-                            Customer name is required.
+                            <div *ngIf="meetingForm.controls['customerName'].invalid && meetingForm.controls['customerName'].touched"
+                                class="text-danger small mt-1">
+                                Customer name is required.
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Contact Details Row -->
                 <div class="col-lg-6">
-                    <label class="form-label fw-semibold">Contact Name <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">Contact Name <span class="text-danger">*</span></label>
                     <div class="input-group"
                         [ngClass]="{ 'border-danger': meetingForm.controls['contactName'].invalid && meetingForm.controls['contactName'].touched}">
                         <span class="input-group-text bg-white border-end-0"><i class="ri-user-line"></i></span>
@@ -74,7 +78,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <label class="form-label fw-semibold">Contact No <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">Contact No <span class="text-danger">*</span></label>
                     <div class="input-group"
                         [ngClass]="{ 'border-danger': meetingForm.controls['contactNo'].invalid && meetingForm.controls['contactNo'].touched}">
                         <span class="input-group-text bg-white border-end-0"><i class="ri-phone-line"></i></span>
@@ -91,7 +95,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <label class="form-label fw-semibold">Email Address <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">Email Address <span class="text-danger">*</span></label>
                     <div class="input-group"
                         [ngClass]="{ 'border-danger': meetingForm.controls['email'].invalid && meetingForm.controls['email'].touched}">
                         <span class="input-group-text bg-white border-end-0"><i class="ri-mail-line"></i></span>
@@ -107,7 +111,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <label class="form-label fw-semibold">Address <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">Address <span class="text-danger">*</span></label>
                     <div class="input-group"
                         [ngClass]="{ 'border-danger': meetingForm.controls['address'].invalid && meetingForm.controls['address'].touched}">
                         <input class="form-control" maxlength="500" formControlName="address" type="text"
@@ -121,7 +125,7 @@
 
                 <!-- Meeting Details -->
                 <div class="col-lg-6">
-                    <label class="form-label fw-semibold">Meeting Purpose <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">Meeting Purpose <span class="text-danger">*</span></label>
                     <input class="form-control" maxlength="500" formControlName="meetingPurpose" type="text" required
                         placeholder="Enter Meeting Purpose" [readOnly]="checkOutValue !== '-' || meetingRole"
                         [ngClass]="{ 'border-danger': meetingForm.controls['meetingPurpose'].invalid && meetingForm.controls['meetingPurpose'].touched}" />
@@ -134,7 +138,7 @@
 
                 <!-- Date & Time Row -->
                 <div class="col-lg-4">
-                    <label class="form-label fw-semibold">Meeting Date <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">Meeting Date <span class="text-danger">*</span></label>
                     <div class="input-group"
                         [ngClass]="{ 'border-danger': meetingForm.controls['meetingDate'].invalid && meetingForm.controls['meetingDate'].touched}">
                         <input class="form-control" placeholder="DD/MM/YYYY" formControlName="meetingDate" bsDatepicker
@@ -153,7 +157,7 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <label class="form-label fw-semibold">Start Time <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">Start Time <span class="text-danger">*</span></label>
                     <input type="time" class="form-control" formControlName="startTime"
                         [readonly]="checkOutValue !== '-' || meetingRole || isChecked "
                         [ngClass]="{ 'border-danger': meetingForm.controls['startTime'].invalid && meetingForm.controls['startTime'].touched}">
@@ -166,7 +170,7 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <label class="form-label fw-semibold">End Time <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">End Time <span class="text-danger">*</span></label>
                     <input type="time" class="form-control" formControlName="endTime"
                         [readonly]="checkOutValue !== '-' || meetingRole || isChecked "
                         [ngClass]="{ 'border-danger': meetingForm.controls['endTime'].invalid && meetingForm.controls['endTime'].touched}">
@@ -179,12 +183,12 @@
 
                 <!-- Type & Attendees -->
                 <div class="col-lg-6">
-                    <label class="form-label fw-semibold">Meeting Type <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">Meeting Type <span class="text-danger">*</span></label>
                     <div class="form-group">
                         <ng-select [items]="meetingTypes" bindLabel="codeDesc" bindValue="codeId"
                             formControlName="meetingTypeId" placeholder="Select Type"
                             [class.disabled]="checkOutValue !== '-' || meetingRole"
-                            [ngClass]="{ 'border-danger': meetingForm.controls['meetingTypeId'].invalid && meetingForm.controls['meetingTypeId'].touched }">
+                            [ngClass]="{ 'border-danger': meetingForm.invalid && meetingForm.touched }">
                         </ng-select>
                     </div>
                     <div *ngIf="meetingForm.invalid && meetingForm.touched" class="text-danger small mt-1">
@@ -194,7 +198,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <label class="form-label fw-semibold">Add Attendees</label>
+                    <label class="form-label fw-bold">Add Attendees</label>
                     <ng-select [items]="users" bindLabel="displayText" bindValue="userId" formControlName="attendeeIDs"
                         [multiple]="true" placeholder="Search team members..."
                         [class.disabled]="checkOutValue !== '-' || meetingRole?true:false">
@@ -203,23 +207,26 @@
 
                 <!-- Location -->
                 <div class="col-lg-12">
-                    <label class="form-label fw-semibold">Meeting Location <span class="text-danger">*</span></label>
-                    <div
-                        [ngClass]="{ 'border-danger': meetingForm.controls['meetingLocation'].invalid && meetingForm.controls['meetingLocation'].touched}">
+                    <label class="form-label fw-bold">Meeting Location <span class="text-danger">*</span></label>
+                    <div>
                         <ng-select [items]="locations" bindLabel="locName" bindValue="locCode"
                             formControlName="meetingLocation" placeholder="Select Branch"
-                            [class.disabled]="checkOutValue !== '-' || meetingRole?true:false">
+                            [class.disabled]="checkOutValue !== '-' || meetingRole?true:false"
+                            [ngClass]="{ 'border-danger': meetingForm.controls['meetingLocation'].invalid && meetingForm.controls['meetingLocation'].touched}">
                         </ng-select>
                     </div>
 
                     &nbsp;
-                    <div
-                        [ngClass]="{ 'border-danger': meetingForm.controls['geoLocation'].invalid && meetingForm.controls['geoLocation'].touched}">
+                    <div>
                         <ng-select [items]="geoLocation" (input)="getGeoLocation($event)" formControlName="geoLocation"
                             (change)="getLatLongData($event)" placeholder="Search Location" [searchable]="true"
-                            [clearable]="true" [class.disabled]="checkOutValue !== '-' || meetingRole" required>
+                            [clearable]="true" [class.disabled]="checkOutValue !== '-' || meetingRole" required
+                            [ngClass]="{ 'border-danger': meetingForm.controls['geoLocation'].invalid && meetingForm.controls['geoLocation'].touched}">
                         </ng-select>
                     </div>
+                    <small class="text-danger small mt-1"
+                        *ngIf="meetingForm.controls['meetingLocation'].invalid && meetingForm.controls['meetingLocation'].touched">Location
+                        is required.</small>
                 </div>
 
                 <!-- Map (Conditional) -->
@@ -234,7 +241,7 @@
                 <!-- MOM & Remarks (Conditional for Edit/Followup) -->
                 <ng-container *ngIf="meetingId">
                     <div class="col-lg-6">
-                        <label class="form-label fw-semibold">Meeting MOM</label>
+                        <label class="form-label fw-bold">Meeting MOM</label>
                         <ng-select [items]="meetingMom" bindLabel="moM" bindValue="moM" formControlName="meetingMOM"
                             [ngClass]="{ 'border-danger': meetingForm.controls['meetingMOM'].invalid && meetingForm.controls['meetingMOM'].touched}"
                             placeholder="Search Mom" [multiple]="true" [clearable]="true" [searchable]="true"
@@ -248,7 +255,7 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <label class="form-label fw-semibold">Remarks</label>
+                        <label class="form-label fw-bold">Remarks</label>
                         <textarea class="form-control" maxlength="300" rows="1" formControlName="remarks"
                             [readOnly]="checkOutValue === '-'"
                             [ngClass]="{ 'border-danger': meetingForm.controls['remarks'].invalid && meetingForm.controls['remarks'].touched}"></textarea>
@@ -260,9 +267,8 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <label class="form-label fw-semibold">Meeting Outcomes</label>
-                        <ng-select [items]="MeetingOutComes" bindLabel="codeDesc" bindValue="codeId" 
-                          
+                        <label class="form-label fw-bold">Meeting Outcomes</label>
+                        <ng-select [items]="MeetingOutComes" bindLabel="codeDesc" bindValue="codeId"
                             placeholder="Search Mom" [multiple]="true" [clearable]="true" [searchable]="true"
                             [class.disabled]="checkOutValue === '-'">
                         </ng-select>
@@ -286,12 +292,25 @@
         </div>
 
         <div class="modal-footer border-0 pt-0 pb-4">
-            <button type="button" class="btn btn-light px-4 rounded-pill" (click)="onClose()">Cancel</button>
-            <button type="submit" class="btn btn-primary px-4 rounded-pill shadow-sm"
-                [disabled]="isSubmitting || isCustomerLoading">
-                <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1"></span>
-                {{isMeetingList}} Meeting
-            </button>
+            <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
+                <button class="btn btn-outline" (click)="onClose()">Cancel</button>
+                <button type="submit" class="btn btn-red" [disabled]="isSubmitting || isCustomerLoading">
+                    <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1"></span>
+                    {{isMeetingList}} Meeting</button>
+            </div>
         </div>
     </form>
 </ng-template>
+
+
+<!-- <div class="container">
+                        <div class="floating-group">
+                            <input type="text" class="form-control custom-input" required formControlName="contactName" [readOnly]="checkOutValue !== '-' || meetingRole"
+                             [ngClass]="{ 'border-danger': meetingForm.controls['contactName'].invalid && meetingForm.controls['contactName'].touched}">
+                            <label>Contact Name</label>
+                        </div>
+                        <div *ngIf="meetingForm.controls['contactName'].invalid && meetingForm.controls['contactName'].touched"
+                            class="text-danger small mt-1">
+                            Contact name is required.
+                        </div>
+                    </div> -->

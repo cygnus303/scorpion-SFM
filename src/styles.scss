@@ -940,7 +940,7 @@ body {
 label {
   font-size: 11px;
   font-weight: 600;
-  color: var(--text2);
+  color:#5a5d62;
   letter-spacing: .2px;
   text-transform: uppercase
 }
@@ -1416,4 +1416,11 @@ textarea {
 }
 @keyframes spin {
   100% { transform: rotate(360deg); }
+}
+
+/* For input-groups (icon + input) */
+.input-group.border-danger .form-control,
+.input-group.border-danger .input-group-text,
+::ng-deep ng-select.border-danger .ng-select-container {
+    border-color: #dc3545 !important;
 }

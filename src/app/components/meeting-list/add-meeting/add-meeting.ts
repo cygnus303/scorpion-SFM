@@ -82,7 +82,7 @@ export class AddMeeting implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public customerData!: CustomerDetailResponse;
   isCustomerLoading = false;
-  public MeetingOutComes:any;
+  public MeetingOutComes: any;
   public notCustomerNameValue = 'Please enter at least 3 characters';
 
   public modalRef!: BsModalRef;
@@ -110,7 +110,7 @@ export class AddMeeting implements OnInit, OnDestroy {
     public commonService: CommonService,
     private toasterService: ToastrService,
     private calendarService: CalendarService,
-    private identityService: IdentityService,
+    public identityService: IdentityService,
     private sweetAlertService: SweetAlertService,
     public router: Router
   ) {
