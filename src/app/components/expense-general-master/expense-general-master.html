@@ -26,6 +26,7 @@
               <th>Transport Mode</th>
               <th>Rate Per KM (₹)</th>
               <th>Status</th>
+              <th>Travel/Meals</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -49,6 +50,7 @@
                     {{ item.isActive ? 'Active' : 'Inactive' }}
                   </span>
                 </td>
+                <td><input type="checkbox" class="form-check-input" disabled [(ngModel)]="item.isTravelExpense"></td>
                 <td>
                   <div class="btn-group dropstart">
                     <button type="button"

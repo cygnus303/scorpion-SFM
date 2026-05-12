@@ -47,9 +47,10 @@ export class AddExpenseGeneralMaster {
           id: data.id,
           modifiedBy: data.modifiedBy,
           active: data.isActive,
+          isTravelExpense: data.isTravelExpense,
         });
       } else {
-        this.expenseMasterForm.reset({ active: true, id: 0 });
+        this.expenseMasterForm.reset({ active: true, id: 0, TravelMeals: false });
       }
     }
     this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered', backdrop: true });
@@ -64,6 +65,7 @@ export class AddExpenseGeneralMaster {
       createdBy: new FormControl(''),
       modifiedBy: new FormControl(''),
       active: new FormControl(true),
+      isTravelExpense: new FormControl(false),
     });
   }
 

@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiHandlerService implements IApiBaseActions {
-  constructor(public httpClient: HttpClient) {}
+  constructor(public httpClient: HttpClient) { }
 
   Get(url: string, params?: ParamsType, headers?: HttpHeaders) {
     return this.httpClient
@@ -86,7 +86,14 @@ export class ApiHandlerService implements IApiBaseActions {
     return httpParams;
   }
 
-    DownloadFile(url: string): Observable<Blob> {
-    return this.httpClient.get<Blob>(environment.apiUrl + url, {responseType: 'blob' as 'json'});
+  DownloadFile(url: string): Observable<Blob> {
+    return this.httpClient.get(environment.apiUrl + url, { responseType: 'blob' });
+  }
+
+  GetBlob(url: string, params?: ParamsType): Observable<Blob> {
+    return this.httpClient.get(environment.apiUrl + url, {
+      params: this.createParams(params),
+      responseType: 'blob'
+    });
   }
 }

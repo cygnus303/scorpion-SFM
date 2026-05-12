@@ -31,8 +31,13 @@
     <div class="card-head">
       <div class="ci">🚚</div>
       <div class="card-title">Pickup Request List</div>
-      <div class="dropdown" style="margin-left: auto;">
-        <button class="tbtn" style="padding:5px 12px;font-size:11px" data-bs-toggle="dropdown" aria-expanded="false">
+      <div class="dropdown" style="margin-left: auto; display: flex; gap: 8px; align-items: center;">
+        <button class="btn btn-square btn-primary rounded-3" [disabled]="isExportLoading" (click)="downloadPRQ()">
+          <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
+          <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
+        </button>
+        <button class="tbtn" style="margin-left:auto;padding:9px 12px;font-size:11px" data-bs-toggle="dropdown"
+          aria-expanded="false">
           <span>＋ Raise PRQ</span>
         </button>
         <ul class="dropdown-menu dropdown-menu-end custom-mini-dropdown">
@@ -59,7 +64,7 @@
           <th>Service Type</th>
           <th>Status</th>
           <th>Action</th>
-          
+
         </tr>
       </thead>
       <tbody>
@@ -72,12 +77,12 @@
           <td>{{data.entryBy}}</td>
           <td>{{data.service_Type}}</td>
           <td><span class="pill pg">{{data.status}}</span></td>
-          <td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td> 
+          <td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td>
         </tr>
       </tbody>
     </table>
-      <!-- Pagination -->
-      <!-- <div class="d-flex justify-content-between align-items-center mt-3"
+    <!-- Pagination -->
+    <!-- <div class="d-flex justify-content-between align-items-center mt-3"
         *ngIf="totalItems > commonService.globalFilters.PageSize">
         <div class="small text-muted">
           Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{

@@ -1,7 +1,4 @@
 <ng-template #Templatepod>
-
-
-
     <div class="PRQ-Modal">
         <div
             style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
@@ -16,7 +13,7 @@
             <div id="prq-id-badge"
                 style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--text2);font-family:monospace">
                 PRQ-4826</div>
-          <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
+            <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
         </div>
 
         <!-- STEP 1: Customer & Contact -->
@@ -28,9 +25,9 @@
             Customer Details
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-             <div class="fg" style="margin-bottom:0">
+            <div class="fg" style="margin-bottom:0">
                 <label>Indent No.</label>
-                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label> Customer Code</label>
@@ -64,15 +61,15 @@
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label>Email *</label>
-                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
             </div>
-             <div class="fg" style="margin-bottom:0">
+            <div class="fg" style="margin-bottom:0">
                 <label>Customer Name</label>
-                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
             </div>
-             <div class="fg" style="margin-bottom:0">
+            <div class="fg" style="margin-bottom:0">
                 <label>KAM</label>
-                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label>Pickup Pin Code</label>
@@ -103,7 +100,7 @@
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label>Desc. Pincode</label>
-                 <input id="prq-unit" placeholder="e.g. 3rd Floor, Unit 12">
+                <input id="prq-unit" placeholder="e.g. 3rd Floor, Unit 12">
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label>Destination Branch</label>
@@ -129,11 +126,11 @@
                 <label>Unloading Conact Number</label>
                 <input id="prq-awb" placeholder="If available">
             </div>
-             <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
                 <label>Product Type</label>
                 <input id="prq-awb" placeholder="If available">
             </div>
-             <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
                 <label>No Of Vehicles</label>
                 <input id="prq-awb" placeholder="If available">
             </div>
@@ -159,7 +156,7 @@
                 <label>Expected Freight</label>
                 <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
             </div>
-            <div class="fg" style="margin-bottom:0"  *ngIf="PRQType === 'LTL'">
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'LTL'">
                 <label>Shipment /PO No</label>
                 <input type="number" id="prq-weight" placeholder="e.g. 20" min="0">
             </div>
@@ -167,15 +164,15 @@
                 <label>Expected Truck Hire</label>
                 <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
             </div>
-             
+
         </div>
-        <div class="fg" style="margin-bottom:18px"  *ngIf="PRQType === 'LTL'">
+        <div class="fg" style="margin-bottom:18px" *ngIf="PRQType === 'LTL'">
             <label>Remarks</label>
             <textarea id="prq-notes"
                 placeholder="e.g. Call before arriving · Gate entry requires ID · Fragile items on top · Contact security at Gate 2..."
                 style="min-height:60px"></textarea>
         </div>
-        <div class="fg" style="margin-bottom:18px"  *ngIf="PRQType === 'FTL'">
+        <div class="fg" style="margin-bottom:18px" *ngIf="PRQType === 'FTL'">
             <label>Instructions</label>
             <textarea id="prq-notes"
                 placeholder="e.g. Call before arriving · Gate entry requires ID · Fragile items on top · Contact security at Gate 2..."

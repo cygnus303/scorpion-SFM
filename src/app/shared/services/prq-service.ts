@@ -18,4 +18,8 @@ export class PrqService {
   getPRQList(payload: any): Observable<IApiBaseResponse<any[]>> {
     return this.apiHandlerService.Post('PRQ/GetPRQGenerationList', payload);
   }
+
+  DownloadPRQ(params: any): Observable<Blob> {
+    return this.apiHandlerService.GetBlob('PRQ/DownloadPRQ', params);
+  }
 }
