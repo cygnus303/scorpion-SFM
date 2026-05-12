@@ -28,7 +28,7 @@ export class MeetingList implements OnInit, OnDestroy {
   public selectedUser: any = null;
   public totalItems: number = 0;
   public isExportLoading: boolean = false;
-  public meetingCard:any;
+  public meetingCard: any;
 
   @ViewChild('addMeeting') addMeeting!: AddMeeting;
   @ViewChild('meetingDetail') meetingDetail!: MeetingDetail;
@@ -45,9 +45,9 @@ export class MeetingList implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.getMeetings();
+        this.getMeetings();
+        this.onMeetingCard();
     });
-    this.onMeetingCard();
     this.commonService.getUsers()
   }
 
@@ -87,6 +87,11 @@ export class MeetingList implements OnInit, OnDestroy {
     this.getMeetings(event.page);
   }
 
+  onDataEmitter() {
+    this.getMeetings();
+    this.onMeetingCard();
+  }
+
   // getMeetingDetails(id: string, mode: 'edit' | 'view' = 'edit') {
   //   // Open the correct modal immediately
   //   if (mode === 'edit') {
@@ -119,7 +124,7 @@ export class MeetingList implements OnInit, OnDestroy {
   // }
 
   openMeetingModal(type: string, id?: string) {
-     if (id) {
+    if (id) {
       this.addMeeting.isMeetingList = type;
       this.addMeeting.showPopup(() => {
         return this.meetingService.getMeetingDetails(id, this.commonService.globalFilters.UserID.toString());
@@ -131,7 +136,7 @@ export class MeetingList implements OnInit, OnDestroy {
   }
 
   openMeetingDetailModal(meeting?: any) {
-     this.meetingDetail.showPopup(() => {
+    this.meetingDetail.showPopup(() => {
       return this.meetingService.getMeetingDetails(meeting, this.identityService.getLoggedUserId());
     });
   }
@@ -154,16 +159,32 @@ export class MeetingList implements OnInit, OnDestroy {
     });
   }
 
-  onMeetingCard(){
-    this.meetingService.meetingCard(this.identityService.getLoggedUserId()).subscribe({
+  onMeetingCard() {
+    const params = {
+      startDate: this.commonService.globalFilters.startDate,
+      endDate: this.commonService.globalFilters.endDate,
+      userId: this.commonService.globalFilters.UserID.toString(),
+    }
+    this.meetingService.meetingCard(params).subscribe({
       next: (response: any) => {
         if (response) {
-         this.meetingCard=response.data;
+          this.meetingCard = response.data;
         }
       },
       error: (response: any) => {
         this.sweetAlertService.error(response.error.message);
       },
     });
+  }
+
+  getOutcomePercentage(value: number): number {
+    if (!this.meetingCard || !this.meetingCard.outcome || !this.meetingCard.outcome.totalMeetings || this.meetingCard.outcome.totalMeetings === 0) {
+      return 0;
+    }
+    return Math.round((value / this.meetingCard.outcome.totalMeetings) * 100);
+  }
+
+  getOutcomeWidth(value: number): string {
+    return `${this.getOutcomePercentage(value)}%`;
   }
 }

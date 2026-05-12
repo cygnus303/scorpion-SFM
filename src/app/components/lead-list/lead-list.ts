@@ -37,13 +37,14 @@ export class LeadList implements OnInit, OnDestroy {
   public selectedUser: any = null;
   public selectedLeadCategory: any = null;
   public leadCategories: GeneralMasterResponse[] = [];
+  public leadCardsCard: any;
 
   private leadService = inject(LeadService);
   public commonService = inject(CommonService); // Public to access globalFilters in HTML
   private toasterService = inject(ToastrService);
   private identityService = inject(IdentityService);
   private exportService = inject(ExportService);
-   private externalService = inject(ExternalService);
+  private externalService = inject(ExternalService);
 
   private destroy$ = new Subject<void>();
 
@@ -52,8 +53,9 @@ export class LeadList implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getLeads();
+      this.getLeadCards();
     });
-   this.getLeadCategories();
+    this.getLeadCategories();
     this.commonService.getUsers()
   }
 
@@ -95,7 +97,7 @@ export class LeadList implements OnInit, OnDestroy {
     this.getLeads(event.page);
   }
 
-    getLeadCategories(searchText: string | null = null) {
+  getLeadCategories(searchText: string | null = null) {
     this.externalService.getGeneralMaster(searchText, 'LEADCAT').subscribe({
       next: (response) => {
         if (response && response.data) {
@@ -124,7 +126,7 @@ export class LeadList implements OnInit, OnDestroy {
   }
 
   openLeadModal(id?: any) {
-      if (id) {
+    if (id) {
       this.addLeadComponent.showPopup(() => {
         return this.leadService.getLeadDetails(id, this.commonService.globalFilters.UserID.toString());
       });
@@ -134,9 +136,14 @@ export class LeadList implements OnInit, OnDestroy {
   }
 
   openLeadDetailModal(lead?: any) {
-     this.leadDetailComponent.showPopup(() => {
+    this.leadDetailComponent.showPopup(() => {
       return this.leadService.getLeadDetails(lead, this.identityService.getLoggedUserId());
     });
+  }
+
+  onDataEmitter() {
+    this.getLeads();
+    this.getLeadCards();
   }
 
   downloadLeads() {
@@ -155,6 +162,31 @@ export class LeadList implements OnInit, OnDestroy {
         this.isExportLoading = false;
       },
     });
+  }
+
+  getLeadCards() {
+    const params = {
+      startDate: this.commonService.globalFilters.startDate,
+      endDate: this.commonService.globalFilters.endDate,
+      userId: this.commonService.globalFilters.UserID.toString(),
+    }
+
+    this.leadService.getLeadCards(params).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.leadCardsCard = response.data;
+        }
+        this.isExportLoading = false;
+      }
+    });
+  }
+
+  getFunnelWidth(value: number): string {
+    if (!this.leadCardsCard || !this.leadCardsCard.funnel_Lead || this.leadCardsCard.funnel_Lead === 0) {
+      return value > 0 ? '100%' : '0%';
+    }
+    const percentage = (value / this.leadCardsCard.funnel_Lead) * 100;
+    return `${percentage}%`;
   }
 
 }

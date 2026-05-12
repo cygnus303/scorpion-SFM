@@ -1,9 +1,16 @@
 <ng-template #Templatepod>
-    <div class="modal-header border-0 pb-0">
-        <h5 class="modal-title fw-bold text-dark">
-            <i class="ri-calendar-event-line me-2 text-primary"></i>
-            Edit Expense
-        </h5>
+    <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+        <div class="d-flex align-items-center gap-3">
+            <div style="width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
+                class="text-light">
+                <i class="ri-receipt-line"></i>
+            </div>
+            <div>
+                <div class="modal-title fw-bold">Edit Expense</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:1px">Update expense details — ensure accurate
+                    reimbursement</div>
+            </div>
+        </div>
         <button type="button" class="btn-close shadow-none" (click)="onClose()"></button>
     </div>
 
@@ -47,8 +54,8 @@
                             <input class="form-control" placeholder="dd/mm/yyyy" formControlName="MeetingDate"
                                 bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" readonly
                                 [ngClass]="{ 'border-danger': expenseForm.controls['MeetingDate'].invalid && expenseForm.controls['MeetingDate'].touched}" />
-                            <button class="btn btn-sm btn-outline-secondary ri-calendar-line" type="button"
-                                style="pointer-events: none; opacity: 0.6;"></button>
+                            <button class="btn btn-outline-secondary border shadow-none" type="button"
+                                style="pointer-events: none; opacity: 0.6;">📅</button>
                         </div>
 
 
@@ -83,8 +90,8 @@
                             <input class="form-control" placeholder="dd/mm/yyyy" formControlName="ExpenseDate"
                                 bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" readonly
                                 [ngClass]="{ 'border-danger': expenseForm.controls['ExpenseDate'].invalid && expenseForm.controls['ExpenseDate'].touched}" />
-                            <button class="btn btn-sm btn-outline-secondary ri-calendar-line" type="button"
-                                style="pointer-events: none; opacity: 0.6;"></button>
+                            <button class="btn btn-outline-secondary border shadow-none" type="button"
+                                style="pointer-events: none; opacity: 0.6;"> 📅</button>
                         </div>
 
 
@@ -199,12 +206,13 @@
         </div>
         <div class="modal-footer">
             <div class="hstack gap-2 justify-content-end">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="onClose()">
+                <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" data-bs-dismiss="modal"
+                    (click)="onClose()">
                     Close
                 </button>
-                <button type="submit" class="btn btn-success" id="add-btn"
+                <button type="submit" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none" id="add-btn"
                     [disabled]="expenseForm.invalid || isSubmitting">
-                    Update Expense
+                    <i class="ri-receipt-line"></i> Update Expense
                 </button>
             </div>
         </div>

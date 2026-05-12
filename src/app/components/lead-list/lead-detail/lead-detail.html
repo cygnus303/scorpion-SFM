@@ -1,24 +1,24 @@
 <ng-template #Templatepod>
-        <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
-            <div class="d-flex align-items-center gap-3">
-                <div style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
-                    class="text-light">
-                    <i class="ri-file-list-3-line fs-5"></i>
-                </div>
-                <div>
-                    <div class="modal-title">Lead Details</div>
-                </div>
+    <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+        <div class="d-flex align-items-center gap-3">
+            <div style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
+                class="text-light">
+                <i class="ri-file-list-3-line fs-5"></i>
             </div>
-            <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
+            <div>
+                <div class="modal-title fw-bold">Lead Details</div>
+            </div>
         </div>
+        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
+    </div>
 
     <div class="modal-body">
-         <!-- Loading Overlay -->
+        <!-- Loading Overlay -->
         <div *ngIf="isLoading" class="text-center py-5">
             <span class="spinner-border spinner-border-sm"></span>
             <div class="mt-2 text-muted">Loading lead details...</div>
         </div>
-        <div  *ngIf="!isLoading && leadResponse" class="table-container">
+        <div *ngIf="!isLoading && leadResponse" class="table-container">
             <table class="table table-bordered table-striped">
                 <tbody>
                     <tr>

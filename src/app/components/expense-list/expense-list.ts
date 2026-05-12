@@ -1,7 +1,7 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ExpenseResponse} from '../../shared/models/expense.model';
+import { ExpenseResponse } from '../../shared/models/expense.model';
 import { CommonService } from '../../shared/services/common.service';
 import { ExpenseService } from '../../shared/services/expense.service';
 import { ExportService } from '../../shared/services/export.service';
@@ -31,12 +31,12 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './expense-list.scss',
 })
 export class ExpenseList implements OnInit {
-   public totalItems: number = 0;
+  public totalItems: number = 0;
   public expense: string = '';
   public expenses: ExpenseResponse[] = [];
   public loading: boolean = false;
   public isExportLoading = false;
-  public expenseCard:any;
+  public expenseCard: any;
   private destroy$ = new Subject<void>();
 
   @ViewChild('expenseDetail') expenseDetail!: ExpenseDetail;
@@ -47,21 +47,21 @@ export class ExpenseList implements OnInit {
     public commonService: CommonService,
   ) { }
 
-    ngOnInit(): void {
-      this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-        this.getExpenses();
-      });
-      this.onExpenseCard()
-    }
-  
-    ngOnDestroy(): void {
-      this.destroy$.next();
-      this.destroy$.complete();
-    }
-  
+  ngOnInit(): void {
+    this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.getExpenses();
+      this.onExpenseCard();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   getExpenses(page: number = this.commonService.globalFilters.Page) {
-     this.commonService.globalFilters.Page = page;
-      const data = {
+    this.commonService.globalFilters.Page = page;
+    const data = {
       Page: this.commonService.globalFilters.Page.toString(),
       PageSize: this.commonService.globalFilters.PageSize.toString(),
       SearchFilter: this.commonService.globalFilters.searchText,
@@ -85,11 +85,16 @@ export class ExpenseList implements OnInit {
     });
   }
 
-  onExpenseCard(){
-    this.expenseService.expenseCard(this.commonService.globalFilters.UserID.toString()).subscribe({
+  onExpenseCard() {
+    const params = {
+      startDate: this.commonService.globalFilters.startDate,
+      endDate: this.commonService.globalFilters.endDate,
+      userId: this.commonService.globalFilters.UserID.toString(),
+    }
+    this.expenseService.expenseCard(params).subscribe({
       next: (response: any) => {
         if (response) {
-          this.expenseCard=response.data;
+          this.expenseCard = response.data;
         }
       },
       error: (response: any) => {
@@ -102,12 +107,17 @@ export class ExpenseList implements OnInit {
     this.getExpenses(event.page);
   }
 
+  onDataEmitter() {
+    this.getExpenses();
+    this.onExpenseCard();
+  }
+
   exportExpenses() {
-     const data = {
-        export: true,
-        startDate: this.commonService.globalFilters.startDate,
-        endDate: this.commonService.globalFilters.endDate,
-      }
+    const data = {
+      export: true,
+      startDate: this.commonService.globalFilters.startDate,
+      endDate: this.commonService.globalFilters.endDate,
+    }
     this.isExportLoading = true;
     this.expenseService.exportexport(this.commonService.globalFilters.UserID, '', '', data).subscribe({
       next: (response: any) => {

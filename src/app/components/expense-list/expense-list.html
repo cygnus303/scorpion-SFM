@@ -3,23 +3,23 @@
   <div class="g4">
     <div class="kpi" style="--kc:var(--blue)">
       <div class="kpi-label">Total Expenses</div>
-      <div class="kpi-val">{{expenseCard?.myExpensesMTD}}</div>
-      <div class="kpi-sub">{{expenseCard?.myExpensesMTDLimit}}</div>
+      <div class="kpi-val">{{expenseCard?.totalExpenses}}</div>
+      <div class="kpi-sub">{{expenseCard?.totalText}}</div>
     </div>
     <div class="kpi" style="--kc:var(--green)">
       <div class="kpi-label">Approved</div>
       <div class="kpi-val">₹ {{expenseCard?.approvedAmount}}</div>
-      <div class="kpi-sub up">{{expenseCard?.approvedRate}}</div>
+      <div class="kpi-sub up">{{expenseCard?.approvedText}}</div>
     </div>
     <div class="kpi" style="--kc:var(--amber)">
       <div class="kpi-label">Pending Approval</div>
-      <div class="kpi-val">{{expenseCard?.pendingApprovalAmount}}</div>
-      <div class="kpi-sub wn">{{expenseCard?.pendingApprovalClaims}}</div>
+      <div class="kpi-val">{{expenseCard?.pendingCount}}</div>
+      <div class="kpi-sub wn">{{expenseCard?.pendingText}}</div>
     </div>
     <div class="kpi" style="--kc:var(--red)">
       <div class="kpi-label">Rejected</div>
       <div class="kpi-val">₹{{expenseCard?.rejectedAmount}}</div>
-      <div class="kpi-sub up">{{expenseCard?.rejectedClaims}}</div>
+      <div class="kpi-sub up">{{expenseCard?.rejectedText}}</div>
     </div>
   </div>
 
@@ -95,24 +95,24 @@
               <td>
                 <div class="btn-group dropstart">
                   <button type="button"
-                      class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
-                      data-bs-toggle="dropdown" aria-expanded="false" style="width:32px; height:32px; padding:0;">
-                     <i class="ri-more-2-fill" style="font-size: 18px;"></i>
+                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                    data-bs-toggle="dropdown" aria-expanded="false" style="width:32px; height:32px; padding:0;">
+                    <i class="ri-more-2-fill" style="font-size: 18px;"></i>
                   </button>
                   <ul class="dropdown-menu shadow-lg border-0 py-1" [class.show]="expense.showActions"
                     style="min-width: fit-content; position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(-32px, 0px, 0px);">
                     <li class="d-flex px-2 gap-2">
                       <button *ngIf="expense.isEdit === 'Y'"
                         class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                          style="width:30px; height:30px; background:#4b5b8d; color:white;"
+                        style="width:30px; height:30px; background:var(--red); color:white;"
                         (click)="editModal(expense);expense.showActions=false" [popover]="'Edit'" placement="bottom"
                         triggers="hover">
                         <i class="ri-pencil-fill"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                         style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
-                        (click)="viewModal(expense); expense.showActions = false" [popover]="'View'"
-                        placement="bottom" triggers="hover">
+                        style="width:30px; height:30px; background:var(--red); border:none; color:white;"
+                        (click)="viewModal(expense); expense.showActions = false" [popover]="'View'" placement="bottom"
+                        triggers="hover">
                         <i class="ri-eye-fill"></i>
                       </button>
                       <!-- <button *ngIf="userType?.toLowerCase() === 'manager'"
@@ -161,4 +161,4 @@
   </div>
 </ng-template>
 <app-expense-detail #expenseDetail></app-expense-detail>
-<app-add-expense #addExpense></app-add-expense>
+<app-add-expense #addExpense (dataEmitter)="onDataEmitter()"></app-add-expense>
