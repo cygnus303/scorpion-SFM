@@ -1,0 +1,55 @@
+.dropdown {
+  position: relative;
+}
+
+.custom-mini-dropdown {
+  min-width: 180px;
+  padding: 12px !important;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 8px !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.gap-2 {
+  gap: 8px !important;
+}
+
+.px-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+}
+
+.btn-primary {
+  background-color: #3a86ff !important;
+  border-color: #3a86ff !important;
+  color: white !important;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  flex: 1;
+}
+
+.btn-success {
+  background-color: #38b000 !important;
+  border-color: #38b000 !important;
+  color: white !important;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  flex: 1;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  color: white !important;
+}

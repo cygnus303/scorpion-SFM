@@ -1,0 +1,193 @@
+<ng-template #Templatepod>
+
+
+
+    <div class="PRQ-Modal">
+        <div
+            style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+            <div
+                style="width:40px;height:40px;background:var(--red);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">
+                🚚</div>
+            <div style="flex:1">
+                <div style="font-size:16px;font-weight:600;color:var(--text1)">Raise Pickup Request (PRQ)</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:2px">PRQ # will be auto-generated · SLA
+                    clock starts on submission</div>
+            </div>
+            <div id="prq-id-badge"
+                style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--text2);font-family:monospace">
+                PRQ-4826</div>
+          <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
+        </div>
+
+        <!-- STEP 1: Customer & Contact -->
+        <div
+            style="display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">
+            <div
+                style="width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                1</div>
+            Customer Details
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+             <div class="fg" style="margin-bottom:0">
+                <label>Indent No.</label>
+                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label> Customer Code</label>
+                <select id="prq-customer" onchange="prqUpdateCustomer()">
+                    <option value="">— Select customer —</option>
+                    <optgroup label="Customers">
+                        <option value="Reliance Freight" data-zone="Mumbai North" data-contact="Mr. R. Sharma"
+                            data-phone="+91 98200 11111" data-addr="Plot 42, MIDC Andheri East, Mumbai - 400093">
+                            Reliance Freight</option>
+                        <option value="BlueDart Corp" data-zone="Mumbai South" data-contact="Ms. Nisha Patel"
+                            data-phone="+91 98200 22222" data-addr="12 Nariman Point, Mumbai - 400021">BlueDart Corp
+                        </option>
+                        <option value="Nexus Logistics" data-zone="Thane / Navi Mumbai" data-contact="Mr. Arun Singh"
+                            data-phone="+91 98200 33333" data-addr="Sector 5, Vashi, Navi Mumbai - 400703">Nexus
+                            Logistics
+                        </option>
+                        <option value="Sunrise Traders" data-zone="Pune" data-contact="Ms. Sunita R."
+                            data-phone="+91 98200 55555" data-addr="Wakad Industrial Area, Pune - 411057">Sunrise
+                            Traders</option>
+                        <option value="GlobalPack Ltd" data-zone="Nashik / Aurangabad" data-contact="Mr. Vikram G."
+                            data-phone="+91 98200 44444" data-addr="MIDC Ambad, Nashik - 422010">GlobalPack Ltd
+                        </option>
+                        <option value="IndoFreight Ltd" data-zone="Mumbai South" data-contact="Ms. Riya Shah"
+                            data-phone="+91 99900 10002" data-addr="Fort Area, Mumbai - 400001">IndoFreight Ltd
+                        </option>
+                        <option value="Apex Cargo" data-zone="Pune" data-contact="Mr. Suresh K."
+                            data-phone="+91 99900 10003" data-addr="Hadapsar Industrial Estate, Pune - 411028">Apex
+                            Cargo</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>Email *</label>
+                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+            </div>
+             <div class="fg" style="margin-bottom:0">
+                <label>Customer Name</label>
+                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+            </div>
+             <div class="fg" style="margin-bottom:0">
+                <label>KAM</label>
+                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>Pickup Pin Code</label>
+                <input id="prq-landmark" placeholder="Near, opp., next to...">
+            </div>
+        </div>
+
+        <div class="fg" style="margin-bottom:12px">
+            <label>Pickup Address *</label>
+            <input id="prq-address" placeholder="Building name, Street, Area, City — PIN Code">
+        </div>
+        <div class="fg" style="margin-bottom:12px">
+            <label>Delivery Address *</label>
+            <input id="prq-address" placeholder="Building name, Street, Area, City — PIN Code">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+            <div class="fg" style="margin-bottom:0">
+                <label>Pickup Branch</label>
+                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>From City</label>
+                <input id="prq-unit" placeholder="e.g. 3rd Floor, Unit 12">
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>Loading Date and Time</label>
+                <input type="date" id="prq-date" min="">
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>Desc. Pincode</label>
+                 <input id="prq-unit" placeholder="e.g. 3rd Floor, Unit 12">
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>Destination Branch</label>
+                <select id="prq-priority">
+                    <option value="Normal">Normal</option>
+                    <option value="High">High</option>
+                    <option value="Urgent">Urgent 🔴</option>
+                </select>
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>Service Type</label>
+                <select id="prq-priority">
+                    <option value="Normal">Normal</option>
+                    <option value="High">High</option>
+                    <option value="Urgent">Urgent 🔴</option>
+                </select>
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>Loading Contact Number</label>
+                <input id="prq-awb" placeholder="If available">
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>Unloading Conact Number</label>
+                <input id="prq-awb" placeholder="If available">
+            </div>
+             <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                <label>Product Type</label>
+                <input id="prq-awb" placeholder="If available">
+            </div>
+             <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                <label>No Of Vehicles</label>
+                <input id="prq-awb" placeholder="If available">
+            </div>
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                <label>Fleet Type</label>
+                <input id="prq-awb" placeholder="If available">
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:14px">
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'LTL'">
+                <label>No. of Packages *</label>
+                <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
+            </div>
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                <label>Exp. Margin</label>
+                <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
+            </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>Approx Weight (kg)</label>
+                <input type="number" id="prq-weight" placeholder="e.g. 20" min="0">
+            </div>
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                <label>Expected Freight</label>
+                <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
+            </div>
+            <div class="fg" style="margin-bottom:0"  *ngIf="PRQType === 'LTL'">
+                <label>Shipment /PO No</label>
+                <input type="number" id="prq-weight" placeholder="e.g. 20" min="0">
+            </div>
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                <label>Expected Truck Hire</label>
+                <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
+            </div>
+             
+        </div>
+        <div class="fg" style="margin-bottom:18px"  *ngIf="PRQType === 'LTL'">
+            <label>Remarks</label>
+            <textarea id="prq-notes"
+                placeholder="e.g. Call before arriving · Gate entry requires ID · Fragile items on top · Contact security at Gate 2..."
+                style="min-height:60px"></textarea>
+        </div>
+        <div class="fg" style="margin-bottom:18px"  *ngIf="PRQType === 'FTL'">
+            <label>Instructions</label>
+            <textarea id="prq-notes"
+                placeholder="e.g. Call before arriving · Gate entry requires ID · Fragile items on top · Contact security at Gate 2..."
+                style="min-height:60px"></textarea>
+        </div>
+
+        <!-- Footer actions -->
+        <div style="display:flex;gap:10px;align-items:center;padding-top:4px;border-top:1px solid var(--border)">
+            <div style="flex:1;font-size:11px;color:var(--text3)">SLA clock starts immediately on submission. Ops
+                team will be notified.</div>
+            <button class="btn btn-outline" onclick="closePRQModal()">Cancel</button>
+            <button class="btn btn-red" onclick="submitPRQ()" style="padding:10px 24px">🚚 Submit PRQ</button>
+        </div>
+    </div>
+</ng-template>
