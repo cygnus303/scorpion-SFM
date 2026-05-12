@@ -3,10 +3,10 @@
         <div class="d-flex align-items-center gap-3">
             <div style="width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
                 class="text-light">
-                <i class="ri-money-rupee-circle-line fs-5"></i>
+                <i class="ri-settings-3-line fs-5"></i>
             </div>
             <div>
-                <div class="modal-title fw-bold">{{ type }}</div>
+                <div class="modal-title fw-bold">{{ type }} General Master</div>
                 <div style="font-size:11px;color:var(--text3);margin-top:1px">Manage expense masters — ensure accurate
                     reimbursement rates</div>
             </div>
@@ -84,13 +84,13 @@
         </div>
 
         <div class="modal-footer border-0 pt-0">
-            <button type="button" class="btn btn-outline-secondary px-4 py-2 rounded-3 fw-bold" data-bs-dismiss="modal" (click)="onClose()">
+            <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold"  data-bs-dismiss="modal" (click)="onClose()">
                 Cancel
             </button>
-            <button type="submit" class="btn btn-red px-4 py-2 rounded-3 fw-bold shadow-none"
+            <button type="submit"  class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none"
                 [disabled]="isSubmitting">
                 <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status"></span>
-                <i *ngIf="!isSubmitting" class="ri-save-line me-2"></i>
+                <i *ngIf="!isSubmitting" class="ri-settings-3-line me-2"></i>
                 {{ type === 'Add Expense' ? 'Save' : 'Update' }}
             </button>
         </div>

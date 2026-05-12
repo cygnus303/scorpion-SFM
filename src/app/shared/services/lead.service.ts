@@ -69,4 +69,8 @@ export class LeadService {
     return this.apiHandlerService.Post(`Lead/ImportExcelUploadLeads?userID=${userId}`, formData);
   }
 
+  getLeadCards(params: any): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Get(`Lead/GetLeadDashboardCards?startDate=${params.startDate}&endDate=${params.endDate}&userID=${params.userId}`);
+  }
+
 }

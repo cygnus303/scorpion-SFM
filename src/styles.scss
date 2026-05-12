@@ -940,7 +940,7 @@ body {
 label {
   font-size: 11px;
   font-weight: 600;
-  color:#5a5d62;
+  color: #5a5d62;
   letter-spacing: .2px;
   text-transform: uppercase
 }
@@ -1392,6 +1392,7 @@ textarea {
   cursor: not-allowed;
   opacity: 0.5;
 }
+
 // loader////////////
 
 .loader-overlay {
@@ -1400,12 +1401,14 @@ textarea {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255,255,255,0.6);
+  background: rgba(255, 255, 255, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1055; /* Bootstrap modal backdrop (1040) karta vadhare */
+  z-index: 1055;
+  /* Bootstrap modal backdrop (1040) karta vadhare */
 }
+
 .spinner {
   border: 5px solid #f3f3f3;
   border-top: 5px solid #08a88a;
@@ -1414,13 +1417,20 @@ textarea {
   height: 50px;
   animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
-  100% { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* For input-groups (icon + input) */
 .input-group.border-danger .form-control,
 .input-group.border-danger .input-group-text,
 ::ng-deep ng-select.border-danger .ng-select-container {
-    border-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+}
+
+.form-control.border-danger {
+  border-color: #dc3545 !important;
 }

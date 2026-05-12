@@ -15,7 +15,7 @@ import { AddTicket } from './add-ticket/add-ticket';
 
 @Component({
   selector: 'app-complaint-list',
-  imports: [CommonModule, FormsModule, PopoverModule, PaginationModule, NgSelectModule, ComplaintDetail,AddTicket],
+  imports: [CommonModule, FormsModule, PopoverModule, PaginationModule, NgSelectModule, ComplaintDetail, AddTicket],
   templateUrl: './complaint-list.html',
   styleUrl: './complaint-list.scss',
 })
@@ -24,7 +24,7 @@ export class ComplaintList {
   public totalItems: number = 0;
   public isExportLoading: boolean = false;
   public isLoading: boolean = false;
-  public compliantCard:any;
+  public compliantCard: any;
 
   public statusList: any[] = [
     { id: '', name: 'All' },
@@ -48,8 +48,8 @@ export class ComplaintList {
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getComplaintList();
+      this.getCompliantCard();
     });
-    this.getCompliantCard();
   }
 
   ngOnDestroy(): void {
@@ -101,7 +101,7 @@ export class ComplaintList {
   }
 
   viewModal(id: any) {
-     this.ComplaintDetail.showPopupWithLoading(() => {
+    this.ComplaintDetail.showPopupWithLoading(() => {
       return this.complaintService.getComplaintDetails(id, this.commonService.globalFilters.UserID.toString());
     });
   }
@@ -123,7 +123,12 @@ export class ComplaintList {
     });
   }
 
-  getCompliantCard(){
+  onDataEmitter() {
+    this.getComplaintList();
+    this.getCompliantCard();
+  }
+
+  getCompliantCard() {
     const params = {
       startDate: this.commonService.globalFilters.startDate,
       endDate: this.commonService.globalFilters.endDate,
@@ -133,7 +138,7 @@ export class ComplaintList {
     this.complaintService.getCompliantCard(params).subscribe({
       next: (response) => {
         if (response.success) {
-          this.compliantCard=response.data;
+          this.compliantCard = response.data;
         }
         this.isExportLoading = false;
       }

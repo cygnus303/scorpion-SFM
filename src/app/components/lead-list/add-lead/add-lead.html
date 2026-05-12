@@ -163,10 +163,10 @@
     </div>
 
     <div class="modal-footer border-0 pt-0">
-      <button type="button" class="btn btn-outline-secondary px-4 py-2 rounded-3 fw-bold" (click)="onClose()">
+      <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" (click)="onClose()">
         Close
       </button>
-      <button type="submit" class="btn btn-red px-4 py-2 rounded-3 fw-bold shadow-none" [disabled]="isSubmitting"
+      <button type="submit" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none" [disabled]="isSubmitting"
         style="background-color: var(--red); border: none; color: white;">
         {{ leadId === '' ? "Add Lead" : "Update Lead" }}
       </button>

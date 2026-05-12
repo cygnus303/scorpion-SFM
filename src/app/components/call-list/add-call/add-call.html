@@ -1,93 +1,80 @@
 <ng-template #Templatepod>
-  <div class="modal-header border-0 pb-0">
-    <h5 class="modal-title fw-bold" id="modal-title" style="color: var(--dark);">
-      {{ callId == "" ? "Add Call" : "Update Call" }}
-    </h5>
+  <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+    <div class="d-flex align-items-center gap-3">
+      <div
+        style="width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
+        class="text-light">
+        <i class="ri-customer-service-2-fill"></i>
+      </div>
+      <div>
+        <div class="modal-title fw-bold">{{ callId == "" ? "Add Call" : "Update Call" }}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:1px">Log a customer call — ensure detailed follow-up
+          notes</div>
+      </div>
+    </div>
     <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
   </div>
 
-  <form
-  [formGroup]="callForm"
-  class="tablelist-form"
-  autocomplete="off"
-  (submit)="onSubmitCall(callForm)"
->
-  <div class="modal-body">
-    <input type="hidden" id="id-field" />
-    <div class="row g-3">
-      <div class="col-lg-6">
-        <div>
-          <label class="control-label">Call Purpose</label>
+  <form [formGroup]="callForm" class="tablelist-form" autocomplete="off" (submit)="onSubmitCall(callForm)">
+    <div class="modal-body">
+      <input type="hidden" id="id-field" />
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div>
+            <label class="control-label">Call Purpose</label>
 
-          <ng-select
-            [items]="callPurposes"
-            bindLabel="codeDesc"
-            bindValue="codeId"
-            formControlName="callPurpose"
-            placeholder="Search Call Purpose"
-            [ngClass]="{ 'border-danger': callForm.controls['callPurpose'].invalid && callForm.controls['callPurpose'].touched}"
-          >
-          </ng-select>
-          <span
-            *ngIf="
+            <ng-select [items]="callPurposes" bindLabel="codeDesc" bindValue="codeId" formControlName="callPurpose"
+              placeholder="Search Call Purpose"
+              [ngClass]="{ 'border-danger': callForm.controls['callPurpose'].invalid && callForm.controls['callPurpose'].touched}">
+            </ng-select>
+            <span *ngIf="
               callForm.controls['callPurpose'].invalid &&
               callForm.controls['callPurpose']?.touched
-            "
-            class="help-block"
-          >
-            <small *ngIf="callForm.controls['callPurpose'].errors?.['required']"
-              class="text-danger">Call purpose is required.</small
-            >
-          </span>
+            " class="help-block">
+              <small *ngIf="callForm.controls['callPurpose'].errors?.['required']" class="text-danger">Call purpose is
+                required.</small>
+            </span>
+          </div>
         </div>
-      </div>
-      <div class="col-lg-6">
-        <div>
-          <label class="control-label">Call Category</label>
-          <ng-select
-          [items]="callCategories"
-          bindLabel="codeDesc"
-          bindValue="codeId"
-          formControlName="callCategoryId"
-          placeholder="Search Call Purpose"
-          [ngClass]="{ 'border-danger': callForm.controls['callCategoryId'].invalid && callForm.controls['callCategoryId'].touched}"
-        >
-        </ng-select>
-          <span
-            *ngIf="
+        <div class="col-lg-6">
+          <div>
+            <label class="control-label">Call Category</label>
+            <ng-select [items]="callCategories" bindLabel="codeDesc" bindValue="codeId" formControlName="callCategoryId"
+              placeholder="Search Call Purpose"
+              [ngClass]="{ 'border-danger': callForm.controls['callCategoryId'].invalid && callForm.controls['callCategoryId'].touched}">
+            </ng-select>
+            <span *ngIf="
               callForm.controls['callCategoryId'].invalid &&
               callForm.controls['callCategoryId']?.touched
-            "
-            class="help-block"
-          >
-            <small
-              *ngIf="callForm.controls['callCategoryId'].errors?.['required']"
-              class="text-danger">Category is required.</small
-            >
-          </span>
-        </div>
-      </div>
-
-      <div class="col-lg-4">
-        <div>
-          <label class="control-label">Call Date</label>
-
-          <div class="input-group">
-             <input class="form-control disabled-field" placeholder="dd/mm/yyyy" formControlName="callDate" bsDatepicker
-              #d2="bsDatepicker" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red' }"
-              [ngClass]="{ 'border-danger': callForm.controls['callDate'].invalid && callForm.controls['callDate'].touched}" />
-            <button class="btn btn-outline-secondary border shadow-none" type="button" disabled>
-              📅
-            </button>
+            " class="help-block">
+              <small *ngIf="callForm.controls['callCategoryId'].errors?.['required']" class="text-danger">Category is
+                required.</small>
+            </span>
           </div>
-          <div *ngIf="
+        </div>
+
+        <div class="col-lg-4">
+          <div>
+            <label class="control-label">Call Date</label>
+
+            <div class="input-group">
+              <input class="form-control disabled-field" placeholder="dd/mm/yyyy" formControlName="callDate"
+                bsDatepicker #d2="bsDatepicker"
+                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red' }"
+                [ngClass]="{ 'border-danger': callForm.controls['callDate'].invalid && callForm.controls['callDate'].touched}" />
+              <button class="btn btn-outline-secondary border shadow-none" type="button" disabled>
+                📅
+              </button>
+            </div>
+            <div *ngIf="
                       callForm.get('callDate')?.invalid &&
                       callForm.controls['callDate']?.touched
                     " class="text-danger">
-            <small *ngIf="callForm.get('callDate')?.errors?.['required']">Meeting date is required.</small>
-            <small *ngIf="callForm.get('callDate')?.errors?.['notFutureDate']">Meeting date must be in the future.</small>
-          </div>
-          <!-- <div class="input-group">
+              <small *ngIf="callForm.get('callDate')?.errors?.['required']">Meeting date is required.</small>
+              <small *ngIf="callForm.get('callDate')?.errors?.['notFutureDate']">Meeting date must be in the
+                future.</small>
+            </div>
+            <!-- <div class="input-group">
               <input
                 width="100%"
                 class="form-control"
@@ -109,113 +96,86 @@
               <small *ngIf="callForm.get('callDate')?.errors?.['required']">Meeting date is required.</small>
               <small *ngIf="callForm.get('callDate')?.errors?.['notFutureDate']">Meeting date must be in the future.</small>
             </div> -->
+          </div>
         </div>
-      </div>
-      <div class="col-lg-4">
-        <div>
-          <label for="startTime" class="control-label">Start Time</label>
-          <input
-            type="time"
-            class="form-control"
-            id="startTime"
-            formControlName="startTime"
-            [ngClass]="{ 'border-danger': callForm.controls['startTime'].invalid && callForm.controls['startTime'].touched}"/>
-          <div *ngIf="callForm.invalid && callForm.touched" class="text-danger">
-            <small *ngIf="callForm.errors?.['startTimeAfterCurrentTime']">
+        <div class="col-lg-4">
+          <div>
+            <label for="startTime" class="control-label">Start Time</label>
+            <input type="time" class="form-control" id="startTime" formControlName="startTime"
+              [ngClass]="{ 'border-danger': callForm.controls['startTime'].invalid && callForm.controls['startTime'].touched}" />
+            <div *ngIf="callForm.invalid && callForm.touched" class="text-danger">
+              <small *ngIf="callForm.errors?.['startTimeAfterCurrentTime']">
                 Start time must be after the current time.
-            </small>
+              </small>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col-lg-4">
-        <div>
-          <label for="endTime" class="control-label">End Time</label>
-          <input
-            type="time"
-            class="form-control"
-            id="endTime"
-            formControlName="endTime"
-            [ngClass]="{ 'border-danger': callForm.controls['endTime'].invalid && callForm.controls['endTime'].touched}"/>
-          <div *ngIf="callForm.invalid && callForm.touched" class="text-danger">
-            <small *ngIf="callForm.errors?.['timeRangeValidator']">
+        <div class="col-lg-4">
+          <div>
+            <label for="endTime" class="control-label">End Time</label>
+            <input type="time" class="form-control" id="endTime" formControlName="endTime"
+              [ngClass]="{ 'border-danger': callForm.controls['endTime'].invalid && callForm.controls['endTime'].touched}" />
+            <div *ngIf="callForm.invalid && callForm.touched" class="text-danger">
+              <small *ngIf="callForm.errors?.['timeRangeValidator']">
                 End time must be after the start time.
-            </small>
+              </small>
+            </div>
           </div>
         </div>
-      </div>
         <div class="col-lg-6">
           <div>
             <label class="control-label">Customer Name</label>
 
-            <input style="text-transform: uppercase;"
-            class="form-control"
-            maxlength="255"
-            formControlName="companyName"
-            type="text"
-            required
-            [ngClass]="{ 'border-danger': callForm.controls['companyName'].invalid && callForm.controls['companyName'].touched}" readonly/>
+            <input style="text-transform: uppercase;" class="form-control" maxlength="255" formControlName="companyName"
+              type="text" required
+              [ngClass]="{ 'border-danger': callForm.controls['companyName'].invalid && callForm.controls['companyName'].touched}"
+              readonly />
 
-            <span *ngIf="callForm.controls['customerCode'].invalid && callForm.controls['customerCode']?.touched " class="help-block">
-              <small *ngIf="callForm.controls['customerCode'].errors?.['required']" class="text-danger">Customer name is required.</small>
+            <span *ngIf="callForm.controls['customerCode'].invalid && callForm.controls['customerCode']?.touched "
+              class="help-block">
+              <small *ngIf="callForm.controls['customerCode'].errors?.['required']" class="text-danger">Customer name is
+                required.</small>
             </span>
           </div>
         </div>
-      <div class="col-lg-6">
-        <div>
-          <label class="control-label">Call Status</label>
+        <div class="col-lg-6">
+          <div>
+            <label class="control-label">Call Status</label>
 
-          <ng-select
-          [items]="callStatuses"
-          bindLabel="codeDesc"
-          bindValue="codeId"
-          formControlName="callStatusId"
-          placeholder="Search Call Status"
-          [ngClass]="{ 'border-danger': callForm.controls['callStatusId'].invalid && callForm.controls['callStatusId'].touched}"
-        >
-        </ng-select>
+            <ng-select [items]="callStatuses" bindLabel="codeDesc" bindValue="codeId" formControlName="callStatusId"
+              placeholder="Search Call Status"
+              [ngClass]="{ 'border-danger': callForm.controls['callStatusId'].invalid && callForm.controls['callStatusId'].touched}">
+            </ng-select>
+          </div>
         </div>
-      </div>
-      <div class="col-lg-6">
-        <div>
-          <label class="control-label">Remarks</label>
-          <input
-            class="form-control"
-            maxlength="500"
-            formControlName="remarks"
-            type="text"
-          />
-          <span
-            *ngIf="
+        <div class="col-lg-6">
+          <div>
+            <label class="control-label">Remarks</label>
+            <input class="form-control" maxlength="500" formControlName="remarks" type="text" />
+            <span *ngIf="
               callForm.controls['remarks'].invalid &&
               callForm.controls['remarks']?.touched
-            "
-            class="help-block"
-          >
-            <small
-              *ngIf="callForm.controls['remarks'].errors?.['required']"
-              class="text-danger">remarks is required.</small
-            >
-          </span>
+            " class="help-block">
+              <small *ngIf="callForm.controls['remarks'].errors?.['required']" class="text-danger">remarks is
+                required.</small>
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <div class="hstack gap-2 justify-content-end">
-      <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="onClose()">
-        Close
-      </button>
-      <button
-        type="submit"
-        class="btn btn-success"
-        id="add-btn"
-        [disabled]="isSubmitting"
-      >
-      {{ callId == "" ? "Add Call" : "Update Call" }}
-      </button>
+    <div class="modal-footer">
+      <div class="hstack gap-2 justify-content-end">
+        <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" data-bs-dismiss="modal"
+          (click)="onClose()">
+          Close
+        </button>
+        <button type="submit" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none" id="add-btn"
+          [disabled]="isSubmitting">
+          {{ callId == "" ? "Add Call" : "Update Call" }}
+        </button>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
 
 </ng-template>

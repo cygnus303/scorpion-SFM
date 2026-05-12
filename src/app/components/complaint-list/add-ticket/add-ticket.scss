@@ -69,3 +69,10 @@
             transform: rotate(360deg);
         }
     }
+
+    /* For input-groups (icon + input) */
+    .input-group.border-danger .form-control,
+    .input-group.border-danger .input-group-text,
+    ::ng-deep ng-select.border-danger .ng-select-container {
+        border-color: #dc3545 !important;
+    }

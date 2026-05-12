@@ -293,8 +293,9 @@
 
         <div class="modal-footer border-0 pt-0 pb-4">
             <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
-                <button class="btn btn-outline" (click)="onClose()">Cancel</button>
-                <button type="submit" class="btn btn-red" [disabled]="isSubmitting || isCustomerLoading">
+                <button class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" (click)="onClose()">Cancel</button>
+                <button type="submit" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none"
+                    [disabled]="isSubmitting || isCustomerLoading">
                     <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1"></span>
                     {{isMeetingList}} Meeting</button>
             </div>

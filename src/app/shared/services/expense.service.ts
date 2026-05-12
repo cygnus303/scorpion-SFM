@@ -11,7 +11,7 @@ import { CommonResponse } from '../models/common.model';
 export class ExpenseService {
   constructor(
     @Inject(ApiHandlerService) private apiHandlerService: ApiHandlerService
-  ) {}
+  ) { }
 
   getExpenseList(
     filters: any
@@ -24,12 +24,12 @@ export class ExpenseService {
   ): Observable<IApiBaseResponse<ExpenseResponse[]>> {
     return this.apiHandlerService.Get('Expense/ApprovalList', filters);
   }
-  
+
   exportExpense(filters: any): Observable<IApiBaseResponse<any[]>> {
-    return this.apiHandlerService.Get(`expense/ExportExpenseApproval`,filters);
+    return this.apiHandlerService.Get(`expense/ExportExpenseApproval`, filters);
   }
 
-  getExpenseDetails(id: any,userId:any): Observable<IApiBaseResponse<ExpenseDetailResponse>> {
+  getExpenseDetails(id: any, userId: any): Observable<IApiBaseResponse<ExpenseDetailResponse>> {
     return this.apiHandlerService.Get(`expense/${id}?userId=${userId}`);
   }
 
@@ -55,8 +55,8 @@ export class ExpenseService {
     return this.apiHandlerService.Post('expense/' + id, addExpenseRequest);
   }
 
-  exportexport(userId:any,startDate:any,endDate:any,filters:any): Observable<IApiBaseResponse<any[]>> {
-    return this.apiHandlerService.Get(`Expense/ExportExpense?userid=${userId}&startdate=${startDate}&enddate=${endDate}`,filters);
+  exportexport(userId: any, startDate: any, endDate: any, filters: any): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get(`Expense/ExportExpense?userid=${userId}&startdate=${startDate}&enddate=${endDate}`, filters);
   }
 
   deleteExpense(id: string): Observable<IApiBaseResponse<CommonResponse>> {
@@ -66,19 +66,21 @@ export class ExpenseService {
   expenseApproval(approvalRequest: ApprovalRequest): Observable<IApiBaseResponse<CommonResponse>> {
     return this.apiHandlerService.Post('Expense/approval', approvalRequest);
   }
-  
-  multipleExpenseApproval(approvalRequest:any): Observable<IApiBaseResponse<CommonResponse>> {
+
+  multipleExpenseApproval(approvalRequest: any): Observable<IApiBaseResponse<CommonResponse>> {
     return this.apiHandlerService.Post('Expense/MultipleExpenseAproveList', approvalRequest);
   }
 
-  downloadAuditorExpense(userId:string): Observable<IApiBaseResponse<any[]>> {
+  downloadAuditorExpense(userId: string): Observable<IApiBaseResponse<any[]>> {
     return this.apiHandlerService.Get(`Expense/ExportExpenseApprovedButPaymentPendingData?userId=${userId}`);
   }
 
-   expenseCard(userId: string): Observable<any> {
-    return this.apiHandlerService.Get(`Expense/DashboardCards?userid=${userId}`);
+  expenseCard(params: any): Observable<any> {
+    return this.apiHandlerService.Get(`Expense/DashboardCards?startDate=${params.startDate}&endDate=${params.endDate}&userID=${params.userId}`);
   }
 
-  
+  ApprovalDashboardCards(params: any): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Get(`Expense/ApprovalDashboardCards?startDate=${params.startDate}&endDate=${params.endDate}&userID=${params.userId}`);
+  }
 
 }

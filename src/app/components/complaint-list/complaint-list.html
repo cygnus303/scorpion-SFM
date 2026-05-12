@@ -13,7 +13,7 @@
     </div>
     <div class="kpi" style="--kc:var(--amber)">
       <div class="kpi-label">SLA Compliance</div>
-      <div class="kpi-val">{{compliantCard?.slaCompliance}}</div>
+      <div class="kpi-val">{{compliantCard?.slaCompliance}}%</div>
       <!-- <div class="kpi-sub wn">Target: 95%</div> -->
     </div>
     <div class="kpi" style="--kc:var(--red)">
@@ -23,7 +23,7 @@
     </div>
     <div class="kpi" style="--kc:var(--green)">
       <div class="kpi-label">First Call Resolution</div>
-      <div class="kpi-val">{{compliantCard?.firstCallResolution}}</div>
+      <div class="kpi-val">{{compliantCard?.firstCallResolution}}%</div>
       <!-- <div class="kpi-sub up">Target: 80%</div> -->
     </div>
   </div>
@@ -45,7 +45,8 @@
             <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
             <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
           </button>
-          <button class="tbtn" style="padding:5px 12px;font-size:11px" (click)="openAddTicketModal('Add')">＋ New Ticket</button>
+          <button class="tbtn" style="padding:5px 12px;font-size:11px" (click)="openAddTicketModal('Add')">＋ New
+            Ticket</button>
         </div>
       </div>
       <table class="mt">
@@ -106,7 +107,7 @@
                   <ul class="dropdown-menu shadow-lg border-0 py-1" style="min-width: fit-content;">
                     <li class="d-flex px-2 gap-2">
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:30px; height:30px; background:#4b5b8d; color:white;" [popover]="'Edit'"
+                        style="width:30px; height:30px; background:var(--red); color:white;" [popover]="'Edit'"
                         placement="auto" triggers="hover" [outsideClick]="true" container="body"
                         [ngClass]="{'disabled-image': complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'}"
                         [disabled]="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'"
@@ -115,7 +116,7 @@
                       </button>
 
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
+                        style="width:30px; height:30px; background:var(--red); border:none; color:white;"
                         [popover]="'View'" placement="auto" triggers="hover" [outsideClick]="true" container="body"
                         (click)="viewModal(complaint.complaintID)">
                         <i class="ri-eye-fill"></i>
@@ -175,4 +176,4 @@
 </div>
 
 <app-complaint-detail #ComplaintDetail></app-complaint-detail>
-<app-add-ticket #AddTicket (dataEmitter)="getComplaintList()"></app-add-ticket>
+<app-add-ticket #AddTicket (dataEmitter)="onDataEmitter()"></app-add-ticket>

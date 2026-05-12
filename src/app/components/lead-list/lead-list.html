@@ -2,34 +2,34 @@
   <div class="kpi-row">
     <div class="kpi" style="--kc:var(--blue)">
       <div class="kpi-label">Total Active Leads</div>
-      <div class="kpi-val">47</div>
-      <div class="kpi-sub up">▲ +12 this week</div>
+      <div class="kpi-val">{{leadCardsCard?.totalActiveLeads}}</div>
+      <!-- <div class="kpi-sub up">▲ +12 this week</div> -->
     </div>
     <div class="kpi" style="--kc:var(--amber)">
       <div class="kpi-label">Proposals Sent</div>
-      <div class="kpi-val">21</div>
-      <div class="kpi-sub wn">8 awaiting response</div>
+      <div class="kpi-val">{{leadCardsCard?.proposalsSent}}</div>
+      <!-- <div class="kpi-sub wn">8 awaiting response</div> -->
     </div>
     <div class="kpi" style="--kc:var(--green)">
       <div class="kpi-label">Won This Month</div>
-      <div class="kpi-val">8</div>
-      <div class="kpi-sub up">₹14L new revenue</div>
+      <div class="kpi-val">{{leadCardsCard?.wonThisMonth}}</div>
+      <!-- <div class="kpi-sub up">₹14L new revenue</div> -->
     </div>
     <div class="kpi" style="--kc:var(--red)">
       <div class="kpi-label">Cold / At Risk</div>
-      <div class="kpi-val">6</div>
-      <div class="kpi-sub dn">No contact &gt;14 days</div>
+      <div class="kpi-val">{{leadCardsCard?.coldAtRisk}}</div>
+      <!-- <div class="kpi-sub dn">No contact &gt;14 days</div> -->
     </div>
     <div class="kpi" style="--kc:var(--amber)">
       <div class="kpi-label">Conversion Rate</div>
-      <div class="kpi-val">17%</div>
-      <div class="kpi-sub wn">Target: 25%</div>
+      <div class="kpi-val">{{leadCardsCard?.conversionRate}}%</div>
+      <!-- <div class="kpi-sub wn">Target: 25%</div> -->
     </div>
   </div>
   <div class="g2">
     <div class="card">
       <div class="card-head">
-        <div class="ci">◎</div>
+        <div class="ci text-light">◎</div>
         <div class="card-title">Lead List</div>
         <div style="margin-left:auto; display:flex; gap:8px;">
           <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
@@ -42,10 +42,11 @@
       </div>
       <div style="display:flex;gap:8px;margin-bottom:12px">
         <ng-select [items]="leadCategories" bindLabel="codeDesc" bindValue="codeDesc" style="width: 50%;"
-          placeholder="Search Lead Category" [clearable]="true" [searchable]="true" (change)="getLeads()" [(ngModel)]="selectedLeadCategory">
+          placeholder="Search Lead Category" [clearable]="true" [searchable]="true" (change)="getLeads()"
+          [(ngModel)]="selectedLeadCategory">
         </ng-select>
-        <ng-select [items]="commonService.users" bindLabel="name" bindValue="userId" [placeholder]="'Search User'" style="width: 50%;"
-          [clearable]="true" [searchable]="true" (change)="getLeads()" [(ngModel)]="selectedUser"
+        <ng-select [items]="commonService.users" bindLabel="name" bindValue="userId" [placeholder]="'Search User'"
+          style="width: 50%;" [clearable]="true" [searchable]="true" (change)="getLeads()" [(ngModel)]="selectedUser"
           class="form-control border-start-1 line-height p-0 border-remover">
         </ng-select>
       </div>
@@ -95,25 +96,25 @@
                   <ul class="dropdown-menu shadow-lg border-0 py-1" style="min-width: fit-content;">
                     <li class="d-flex px-2 gap-2">
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:30px; height:30px; background:#4b5b8d; color:white;"
+                        style="width:30px; height:30px; background:var(--red); color:white;"
                         [ngClass]="{'disabled-image': !lead.leadCreated}"
-                        (click)="lead.leadCreated ? openLeadModal(lead.leadId):null" [popover]="'Edit'"
-                        placement="auto" triggers="hover" [outsideClick]="true" container="body">
+                        (click)="lead.leadCreated ? openLeadModal(lead.leadId):null" [popover]="'Edit'" placement="auto"
+                        triggers="hover" [outsideClick]="true" container="body">
                         <i class="ri-pencil-fill"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
+                        style="width:30px; height:30px; background:var(--red); border:none; color:white;"
                         (click)="openLeadDetailModal(lead.leadId)" [popover]="'View'" placement="auto" triggers="hover"
                         [outsideClick]="true" container="body">
                         <i class="ri-eye-fill"></i>
                       </button>
                       <!-- <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
+                        style="width:30px; height:30px; background:var(--red); border:none; color:white;"
                         [popover]="'Call'" placement="auto" triggers="hover" [outsideClick]="true" container="body">
                         <i class="ri-phone-line"></i>
                       </button> -->
                       <!-- <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:30px; height:30px; background:#4b5b8d; border:none; color:white;"
+                        style="width:30px; height:30px; background:var(--red); border:none; color:white;"
                         [popover]="'Meeting'" placement="auto" triggers="hover" [outsideClick]="true" container="body">
                         <i class="ri-team-fill"></i>
                       </button> -->
@@ -159,31 +160,42 @@
           <div class="fr">
             <div class="fl">Lead</div>
             <div class="ft">
-              <div class="ff" style="width:100%;background:#CC0000"><span class="fp">47 leads</span></div>
+              <div class="ff" [style.width]="getFunnelWidth(leadCardsCard?.funnel_Lead)" style="background:#CC0000">
+                <span class="fp">{{leadCardsCard?.funnel_Lead}} leads</span>
+              </div>
             </div>
           </div>
           <div class="fr">
             <div class="fl">Qualified</div>
             <div class="ft">
-              <div class="ff" style="width:68%;background:#990000"><span class="fp">32</span></div>
+              <div class="ff" [style.width]="getFunnelWidth(leadCardsCard?.funnel_Qualified)"
+                style="background:#990000">
+                <span class="fp">{{leadCardsCard?.funnel_Qualified}}</span>
+              </div>
             </div>
           </div>
           <div class="fr">
             <div class="fl">Proposal</div>
             <div class="ft">
-              <div class="ff" style="width:45%;background:#660000"><span class="fp">21</span></div>
+              <div class="ff" [style.width]="getFunnelWidth(leadCardsCard?.funnel_Proposal)" style="background:#660000">
+                <span class="fp">{{leadCardsCard?.funnel_Proposal}}</span>
+              </div>
             </div>
           </div>
           <div class="fr">
             <div class="fl">Prospect</div>
             <div class="ft">
-              <div class="ff" style="width:28%;background:#3D0000"><span class="fp">13</span></div>
+              <div class="ff" [style.width]="getFunnelWidth(leadCardsCard?.funnel_Prospect)" style="background:#3D0000">
+                <span class="fp">{{leadCardsCard?.funnel_Prospect}}</span>
+              </div>
             </div>
           </div>
           <div class="fr">
             <div class="fl">Customer ✓</div>
             <div class="ft">
-              <div class="ff" style="width:18%;background:#16A34A"><span class="fp">8 won</span></div>
+              <div class="ff" [style.width]="getFunnelWidth(leadCardsCard?.funnel_Customer)" style="background:#16A34A">
+                <span class="fp">{{leadCardsCard?.funnel_Customer}} won</span>
+              </div>
             </div>
           </div>
         </div>
@@ -200,15 +212,15 @@
         </div>
         <div class="srow">
           <div class="sk">High intent (score &gt;70)</div>
-          <div class="sv up">9 leads</div>
+          <div class="sv up">0 leads</div>
         </div>
         <div class="srow">
           <div class="sk">Cold / at risk</div>
-          <div class="sv dn">6 leads</div>
+          <div class="sv dn">0 leads</div>
         </div>
         <div class="srow">
           <div class="sk">Predicted wins this month</div>
-          <div class="sv">4–6 leads</div>
+          <div class="sv">0 leads</div>
         </div>
         <div class="rb" style="margin-top:10px">
           <div class="rb-ico">🤖</div>
@@ -220,5 +232,5 @@
     </div>
   </div>
 </div>
-<app-add-lead #addLeadComponent (dataEmitter)="getLeads()"></app-add-lead>
+<app-add-lead #addLeadComponent (dataEmitter)="onDataEmitter()"></app-add-lead>
 <app-lead-detail #leadDetailComponent></app-lead-detail>

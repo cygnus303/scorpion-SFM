@@ -97,7 +97,7 @@ export class MeetingService {
     return this.apiHandlerService.Post(`Meeting/SubmitMom?UserId=${userId}`, payload);
   }
 
-  meetingCard(userId: string): Observable<any> {
-    return this.apiHandlerService.Get(`Meeting/DashboardCards?userid=${userId}`);
+  meetingCard(params: any): Observable<any> {
+      return this.apiHandlerService.Get(`Meeting/GetMeetingDashboard?startDate=${params.startDate}&endDate=${params.endDate}&userID=${params.userId}`);
   }
 }
