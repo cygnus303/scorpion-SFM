@@ -31,37 +31,15 @@
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label> Customer Code</label>
-                <select id="prq-customer" onchange="prqUpdateCustomer()">
-                    <option value="">— Select customer —</option>
-                    <optgroup label="Customers">
-                        <option value="Reliance Freight" data-zone="Mumbai North" data-contact="Mr. R. Sharma"
-                            data-phone="+91 98200 11111" data-addr="Plot 42, MIDC Andheri East, Mumbai - 400093">
-                            Reliance Freight</option>
-                        <option value="BlueDart Corp" data-zone="Mumbai South" data-contact="Ms. Nisha Patel"
-                            data-phone="+91 98200 22222" data-addr="12 Nariman Point, Mumbai - 400021">BlueDart Corp
-                        </option>
-                        <option value="Nexus Logistics" data-zone="Thane / Navi Mumbai" data-contact="Mr. Arun Singh"
-                            data-phone="+91 98200 33333" data-addr="Sector 5, Vashi, Navi Mumbai - 400703">Nexus
-                            Logistics
-                        </option>
-                        <option value="Sunrise Traders" data-zone="Pune" data-contact="Ms. Sunita R."
-                            data-phone="+91 98200 55555" data-addr="Wakad Industrial Area, Pune - 411057">Sunrise
-                            Traders</option>
-                        <option value="GlobalPack Ltd" data-zone="Nashik / Aurangabad" data-contact="Mr. Vikram G."
-                            data-phone="+91 98200 44444" data-addr="MIDC Ambad, Nashik - 422010">GlobalPack Ltd
-                        </option>
-                        <option value="IndoFreight Ltd" data-zone="Mumbai South" data-contact="Ms. Riya Shah"
-                            data-phone="+91 99900 10002" data-addr="Fort Area, Mumbai - 400001">IndoFreight Ltd
-                        </option>
-                        <option value="Apex Cargo" data-zone="Pune" data-contact="Mr. Suresh K."
-                            data-phone="+91 99900 10003" data-addr="Hadapsar Industrial Estate, Pune - 411028">Apex
-                            Cargo</option>
-                    </optgroup>
-                </select>
+                <ng-select [items]="customerData" bindLabel="id" bindValue="id" placeholder="Search Email..."
+                    [clearable]="true" [searchable]="true" (change)="onChangeCustomer($event)">
+                </ng-select>
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label>Email *</label>
-                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+                <ng-select [items]="emailData" bindLabel="id" bindValue="id" placeholder="Search Email..."
+                    [multiple]="true" [clearable]="true" [searchable]="true">
+                </ng-select>
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label>Customer Name</label>

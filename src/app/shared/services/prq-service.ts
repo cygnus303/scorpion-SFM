@@ -22,4 +22,12 @@ export class PrqService {
   DownloadPRQ(params: any): Observable<Blob> {
     return this.apiHandlerService.GetBlob('PRQ/DownloadPRQ', params);
   }
+  
+  getEmailList(): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get('PRQ/GetEmailData');
+  }
+
+  getCustomerList(partyName: string, paybas: string = ''): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get(`PRQ/GetAllBillingParty?partyName=${partyName}&paybas=${paybas}`);
+  }
 }
