@@ -24,6 +24,7 @@ export class ComplaintList {
   public totalItems: number = 0;
   public isExportLoading: boolean = false;
   public isLoading: boolean = false;
+  public compliantCard:any;
 
   public statusList: any[] = [
     { id: '', name: 'All' },
@@ -48,6 +49,7 @@ export class ComplaintList {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getComplaintList();
     });
+    this.getCompliantCard();
   }
 
   ngOnDestroy(): void {
@@ -115,6 +117,23 @@ export class ComplaintList {
       next: (response) => {
         if (response) {
           this.exportService.exportToExcel(response.data);
+        }
+        this.isExportLoading = false;
+      }
+    });
+  }
+
+  getCompliantCard(){
+    const params = {
+      startDate: this.commonService.globalFilters.startDate,
+      endDate: this.commonService.globalFilters.endDate,
+      userId: this.commonService.globalFilters.UserID.toString(),
+    }
+
+    this.complaintService.getCompliantCard(params).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.compliantCard=response.data;
         }
         this.isExportLoading = false;
       }

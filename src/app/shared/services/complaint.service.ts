@@ -133,4 +133,8 @@ export class ComplaintService {
     return this.apiHandlerService.Post(`Complaint/ImportExcelUplaodComp?userID=${userId}`, formData);
   }
 
+  getCompliantCard(params:any): Observable<IApiBaseResponse<any>>{
+    return this.apiHandlerService.Get(`Complaint/GetComplaintDashboardCards?startDate=${params.startDate}&endDate=${params.endDate}&userID=${params.userId}`);
+  }
+
 }
