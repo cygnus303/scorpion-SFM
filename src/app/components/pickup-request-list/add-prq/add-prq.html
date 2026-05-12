@@ -16,7 +16,7 @@
             <div id="prq-id-badge"
                 style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--text2);font-family:monospace">
                 PRQ-4826</div>
-          <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
+            <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
         </div>
 
         <!-- STEP 1: Customer & Contact -->
@@ -28,51 +28,29 @@
             Customer Details
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-             <div class="fg" style="margin-bottom:0">
+            <div class="fg" style="margin-bottom:0">
                 <label>Indent No.</label>
-                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label> Customer Code</label>
-                <select id="prq-customer" onchange="prqUpdateCustomer()">
-                    <option value="">— Select customer —</option>
-                    <optgroup label="Customers">
-                        <option value="Reliance Freight" data-zone="Mumbai North" data-contact="Mr. R. Sharma"
-                            data-phone="+91 98200 11111" data-addr="Plot 42, MIDC Andheri East, Mumbai - 400093">
-                            Reliance Freight</option>
-                        <option value="BlueDart Corp" data-zone="Mumbai South" data-contact="Ms. Nisha Patel"
-                            data-phone="+91 98200 22222" data-addr="12 Nariman Point, Mumbai - 400021">BlueDart Corp
-                        </option>
-                        <option value="Nexus Logistics" data-zone="Thane / Navi Mumbai" data-contact="Mr. Arun Singh"
-                            data-phone="+91 98200 33333" data-addr="Sector 5, Vashi, Navi Mumbai - 400703">Nexus
-                            Logistics
-                        </option>
-                        <option value="Sunrise Traders" data-zone="Pune" data-contact="Ms. Sunita R."
-                            data-phone="+91 98200 55555" data-addr="Wakad Industrial Area, Pune - 411057">Sunrise
-                            Traders</option>
-                        <option value="GlobalPack Ltd" data-zone="Nashik / Aurangabad" data-contact="Mr. Vikram G."
-                            data-phone="+91 98200 44444" data-addr="MIDC Ambad, Nashik - 422010">GlobalPack Ltd
-                        </option>
-                        <option value="IndoFreight Ltd" data-zone="Mumbai South" data-contact="Ms. Riya Shah"
-                            data-phone="+91 99900 10002" data-addr="Fort Area, Mumbai - 400001">IndoFreight Ltd
-                        </option>
-                        <option value="Apex Cargo" data-zone="Pune" data-contact="Mr. Suresh K."
-                            data-phone="+91 99900 10003" data-addr="Hadapsar Industrial Estate, Pune - 411028">Apex
-                            Cargo</option>
-                    </optgroup>
-                </select>
+                <ng-select [items]="customerData" bindLabel="id" bindValue="id" placeholder="Search Email..."
+                    [clearable]="true" [searchable]="true" (change)="onChangeCustomer($event)">
+                </ng-select>
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label>Email *</label>
-                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+                <ng-select [items]="emailData" bindLabel="id" bindValue="id" placeholder="Search Email..."
+                    [multiple]="true" [clearable]="true" [searchable]="true">
+                </ng-select>
             </div>
-             <div class="fg" style="margin-bottom:0">
+            <div class="fg" style="margin-bottom:0">
                 <label>Customer Name</label>
-                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
             </div>
-             <div class="fg" style="margin-bottom:0">
+            <div class="fg" style="margin-bottom:0">
                 <label>KAM</label>
-                 <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
+                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label>Pickup Pin Code</label>
@@ -103,7 +81,7 @@
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label>Desc. Pincode</label>
-                 <input id="prq-unit" placeholder="e.g. 3rd Floor, Unit 12">
+                <input id="prq-unit" placeholder="e.g. 3rd Floor, Unit 12">
             </div>
             <div class="fg" style="margin-bottom:0">
                 <label>Destination Branch</label>
@@ -129,11 +107,11 @@
                 <label>Unloading Conact Number</label>
                 <input id="prq-awb" placeholder="If available">
             </div>
-             <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
                 <label>Product Type</label>
                 <input id="prq-awb" placeholder="If available">
             </div>
-             <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
                 <label>No Of Vehicles</label>
                 <input id="prq-awb" placeholder="If available">
             </div>
@@ -159,7 +137,7 @@
                 <label>Expected Freight</label>
                 <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
             </div>
-            <div class="fg" style="margin-bottom:0"  *ngIf="PRQType === 'LTL'">
+            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'LTL'">
                 <label>Shipment /PO No</label>
                 <input type="number" id="prq-weight" placeholder="e.g. 20" min="0">
             </div>
@@ -167,15 +145,15 @@
                 <label>Expected Truck Hire</label>
                 <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
             </div>
-             
+
         </div>
-        <div class="fg" style="margin-bottom:18px"  *ngIf="PRQType === 'LTL'">
+        <div class="fg" style="margin-bottom:18px" *ngIf="PRQType === 'LTL'">
             <label>Remarks</label>
             <textarea id="prq-notes"
                 placeholder="e.g. Call before arriving · Gate entry requires ID · Fragile items on top · Contact security at Gate 2..."
                 style="min-height:60px"></textarea>
         </div>
-        <div class="fg" style="margin-bottom:18px"  *ngIf="PRQType === 'FTL'">
+        <div class="fg" style="margin-bottom:18px" *ngIf="PRQType === 'FTL'">
             <label>Instructions</label>
             <textarea id="prq-notes"
                 placeholder="e.g. Call before arriving · Gate entry requires ID · Fragile items on top · Contact security at Gate 2..."
