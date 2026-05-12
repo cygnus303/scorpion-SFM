@@ -87,6 +87,7 @@ export class MyCalendar implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getCalendar();
+    this.getUpcomingDetail();
     this.viewSubscription = this.commonService.calendarViewSubject.subscribe(type => {
       if (type === 'today') {
         this.changeView('timeGridDay');
@@ -167,7 +168,7 @@ export class MyCalendar implements OnInit, OnDestroy {
     this.getCalendar();
   }
   editMeetingModal(meetingId: string) {
-     this.addMeetingComponent.showPopup(() => {
+    this.addMeetingComponent.showPopup(() => {
       return this.meetingService.getMeetingDetails(meetingId, this.identityService.getLoggedUserId());
     });
   }
@@ -193,5 +194,18 @@ export class MyCalendar implements OnInit, OnDestroy {
   getEventDate(dateStr: string): string {
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  getUpcomingDetail() {
+    this.calendarService.getUpcomingWeek(this.identityService.getLoggedUserId()).subscribe({
+      next: (response) => {
+        if (response && response.data) {
+          this.upcomingEvents = response.data;
+        }
+      },
+      error: (response: any) => {
+        this.toasterService.error(response);
+      },
+    });
   }
 }

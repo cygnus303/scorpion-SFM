@@ -37,7 +37,7 @@
             <div class="tl-dot amber">!</div>
             <div class="tl-content">
               <div class="tl-title">{{ getEventDate(event.start) }} — {{ event.title }}</div>
-              <div class="tl-meta">{{ getEventTime(event.start) }}</div>
+              <div class="tl-meta">{{ event?.rightText }}</div>
             </div>
           </div>
           <div class="no-events" *ngIf="upcomingEvents.length === 0"

@@ -10,9 +10,13 @@ import { CalendarResponse } from '../models/calendar.model';
 export class CalendarService {
   constructor(
     @Inject(ApiHandlerService) private apiHandlerService: ApiHandlerService
-  ) {}
+  ) { }
 
   getCalendar(filters: any): Observable<IApiBaseResponse<CalendarResponse[]>> {
     return this.apiHandlerService.Get('calendar', filters);
+  }
+
+  getUpcomingWeek(userId: string): Observable<any> {
+    return this.apiHandlerService.Get(`Calendar/GetUpcomingWeek?userid=${userId}`);
   }
 }
