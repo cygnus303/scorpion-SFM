@@ -1,7 +1,7 @@
 export const AppName = 'Cygnux-LSP-webapp';
 export const ApiTokenName = 'token';
 export const ApiRefreshTokenName = 'refreshToken';
-export const ApiBranchCode = 'BranchCode';
+export const ApiBranchCode = 'branchCode';
 export const ApiRegionCode = 'RegionCode';
 export const ApiBranchName = 'BranchName';
 export const ApiDesignation = 'Designation';
@@ -11,7 +11,7 @@ export const ApiLocation = 'Location';
 export const ApiUserType = 'UserType';
 export const EmailRegex =
   /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
-export const  MultipleEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const MultipleEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const PincodeRegex = /^[0-9]{6}$/;
 export const MobileRegex = /^[0-9]{10}$/;
 export const AadharRegex = /^[0-9]{12}$/;

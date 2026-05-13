@@ -28,7 +28,7 @@ export class IdentityService {
     private apiHandlerService: ApiHandlerService,
     private jwtHelper: JwtHelperService,
     @Inject(DOCUMENT) private _doc: Document
-  ) {}
+  ) { }
 
   localStorage(): Storage | undefined {
     return this._doc.defaultView?.localStorage;
@@ -36,7 +36,7 @@ export class IdentityService {
 
   login(loginDetails: any): Observable<IApiBaseResponse<any>> {
     const headers = new HttpHeaders().set('no-auth', 'true');
-    return this.apiHandlerService.Post('external/login',loginDetails,undefined,headers);
+    return this.apiHandlerService.Post('external/login', loginDetails, undefined, headers);
   }
 
   generateRefreshToken(): Observable<IApiBaseResponse<any>> {
@@ -64,7 +64,7 @@ export class IdentityService {
     this.localStorage()?.setItem(ApiBranchCode, branchCode);
   }
 
-  setRegionCode(regionCode:string):void{
+  setRegionCode(regionCode: string): void {
     this.localStorage()?.setItem(ApiRegionCode, regionCode);
 
   }
@@ -72,15 +72,15 @@ export class IdentityService {
     this.localStorage()?.setItem(ApiLocation, location?.shift().locCode);
   }
 
-  setBranchName(branchName:string):void{
+  setBranchName(branchName: string): void {
     this.localStorage()?.setItem(ApiBranchName, branchName);
   }
 
-  setDesignation(designation:string):void{
+  setDesignation(designation: string): void {
     this.localStorage()?.setItem(ApiDesignation, designation);
   }
 
-  setRegion(region:string):void{
+  setRegion(region: string): void {
     this.localStorage()?.setItem(ApiRegion, region);
   }
 
@@ -88,7 +88,7 @@ export class IdentityService {
     this.localStorage()?.setItem('userId', userId);
   }
 
-  setUserName(userName : string ):void{
+  setUserName(userName: string): void {
     this.localStorage()?.setItem(ApiUserName, userName);
   }
 
@@ -175,7 +175,7 @@ export class IdentityService {
     return location;
   }
 
-  getRegion():any{
+  getRegion(): any {
     let region = null;
     if (this.localStorage()) {
       region = this.localStorage()?.getItem(ApiRegion);

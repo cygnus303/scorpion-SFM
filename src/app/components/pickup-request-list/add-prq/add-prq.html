@@ -1,168 +1,264 @@
 <ng-template #Templatepod>
-    <div class="PRQ-Modal">
-        <div
-            style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
-            <div
-                style="width:40px;height:40px;background:var(--red);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">
-                🚚</div>
-            <div style="flex:1">
-                <div style="font-size:16px;font-weight:600;color:var(--text1)">Raise Pickup Request (PRQ)</div>
-                <div style="font-size:11px;color:var(--text3);margin-top:2px">PRQ # will be auto-generated · SLA
-                    clock starts on submission</div>
-            </div>
-            <div id="prq-id-badge"
-                style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--text2);font-family:monospace">
-                PRQ-4826</div>
-            <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
-        </div>
-
-        <!-- STEP 1: Customer & Contact -->
-        <div
-            style="display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">
-            <div
-                style="width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                1</div>
-            Customer Details
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-            <div class="fg" style="margin-bottom:0">
-                <label>Indent No.</label>
-                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label> Customer Code</label>
-                <ng-select [items]="customerData" bindLabel="id" bindValue="id" placeholder="Search Email..."
-                    [clearable]="true" [searchable]="true" (change)="onChangeCustomer($event)">
-                </ng-select>
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>Email *</label>
-                <ng-select [items]="emailData" bindLabel="id" bindValue="id" placeholder="Search Email..."
-                    [multiple]="true" [clearable]="true" [searchable]="true">
-                </ng-select>
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>Customer Name</label>
-                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>KAM</label>
-                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>Pickup Pin Code</label>
-                <input id="prq-landmark" placeholder="Near, opp., next to...">
-            </div>
-        </div>
-
-        <div class="fg" style="margin-bottom:12px">
-            <label>Pickup Address *</label>
-            <input id="prq-address" placeholder="Building name, Street, Area, City — PIN Code">
-        </div>
-        <div class="fg" style="margin-bottom:12px">
-            <label>Delivery Address *</label>
-            <input id="prq-address" placeholder="Building name, Street, Area, City — PIN Code">
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-            <div class="fg" style="margin-bottom:0">
-                <label>Pickup Branch</label>
-                <input id="prq-pin" placeholder="6-digit PIN" maxlength="6" type="number">
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>From City</label>
-                <input id="prq-unit" placeholder="e.g. 3rd Floor, Unit 12">
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>Loading Date and Time</label>
-                <input type="date" id="prq-date" min="">
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>Desc. Pincode</label>
-                <input id="prq-unit" placeholder="e.g. 3rd Floor, Unit 12">
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>Destination Branch</label>
-                <select id="prq-priority">
-                    <option value="Normal">Normal</option>
-                    <option value="High">High</option>
-                    <option value="Urgent">Urgent 🔴</option>
-                </select>
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>Service Type</label>
-                <select id="prq-priority">
-                    <option value="Normal">Normal</option>
-                    <option value="High">High</option>
-                    <option value="Urgent">Urgent 🔴</option>
-                </select>
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>Loading Contact Number</label>
-                <input id="prq-awb" placeholder="If available">
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>Unloading Conact Number</label>
-                <input id="prq-awb" placeholder="If available">
-            </div>
-            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
-                <label>Product Type</label>
-                <input id="prq-awb" placeholder="If available">
-            </div>
-            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
-                <label>No Of Vehicles</label>
-                <input id="prq-awb" placeholder="If available">
-            </div>
-            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
-                <label>Fleet Type</label>
-                <input id="prq-awb" placeholder="If available">
-            </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:14px">
-            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'LTL'">
-                <label>No. of Packages *</label>
-                <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
-            </div>
-            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
-                <label>Exp. Margin</label>
-                <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
-            </div>
-            <div class="fg" style="margin-bottom:0">
-                <label>Approx Weight (kg)</label>
-                <input type="number" id="prq-weight" placeholder="e.g. 20" min="0">
-            </div>
-            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
-                <label>Expected Freight</label>
-                <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
-            </div>
-            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'LTL'">
-                <label>Shipment /PO No</label>
-                <input type="number" id="prq-weight" placeholder="e.g. 20" min="0">
-            </div>
-            <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
-                <label>Expected Truck Hire</label>
-                <input type="number" id="prq-packages" placeholder="e.g. 5" min="1">
+    <form [formGroup]="prqForm">
+        <div class="PRQ-Modal">
+            <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+                <div style="display:flex;align-items:center;gap:10px">
+                    <div style="width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
+                        class="text-light">
+                        🚚</div>
+                    <div>
+                        <div class="modal-title fw-bold">Raise Pickup Request (PRQ)</div>
+                        <div style="font-size:11px;color:var(--text3);margin-top:1px">PRQ # will be auto-generated · SLA
+                            clock starts on submission</div>
+                    </div>
+                </div>
+                <button type="button" class="btn-close shadow-none" (click)="onClose()"></button>
             </div>
 
-        </div>
-        <div class="fg" style="margin-bottom:18px" *ngIf="PRQType === 'LTL'">
-            <label>Remarks</label>
-            <textarea id="prq-notes"
-                placeholder="e.g. Call before arriving · Gate entry requires ID · Fragile items on top · Contact security at Gate 2..."
-                style="min-height:60px"></textarea>
-        </div>
-        <div class="fg" style="margin-bottom:18px" *ngIf="PRQType === 'FTL'">
-            <label>Instructions</label>
-            <textarea id="prq-notes"
-                placeholder="e.g. Call before arriving · Gate entry requires ID · Fragile items on top · Contact security at Gate 2..."
-                style="min-height:60px"></textarea>
-        </div>
+            <!-- STEP 1: Customer & Contact -->
+            <div class="modal-body py-4 position-relative pb-2 pt-2">
+                <div
+                    style="display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">
+                    <div
+                        style="width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                        1</div>
+                    Customer Details
+                </div>
 
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Indent No.<span style="color:var(--red)">*</span></label>
+                        <input formControlName="indentNo" type="text" readonly placeholder="System Generated"
+                            style="background: #f8f9fa;">
+                    </div>
+                    <div class="fg" style="margin-bottom:0" style="width: 384px;">
+                        <label> Customer Code <span style="color:var(--red)">*</span></label>
+                    <ng-select [items]="customerData" bindLabel="text" bindValue="id" placeholder="Search Customer Code..."
+                        [clearable]="true" [searchable]="true" (search)="getCustomerList($event)" (change)="onChangeCustomer($event?.id)"
+                        formControlName="customerCode" notFoundText="Search Customer Code..." [ngClass]="{
+                          'border-danger':
+                          prqForm.get('customerCode')?.touched &&
+                          prqForm.get('customerCode')?.invalid
+                        }">
+                        <ng-template ng-option-tmp let-item="item">
+                            <div [title]="item.id + ' : ' + item.text">
+                                <span class="fw-bold">{{item.id}}</span> : {{item.text}}
+                            </div>
+                        </ng-template>
+                        <ng-template ng-label-tmp let-item="item">
+                            <div [title]="item.id + ' : ' + item.text">
+                                <span class="fw-bold">{{item.id}}</span> : {{item.text}}
+                            </div>
+                        </ng-template>
+                    </ng-select>
+                        <div class="text-danger small mt-1" *ngIf="prqForm.get('customerCode')?.touched &&prqForm.get('customerCode')?.invalid">
+                            Customer Code is required
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Customer Name  <span style="color:var(--red)">*</span></label>
+                        <input formControlName="customer_Name" placeholder="Customer Name" readonly
+                            style="background: #f8f9fa;"
+                            [ngClass]="{ 'border-danger': prqForm.controls['customer_Name'].invalid && prqForm.controls['customer_Name'].touched}">
+                        <div class="text-danger small mt-1" *ngIf="prqForm.get('customer_Name')?.touched &&prqForm.get('customer_Name')?.invalid">
+                            Customer Name is required
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>KAM</label>
+                        <input formControlName="customer_KRM" placeholder="KAM" readonly style="background: #f8f9fa;">
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Email  <span style="color:var(--red)">*</span></label>
+                        <ng-select [items]="emailData" bindLabel="text" bindValue="id" placeholder="Search Email..."
+                            [multiple]="true" [clearable]="true" [searchable]="true" (search)="getEmailList($event)"
+                            formControlName="emailID"
+                            [ngClass]="{ 'border-danger': prqForm.controls['emailID'].invalid && prqForm.controls['emailID'].touched}"
+                            notFoundText="Search Email...">
+                        </ng-select>
+                        <div class="text-danger small mt-1" *ngIf="prqForm.get('emailID')?.touched &&prqForm.get('emailID')?.invalid">
+                            Email is required
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Pickup Pin Code <span style="color:var(--red)">*</span></label>
+                        <ng-select [items]="pincodeData" bindLabel="text" bindValue="id" placeholder="Pin Code"
+                            [clearable]="true" [searchable]="true" (search)="getPincodeList($event)"
+                            (change)="onChangePincode($event.id)" formControlName="pinCode"
+                            notFoundText='Please enter 2 more characters'
+                            typeToSearchText='Please enter 2 more characters'
+                            [ngClass]="{ 'border-danger': prqForm.controls['pinCode'].invalid && prqForm.controls['pinCode'].touched}">
+                        </ng-select>
+                        <div class="text-danger small mt-1" *ngIf="prqForm.get('pinCode')?.touched &&prqForm.get('pinCode')?.invalid">
+                            Pickup Pin Code is required
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Pickup Branch</label>
+                        <input formControlName="branchCode" placeholder="Pickup Branch" type="text" readonly
+                            style="background: #f8f9fa;">
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>From City</label>
+                        <input formControlName="fromCity" placeholder="From City" type="text" readonly
+                            style="background: #f8f9fa;">
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Pickup Address <span style="color:var(--red)">*</span></label>
+                        <textarea formControlName="consignorNameAdd" placeholder="Consignor Name & Address" type="text"
+                            rows="2" [ngClass]="{ 'border-danger': prqForm.controls['consignorNameAdd'].invalid && prqForm.controls['consignorNameAdd'].touched}"></textarea>
+                        <div class="text-danger small mt-1" *ngIf="prqForm.get('consignorNameAdd')?.touched &&prqForm.get('consignorNameAdd')?.invalid">
+                            Pickup Address is required
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Delivery Address  <span style="color:var(--red)">*</span></label>
+                        <textarea formControlName="consigneeNameAdd" placeholder="Consignee Name & Address" type="text"
+                            rows="2" [ngClass]="{ 'border-danger': prqForm.controls['consigneeNameAdd'].invalid && prqForm.controls['consigneeNameAdd'].touched}"></textarea>
+                        <div class="text-danger small mt-1" *ngIf="prqForm.get('consigneeNameAdd')?.touched &&prqForm.get('consigneeNameAdd')?.invalid">
+                            Delivery Address is required
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Loading Date and Time <span style="color:var(--red)">*</span></label>
+                        <div class="input-group">
+                            <input class="form-control disabled-field" placeholder="Loading Date and Time"
+                                formControlName="loadingDate" bsDatepicker #d2="bsDatepicker"
+                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red' }" 
+                                [ngClass]="{ 'border-danger': prqForm.controls['loadingDate'].invalid && prqForm.controls['loadingDate'].touched}"/>
+                            <button class="btn btn-outline-secondary border shadow-none" type="button"
+                                (click)="d2.show()">
+                                📅
+                            </button>
+                        </div>
+                        <div class="text-danger small mt-1" *ngIf="prqForm.get('loadingDate')?.touched &&prqForm.get('loadingDate')?.invalid">
+                            Loading Date and Time is required
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Dest. Pin Code  <span style="color:var(--red)">*</span></label>
+                        <ng-select [items]="destPincodeData" bindLabel="text" bindValue="id" placeholder="Pin Code"
+                            [clearable]="true" [searchable]="true" (search)="getDestPincodeList($event)"
+                            (change)="onChangeDestPincode($event.id)" formControlName="desPincode"
+                            notFoundText='Please enter 2 more characters'
+                            typeToSearchText='Please enter 2 more characters'
+                            [ngClass]="{ 'border-danger': prqForm.controls['desPincode'].invalid && prqForm.controls['desPincode'].touched}">
+                        </ng-select>
+                        <div class="text-danger small mt-1" *ngIf="prqForm.get('desPincode')?.touched &&prqForm.get('desPincode')?.invalid">
+                            Dest. Pin Code is required
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Destination Branch</label>
+                        <input formControlName="desBranchCode" placeholder="Destination Branch" type="text" readonly
+                            style="background: #f8f9fa;">
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Service Type<span style="color:var(--red)">*</span></label>
+                        <ng-select [items]="serviceTypes" bindLabel="name" bindValue="name" placeholder="Select Type"
+                            [clearable]="true" formControlName="service_Type" readonly
+                            [ngClass]="{ 'border-danger': prqForm.controls['service_Type'].invalid && prqForm.controls['service_Type'].touched}"></ng-select>
+                             <div class="text-danger small mt-1" *ngIf="prqForm.get('service_Type')?.touched &&prqForm.get('service_Type')?.invalid">
+                            Service Type is required
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Loading Contact Number </label>
+                        <input formControlName="loadingContactNumber" maxlength="10" minlength="10"
+                            oninput="this.value = this.value.replace(/[^0-9]/g,'');"
+                            placeholder="Loading Contact Number" type="text">
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Unloading Contact Number</label>
+                        <input formControlName="unloadingContactNumber" maxlength="10" minlength="10"
+                            oninput="this.value = this.value.replace(/[^0-9]/g,'');"
+                            placeholder="Unloading Contact Number" type="text">
+                    </div>
+                    <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                        <label>Product Type</label>
+                        <ng-select [items]="productTypeData" bindLabel="codeDesc" bindValue="codeId"
+                            placeholder="Select Product" [clearable]="true" [searchable]="true"
+                            formControlName="productType">
+                        </ng-select>
+                    </div>
+                    <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                        <label>No Of Vehicles</label>
+                        <ng-select [items]="vehicleCountList" bindLabel="text" bindValue="id"
+                            placeholder="Select No Of Vehicles" [clearable]="true" [searchable]="true"
+                            formControlName="noOfVeh">
+                        </ng-select>
+                    </div>
+                    <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                        <label>Fleet Type</label>
+                        <ng-select [items]="fleetTypeData" bindLabel="codeDesc" bindValue="codeId"
+                            placeholder="Select Fleet" [clearable]="true" [searchable]="true"
+                            formControlName="fleetType"
+                             [ngClass]="{ 'border-danger': prqForm.controls['fleetType'].invalid && prqForm.controls['fleetType'].touched}">
+                        </ng-select>
+                        <div class="text-danger small mt-1" *ngIf="prqForm.get('fleetType')?.touched &&prqForm.get('fleetType')?.invalid">
+                            Fleet Type is required
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
+                    <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'LTL'">
+                        <label>No. of Packages *</label>
+                        <input formControlName="approximatePackages" type="text"
+                            oninput="this.value = this.value.replace(/[^0-9]/g,'');" placeholder="No. of Packages"
+                            min="1">
+                    </div>
+                    <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                        <label>Exp. Margin</label>
+                        <input formControlName="expMargin" type="text"
+                            oninput="this.value = this.value.replace(/[^0-9]/g,'');" placeholder="Exp. Margin"
+                             [ngClass]="{ 'border-danger': prqForm.controls['expMargin'].invalid && prqForm.controls['expMargin'].touched}">
+                            <div class="text-danger small mt-1" *ngIf="prqForm.get('expMargin')?.touched &&prqForm.get('expMargin')?.invalid">
+                            Exp. Margin is required
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <label>Approx Weight (kg) *</label>
+                        <input formControlName="approximateWeight" type="text"
+                            oninput="this.value = this.value.replace(/[^0-9]/g,'');" placeholder="Approx Weight (kg)"
+                            min="0">
+                    </div>
+                    <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                        <label>Expected Freight</label>
+                        <input formControlName="expectedFreight" type="text"
+                            oninput="this.value = this.value.replace(/[^0-9]/g,'');" placeholder="Expected Freight">
+                    </div>
+                    <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'LTL'">
+                        <label>Shipment /PO No</label>
+                        <input formControlName="shipmentNo" placeholder="Shipment /PO No" type="text">
+                    </div>
+                    <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
+                        <label>Expected Truck Hire</label>
+                        <input formControlName="expTruckHire" oninput="this.value = this.value.replace(/[^0-9]/g,'');"
+                            type="text" placeholder="Expected Truck Hire">
+                    </div>
+
+                </div>
+                <div class="fg" *ngIf="PRQType === 'LTL'">
+                    <label>Remarks</label>
+                    <textarea formControlName="remarks" placeholder="Remarks" style="min-height:60px"></textarea>
+                </div>
+                <div class="fg" *ngIf="PRQType === 'FTL'">
+                    <label>Instructions</label>
+                    <textarea formControlName="remarks" placeholder="Instructions" style="min-height:60px"></textarea>
+                </div>
+            </div>
+        </div>
         <!-- Footer actions -->
-        <div style="display:flex;gap:10px;align-items:center;padding-top:4px;border-top:1px solid var(--border)">
-            <div style="flex:1;font-size:11px;color:var(--text3)">SLA clock starts immediately on submission. Ops
+        <div class="modal-footer border-0 d-flex justify-content-between align-items-center pt-1"
+            style="border-top:1px solid var(--border) !important">
+            <div style="font-size:11px;color:var(--text3)">SLA clock starts immediately on submission.
+                Ops
                 team will be notified.</div>
-            <button class="btn btn-outline" onclick="closePRQModal()">Cancel</button>
-            <button class="btn btn-red" onclick="submitPRQ()" style="padding:10px 24px">🚚 Submit PRQ</button>
+            <div style="display:flex;gap:10px">
+                <button class="btn btn-outline" (click)="onClose()">Cancel</button>
+                <button class="btn btn-red" (click)="onSubmit()" style="padding:10px 24px">🚚 Submit PRQ</button>
+            </div>
         </div>
-    </div>
+    </form>
 </ng-template>

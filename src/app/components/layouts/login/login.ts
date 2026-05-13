@@ -100,7 +100,7 @@ export class Login implements OnInit {
 
 
   login() {
-     if (this.loginForm.invalid) {
+    if (this.loginForm.invalid) {
       return;
     }
     // this.commonService.updateLoader(true);
@@ -108,8 +108,14 @@ export class Login implements OnInit {
     this.identityService.login(this.loginForm.value).subscribe({
       next: (response) => {
         if (response && response.data && response.data.token) {
-          console.log(response && response.data)
           this.identityService.setToken(response.data.token);
+          this.identityService.setBranchCode(response.data.branchCode);
+          this.identityService.setLocation(response.data.multiLocation);
+          this.identityService.setBranchName(response.data.branchName);
+          this.identityService.setDesignation(response.data.designation);
+          this.identityService.setRegion(response.data.reportLocName);
+          this.identityService.setUserName(response.data.name);
+          this.identityService.setRegionCode(response.data.reportingLoc);
           localStorage.setItem('loginUser', JSON.stringify(response.data));
           this.commonService.updateUserId(); // Update user ID after login
           this.toasterService.success('Login Successfully.');

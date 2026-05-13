@@ -22,12 +22,28 @@ export class PrqService {
   DownloadPRQ(params: any): Observable<Blob> {
     return this.apiHandlerService.GetBlob('PRQ/DownloadPRQ', params);
   }
-  
-  getEmailList(): Observable<IApiBaseResponse<any[]>> {
-    return this.apiHandlerService.Get('PRQ/GetEmailData');
+
+  getEmailList(loc: string): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get(`PRQ/GetEmailData?loc=${loc}`);
   }
 
   getCustomerList(partyName: string, paybas: string = ''): Observable<IApiBaseResponse<any[]>> {
     return this.apiHandlerService.Get(`PRQ/GetAllBillingParty?partyName=${partyName}&paybas=${paybas}`);
+  }
+
+  getCityPincodeDetails(searchTerm: string, loc: string = 'null'): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get(`PRQ/GetCityPincodeDetails?loc=${loc}&searchTerm=${searchTerm}`);
+  }
+
+  getBranchCityFromPincode(pincode: string): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get(`PRQ/GetBranchCityFromPincode?pincode=${pincode}`);
+  }
+
+  getCustomerDetails(custCode: string): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get(`PRQ/GetCustomerDetails?custCode=${custCode}`);
+  }
+
+  postSubmitPRQ(payload: any): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Post('PRQ/SubmitPRQ', payload);
   }
 }
