@@ -27,6 +27,10 @@ export class DashboardService {
   GetOpenComplaints(filters: any): Observable<IApiBaseResponse<LeadByStatusResponse>> {
     return this.apiHandlerService.Get(`Dashboard/GetOpenComplaints?fromDate=${filters.fromDate}&toDate=${filters.toDate}`);
   }
+  
+  GetDashboardSummary(filters: any): Observable<IApiBaseResponse<LeadByStatusResponse>> {
+    return this.apiHandlerService.Get(`Dashboard/GetDashboardSummary?fromDate=${filters.fromDate}&toDate=${filters.toDate}`);
+  }
 
   GetLeadPipeline(filters: any): Observable<IApiBaseResponse<LeadByStatusResponse>> {
     return this.apiHandlerService.Get(`Dashboard/GetLeadPipeline?fromDate=${filters.fromDate}&toDate=${filters.toDate}`);

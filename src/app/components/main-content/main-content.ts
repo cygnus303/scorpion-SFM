@@ -15,27 +15,16 @@ export class MainContent {
   public dashboardService = inject(DashboardService);
   public leadPipeline: any;
   public prospectLeaderboard: any;
-  totalCount = {
-    totalLeadCount: 0,
-    totalQuotationCount: 0,
-    prQ_SuccessRate: 0,
-    prQ_Module: 0,
-    open_Complaints: 0,
-    totalOS: 0,
-    totalSales: 0,
-  }
+  public totalCount: any = {};
 
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.getLeadCards();
-      this.GetLeadQuotationCount();
-      this.GetPRQGenerateUpdateCount();
-      this.GetOpenComplaints();
       this.GetLeadPipeline();
       this.GetDashboardSalesOS();
       this.GetProspectLeaderboard();
+      this.GetDashboardSummary();
     });
   }
 
@@ -54,62 +43,17 @@ export class MainContent {
     }).replace(',', '').toLowerCase();
   };
 
-  getLeadCards() {
+
+  GetDashboardSummary() {
     const params = {
       fromDate: this.formatDate(this.commonService.globalFilters.startDate),
       toDate: this.formatDate(this.commonService.globalFilters.endDate),
     }
 
-    this.dashboardService.GetLeadCount(params).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.totalCount.totalLeadCount = response.data.totalLeadCount;
-        }
-      }
-    });
-  }
-
-  GetLeadQuotationCount() {
-    const params = {
-      fromDate: this.formatDate(this.commonService.globalFilters.startDate),
-      toDate: this.formatDate(this.commonService.globalFilters.endDate),
-    }
-
-    this.dashboardService.GetLeadQuotationCount(params).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.totalCount.totalQuotationCount = response.data.totalLeadCount;
-        }
-      }
-    });
-  }
-
-  GetPRQGenerateUpdateCount() {
-    const params = {
-      fromDate: this.formatDate(this.commonService.globalFilters.startDate),
-      toDate: this.formatDate(this.commonService.globalFilters.endDate),
-    }
-
-    this.dashboardService.GetPRQGenerateUpdateCount(params).subscribe({
+    this.dashboardService.GetDashboardSummary(params).subscribe({
       next: (response: any) => {
         if (response.success) {
-          this.totalCount.prQ_Module = response.data.prQ_Module;
-          this.totalCount.prQ_SuccessRate = response.data.prQ_SuccessRate;
-        }
-      }
-    });
-  }
-
-  GetOpenComplaints() {
-    const params = {
-      fromDate: this.formatDate(this.commonService.globalFilters.startDate),
-      toDate: this.formatDate(this.commonService.globalFilters.endDate),
-    }
-
-    this.dashboardService.GetOpenComplaints(params).subscribe({
-      next: (response: any) => {
-        if (response.success) {
-          this.totalCount.open_Complaints = response.data.open_Complaints;
+          this.totalCount = response.data
         }
       }
     });
@@ -159,6 +103,21 @@ export class MainContent {
       }
     });
   }
+
+formatAmount(value: number | null | undefined): string {
+  if (value == null || isNaN(value)) {
+    return '0';
+  }
+  if (value >= 10000000) {
+    return (value / 10000000).toFixed(2) + 'Cr';
+  } else if (value >= 100000) {
+    return (value / 100000).toFixed(2) + 'L';
+  } else if (value >= 1000) {
+    return (value / 1000).toFixed(2) + 'K';
+  } else {
+    return value.toFixed(2);
+  }
+}
 
   GetProspectLeaderboard() {
     const params = {
