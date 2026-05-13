@@ -48,7 +48,7 @@ export class Header implements OnInit, OnDestroy {
       const cleanUrl = url.replace(/^\//, '').split('?')[0];
       this.updateHeaderFromUrl(url);
 
-      if (cleanUrl === 'calendar') {
+      if (cleanUrl === 'calendar' || cleanUrl === 'dashboard') {
         this.setFilter('month');
       } else {
         this.commonService.resetFilters();
@@ -93,9 +93,13 @@ export class Header implements OnInit, OnDestroy {
       }
     });
 
-
-    // Initialize with today's filter to sync UI and Service
-    this.setFilter('today');
+    // Check current route and set appropriate filter
+    const currentUrl = this.router.url.replace(/^\//, '').split('?')[0];
+    if (currentUrl === 'dashboard' || currentUrl === 'calendar') {
+      this.setFilter('month');
+    } else {
+      this.setFilter('today');
+    }
   }
 
   ngOnDestroy() {
