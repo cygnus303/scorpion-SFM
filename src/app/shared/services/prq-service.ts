@@ -46,4 +46,8 @@ export class PrqService {
   postSubmitPRQ(payload: any): Observable<IApiBaseResponse<any>> {
     return this.apiHandlerService.Post('PRQ/SubmitPRQ', payload);
   }
+
+   GetPRQDetails(indentNo: string): Observable<IApiBaseResponse<any[]>> {
+    return this.apiHandlerService.Get(`PRQ/GetPRQDetails?indentNo=${indentNo}`);
+  }
 }

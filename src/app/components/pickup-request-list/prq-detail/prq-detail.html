@@ -1,0 +1,70 @@
+<ng-template #Templatepod>
+    <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+        <div class="d-flex align-items-center gap-3">
+            <div style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
+                class="text-light">
+                <i class="ri-file-list-3-line fs-5"></i>
+            </div>
+            <div>
+                <div class="modal-title fw-bold">PRQ Details</div>
+            </div>
+        </div>
+        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
+    </div>
+
+    <div class="modal-body position-relative" style="min-height: 400px;">
+        <!-- Loading Overlay -->
+        <div *ngIf="isLoading" class="text-center py-5">
+            <span class="spinner-border spinner-border-sm"></span>
+            <div class="mt-2 text-muted">Loading PRQ details...</div>
+        </div>
+
+        <div class="table-container" *ngIf="!isLoading && PrqResponse">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <td><strong>Indent No:</strong> {{ PrqResponse?.indentNo || '--' }}</td>
+                        <td><strong>Indent Status:</strong> {{ PrqResponse?.indentStatus || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Customer Code:</strong> {{ PrqResponse?.customerCode || '--' }}</td>
+                        <td><strong>Customer Name:</strong> {{ PrqResponse?.customer_Name || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contact Number:</strong> {{ PrqResponse?.unloadingContactNumber || '--' }}</td>
+                        <td><strong>Service Type:</strong> {{ PrqResponse?.serviceType || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Expected Freight:</strong> {{ PrqResponse?.expectedFreight || '--' }}</td>
+                        <td><strong>Approximate Weight:</strong> {{ PrqResponse?.approximateWeight || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Loading Expense:</strong> {{ PrqResponse?.loadingExp || '--' }}</td>
+                        <td><strong>Unloading Expense:</strong> {{ PrqResponse?.unloadingExp || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Plan Received Date:</strong> {{ PrqResponse?.planReceivedDateTime || '--' }}</td>
+                        <td><strong>Required Placement Date:</strong> {{ PrqResponse?.requiredPlacementDateTime || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>From Location:</strong> {{ PrqResponse?.fromloc || '--' }}</td>
+                        <td><strong>To Location:</strong> {{ PrqResponse?.toloc || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Status:</strong> {{ PrqResponse?.status || '--' }}</td>
+                        <td><strong>Entry By:</strong> {{ PrqResponse?.entryBy || '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><strong>Remarks:</strong> {{ PrqResponse?.remarks || '--' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-footer border-0 pt-0">
+        <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" (click)="modalRef.hide()">
+            Close
+        </button>
+    </div>
+</ng-template>

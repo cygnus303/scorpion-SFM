@@ -84,6 +84,8 @@ export class AddMeeting implements OnInit, OnDestroy {
   isCustomerLoading = false;
   public MeetingOutComes: any;
   public notCustomerNameValue = 'Please enter at least 3 characters';
+  public startTimeSlots: string[] = [];
+  public endTimeSlots: string[] = [];
 
   public modalRef!: BsModalRef;
   private modalService = inject(BsModalService);
@@ -118,12 +120,48 @@ export class AddMeeting implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.generateTimeSlots();
     this.meetingSubscription = this.meetingService.meetingResponseSubject.subscribe((res) => {
       if (res) {
         this.meetingForm.patchValue({ customerName: res.customerName || res.companyName, customerCode: res.customerCode });
         this.getCustomerDetail('', res.customerCode);
       }
     });
+  }
+
+  generateTimeSlots(): void {
+    this.startTimeSlots = [];
+    this.endTimeSlots = [];
+
+    // Generate start time slots (8 AM to 6 PM)
+    for (let hour = 8; hour <= 18; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const time = new Date();
+        time.setHours(hour, minute, 0, 0);
+        const formattedTime = time.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        });
+        this.startTimeSlots.push(formattedTime);
+      }
+    }
+
+    // Generate end time slots (8:30 AM to 7 PM)
+    for (let hour = 8; hour <= 19; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const time = new Date();
+        time.setHours(hour, minute, 0, 0);
+        const formattedTime = time.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        });
+        // Skip times before 8:30 AM
+        if (hour === 8 && minute === 0) continue;
+        this.endTimeSlots.push(formattedTime);
+      }
+    }
   }
 
   showPopup(apiCall?: () => any) {

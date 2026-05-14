@@ -1,0 +1,56 @@
+<ng-template #Templatepod>
+    <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+        <div class="d-flex align-items-center gap-3">
+            <div style="width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
+                class="text-light">
+                <i class="ri-file-list-3-line"></i>
+            </div>
+            <div>
+                <div class="modal-title fw-bold">New Expense Claim</div>
+            </div>
+        </div>
+        <button type="button" class="btn-close shadow-none" (click)="onClose()"></button>
+    </div>
+    <div class="modal-body">
+        <div class="form-row">
+            <div class="fg"><label>Expense Category</label>
+                <ng-select [items]="expenseCategoryData" bindLabel="codeDesc" bindValue="codeId"
+                    placeholder="Select Expense Category" [clearable]="true" [searchable]="true"
+                    formControlName="fleetType">
+                </ng-select>
+            </div>
+            <div class="fg">
+                <label>Date</label>
+                <div class="input-group">
+                    <input class="form-control disabled-field" placeholder="Loading Date and Time"
+                        formControlName="loadingDate" bsDatepicker #d2="bsDatepicker"
+                        [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red' }" />
+                    <button class="btn btn-outline-secondary border shadow-none" type="button" (click)="d2.show()">
+                        📅
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-row one">
+            <div class="fg"><label>Description</label><input placeholder="Brief description of expense"></div>
+        </div>
+        <div class="form-row">
+            <div class="fg"><label>Amount (₹)</label>
+                <input type="number" placeholder="0.00">
+            </div>
+            <div class="fg"><label>Customer / Project</label>
+                <input type="text" placeholder="Select Customer / Project" readonly>
+            </div>
+        </div>
+        <div class="upload-box">
+            <i class="bi bi-cloud-arrow-up"></i>
+            <h4>Upload Receipt</h4>
+            <p>Drag & drop files or browse</p>
+            <input type="file">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div style="display:flex;gap:8px"><button class="btn btn-red">Submit Claim</button><button
+                class="btn btn-outline">Save Draft</button></div>
+    </div>
+</ng-template>

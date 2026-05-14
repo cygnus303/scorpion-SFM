@@ -9,10 +9,11 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule } from '@angular/forms';
 import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { IdentityService } from '../../shared/services/identity.service';
+import { PrqDetail } from './prq-detail/prq-detail';
 
 @Component({
   selector: 'app-pickup-request-list',
-  imports: [CommonModule, AddPrq, PaginationModule, FormsModule],
+  imports: [CommonModule, AddPrq, PaginationModule, FormsModule,PrqDetail],
   templateUrl: './pickup-request-list.html',
   styleUrl: './pickup-request-list.scss',
 })
@@ -22,6 +23,7 @@ export class PickupRequestList {
   public totalItems: number = 0;
   private destroy$ = new Subject<void>();
   @ViewChild('addPRQ') addPRQ!: AddPrq;
+  @ViewChild('PrqDetail') PrqDetail!: PrqDetail;
   public isExportLoading: boolean = false;
   private sweetAlertService = inject(SweetAlertService);
   private identityService = inject(IdentityService);
@@ -40,6 +42,17 @@ export class PickupRequestList {
 
   selectPrqType(type: string) {
     this.addPRQ.showPopup(type);
+  }
+
+   openPRQDetailModal(indentNo?: any) {
+    this.PrqDetail.showPopup(() => {
+      return this.PRQService.GetPRQDetails(indentNo);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getPRQCardList() {

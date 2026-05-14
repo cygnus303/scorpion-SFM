@@ -156,11 +156,15 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4">
+              <div class="col-lg-4">
                     <label class="form-label fw-bold">Start Time <span class="text-danger">*</span></label>
                     <input type="time" class="form-control" formControlName="startTime"
                         [readonly]="checkOutValue !== '-' || meetingRole || isChecked "
                         [ngClass]="{ 'border-danger': meetingForm.controls['startTime'].invalid && meetingForm.controls['startTime'].touched}">
+                        <!-- <ng-select [items]="startTimeSlots" bindLabel="label" bindValue="value" placeholder="— From —" formControlName="startTime"
+                           [readonly]="checkOutValue !== '-' || meetingRole || isChecked"
+                             [ngClass]="{'border-danger':meetingForm.controls['startTime'].invalid &&meetingForm.controls['startTime'].touched}">
+                        </ng-select> -->
                     <div *ngIf="meetingForm.invalid && meetingForm.touched" class="text-danger small mt-1">
                         <small *ngIf="meetingForm.get('startTime')?.hasError('required')">Start time is
                             required.</small>
@@ -180,6 +184,50 @@
                             time.</small>
                     </div>
                 </div>
+
+                <!-- <div class="col-lg-4">
+                    <label class="form-label fw-bold">
+                        Start Time <span class="text-danger">*</span>
+                    </label>
+                    <ng-select [items]="startTimeSlots" bindLabel="" bindValue="" placeholder="— From —" formControlName="startTime"
+                        [clearable]="false" [searchable]="false" [disabled]="checkOutValue !== '-' || meetingRole || isChecked"
+                        [ngClass]="{
+                          'border-danger':
+                          meetingForm.controls['startTime'].invalid &&
+                          meetingForm.controls['startTime'].touched
+                        }">
+                    </ng-select>
+                    <div *ngIf="meetingForm.invalid && meetingForm.touched" class="text-danger small mt-1">
+                        <small *ngIf="meetingForm.get('startTime')?.hasError('required')">
+                            Start time is required.
+                        </small>
+                        <small *ngIf="meetingForm.errors?.['startTimeAfterCurrentTime']">
+                            Start time must be after the current time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <label class="form-label fw-bold">
+                        End Time <span class="text-danger">*</span>
+                    </label>
+                    <ng-select [items]="endTimeSlots" bindLabel="" bindValue="" placeholder="— To —" formControlName="endTime"
+                        [clearable]="false" [searchable]="false" [disabled]="checkOutValue !== '-' || meetingRole || isChecked"
+                        [ngClass]="{
+                        'border-danger':
+                        meetingForm.controls['endTime'].invalid &&
+                        meetingForm.controls['endTime'].touched
+                        }">
+                    </ng-select>
+                    <div *ngIf="meetingForm.invalid && meetingForm.touched" class="text-danger small mt-1">
+                        <small *ngIf="meetingForm.get('endTime')?.hasError('required')">
+                            End time is required.
+                        </small>
+                        <small *ngIf="meetingForm.errors?.['timeRangeValidator']">
+                            End time must be after the start time.
+                        </small>
+                    </div>
+                </div> -->
 
                 <!-- Type & Attendees -->
                 <div class="col-lg-6">

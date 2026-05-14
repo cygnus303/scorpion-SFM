@@ -1,0 +1,35 @@
+.upload-box{
+    border:2px dashed #FCA5A5;
+    background:#FFF5F5;
+    border-radius:18px;
+    padding:32px;
+    text-align:center;
+    position:relative;
+    transition:.3s;
+}
+
+.upload-box:hover{
+    background:#FFEDEE;
+}
+
+.upload-box i{
+    font-size:42px;
+    color:#E11D48;
+}
+
+.upload-box h4{
+    margin-top:12px;
+    font-size:18px;
+}
+
+.upload-box p{
+    color:#6B7280;
+    margin-bottom:0;
+}
+
+.upload-box input{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    cursor:pointer;
+}

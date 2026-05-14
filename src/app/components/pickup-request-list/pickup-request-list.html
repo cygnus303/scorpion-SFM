@@ -77,7 +77,7 @@
           <td>{{data.entryBy}}</td>
           <td>{{data.service_Type}}</td>
           <td><span class="pill pg">{{data.status}}</span></td>
-          <td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px">View</button></td>
+          <td><button class="btn btn-outline" style="font-size:10px;padding:3px 8px" (click)="openPRQDetailModal(data.indentNo)">View</button></td>
         </tr>
       </tbody>
     </table>
@@ -99,3 +99,4 @@
 </div>
 
 <app-add-prq #addPRQ></app-add-prq>
+<app-prq-detail #PrqDetail></app-prq-detail>

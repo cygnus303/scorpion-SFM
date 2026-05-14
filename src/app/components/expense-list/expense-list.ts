@@ -13,6 +13,7 @@ import { ExpenseDetail } from './expense-detail/expense-detail';
 import { AddExpense } from './add-expense/add-expense';
 import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { Subject, takeUntil } from 'rxjs';
+import { ExpenseClaim } from './expense-claim/expense-claim';
 
 @Component({
   selector: 'app-expense-list',
@@ -25,7 +26,7 @@ import { Subject, takeUntil } from 'rxjs';
     PopoverModule,
     BsDatepickerModule,
     ExpenseDetail,
-    AddExpense
+    AddExpense,ExpenseClaim
   ],
   templateUrl: './expense-list.html',
   styleUrl: './expense-list.scss',
@@ -41,6 +42,7 @@ export class ExpenseList implements OnInit {
 
   @ViewChild('expenseDetail') expenseDetail!: ExpenseDetail;
   @ViewChild('addExpense') addExpense!: AddExpense;
+  @ViewChild('ExpenseClaim') ExpenseClaim!: ExpenseClaim;
 
   constructor(private sweetAlertService: SweetAlertService, private expenseService: ExpenseService,
     private exportService: ExportService,
@@ -141,6 +143,12 @@ export class ExpenseList implements OnInit {
 
   editModal(data: ExpenseResponse) {
     this.addExpense.showPopup(() => {
+      return this.expenseService.getExpenseDetails(data.attendeeCode, this.commonService.globalFilters.UserID.toString());
+    });
+  }
+
+  claimModal(data: ExpenseResponse) {
+    this.ExpenseClaim.showPopup(() => {
       return this.expenseService.getExpenseDetails(data.attendeeCode, this.commonService.globalFilters.UserID.toString());
     });
   }

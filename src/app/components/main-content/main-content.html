@@ -70,8 +70,8 @@
     </div>
     <div class="kpi" style="--kc:var(--green)">
       <div class="kpi-label">Active Leads</div>
-      <div class="kpi-val">0</div>
-      <div class="kpi-sub up">▲ +12 this week</div>
+      <div class="kpi-val">{{this.totalCount.totalLeadCount}}</div>
+      <div class="kpi-sub up">▲ +{{this.totalCount.last7DaysLeadCount}} this week</div>
     </div>
     <div class="kpi" style="--kc:var(--amber)">
       <div class="kpi-label">PRQ Success Rate</div>
