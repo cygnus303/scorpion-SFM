@@ -56,8 +56,8 @@ export class ExpenseGeneralMaster implements OnInit, OnDestroy {
       Page: this.commonService.globalFilters.Page.toString(),
       PageSize: this.commonService.globalFilters.PageSize.toString(),
       SearchFilter: this.commonService.globalFilters.searchText,
-      startDate: this.commonService.globalFilters.startDate,
-      endDate: this.commonService.globalFilters.endDate,
+      // startDate: this.commonService.globalFilters.startDate,
+      // endDate: this.commonService.globalFilters.endDate,
       export: false
     }
     this.isLoading = true;
@@ -92,8 +92,8 @@ export class ExpenseGeneralMaster implements OnInit, OnDestroy {
     const data = {
       Page: this.commonService.globalFilters.Page.toString(),
       PageSize: this.commonService.globalFilters.PageSize.toString(),
-      startDate: this.commonService.globalFilters.startDate,
-      endDate: this.commonService.globalFilters.endDate,
+      // startDate: this.commonService.globalFilters.startDate,
+      // endDate: this.commonService.globalFilters.endDate,
       export: true
     }
     this.isExportLoading = true;

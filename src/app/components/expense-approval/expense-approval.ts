@@ -11,10 +11,11 @@ import { ExportService } from '../../shared/services/export.service';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ExpenseDetail } from '../expense-list/expense-detail/expense-detail';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-expense-approval',
-  imports: [CommonModule, FormsModule, PaginationModule, ExpenseDetail, PopoverModule],
+  imports: [CommonModule, FormsModule, PaginationModule, ExpenseDetail, PopoverModule, NgSelectModule],
   templateUrl: './expense-approval.html',
   styleUrl: './expense-approval.scss',
 })
@@ -28,6 +29,7 @@ export class ExpenseApproval {
   modalRef!: BsModalRef;
   isDefaultComment: string = '';
   typeEvent: string = '';
+  public selectedUser: any = null;
   public expenseList!: ExpenseResponse;
   public selectedIds: Set<any> = new Set();
   public selectAll: boolean = false;
@@ -49,6 +51,7 @@ export class ExpenseApproval {
       this.getExpenses();
       this.getapprovalCard();
     });
+    this.commonService.getUsers()
   }
 
   ngOnDestroy(): void {
@@ -64,7 +67,7 @@ export class ExpenseApproval {
       SearchFilter: this.commonService.globalFilters.searchText,
       startDate: this.commonService.globalFilters.startDate,
       endDate: this.commonService.globalFilters.endDate,
-      userId: this.commonService.globalFilters.UserID.toString(),
+      userId: this.selectedUser || this.commonService.globalFilters.UserID.toString(),
     }
     this.loading = true;
     this.expenseService.getExpenseApprovalList(data).subscribe({
@@ -132,7 +135,7 @@ export class ExpenseApproval {
       }));
 
     const payload = {
-      approvedBy: this.commonService.globalFilters.UserID.toString(),
+      approvedBy: this.selectedUser || this.commonService.globalFilters.UserID.toString(),
       isApproved: isApproved,
       reasonRemark: this.isDefaultComment,
       isSelectAll: false,
@@ -166,7 +169,7 @@ export class ExpenseApproval {
       meetingId: this.expenseList.meetingId,
       attendeeCode: this.expenseList.attendeeCode,
       isApproved: isApproved,
-      approvedBy: this.commonService.globalFilters.UserID.toString(),
+      approvedBy: this.selectedUser || this.commonService.globalFilters.UserID.toString(),
       reasonRemark: reasonRemark,
     };
 
@@ -243,7 +246,7 @@ export class ExpenseApproval {
       PageSize: this.commonService.globalFilters.PageSize.toString(),
       startDate: this.commonService.globalFilters.startDate,
       endDate: this.commonService.globalFilters.endDate,
-      userId: this.commonService.globalFilters.UserID.toString(),
+      userId: this.selectedUser || this.commonService.globalFilters.UserID.toString(),
     }
     this.isExportLoading = true;
     this.expenseService.exportExpense(filters).subscribe({
@@ -263,7 +266,7 @@ export class ExpenseApproval {
   downLoadAuditorExpense() {
     this.isApprovalExportLoading = true;
     this.expenseService
-      .downloadAuditorExpense(this.commonService.globalFilters.UserID.toString())
+      .downloadAuditorExpense(this.selectedUser || this.commonService.globalFilters.UserID.toString())
       .subscribe({
         next: (response) => {
           if (response && response.data) {
@@ -286,7 +289,7 @@ export class ExpenseApproval {
     const params = {
       startDate: this.commonService.globalFilters.startDate,
       endDate: this.commonService.globalFilters.endDate,
-      userId: this.commonService.globalFilters.UserID.toString(),
+      userId: this.selectedUser || this.commonService.globalFilters.UserID.toString(),
     }
 
     this.expenseService.ApprovalDashboardCards(params).subscribe({
@@ -300,7 +303,7 @@ export class ExpenseApproval {
 
   viewModal(data: any) {
     this.expenseDetail.showPopup(() => {
-      return this.expenseService.getExpenseDetails(data.attendeeCode, this.commonService.globalFilters.UserID.toString());
+      return this.expenseService.getExpenseDetails(data.attendeeCode, this.selectedUser || this.commonService.globalFilters.UserID.toString());
     });
   }
 }

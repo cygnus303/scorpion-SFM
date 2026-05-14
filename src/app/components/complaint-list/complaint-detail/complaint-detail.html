@@ -288,7 +288,7 @@
 
                 <!-- LINKS -->
                 <div class="ld3-card full-width">
-                    <div class="ld3-card-body d-flex gap-4">
+                    <div class="d-flex gap-4">
                         <a (click)="openHistoryPopup()" class="text-primary fw-bold" style="cursor:pointer;">
                             Update History
                         </a>
@@ -315,53 +315,136 @@
 </ng-template>
 
 
+<!-- =========================
+     UPDATE HISTORY MODAL
+========================= -->
+
 <ng-template #historyModalTemplate>
-    <div class="modal-header bg-lights p-3">
-        <h5 class="modal-title" id="exampleModalLabel">
+
+    <div class="custom-popup-header">
+
+        <h5 class="custom-popup-title">
+            <i class="ri-history-line"></i>
             Update History
         </h5>
-        <button type="button" class="btn-close" (click)="historyModalRef.hide()" aria-label="Close"></button>
+
+        <button type="button" class="custom-close" (click)="historyModalRef.hide()">
+
+            <i class="ri-close-line"></i>
+
+        </button>
+
     </div>
-    <div class="modal-body">
-        <table class="table table-bordered tbordered table-striped mt-3">
-            <tr>
-                <th>Update By</th>
-                <th>Update Date</th>
-                <th>Update Remark</th>
-            </tr>
-            <tr *ngFor="let history of updateHistoryList" class="custom-row">
-                <td>{{history?.updateBy ? history.updateBy :'--'}}</td>
-                <td>{{history?.updateDate ? history.updateDate :'--'}}</td>
-                <td>{{history?.updateRemark ? history.updateRemark :'--'}}</td>
-            </tr>
-        </table>
+
+    <div class="custom-popup-body">
+
+        <div class="table-responsive">
+
+            <table class="custom-table">
+
+                <thead>
+                    <tr>
+                        <th>Update By</th>
+                        <th>Update Date</th>
+                        <th>Update Remark</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let history of updateHistoryList">
+
+                        <td>{{history?.updateBy || '--'}}</td>
+
+                        <td>{{history?.updateDate || '--'}}</td>
+
+                        <td>{{history?.updateRemark || '--'}}</td>
+
+                    </tr>
+
+                    <tr *ngIf="!updateHistoryList?.length">
+                        <td colspan="3" class="empty-text">
+                            No Update History Found
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </div>
+
 </ng-template>
 
+
+
+<!-- =========================
+     ESCALATION HISTORY MODAL
+========================= -->
+
 <ng-template #escalationModalTemplate>
-    <div class="modal-header bg-lights p-3">
-        <h5 class="modal-title" id="exampleModalLabel">
+
+    <div class="custom-popup-header">
+
+        <h5 class="custom-popup-title">
+            <i class="ri-alarm-warning-line"></i>
             Escalation History
         </h5>
-        <button type="button" class="btn-close" (click)="escalationModalRef.hide()" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-        <table class="table table-bordered tbordered table-striped mt-3">
-            <tr>
-                <th>Escalated Id</th>
-                <th>Escalated To</th>
-                <th>Escalated Email</th>
-                <th>Escalated Date</th>
-                <th>Escalated Remark</th>
-            </tr>
-            <tr *ngFor="let history of escalatedHistory">
-                <td>{{history.escalatedId ? history.escalatedId :'--'}}</td>
-                <td>{{history.escalatedTo ? history.escalatedTo :'--'}}</td>
-                <td>{{history?.escalatedEmail ? history.escalatedEmail :'--'}}</td>
 
-                <td>{{history?.escalatedDate ? history.escalatedDate :'--'}}</td>
-                <td>{{history?.remark ? history.remark :'--'}}</td>
-            </tr>
-        </table>
+        <button type="button" class="custom-close" (click)="escalationModalRef.hide()">
+
+            <i class="ri-close-line"></i>
+
+        </button>
+
     </div>
+
+    <div class="custom-popup-body">
+
+        <div class="table-responsive">
+
+            <table class="custom-table">
+
+                <thead>
+                    <tr>
+                        <th>Escalated Id</th>
+                        <th>Escalated To</th>
+                        <th>Email</th>
+                        <th>Date</th>
+                        <th>Remark</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let history of escalatedHistory">
+
+                        <td>{{history?.escalatedId || '--'}}</td>
+
+                        <td>{{history?.escalatedTo || '--'}}</td>
+
+                        <td>{{history?.escalatedEmail || '--'}}</td>
+
+                        <td>{{history?.escalatedDate || '--'}}</td>
+
+                        <td>{{history?.remark || '--'}}</td>
+
+                    </tr>
+
+                    <tr *ngIf="!escalatedHistory?.length">
+                        <td colspan="5" class="empty-text">
+                            No Escalation History Found
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </ng-template>

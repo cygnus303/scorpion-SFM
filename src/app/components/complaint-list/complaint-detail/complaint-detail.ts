@@ -49,7 +49,7 @@ export class ComplaintDetail {
     });
   }
 
-  
+
   onClose() {
     if (this.modalRef) {
       this.modalRef.hide();
@@ -77,16 +77,18 @@ export class ComplaintDetail {
 
   openHistoryPopup(): void {
     this.historyModalRef = this.modalService.show(this.historyModalTemplate, {
-      class: 'modal-lg modal-dialog-centered',
+      class: 'modal-xl modal-dialog-centered history-modal',
       backdrop: true,
+      ignoreBackdropClick: false
     });
   }
 
 
   openEscalation(): void {
     this.escalationModalRef = this.modalService.show(this.escalationModalTemplate, {
-      class: 'modal-lg modal-dialog-centered',
+      class: 'modal-xl modal-dialog-centered history-modal',
       backdrop: true,
+      ignoreBackdropClick: false
     });
   }
 

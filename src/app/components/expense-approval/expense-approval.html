@@ -27,6 +27,10 @@
       <div class="ci a">✔</div>
       <div class="card-title">Approval Queue</div>
       <div style="margin-left:auto; display:flex; gap:8px;">
+        <ng-select [items]="commonService.users" bindLabel="name" bindValue="userId" [placeholder]="'Search User'"
+          [clearable]="true" [searchable]="true" (change)="getExpenses()" [(ngModel)]="selectedUser"
+          class="form-control border-start-1 line-height p-0 border-remover" style="width: 250px;">
+        </ng-select>
         <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
           (click)="exportExpenses()">
           <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
@@ -120,12 +124,8 @@
                   (click)="!(item.isEdit === 'Y' || item.isManager_AuditApproved || item.createdBy === this.commonService.globalFilters.UserID) && showRejectModal(item,'Reject')"
                   style="font-size:10px;padding:3px 8px">Reject</button>
               </div>
-              <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                style="width:24px; height:24px; background:var(--red); border:none; color:white;"
-                (click)="viewModal(item)" [popover]="'View'" placement="auto" triggers="hover" [outsideClick]="true"
-                container="body">
-                <i class="ri-eye-fill"></i>
-              </button>
+              <button class="btn btn-danger" style="font-size:10px;padding:3px 8px" (click)="viewModal(item)"
+                [popover]="'View'" placement="auto" triggers="hover" [outsideClick]="true">View</button>
             </div>
           </td>
         </tr>

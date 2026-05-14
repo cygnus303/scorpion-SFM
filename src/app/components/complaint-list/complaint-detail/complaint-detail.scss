@@ -63,3 +63,126 @@
 .color {
     color: rgb(6 23 145);
 }
+
+/* =========================
+   HISTORY + ESCALATION MODAL UI
+========================= */
+
+// /* Dark Backdrop */
+// ::ng-deep .modal-backdrop.show {
+//     background: rgba(107, 114, 131, 0.75) !important;
+//     backdrop-filter: blur(4px);
+//     opacity: 1 !important;
+// }
+
+/* Main Modal Box */
+::ng-deep .history-modal .modal-content,
+::ng-deep .escalation-modal .modal-content {
+    border: 0;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(177, 168, 168, 0.18);
+    background: #fff;
+}
+
+/* Header */
+.custom-popup-header {
+    padding: 9px 22px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.custom-popup-title {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.custom-popup-title i {
+    font-size: 20px;
+}
+
+/* Close Button */
+.custom-close {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: 0;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transition: .25s;
+}
+
+.custom-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: rotate(90deg);
+}
+
+/* Body */
+.custom-popup-body {
+    padding: 20px;
+    background: #f8fafc;
+}
+
+/* Table */
+.custom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.custom-table thead th {
+    background: #eff6ff;
+    color: #1e3a8a;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 14px;
+    border: 0;
+    white-space: nowrap;
+}
+
+.custom-table tbody tr {
+    background: #fff;
+    transition: .25s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.custom-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, .12);
+}
+
+.custom-table tbody td {
+    padding: 14px;
+    border-top: 1px solid #eef2f7;
+    border-bottom: 1px solid #eef2f7;
+    font-size: 13px;
+    color: #334155;
+    vertical-align: middle;
+}
+
+.custom-table tbody td:first-child {
+    border-left: 1px solid #eef2f7;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.custom-table tbody td:last-child {
+    border-right: 1px solid #eef2f7;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Empty Text */
+.empty-text {
+    text-align: center;
+    color: #94a3b8;
+    padding: 30px 0;
+    font-weight: 500;
+}
