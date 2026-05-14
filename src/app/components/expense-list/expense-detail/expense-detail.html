@@ -135,14 +135,7 @@
                         <span class="ld3-card-label">Meeting Date</span>
 
                         <span class="ld3-card-val">
-                            {{
-                            (expenseResponse?.meetingDate &&
-                            expenseResponse?.meetingDate !== '0001-01-01T00:00:00')
-                            ?
-                            (expenseResponse?.meetingDate | date:'dd/MM/yyyy')
-                            :
-                            '--'
-                            }}
+                            {{expenseResponse?.expenseDate ||'--'}}
                         </span>
                     </div>
                 </div>
@@ -334,7 +327,7 @@
                             <span class="badge" [ngClass]="{
                                 'bg-success': expenseResponse?.exp_Status === 5,
                                 'bg-danger': expenseResponse?.exp_Status === 6,
-                                'bg-warning text-dark': expenseResponse?.exp_Status === 2
+                                'bg-warning text-dark': expenseResponse?.exp_Status === 2 || expenseResponse?.exp_Status === 3
                             }">
 
                                 {{ expenseResponse?.status || '--' }}
