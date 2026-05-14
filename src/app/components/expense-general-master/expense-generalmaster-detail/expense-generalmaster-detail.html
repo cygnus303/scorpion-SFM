@@ -1,46 +1,210 @@
 <ng-template #Templatepod>
-    <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+
+    <!-- Header -->
+    <div class="modal-header custom-header border-0">
+
         <div class="d-flex align-items-center gap-3">
-            <div style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
-                class="text-light">
-                <i class="ri-file-list-3-line fs-5"></i>
+
+            <div class="header-icon" style="background:#2563eb;">
+                <i class="ri-wallet-3-line"></i>
             </div>
+
             <div>
-                <div class="modal-title fw-bold">Expense General Master Details</div>
+                <h5 class="modal-title fw-bold mb-0">
+                    Expense General Master Details
+                </h5>
+
+                <small class="text-muted">
+                    View complete expense master information
+                </small>
             </div>
+
         </div>
-        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
+
+        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()">
+        </button>
+
     </div>
 
+    <!-- Body -->
     <div class="modal-body">
-        <div class="table-container">
-            <table class="table table-bordered table-striped">
-                <tbody>
-                    <tr>
-                        <td><strong class="me-2">Designation:</strong>{{ expenseResponse?.designation}}</td>
-                        <td><strong class="me-2">Transport Mode:</strong>{{ expenseResponse?.transportMode}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong class="me-2">Rate Per KM:</strong> {{ expenseResponse?.ratePerKM}}</td>
-                        <td><strong class="me-2">Expense Added By:</strong>{{ expenseResponse?.createdBy}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong class="me-2">Expense Added By Date:</strong>{{ expenseResponse?.createdDate | date :
-                            "dd/MM/yyyy"}}</td>
-                        <td><strong class="me-2">Expense Edited By:</strong>{{ expenseResponse?.modifiedBy}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong class="me-2">Expense Edited By Date:</strong>{{ expenseResponse?.modifiedDate | date
-                            : "dd/MM/yyyy"}}</td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="lead-grid">
+
+            <!-- Designation -->
+            <div class="ld3-card">
+
+                <div class="ld3-card-icon" style="--ci:#7c3aed;--cb:#ede9fe;">
+
+                    <i class="ri-briefcase-4-line"></i>
+                </div>
+
+                <div class="ld3-card-body">
+
+                    <span class="ld3-card-label">
+                        Designation
+                    </span>
+
+                    <span class="ld3-card-val">
+                        {{ expenseResponse?.designation || '--' }}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- Transport Mode -->
+            <div class="ld3-card">
+
+                <div class="ld3-card-icon" style="--ci:#ea580c;--cb:#ffedd5;">
+
+                    <i class="ri-car-line"></i>
+                </div>
+
+                <div class="ld3-card-body">
+
+                    <span class="ld3-card-label">
+                        Transport Mode
+                    </span>
+
+                    <span class="ld3-card-val">
+                        {{ expenseResponse?.transportMode || '--' }}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- Rate Per KM -->
+            <div class="ld3-card">
+
+                <div class="ld3-card-icon" style="--ci:#16a34a;--cb:#dcfce7;">
+
+                    <i class="ri-money-rupee-circle-line"></i>
+                </div>
+
+                <div class="ld3-card-body">
+
+                    <span class="ld3-card-label">
+                        Rate Per KM
+                    </span>
+
+                    <span class="ld3-card-val text-success">
+                        ₹{{ expenseResponse?.ratePerKM || '--' }}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- Expense Added By -->
+            <div class="ld3-card">
+
+                <div class="ld3-card-icon" style="--ci:#2563eb;--cb:#dbeafe;">
+
+                    <i class="ri-user-add-line"></i>
+                </div>
+
+                <div class="ld3-card-body">
+
+                    <span class="ld3-card-label">
+                        Expense Added By
+                    </span>
+
+                    <span class="ld3-card-val">
+                        {{ expenseResponse?.createdBy || '--' }}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- Expense Added Date -->
+            <div class="ld3-card">
+
+                <div class="ld3-card-icon" style="--ci:#9333ea;--cb:#f3e8ff;">
+
+                    <i class="ri-calendar-check-line"></i>
+                </div>
+
+                <div class="ld3-card-body">
+
+                    <span class="ld3-card-label">
+                        Expense Added Date
+                    </span>
+
+                    <span class="ld3-card-val">
+                        {{
+                        expenseResponse?.createdDate
+                        ?
+                        (expenseResponse?.createdDate | date:'dd/MM/yyyy')
+                        :
+                        '--'
+                        }}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- Expense Edited By -->
+            <div class="ld3-card">
+
+                <div class="ld3-card-icon" style="--ci:#dc2626;--cb:#fee2e2;">
+
+                    <i class="ri-edit-2-line"></i>
+                </div>
+
+                <div class="ld3-card-body">
+
+                    <span class="ld3-card-label">
+                        Expense Edited By
+                    </span>
+
+                    <span class="ld3-card-val">
+                        {{ expenseResponse?.modifiedBy || '--' }}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- Expense Edited Date -->
+            <div class="ld3-card full-width">
+
+                <div class="ld3-card-icon" style="--ci:#0891b2;--cb:#cffafe;">
+
+                    <i class="ri-calendar-event-line"></i>
+                </div>
+
+                <div class="ld3-card-body">
+
+                    <span class="ld3-card-label">
+                        Expense Edited Date
+                    </span>
+
+                    <span class="ld3-card-val">
+                        {{
+                        expenseResponse?.modifiedDate
+                        ?
+                        (expenseResponse?.modifiedDate | date:'dd/MM/yyyy')
+                        :
+                        '--'
+                        }}
+                    </span>
+
+                </div>
+
+            </div>
+
         </div>
+
     </div>
 
-    <div class="modal-footer border-0 pt-0">
-        <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" (click)="modalRef.hide()">
-            Close
+    <!-- Footer -->
+    <div class="modal-footer border-0 px-4 pb-4">
+        <button type="button" class="btn btn-danger px-4 py-2 rounded-3" (click)="modalRef.hide()">
+            <i class="ri-wallet-3-line me-2"></i> Close
         </button>
     </div>
 </ng-template>

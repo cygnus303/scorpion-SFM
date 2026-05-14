@@ -1,7 +1,7 @@
 <ng-template #Templatepod>
     <form [formGroup]="prqForm">
         <div class="PRQ-Modal">
-            <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+            <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important;">
                 <div style="display:flex;align-items:center;gap:10px">
                     <div style="width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
                         class="text-light">
@@ -33,34 +33,37 @@
                     </div>
                     <div class="fg" style="margin-bottom:0" style="width: 384px;">
                         <label> Customer Code <span style="color:var(--red)">*</span></label>
-                    <ng-select [items]="customerData" bindLabel="text" bindValue="id" placeholder="Search Customer Code..."
-                        [clearable]="true" [searchable]="true" (search)="getCustomerList($event)" (change)="onChangeCustomer($event?.id)"
-                        formControlName="customerCode" notFoundText="Search Customer Code..." [ngClass]="{
+                        <ng-select [items]="customerData" bindLabel="text" bindValue="id"
+                            placeholder="Search Customer Code..." [clearable]="true" [searchable]="true"
+                            (search)="getCustomerList($event)" (change)="onChangeCustomer($event?.id)"
+                            formControlName="customerCode" notFoundText="Search Customer Code..." [ngClass]="{
                           'border-danger':
                           prqForm.get('customerCode')?.touched &&
                           prqForm.get('customerCode')?.invalid
                         }">
-                        <ng-template ng-option-tmp let-item="item">
-                            <div [title]="item.id + ' : ' + item.text">
-                                <span class="fw-bold">{{item.id}}</span> : {{item.text}}
-                            </div>
-                        </ng-template>
-                        <ng-template ng-label-tmp let-item="item">
-                            <div [title]="item.id + ' : ' + item.text">
-                                <span class="fw-bold">{{item.id}}</span> : {{item.text}}
-                            </div>
-                        </ng-template>
-                    </ng-select>
-                        <div class="text-danger small mt-1" *ngIf="prqForm.get('customerCode')?.touched &&prqForm.get('customerCode')?.invalid">
+                            <ng-template ng-option-tmp let-item="item">
+                                <div [title]="item.id + ' : ' + item.text">
+                                    <span class="fw-bold">{{item.id}}</span> : {{item.text}}
+                                </div>
+                            </ng-template>
+                            <ng-template ng-label-tmp let-item="item">
+                                <div [title]="item.id + ' : ' + item.text">
+                                    <span class="fw-bold">{{item.id}}</span> : {{item.text}}
+                                </div>
+                            </ng-template>
+                        </ng-select>
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('customerCode')?.touched &&prqForm.get('customerCode')?.invalid">
                             Customer Code is required
                         </div>
                     </div>
                     <div class="fg" style="margin-bottom:0">
-                        <label>Customer Name  <span style="color:var(--red)">*</span></label>
+                        <label>Customer Name <span style="color:var(--red)">*</span></label>
                         <input formControlName="customer_Name" placeholder="Customer Name" readonly
                             style="background: #f8f9fa;"
                             [ngClass]="{ 'border-danger': prqForm.controls['customer_Name'].invalid && prqForm.controls['customer_Name'].touched}">
-                        <div class="text-danger small mt-1" *ngIf="prqForm.get('customer_Name')?.touched &&prqForm.get('customer_Name')?.invalid">
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('customer_Name')?.touched &&prqForm.get('customer_Name')?.invalid">
                             Customer Name is required
                         </div>
                     </div>
@@ -69,14 +72,15 @@
                         <input formControlName="customer_KRM" placeholder="KAM" readonly style="background: #f8f9fa;">
                     </div>
                     <div class="fg" style="margin-bottom:0">
-                        <label>Email  <span style="color:var(--red)">*</span></label>
+                        <label>Email <span style="color:var(--red)">*</span></label>
                         <ng-select [items]="emailData" bindLabel="text" bindValue="id" placeholder="Search Email..."
                             [multiple]="true" [clearable]="true" [searchable]="true" (search)="getEmailList($event)"
                             formControlName="emailID"
                             [ngClass]="{ 'border-danger': prqForm.controls['emailID'].invalid && prqForm.controls['emailID'].touched}"
                             notFoundText="Search Email...">
                         </ng-select>
-                        <div class="text-danger small mt-1" *ngIf="prqForm.get('emailID')?.touched &&prqForm.get('emailID')?.invalid">
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('emailID')?.touched &&prqForm.get('emailID')?.invalid">
                             Email is required
                         </div>
                     </div>
@@ -89,7 +93,8 @@
                             typeToSearchText='Please enter 2 more characters'
                             [ngClass]="{ 'border-danger': prqForm.controls['pinCode'].invalid && prqForm.controls['pinCode'].touched}">
                         </ng-select>
-                        <div class="text-danger small mt-1" *ngIf="prqForm.get('pinCode')?.touched &&prqForm.get('pinCode')?.invalid">
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('pinCode')?.touched &&prqForm.get('pinCode')?.invalid">
                             Pickup Pin Code is required
                         </div>
                     </div>
@@ -106,16 +111,20 @@
                     <div class="fg" style="margin-bottom:0">
                         <label>Pickup Address <span style="color:var(--red)">*</span></label>
                         <textarea formControlName="consignorNameAdd" placeholder="Consignor Name & Address" type="text"
-                            rows="2" [ngClass]="{ 'border-danger': prqForm.controls['consignorNameAdd'].invalid && prqForm.controls['consignorNameAdd'].touched}"></textarea>
-                        <div class="text-danger small mt-1" *ngIf="prqForm.get('consignorNameAdd')?.touched &&prqForm.get('consignorNameAdd')?.invalid">
+                            rows="2"
+                            [ngClass]="{ 'border-danger': prqForm.controls['consignorNameAdd'].invalid && prqForm.controls['consignorNameAdd'].touched}"></textarea>
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('consignorNameAdd')?.touched &&prqForm.get('consignorNameAdd')?.invalid">
                             Pickup Address is required
                         </div>
                     </div>
                     <div class="fg" style="margin-bottom:0">
-                        <label>Delivery Address  <span style="color:var(--red)">*</span></label>
+                        <label>Delivery Address <span style="color:var(--red)">*</span></label>
                         <textarea formControlName="consigneeNameAdd" placeholder="Consignee Name & Address" type="text"
-                            rows="2" [ngClass]="{ 'border-danger': prqForm.controls['consigneeNameAdd'].invalid && prqForm.controls['consigneeNameAdd'].touched}"></textarea>
-                        <div class="text-danger small mt-1" *ngIf="prqForm.get('consigneeNameAdd')?.touched &&prqForm.get('consigneeNameAdd')?.invalid">
+                            rows="2"
+                            [ngClass]="{ 'border-danger': prqForm.controls['consigneeNameAdd'].invalid && prqForm.controls['consigneeNameAdd'].touched}"></textarea>
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('consigneeNameAdd')?.touched &&prqForm.get('consigneeNameAdd')?.invalid">
                             Delivery Address is required
                         </div>
                     </div>
@@ -124,19 +133,20 @@
                         <div class="input-group">
                             <input class="form-control disabled-field" placeholder="Loading Date and Time"
                                 formControlName="loadingDate" bsDatepicker #d2="bsDatepicker"
-                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red' }" 
-                                [ngClass]="{ 'border-danger': prqForm.controls['loadingDate'].invalid && prqForm.controls['loadingDate'].touched}"/>
+                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red' }"
+                                [ngClass]="{ 'border-danger': prqForm.controls['loadingDate'].invalid && prqForm.controls['loadingDate'].touched}" />
                             <button class="btn btn-outline-secondary border shadow-none" type="button"
                                 (click)="d2.show()">
                                 📅
                             </button>
                         </div>
-                        <div class="text-danger small mt-1" *ngIf="prqForm.get('loadingDate')?.touched &&prqForm.get('loadingDate')?.invalid">
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('loadingDate')?.touched &&prqForm.get('loadingDate')?.invalid">
                             Loading Date and Time is required
                         </div>
                     </div>
                     <div class="fg" style="margin-bottom:0">
-                        <label>Dest. Pin Code  <span style="color:var(--red)">*</span></label>
+                        <label>Dest. Pin Code <span style="color:var(--red)">*</span></label>
                         <ng-select [items]="destPincodeData" bindLabel="text" bindValue="id" placeholder="Pin Code"
                             [clearable]="true" [searchable]="true" (search)="getDestPincodeList($event)"
                             (change)="onChangeDestPincode($event.id)" formControlName="desPincode"
@@ -144,7 +154,8 @@
                             typeToSearchText='Please enter 2 more characters'
                             [ngClass]="{ 'border-danger': prqForm.controls['desPincode'].invalid && prqForm.controls['desPincode'].touched}">
                         </ng-select>
-                        <div class="text-danger small mt-1" *ngIf="prqForm.get('desPincode')?.touched &&prqForm.get('desPincode')?.invalid">
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('desPincode')?.touched &&prqForm.get('desPincode')?.invalid">
                             Dest. Pin Code is required
                         </div>
                     </div>
@@ -158,7 +169,8 @@
                         <ng-select [items]="serviceTypes" bindLabel="name" bindValue="name" placeholder="Select Type"
                             [clearable]="true" formControlName="service_Type" readonly
                             [ngClass]="{ 'border-danger': prqForm.controls['service_Type'].invalid && prqForm.controls['service_Type'].touched}"></ng-select>
-                             <div class="text-danger small mt-1" *ngIf="prqForm.get('service_Type')?.touched &&prqForm.get('service_Type')?.invalid">
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('service_Type')?.touched &&prqForm.get('service_Type')?.invalid">
                             Service Type is required
                         </div>
                     </div>
@@ -193,9 +205,10 @@
                         <ng-select [items]="fleetTypeData" bindLabel="codeDesc" bindValue="codeId"
                             placeholder="Select Fleet" [clearable]="true" [searchable]="true"
                             formControlName="fleetType"
-                             [ngClass]="{ 'border-danger': prqForm.controls['fleetType'].invalid && prqForm.controls['fleetType'].touched}">
+                            [ngClass]="{ 'border-danger': prqForm.controls['fleetType'].invalid && prqForm.controls['fleetType'].touched}">
                         </ng-select>
-                        <div class="text-danger small mt-1" *ngIf="prqForm.get('fleetType')?.touched &&prqForm.get('fleetType')?.invalid">
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('fleetType')?.touched &&prqForm.get('fleetType')?.invalid">
                             Fleet Type is required
                         </div>
                     </div>
@@ -212,8 +225,9 @@
                         <label>Exp. Margin</label>
                         <input formControlName="expMargin" type="text"
                             oninput="this.value = this.value.replace(/[^0-9]/g,'');" placeholder="Exp. Margin"
-                             [ngClass]="{ 'border-danger': prqForm.controls['expMargin'].invalid && prqForm.controls['expMargin'].touched}">
-                            <div class="text-danger small mt-1" *ngIf="prqForm.get('expMargin')?.touched &&prqForm.get('expMargin')?.invalid">
+                            [ngClass]="{ 'border-danger': prqForm.controls['expMargin'].invalid && prqForm.controls['expMargin'].touched}">
+                        <div class="text-danger small mt-1"
+                            *ngIf="prqForm.get('expMargin')?.touched &&prqForm.get('expMargin')?.invalid">
                             Exp. Margin is required
                         </div>
                     </div>

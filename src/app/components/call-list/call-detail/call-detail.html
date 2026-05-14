@@ -1,62 +1,272 @@
 <ng-template #Templatepod>
-    <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
+
+    <!-- Header -->
+    <div class="modal-header custom-header border-0">
         <div class="d-flex align-items-center gap-3">
-            <div style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
-                class="text-light">
+
+            <div class="header-icon" style="background:#2563eb;">
                 <i class="ri-customer-service-2-fill"></i>
             </div>
+
             <div>
-                <div class="modal-title fw-bold">Call Details</div>
+                <h5 class="modal-title fw-bold mb-0">Call Details</h5>
+                <small class="text-muted">
+                    View complete call information
+                </small>
             </div>
         </div>
-        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
+
+        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()">
+        </button>
     </div>
 
+    <!-- Body -->
     <div class="modal-body">
-        <div class="table-container">
-            <table class="table table-bordered table-striped">
-                <tbody>
-                    <tr>
-                        <td><strong>Call Category:</strong> {{ callResponse?.callCategoryName }}</td>
-                        <td><strong>Call Date:</strong> {{ callResponse?.callDate }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Call Purpose:</strong> {{ callResponse?.purpose }}</td>
-                        <td>
-                            <strong>Start Time:</strong> {{ callResponse?.startTime }}
-                            &nbsp; <strong>End Time:</strong> {{ callResponse?.endTime }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Customer Name:</strong> {{ callResponse?.customerName }}</td>
-                        <td><strong>Call Status:</strong> {{ callResponse?.callStatus }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Call Created By:</strong> {{ callResponse?.createdBy }}</td>
-                        <td>
-                            <strong>Call Created Date:</strong>
-                            {{ callResponse?.createdDate | date : "dd/MM/yyyy" }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Call Edited By:</strong> {{ callResponse?.modifiedBy }}</td>
-                        <td>
-                            <strong>Call Edited Date:</strong>
-                            {{ callResponse?.modifiedDate | date : "dd/MM/yyyy" }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Remarks:</strong> {{ callResponse?.remarks }}</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <!-- Loader -->
+        <div *ngIf="isLoading" class="loading-section">
+            <div class="spinner-border text-primary"></div>
+
+            <p class="mt-3 mb-0 text-muted">
+                Loading call details...
+            </p>
+        </div>
+
+        <!-- Content -->
+        <div *ngIf="!isLoading && callResponse">
+
+            <div class="lead-grid">
+
+                <!-- Call Category -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#065f46;--cb:#d1fae5;">
+
+                        <i class="ri-phone-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Call Category
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.callCategoryName || '--' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Call Date -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#1d4ed8;--cb:#dbeafe;">
+
+                        <i class="ri-calendar-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Call Date
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.callDate || '--' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Call Purpose -->
+                <div class="ld3-card full-width">
+                    <div class="ld3-card-icon" style="--ci:#7c3aed;--cb:#ede9fe;">
+
+                        <i class="ri-question-answer-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Call Purpose
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.purpose || '--' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Start Time -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#16a34a;--cb:#dcfce7;">
+
+                        <i class="ri-time-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Start Time
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.startTime || '--' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- End Time -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#dc2626;--cb:#fee2e2;">
+
+                        <i class="ri-timer-flash-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            End Time
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.endTime || '--' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Customer Name -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#be185d;--cb:#fce7f3;">
+
+                        <i class="ri-building-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Customer Name
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.customerName || '--' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Call Status -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#2563eb;--cb:#dbeafe;">
+
+                        <i class="ri-shield-check-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Call Status
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.callStatus || '--' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Call Created By -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#15803d;--cb:#dcfce7;">
+
+                        <i class="ri-user-add-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Call Created By
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.createdBy || '--' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Call Created Date -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#4f46e5;--cb:#e0e7ff;">
+
+                        <i class="ri-calendar-check-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Call Created Date
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.createdDate | date : 'dd/MM/yyyy' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Call Edited By -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#c2410c;--cb:#ffedd5;">
+
+                        <i class="ri-edit-2-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Call Edited By
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.modifiedBy || '--' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Call Edited Date -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#9333ea;--cb:#f3e8ff;">
+
+                        <i class="ri-calendar-event-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Call Edited Date
+                        </span>
+
+                        <span class="ld3-card-val">
+                            {{ callResponse?.modifiedDate | date : 'dd/MM/yyyy' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Remarks -->
+                <div class="ld3-card full-width">
+                    <div class="ld3-card-icon" style="--ci:#b45309;--cb:#fef3c7;">
+
+                        <i class="ri-chat-1-line"></i>
+                    </div>
+
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">
+                            Remarks
+                        </span>
+
+                        <span class="ld3-card-val" style="white-space:normal;overflow:visible;text-overflow:unset;">
+
+                            {{ callResponse?.remarks || '--' }}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
 
-    <div class="modal-footer border-0 pt-0">
-        <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" (click)="modalRef.hide()">
-            Close
+    <!-- Footer -->
+    <div class="modal-footer border-0 px-4 pb-4">
+
+        <button type="button" class="btn btn-danger px-4 py-2 rounded-3" (click)="modalRef.hide()">
+
+            <i class="ri-customer-service-2-fill me-2"></i> Close
         </button>
+
     </div>
+
 </ng-template>
