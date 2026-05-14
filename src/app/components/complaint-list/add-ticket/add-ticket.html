@@ -1,39 +1,53 @@
 <ng-template #Templatepod>
-  <div>
+  <div class="modal-content-wrapper">
+    <!-- Loader Overlay -->
     <div class="loader-overlay" *ngIf="isLoading">
       <div class="spinner"></div>
     </div>
-    <div class="modal-header border-0 pb-0" style="padding: 10px 20px !important; background: #f3f3f3;">
-      <div class="d-flex align-items-center gap-3">
-        <div
-          style="width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px"
-          class="text-light">
-          <i class="ri-ticket-2-line fs-5"></i>
-        </div>
-        <div>
-          <div class="modal-title fw-bold">{{complaint}} Complaint Ticket — CCM</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:1px">Ticket # auto-assigned · SLA clock starts on
-            submission · CS team notified instantly</div>
-        </div>
+
+    <!-- Modal Header (Mockup Style) -->
+    <div class="modal-header-custom">
+      <div
+        style="width:40px;height:40px;background:var(--purple);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0"
+        class="text-light">
+        <i class="ri-ticket-2-line"></i>
       </div>
-      <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onClose()"></button>
+      <div style="flex:1">
+        <div style="font-size:16px;font-weight:600;color:var(--text1)">{{complaint}} Complaint Ticket — CCM</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">Ticket # auto-assigned · SLA clock starts on
+          submission · CS team notified instantly</div>
+      </div>
+      <div *ngIf="ticketForm.get('complaintId')?.value"
+        style="background:var(--purple-lt);border:1px solid var(--purple-mid);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--purple);font-family:monospace">
+        {{ticketForm.get('complaintId')?.value}}
+      </div>
+      <button type="button" class="btn-close shadow-none ms-2" aria-label="Close" (click)="onClose()"></button>
     </div>
-    <form *ngIf="complaint !== 'Escalation'" [formGroup]="ticketForm" class="horizontal-form p-2"
-      (submit)="onSubmitTicket()" autocomplete="off">
-      <div class="container-fluid">
-        <div class="row p-2">
-          <div class="col-3">
-            <div>
+
+    <div class="modal-body-custom">
+      <!-- Main Ticket Form (Add/Update/Close) -->
+      <form *ngIf="complaint !== 'Escalation'" [formGroup]="ticketForm" (submit)="onSubmitTicket()" autocomplete="off">
+
+        <!-- ── STEP 1: Customer & Shipment Details ── -->
+        <div class="step-header">
+          <div class="step-num">1</div>
+          Customer & Shipment Details
+        </div>
+
+        <div class="row g-3">
+          <!-- Column 1 from Original -->
+          <div class="col-md-3">
+            <div class="fg">
               <label>User ID</label>
-              <input type="text" class="form-control mb-3" formControlName="userID" readonly
+              <input type="text" class="form-control" formControlName="userID" readonly
                 [class.border-danger]="ticketForm.controls['userID'].invalid && ticketForm.controls['userID']?.touched">
               <div *ngIf="ticketForm.controls['userID'].invalid && ticketForm.controls['userID']?.touched"
                 class="text-danger">
                 <small *ngIf="ticketForm.controls['userID'].errors?.['required']">UserId is required.</small>
               </div>
             </div>
-            <div>
-              <label>Docket No</label>
+            <div class="fg">
+              <label>Docket No *</label>
               <div class="position-relative">
                 <input type="text" class="form-control" formControlName="docketNo" (input)="onDocketNoChange($event)"
                   [readonly]="complaint !== 'Add'" placeholder="Enter Docket No"
@@ -48,34 +62,38 @@
                 <small *ngIf="ticketForm.controls['docketNo'].errors?.['required']">Docket no. is required.</small>
               </div>
             </div>
-            <div>
+            <div class="fg">
               <label>Origin</label>
               <input type="text" class="form-control" formControlName="origin" placeholder="Origin" readonly>
             </div>
           </div>
-          <div class="col-3">
-            <div>
+
+          <!-- Column 2 from Original -->
+          <div class="col-md-3">
+            <div class="fg">
               <label>Username</label>
-              <input type="text" class="form-control mb-3" formControlName="userName" readonly
+              <input type="text" class="form-control" formControlName="userName" readonly
                 [class.border-danger]="ticketForm.controls['userName'].invalid && ticketForm.controls['userName']?.touched">
-              <div *ngIf="ticketForm.controls['userName'].invalid && ticketForm.controls['userName']?.touched "
+              <div *ngIf="ticketForm.controls['userName'].invalid && ticketForm.controls['userName']?.touched"
                 class="text-danger">
                 <small *ngIf="ticketForm.controls['userName'].errors?.['required']">Username is required.</small>
               </div>
             </div>
-            <div>
+            <div class="fg">
               <label>Doc Date</label>
-              <input type="text" class="form-control mb-3" formControlName="docDate" placeholder="Docket Date" readonly>
+              <input type="text" class="form-control" formControlName="docDate" placeholder="Docket Date" readonly>
             </div>
-            <div>
+            <div class="fg">
               <label>Destination</label>
               <input type="text" class="form-control" formControlName="destination" readonly placeholder="Destination">
             </div>
           </div>
-          <div class="col-3">
-            <div>
+
+          <!-- Column 3 from Original -->
+          <div class="col-md-3">
+            <div class="fg">
               <label>Manager ID</label>
-              <input type="text" class="form-control mb-3" formControlName="managerId" readonly
+              <input type="text" class="form-control" formControlName="managerId" readonly
                 placeholder="Enter Manager ID"
                 [class.border-danger]="ticketForm.controls['managerId'].invalid && ticketForm.controls['managerId']?.touched">
               <div *ngIf="ticketForm.controls['managerId'].invalid && ticketForm.controls['managerId']?.touched"
@@ -83,35 +101,35 @@
                 <small *ngIf="ticketForm.controls['managerId'].errors?.['required']">Manager ID is required.</small>
               </div>
             </div>
-            <div>
+            <div class="fg">
               <label>EDD</label>
-              <input type="text" class="form-control mb-3" formControlName="EDD" readonly placeholder="EDD">
+              <input type="text" class="form-control" formControlName="EDD" readonly placeholder="EDD">
             </div>
-            <div>
+            <div class="fg">
               <label>Current Location</label>
               <input type="text" class="form-control" formControlName="currentLocation" readonly
                 placeholder="Current Location">
             </div>
-
           </div>
-          <div class="col-3">
-            <div>
+
+          <!-- Column 4 from Original -->
+          <div class="col-md-3">
+            <div class="fg">
               <label>Manager Name</label>
-              <input type="text" class="form-control mb-3" formControlName="managerName" readonly
-                placeholder="Manager Name"
+              <input type="text" class="form-control" formControlName="managerName" readonly placeholder="Manager Name"
                 [class.border-danger]="ticketForm.controls['managerName'].invalid && ticketForm.controls['managerName']?.touched">
               <div *ngIf="ticketForm.controls['managerName'].invalid && ticketForm.controls['managerName']?.touched"
                 class="text-danger">
                 <small *ngIf="ticketForm.controls['managerName'].errors?.['required']">Manager Name is required.</small>
               </div>
             </div>
-            <div>
+            <div class="fg">
               <label>Billing Party</label>
-              <input type="text" class="form-control mb-3" formControlName="billingParty" readonly
+              <input type="text" class="form-control" formControlName="billingParty" readonly
                 placeholder="Billing Party">
             </div>
-            <div>
-              <label>Ticket Address To</label>
+            <div class="fg">
+              <label>Ticket Address To *</label>
               <ng-select [items]="locations" bindLabel="locName" bindValue="locCode" formControlName="ticketAddressTo"
                 placeholder="Search Ticket Address To" [searchable]="true" [clearable]="true"
                 (change)="getAssignTo($event.locCode)"
@@ -127,21 +145,24 @@
           </div>
         </div>
 
-        <div class="row p-2">
-          <div class="col-12">
-            <label>Current Status</label>
-            <textarea type="text" rows="1" cols="50" class="form-control" formControlName="currentStatus"
-              [readonly]="complaint !== 'Add'"></textarea>
-          </div>
+        <div class="fg">
+          <label>Current Status</label>
+          <textarea rows="1" class="form-control" formControlName="currentStatus"
+            [readonly]="complaint !== 'Add'"></textarea>
         </div>
 
+        <!-- ── STEP 2: Complaint Classification ── -->
+        <div class="step-header">
+          <div class="step-num">2</div>
+          Complaint Classification
+        </div>
 
-        <div class="row p-2">
-          <div class="col-3">
-            <div>
-              <label>Ticket Source*</label>
+        <div class="row g-3">
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Ticket Source *</label>
               <ng-select formControlName="source" [items]="ticketSources" bindLabel="codeDesc" bindValue="codeId"
-                [placeholder]="'Search Ticket Source'" [clearable]="true" [searchable]="true"
+                placeholder="Search Ticket Source" [clearable]="true" [searchable]="true"
                 [readonly]="complaint !== 'Add'"
                 [ngClass]="{'border-danger': ticketForm.controls['source'].invalid && ticketForm.controls['source']?.touched}">
               </ng-select>
@@ -150,9 +171,10 @@
                 <small *ngIf="ticketForm.controls['source'].errors?.['required']">Ticket Source is required.</small>
               </div>
             </div>
-            <br>
-            <div>
-              <label>Ticket Priority*</label>
+          </div>
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Ticket Priority *</label>
               <ng-select [items]="priorities" bindLabel="codeDesc" bindValue="codeId"
                 placeholder="Search Ticket Priority" formControlName="priority" [readonly]="complaint !== 'Add'"
                 [ngClass]="{'border-danger': ticketForm.controls['priority'].invalid && ticketForm.controls['priority']?.touched}">
@@ -163,16 +185,16 @@
               </div>
             </div>
           </div>
-          <div class="col-3">
-            <div>
-              <label>Ticket Date:*</label>
-              <div class="input-group mb-3"
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Ticket Date *</label>
+              <div class="input-group"
                 [ngClass]="{'border-danger': ticketForm.controls['complaintDate'].invalid && ticketForm.controls['complaintDate']?.touched}">
                 <input class="form-control" placeholder="dd/mm/yyyy" #datepickerMDY="bsDatepicker" bsDatepicker required
-                  formControlName="complaintDate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
-                  [disabled]="complaint !== 'Add'?true:false" [class.disabled]="complaint !== 'Add'?true:false">
-                <button class="btn btn-outline-secondary border shadow-none" (click)="datepickerMDY.toggle()"
-                  [attr.aria-expanded]="datepickerMDY.isOpen" type="button" [disabled]="true">📅</button>
+                  formControlName="complaintDate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" container="body"
+                  [isDisabled]="complaint !== 'Add'" [class.disabled]="complaint !== 'Add'">
+                <button class="btn btn-outline-secondary border-0 bg-light" (click)="datepickerMDY.toggle()"
+                  type="button" [disabled]="complaint !== 'Add'">📅</button>
               </div>
               <div *ngIf="ticketForm.controls['complaintDate'].invalid && ticketForm.controls['complaintDate']?.touched"
                 class="text-danger">
@@ -180,21 +202,10 @@
                   required.</small>
               </div>
             </div>
-
-            <div>
-              <label>Description*</label>
-              <textarea rows="1" class="form-control" formControlName="description" [readonly]="complaint !== 'Add'"
-                placeholder="Enter Description"
-                [ngClass]="{'border-danger': ticketForm.controls['description'].invalid && ticketForm.controls['description']?.touched}"></textarea>
-              <div *ngIf="ticketForm.controls['description'].invalid && ticketForm.controls['description']?.touched"
-                class="text-danger">
-                <small *ngIf="ticketForm.controls['description'].errors?.['required']">Description is required.</small>
-              </div>
-            </div>
           </div>
-          <div class="col-3">
-            <div>
-              <label>Ticket Type:*</label>
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Ticket Type *</label>
               <ng-select [items]="ticketTypes" bindLabel="codeDesc" bindValue="codeId" placeholder="Search Ticket Type"
                 formControlName="type" [readonly]="complaint !== 'Add'" (change)="getTicketSubTypes($event.codeId)"
                 [ngClass]="{'border-danger': ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched}">
@@ -204,27 +215,31 @@
                 <small *ngIf="ticketForm.controls['type'].errors?.['required']">Ticket Type is required.</small>
               </div>
             </div>
-            <br>
-            <div>
-              <label>Cust. Email ID:</label>
-              <div class="email-container">
-                <div class="email-tags">
-                  <span *ngFor="let email of emails; let i = index" class="email-tag">
-                    {{ email }}
-                    <button type="button" (click)="removeEmail(i)">×</button>
-                  </span>
-                </div>
-                <input type="text" class="form-control" formControlName="customerEmail" (keyup)="onKeyUp($event)"
-                  placeholder="Enter emails separated by semicolon" />
-              </div>
-              <div *ngIf="emailError" class="text-danger">
-                <small>Email is invalid.</small>
+          </div>
+        </div>
+
+        <!-- ── STEP 3: Description & Contact ── -->
+        <div class="step-header">
+          <div class="step-num">3</div>
+          Complaint Description
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="fg">
+              <label>Description *</label>
+              <textarea rows="3" class="form-control" formControlName="description" [readonly]="complaint !== 'Add'"
+                placeholder="Enter Description"
+                [ngClass]="{'border-danger': ticketForm.controls['description'].invalid && ticketForm.controls['description']?.touched}"></textarea>
+              <div *ngIf="ticketForm.controls['description'].invalid && ticketForm.controls['description']?.touched"
+                class="text-danger">
+                <small *ngIf="ticketForm.controls['description'].errors?.['required']">Description is required.</small>
               </div>
             </div>
           </div>
-          <div class="col-3">
-            <div>
-              <label>Ticket Sub Type:*</label>
+          <div class="col-md-6">
+            <div class="fg">
+              <label>Ticket Sub Type *</label>
               <ng-select [items]="ticketSubTypes" bindLabel="codeDesc" bindValue="codeId"
                 placeholder="Search Ticket Sub Type" formControlName="subType" [readonly]="complaint !== 'Add'"
                 [ngClass]="{'border-danger': ticketForm.controls['subType'].invalid && ticketForm.controls['subType']?.touched}">
@@ -234,45 +249,63 @@
                 <small *ngIf="ticketForm.controls['subType'].errors?.['required']">Ticket Sub Type is required.</small>
               </div>
             </div>
-            <br>
-            <div>
-              <label>Browse</label>
-              <input class="form-control" type="file" formControlName="browse" (change)="onFileSelected($event)" />
+            <div class="fg mt-3">
+              <label>Cust. Email ID</label>
+              <div class="email-container">
+                <div class="email-tags">
+                  <span *ngFor="let email of emails; let i = index" class="email-tag">
+                    {{ email }}
+                    <button type="button" (click)="removeEmail(i)">×</button>
+                  </span>
+                </div>
+                <input type="text" formControlName="customerEmail" (keyup)="onKeyUp($event)"
+                  placeholder="Enter emails..." />
+              </div>
+              <div *ngIf="emailError" class="text-danger"><small>Email is invalid.</small></div>
             </div>
           </div>
-          <div class="col-3 mt-2">
-            <div>
-              <label class="control-label">Assigned To</label>
+        </div>
+
+        <!-- ── STEP 4: Assignment & Escalation ── -->
+        <div class="step-header">
+          <div class="step-num">4</div>
+          Assignment & Escalation
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Assigned To</label>
               <ng-select formControlName="assignedToId" [items]="assignToList" bindLabel="userName" bindValue="userId"
-                [placeholder]="'Search Assigned To'" [clearable]="true" [searchable]="true"
+                placeholder="Search Assigned To" [clearable]="true" [searchable]="true"
                 [ngClass]="{'border-danger': ticketForm.controls['assignedToId'].invalid && ticketForm.controls['assignedToId']?.touched}">
               </ng-select>
-              <div *ngIf="ticketForm.controls['assignedToId'].invalid && ticketForm.controls['assignedToId']?.touched "
+              <div *ngIf="ticketForm.controls['assignedToId'].invalid && ticketForm.controls['assignedToId']?.touched"
                 class="text-danger">
                 <small *ngIf="ticketForm.controls['assignedToId'].errors?.['required']">There is no data against this
                   branch code.</small>
               </div>
             </div>
           </div>
-          <div class="col-3 mt-2" *ngIf="complaint === 'Update'">
-            <div>
-              <label>Update Date:</label>
-              <div class="input-group mb-3">
-                <input class="form-control" placeholder="dd/mm/yyyy" #datepickerMDY="bsDatepicker" bsDatepicker required
-                  formControlName="updateDate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [disabled]="true"
-                  [class.disabled]="true">
-                <button class="btn btn-outline-secondary border shadow-none" (click)="datepickerMDY.toggle()"
-                  [attr.aria-expanded]="datepickerMDY.isOpen" type="button" [disabled]="true">📅</button>
+
+          <!-- Update Mode Fields -->
+          <div class="col-md-3" *ngIf="complaint === 'Update'">
+            <div class="fg">
+              <label>Update Date</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="dd/mm/yyyy" #dpUpdate="bsDatepicker" bsDatepicker required
+                  formControlName="updateDate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" container="body"
+                  [isDisabled]="true" [class.disabled]="true">
+                <button class="btn btn-outline-secondary border-0 bg-light" (click)="dpUpdate.toggle()" type="button"
+                  [disabled]="true">📅</button>
               </div>
             </div>
           </div>
-          <div class="col-3 mt-2" *ngIf="complaint === 'Update'">
-            <div>
-              <label>Update Remarks:</label>
-              <div class="input-group mb-1"
+          <div class="col-md-3" *ngIf="complaint === 'Update'">
+            <div class="fg">
+              <label>Update Remarks *</label>
+              <input type="text" class="form-control" formControlName="updateRemarks"
                 [ngClass]="{'border-danger': ticketForm.controls['updateRemarks'].invalid && ticketForm.controls['updateRemarks']?.touched}">
-                <input type="text" class="form-control" formControlName="updateRemarks">
-              </div>
               <div *ngIf="ticketForm.controls['updateRemarks'].invalid && ticketForm.controls['updateRemarks']?.touched"
                 class="text-danger">
                 <small *ngIf="ticketForm.controls['updateRemarks'].errors?.['required']">Update Remarks is
@@ -280,196 +313,235 @@
               </div>
             </div>
           </div>
-          <div class="col-3 mt-2" *ngIf="complaint === 'Close'">
-            <div>
+
+          <!-- Close Mode Fields -->
+          <div class="col-md-3" *ngIf="complaint === 'Close'">
+            <div class="fg">
               <label>Close Remarks</label>
-              <div class="input-group mb-3">
-                <input type="text" class="form-control" formControlName="closeRemark">
+              <input type="text" class="form-control" formControlName="closeRemark">
+            </div>
+          </div>
+          <div class="col-md-3" *ngIf="complaint === 'Close'">
+            <div class="fg">
+              <label>Closure Date</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="dd/mm/yyyy" #dpClose="bsDatepicker" bsDatepicker required
+                  formControlName="closureDate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" container="body"
+                  [isDisabled]="complaint === 'Close'" [class.disabled]="complaint === 'Close'">
+                <button class="btn btn-outline-secondary border-0 bg-light" (click)="dpClose.toggle()" type="button"
+                  [disabled]="complaint === 'Close'">📅</button>
               </div>
             </div>
           </div>
-          <div class="col-3 mt-2" *ngIf="complaint === 'Close'">
-            <div>
-              <label>Closure Date:</label>
-              <div class="input-group mb-3">
-                <input class="form-control" placeholder="dd/mm/yyyy" #datepickerMDY="bsDatepicker" bsDatepicker required
-                  formControlName="closureDate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
-                  [class.disabled]="complaint === 'Close'">
-                <button class="btn btn-outline-secondary border shadow-none" (click)="datepickerMDY.toggle()"
-                  [attr.aria-expanded]="datepickerMDY.isOpen" type="button" [disabled]="true">📅</button>
-              </div>
+          <div class="col-md-3" *ngIf="complaint === 'Close'">
+            <div class="fg">
+              <label>Closed By</label>
+              <input type="text" class="form-control" formControlName="closeBy" readonly>
             </div>
-          </div>
-          <div class="col-3 mt-2" *ngIf="complaint === 'Close'">
-            <div>
-              <label>Closed By:</label>
-              <div class="input-group mb-3">
-                <input type="text" class="form-control" formControlName="closeBy" readonly>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer mt-4">
-          <div class="hstack gap-2 justify-content-end">
-            <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" data-bs-dismiss="modal"
-              (click)="onClose()">Close</button>
-            <button type="submit" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none" id="add-btn"
-              [disabled]="complaint === 'Update' && loading || isLoading">
-              <span *ngIf="loading || isLoading" class="spinner-border spinner-border-sm me-2"></span>
-              <i class="ri-ticket-2-line fs-6 me-2"></i> {{complaint}} Ticket
-            </button>
           </div>
         </div>
 
-      </div>
-    </form>
-  </div>
-
-  <form *ngIf="complaint === 'Escalation'" [formGroup]="escalationForm">
-    <div class="p-3">
-      <div class="row">
-        <div class="col-3">
-          <label>Complaint ID</label>
-          <input type="text" class="form-control mb-3" formControlName="complaintId" readonly
-            [ngClass]="{'border-danger': escalationForm.controls['complaintId'].invalid && escalationForm.controls['complaintId']?.touched}">
-          <div *ngIf="escalationForm.controls['complaintId'].invalid && escalationForm.controls['complaintId']?.touched"
-            class="text-danger">
-            <small *ngIf="escalationForm.controls['complaintId'].errors?.['required']">ComplaintId is required.</small>
-          </div>
+        <!-- ── STEP 5: Evidence & Raised By ── -->
+        <div class="step-header">
+          <div class="step-num">5</div>
+          Evidence & Attachments
         </div>
-        <div class="col-3">
-          <label>Docket No</label>
-          <input type="text" class="form-control" formControlName="docketNo" (input)="onDocketNoChange($event)" readonly
-            [ngClass]="{'border-danger': escalationForm.controls['docketNo'].invalid && escalationForm.controls['docketNo']?.touched}">
-          <div *ngIf="escalationForm.controls['docketNo'].invalid && escalationForm.controls['docketNo']?.touched"
-            class="text-danger">
-            <small *ngIf="escalationForm.controls['docketNo'].errors?.['required']">Docket no. is required.</small>
-            <small>Docket no. is not found.</small>
-          </div>
-        </div>
-        <div class="col-3">
-          <label>Ticket Type</label>
-          <ng-select [items]="ticketTypes" bindLabel="codeDesc" bindValue="codeId" placeholder="Search Ticket Type"
-            formControlName="type" [readonly]="complaint === 'Escalation'"
-            [ngClass]="{'border-danger': escalationForm.controls['type'].invalid && escalationForm.controls['type']?.touched}">
-          </ng-select>
-          <div *ngIf="escalationForm.controls['type'].invalid && escalationForm.controls['type']?.touched"
-            class="text-danger">
-            <small *ngIf="escalationForm.controls['type'].errors?.['required']">Ticket Type is required.</small>
-          </div>
-        </div>
-        <div class="col-3">
-          <label>Ticket Description</label>
-          <input type="text" class="form-control mb-3" formControlName="description" readonly
-            [ngClass]="{'border-danger': escalationForm.controls['description'].invalid && escalationForm.controls['description']?.touched}">
-          <div *ngIf="escalationForm.controls['description'].invalid && escalationForm.controls['description']?.touched"
-            class="text-danger">
-            <small *ngIf="escalationForm.controls['description'].errors?.['required']">Ticket Description is
-              required.</small>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-2">
-        <div class="col-3">
-          <label>Assigned To</label>
-          <ng-select formControlName="assigned" [items]="assignToList" bindLabel="userName" bindValue="userId"
-            [placeholder]="'Search Assigned To'" [clearable]="true" [searchable]="true" readonly="true"
-            [ngClass]="{'border-danger': escalationForm.controls['assigned'].invalid && escalationForm.controls['assigned']?.touched}">
-          </ng-select>
-          <div *ngIf="escalationForm.controls['assigned'].invalid && escalationForm.controls['assigned']?.touched"
-            class="text-danger">
-            <small *ngIf="escalationForm.controls['assigned'].errors?.['required']">Assigned To is required.</small>
-          </div>
-        </div>
-        <div class="col-3">
-          <label>Ticket Status</label>
-          <input type="text" class="form-control" formControlName="status" readonly
-            [ngClass]="{'border-danger': escalationForm.controls['status'].invalid && escalationForm.controls['status']?.touched}">
-          <div *ngIf="escalationForm.controls['status'].invalid && escalationForm.controls['status']?.touched"
-            class="text-danger">
-            <small *ngIf="escalationForm.controls['status'].errors?.['required']">Ticket Status is required.</small>
-          </div>
-        </div>
-        <div class="col-3">
-          <label>Priority</label>
-          <ng-select [items]="priorities" bindLabel="codeDesc" bindValue="codeId" placeholder="Search Ticket Priority"
-            formControlName="priority" [readonly]="complaint === 'Escalation'"
-            [ngClass]="{'border-danger': escalationForm.controls['priority'].invalid && escalationForm.controls['priority']?.touched}">
-          </ng-select>
-          <div *ngIf="escalationForm.controls['priority'].invalid && escalationForm.controls['priority']?.touched"
-            class="text-danger">
-            <small *ngIf="escalationForm.controls['priority'].errors?.['required']">Priority is required.</small>
-          </div>
-        </div>
-        <div class="col-3">
-          <label>Escalate To</label>
-          <ng-select formControlName="escalatedTo" [items]="assignToList" bindLabel="userName" bindValue="userId"
-            (change)="onAssignToList($event)" [placeholder]="'Search Escalate To'" [clearable]="true"
-            [searchable]="true" [multiple]="true"
-            [ngClass]="{'border-danger': escalationForm.controls['escalatedTo'].invalid && escalationForm.controls['escalatedTo']?.touched}">
-          </ng-select>
-          <div *ngIf="escalationForm.controls['escalatedTo'].invalid && escalationForm.controls['escalatedTo']?.touched"
-            class="text-danger">
-            <small *ngIf="escalationForm.controls['escalatedTo'].errors?.['required']">Escalate To is required.</small>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-3">
-          <label>Esc. Email ID:</label>
-          <div class="email-container">
-            <div class="email-tags">
-              <span *ngFor="let email of escEmail; let i = index" class="email-tag">
-                {{ email }}
-                <button type="button" (click)="removeEscEmail(i)">×</button>
-              </span>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="fg">
+              <label>Browse Attachment</label>
+              <input class="form-control" type="file" formControlName="browse" (change)="onFileSelected($event)"
+                style="padding: 5px 10px !important;" />
             </div>
-            <input type="text" class="form-control" formControlName="escalatedEmail" (keyup)="onEscKeyUp($event)"
-              placeholder="Enter Escalated emails" readonly />
-          </div>
-          <div *ngIf="emailError" class="text-danger">
-            <small>Email is invalid.</small>
           </div>
         </div>
-        <div class="col-3">
-          <label>Esc. Date:</label>
-          <div class="input-group"
-            [ngClass]="{'border-danger': escalationForm.controls['escalatedDate'].invalid && escalationForm.controls['escalatedDate']?.touched}">
-            <input class="form-control" placeholder="dd/mm/yyyy" #datepickerMDY="bsDatepicker" bsDatepicker required
-              formControlName="escalatedDate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [disabled]="true"
-              [class.disabled]="true">
-            <button class="btn btn-outline-secondary border shadow-none" (click)="datepickerMDY.toggle()"
-              [attr.aria-expanded]="datepickerMDY.isOpen" type="button" [disabled]="true">📅</button>
+
+        <!-- Footer Actions -->
+        <div class="modal-footer-custom mx-n4 mb-n4 mt-4">
+          <div class="footer-note">SLA clock starts on submission.</div>
+          <button type="button" class="btn-custom btn-outline" (click)="onClose()">Close</button>
+          <button type="submit" class="btn-custom btn-primary" id="add-btn"
+            [disabled]="complaint === 'Update' && loading || isLoading">
+            <span *ngIf="loading || isLoading" class="spinner-border spinner-border-sm me-2"></span>
+            <i class="ri-ticket-2-line me-1"></i> {{complaint}} Ticket
+          </button>
+        </div>
+      </form>
+
+      <!-- Escalation Form -->
+      <form *ngIf="complaint === 'Escalation'" [formGroup]="escalationForm">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          Escalation Details
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Complaint ID</label>
+              <input type="text" class="form-control" formControlName="complaintId" readonly
+                [ngClass]="{'border-danger': escalationForm.controls['complaintId'].invalid && escalationForm.controls['complaintId']?.touched}">
+              <div
+                *ngIf="escalationForm.controls['complaintId'].invalid && escalationForm.controls['complaintId']?.touched"
+                class="text-danger">
+                <small *ngIf="escalationForm.controls['complaintId'].errors?.['required']">ComplaintId is
+                  required.</small>
+              </div>
+            </div>
           </div>
-          <div
-            *ngIf="escalationForm.controls['escalatedDate'].invalid && escalationForm.controls['escalatedDate']?.touched"
-            class="text-danger">
-            <small *ngIf="escalationForm.controls['escalatedDate'].errors?.['required']">Esc. Date is required.</small>
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Docket No</label>
+              <input type="text" class="form-control" formControlName="docketNo" readonly
+                [ngClass]="{'border-danger': escalationForm.controls['docketNo'].invalid && escalationForm.controls['docketNo']?.touched}">
+              <div *ngIf="escalationForm.controls['docketNo'].invalid && escalationForm.controls['docketNo']?.touched"
+                class="text-danger">
+                <small *ngIf="escalationForm.controls['docketNo'].errors?.['required']">Docket no. is required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Ticket Type</label>
+              <ng-select [items]="ticketTypes" bindLabel="codeDesc" bindValue="codeId" placeholder="Search Ticket Type"
+                formControlName="type" [readonly]="complaint === 'Escalation'"
+                [ngClass]="{'border-danger': escalationForm.controls['type'].invalid && escalationForm.controls['type']?.touched}"></ng-select>
+              <div *ngIf="escalationForm.controls['type'].invalid && escalationForm.controls['type']?.touched"
+                class="text-danger">
+                <small *ngIf="escalationForm.controls['type'].errors?.['required']">Ticket Type is required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Ticket Description</label>
+              <input type="text" class="form-control" formControlName="description" readonly
+                [ngClass]="{'border-danger': escalationForm.controls['description'].invalid && escalationForm.controls['description']?.touched}">
+              <div
+                *ngIf="escalationForm.controls['description'].invalid && escalationForm.controls['description']?.touched"
+                class="text-danger">
+                <small *ngIf="escalationForm.controls['description'].errors?.['required']">Ticket Description is
+                  required.</small>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-3">
-          <label>Remarks</label>
-          <input type="text" class="form-control" formControlName="escalatedRemarks"
-            [ngClass]="{'border-danger': escalationForm.controls['escalatedRemarks'].invalid && escalationForm.controls['escalatedRemarks']?.touched}">
-          <div
-            *ngIf="escalationForm.controls['escalatedRemarks'].invalid && escalationForm.controls['escalatedRemarks']?.touched"
-            class="text-danger">
-            <small *ngIf="escalationForm.controls['escalatedRemarks'].errors?.['required']">Remarks is required.</small>
+
+        <div class="row g-3">
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Assigned To</label>
+              <ng-select formControlName="assigned" [items]="assignToList" bindLabel="userName" bindValue="userId"
+                placeholder="Search Assigned To" [clearable]="true" [searchable]="true" readonly="true"
+                [ngClass]="{'border-danger': escalationForm.controls['assigned'].invalid && escalationForm.controls['assigned']?.touched}"></ng-select>
+              <div *ngIf="escalationForm.controls['assigned'].invalid && escalationForm.controls['assigned']?.touched"
+                class="text-danger">
+                <small *ngIf="escalationForm.controls['assigned'].errors?.['required']">Assigned To is required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Ticket Status</label>
+              <input type="text" class="form-control" formControlName="status" readonly
+                [ngClass]="{'border-danger': escalationForm.controls['status'].invalid && escalationForm.controls['status']?.touched}">
+              <div *ngIf="escalationForm.controls['status'].invalid && escalationForm.controls['status']?.touched"
+                class="text-danger">
+                <small *ngIf="escalationForm.controls['status'].errors?.['required']">Ticket Status is required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Priority</label>
+              <ng-select [items]="priorities" bindLabel="codeDesc" bindValue="codeId"
+                placeholder="Search Ticket Priority" formControlName="priority" [readonly]="complaint === 'Escalation'"
+                [ngClass]="{'border-danger': escalationForm.controls['priority'].invalid && escalationForm.controls['priority']?.touched}"></ng-select>
+              <div *ngIf="escalationForm.controls['priority'].invalid && escalationForm.controls['priority']?.touched"
+                class="text-danger">
+                <small *ngIf="escalationForm.controls['priority'].errors?.['required']">Priority is required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Escalate To *</label>
+              <ng-select formControlName="escalatedTo" [items]="assignToList" bindLabel="userName" bindValue="userId"
+                (change)="onAssignToList($event)" placeholder="Search Escalate To" [clearable]="true"
+                [searchable]="true" [multiple]="true"
+                [ngClass]="{'border-danger': escalationForm.controls['escalatedTo'].invalid && escalationForm.controls['escalatedTo']?.touched}"></ng-select>
+              <div
+                *ngIf="escalationForm.controls['escalatedTo'].invalid && escalationForm.controls['escalatedTo']?.touched"
+                class="text-danger">
+                <small *ngIf="escalationForm.controls['escalatedTo'].errors?.['required']">Escalate To is
+                  required.</small>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-3 mt-3">
-          <input type="file" class="form-control">
+
+        <div class="row g-3">
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Esc. Email ID</label>
+              <div class="email-container">
+                <div class="email-tags">
+                  <span *ngFor="let email of escEmail; let i = index" class="email-tag">
+                    {{ email }}
+                    <button type="button" (click)="removeEscEmail(i)">×</button>
+                  </span>
+                </div>
+                <input type="text" formControlName="escalatedEmail" (keyup)="onEscKeyUp($event)" readonly
+                  placeholder="Emails..." />
+              </div>
+              <div *ngIf="emailError" class="text-danger"><small>Email is invalid.</small></div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Esc. Date *</label>
+              <div class="input-group"
+                [ngClass]="{'border-danger': escalationForm.controls['escalatedDate'].invalid && escalationForm.controls['escalatedDate']?.touched}">
+                <input class="form-control" placeholder="dd/mm/yyyy" #dpEsc="bsDatepicker" bsDatepicker required
+                  formControlName="escalatedDate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [disabled]="true"
+                  [class.disabled]="true">
+                <button class="btn btn-outline-secondary border-0 bg-light" (click)="dpEsc.toggle()" type="button"
+                  [disabled]="true">📅</button>
+              </div>
+              <div
+                *ngIf="escalationForm.controls['escalatedDate'].invalid && escalationForm.controls['escalatedDate']?.touched"
+                class="text-danger">
+                <small *ngIf="escalationForm.controls['escalatedDate'].errors?.['required']">Esc. Date is
+                  required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="fg">
+              <label>Remarks *</label>
+              <input type="text" class="form-control" formControlName="escalatedRemarks"
+                [ngClass]="{'border-danger': escalationForm.controls['escalatedRemarks'].invalid && escalationForm.controls['escalatedRemarks']?.touched}">
+              <div
+                *ngIf="escalationForm.controls['escalatedRemarks'].invalid && escalationForm.controls['escalatedRemarks']?.touched"
+                class="text-danger">
+                <small *ngIf="escalationForm.controls['escalatedRemarks'].errors?.['required']">Remarks is
+                  required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mt-3">
+            <input type="file" class="form-control" style="padding: 5px 10px !important;">
+          </div>
         </div>
-      </div>
-      <div class="text-end">
-        <div class="hstack gap-2 justify-content-end">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal"
-            (click)="onEscalationClose()">Close</button>
-          <button type="submit" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none"
-            (click)="escalationTicket()" [disabled]="escalationForm.invalid"> <i class="ri-ticket-2-line fs-6 me-2"></i>
-            Submit</button>
+
+        <div class="modal-footer-custom mx-n4 mb-n4 mt-4">
+          <button type="button" class="btn-custom btn-outline" (click)="onEscalationClose()">Close</button>
+          <button type="submit" class="btn-custom btn-primary" (click)="escalationTicket()"
+            [disabled]="escalationForm.invalid">
+            <i class="ri-ticket-2-line me-1"></i> Submit
+          </button>
         </div>
-      </div>
+      </form>
     </div>
-  </form>
+  </div>
 </ng-template>

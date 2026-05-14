@@ -1,78 +1,326 @@
-    ::ng-deep.modal-width {
-        --bs-modal-width: 1262px !important;
-    }
+    :host {
+    --purple: #7c3aed;
+    --purple-lt: #f5f3ff;
+    --purple-mid: #ddd6fe;
+    --text1: #1f2937;
+    --text2: #4b5563;
+    --text3: #9ca3af;
+    --border: #e5e7eb;
+    --red: #ef4444;
+    --red-lt: #fef2f2;
+    --red-mid: #fecaca;
+    --dark: #111827;
+}
 
-    .disabled {
-        pointer-events: none;
-    }
+::ng-deep.modal-width {
+    --bs-modal-width: 720px !important;
+}
 
-    .disabled {
-        pointer-events: none;
-        opacity: 0.9;
-    }
+.modal-content-wrapper {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
 
-    .email-container {
+.modal-header-custom {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    background: #fff;
+}
+
+.modal-body-custom {
+    padding: 0 24px 24px 24px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 20px 0 10px 0;
+
+    .step-num {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--purple);
+        color: #fff;
+        font-size: 10px;
         display: flex;
-        flex-wrap: wrap;
-        border: 1px solid #ccc;
-        padding: 5px;
-        border-radius: 5px;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
     }
+}
+
+.fg {
+    margin-bottom: 12px;
+
+    label {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text2);
+        margin-bottom: 5px;
+    }
+
+    .form-control,
+    ::ng-deep .ng-select .ng-select-container {
+        border: 1px solid var(--border) !important;
+        border-radius: 7px !important;
+        font-size: 13px !important;
+        padding: 8px 12px !important;
+        min-height: 38px !important;
+        background: #fff !important;
+        transition: all 0.2s ease;
+
+        &:focus,
+        &.ng-select-opened {
+            border-color: var(--purple) !important;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1) !important;
+        }
+
+        &[readonly] {
+            background: #f8f9fc !important;
+            cursor: not-allowed;
+        }
+    }
+
+    ::ng-deep .ng-select {
+        padding: 0 !important;
+
+        .ng-select-container {
+            padding: 0 8px !important;
+        }
+    }
+}
+
+.info-strip {
+    background: var(--purple-lt);
+    border: 1px solid var(--purple-mid);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+
+    .info-item {
+        .label {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .value {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text1);
+            margin-top: 2px;
+        }
+    }
+}
+
+.pill {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+
+    &.pp {
+        background: var(--purple-lt);
+        color: var(--purple);
+        border: 1px solid var(--purple-mid);
+    }
+}
+
+.sla-display {
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text2);
+    background: #f8f9fc;
+
+    &.active {
+        background: #f0fdf4;
+        border-color: #bbf7d0;
+        color: #15803d;
+    }
+}
+
+.raised-by-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #f8f9fc;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    cursor: not-allowed;
+
+    .avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--red);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .info {
+        flex: 1;
+
+        .name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text1);
+        }
+
+        .role {
+            font-size: 10px;
+            color: var(--text3);
+            margin-top: 1px;
+        }
+    }
+}
+
+.email-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    border: 1px solid var(--border);
+    padding: 6px;
+    border-radius: 7px;
+    background: #fff;
 
     .email-tags {
         display: flex;
         flex-wrap: wrap;
+        gap: 4px;
     }
 
     .email-tag {
-        background: #e0e0e0;
-        padding: 5px 8px;
-        border-radius: 3px;
-        margin: 2px;
+        background: var(--purple-lt);
+        border: 1px solid var(--purple-mid);
+        color: var(--purple);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
         display: flex;
         align-items: center;
-    }
+        gap: 4px;
 
-    .email-tag button {
-        margin-left: 5px;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-        color: red;
-    }
-
-    .loader-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.6);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1055;
-        /* Bootstrap modal backdrop (1040) karta vadhare */
-    }
-
-    .spinner {
-        border: 5px solid #f3f3f3;
-        border-top: 5px solid #08a88a;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        100% {
-            transform: rotate(360deg);
+        button {
+            border: none;
+            background: transparent;
+            padding: 0;
+            font-size: 14px;
+            line-height: 1;
+            color: var(--purple);
+            cursor: pointer;
+            &:hover { color: var(--red); }
         }
     }
 
-    /* For input-groups (icon + input) */
-    .input-group.border-danger .form-control,
-    .input-group.border-danger .input-group-text,
-    ::ng-deep ng-select.border-danger .ng-select-container {
-        border-color: #dc3545 !important;
+    input {
+        border: none !important;
+        outline: none !important;
+        flex: 1;
+        min-width: 120px;
+        font-size: 13px;
+        padding: 2px 4px;
     }
+}
+
+.modal-footer-custom {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    background: #fff;
+
+    .footer-note {
+        flex: 1;
+        font-size: 11px;
+        color: var(--text3);
+    }
+}
+
+.btn-custom {
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 7px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+
+    &.btn-outline {
+        background: #fff;
+        border-color: var(--border);
+        color: var(--text2);
+        &:hover { background: #f8f9fc; }
+    }
+
+    &.btn-primary {
+        background: var(--purple);
+        color: #fff;
+        &:hover { background: #6d28d9; }
+        &:disabled { background: var(--text3); cursor: not-allowed; }
+    }
+}
+
+.loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--purple-lt);
+    border-top: 3px solid var(--purple);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.border-danger {
+    border-color: var(--red) !important;
+}
+
+.text-danger {
+    color: var(--red) !important;
+    font-size: 10px;
+    margin-top: 2px;
+}
