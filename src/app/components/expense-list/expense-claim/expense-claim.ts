@@ -187,9 +187,6 @@ export class ExpenseClaim {
       });
     } else {
       this.claimForm.markAllAsTouched();
-      if (!this.selectedFile) {
-        this.sweetAlertService.error('Please upload a receipt');
-      }
     }
   }
 }
