@@ -156,12 +156,12 @@
                     </div>
                 </div>
 
-              <div class="col-lg-4">
+                <div class="col-lg-4">
                     <label class="form-label fw-bold">Start Time <span class="text-danger">*</span></label>
                     <input type="time" class="form-control" formControlName="startTime"
                         [readonly]="checkOutValue !== '-' || meetingRole || isChecked "
                         [ngClass]="{ 'border-danger': meetingForm.controls['startTime'].invalid && meetingForm.controls['startTime'].touched}">
-                        <!-- <ng-select [items]="startTimeSlots" bindLabel="label" bindValue="value" placeholder="— From —" formControlName="startTime"
+                    <!-- <ng-select [items]="startTimeSlots" bindLabel="label" bindValue="value" placeholder="— From —" formControlName="startTime"
                            [readonly]="checkOutValue !== '-' || meetingRole || isChecked"
                              [ngClass]="{'border-danger':meetingForm.controls['startTime'].invalid &&meetingForm.controls['startTime'].touched}">
                         </ng-select> -->
@@ -236,7 +236,7 @@
                         <ng-select [items]="meetingTypes" bindLabel="codeDesc" bindValue="codeId"
                             formControlName="meetingTypeId" placeholder="Select Type"
                             [class.disabled]="checkOutValue !== '-' || meetingRole"
-                            [ngClass]="{ 'border-danger': meetingForm.invalid && meetingForm.touched }">
+                            [ngClass]="{ 'border-danger': meetingForm.controls['meetingTypeId'].invalid && meetingForm.controls['meetingTypeId'].touched }">
                         </ng-select>
                     </div>
                     <div *ngIf="meetingForm.invalid && meetingForm.touched" class="text-danger small mt-1">
