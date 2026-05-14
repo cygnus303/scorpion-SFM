@@ -13,7 +13,7 @@ import { PrqDetail } from './prq-detail/prq-detail';
 
 @Component({
   selector: 'app-pickup-request-list',
-  imports: [CommonModule, AddPrq, PaginationModule, FormsModule,PrqDetail],
+  imports: [CommonModule, AddPrq, PaginationModule, FormsModule, PrqDetail],
   templateUrl: './pickup-request-list.html',
   styleUrl: './pickup-request-list.scss',
 })
@@ -44,7 +44,7 @@ export class PickupRequestList {
     this.addPRQ.showPopup(type);
   }
 
-   openPRQDetailModal(indentNo?: any) {
+  openPRQDetailModal(indentNo?: any) {
     this.PrqDetail.showPopup(() => {
       return this.PRQService.GetPRQDetails(indentNo);
     });
@@ -79,8 +79,8 @@ export class PickupRequestList {
       }).replace(',', '').toLowerCase();
     };
     const payload = {
-      startDate:  formatDate(this.commonService.globalFilters.startDate),
-      endDate:formatDate(this.commonService.globalFilters.endDate),
+      startDate: formatDate(this.commonService.globalFilters.startDate),
+      endDate: formatDate(this.commonService.globalFilters.endDate),
       updateBy: this.commonService.globalFilters.UserID.toString(),
       baseLoc: this.identityService.getBranchCode(),
       type: "N",
@@ -95,6 +95,11 @@ export class PickupRequestList {
   //   onPageChange(event: any): void {
   //   this.getPRQList(event.page);
   // }
+
+  onDataEmitter() {
+    this.getPRQCardList();
+    this.getPRQList();
+  }
 
   downloadPRQ() {
     const params = {

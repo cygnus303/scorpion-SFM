@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CommonService } from '../../../shared/services/common.service';
@@ -41,6 +41,7 @@ export class AddPrq {
     { name: 'FTL', value: 'FTL' }
   ];
   @ViewChild('Templatepod', { static: true }) Templatepod!: TemplateRef<any>;
+  @Output() dataEmitter: EventEmitter<string> = new EventEmitter<string>();
   private modalService = inject(BsModalService);
   private prqService = inject(PrqService);
   private expenseGeneralService = inject(ExpenseGeneralService);
@@ -133,7 +134,7 @@ export class AddPrq {
       approximateWeight: new FormControl(''),
 
       branchCode: new FormControl(''), // Pickup Branch
-      customer_Name: new FormControl('',Validators.required),
+      customer_Name: new FormControl('', Validators.required),
       desBranchCode: new FormControl(''), // Destination Branch
       approximatePackages: new FormControl(''),
       shipmentNo: new FormControl(''),
@@ -156,6 +157,7 @@ export class AddPrq {
 
   onClose() {
     this.modalRef.hide();
+    this.initForm();
   }
 
   getEmailList(event: any) {
@@ -274,9 +276,9 @@ export class AddPrq {
             toloc: formData.fromCity,
             remarks: formData.remarks,
             entryBy: this.commonService.globalFilters.UserID.toString(),
-            entrydate:new Date(),
-            indentNo:null,
-            updateDate:new Date(),
+            entrydate: new Date(),
+            indentNo: null,
+            updateDate: new Date(),
           }
         ],
         baseUserName: this.commonService.globalFilters.UserID.toString(),
@@ -287,6 +289,7 @@ export class AddPrq {
         next: (res: any) => {
           if (res.success) {
             this.sweetAlertService.success(`${res.data.message} : <b style="color:#0d6efd">${res.data.id}</b>`);
+            this.dataEmitter.emit();
             this.onClose();
           } else {
             this.sweetAlertService.error(res.message);
@@ -296,7 +299,7 @@ export class AddPrq {
           this.sweetAlertService.error(err.error.message);
         }
       });
-    }else{
+    } else {
       this.prqForm.markAllAsTouched();
     }
   }

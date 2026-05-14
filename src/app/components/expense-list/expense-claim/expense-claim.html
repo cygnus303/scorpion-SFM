@@ -11,7 +11,7 @@
         </div>
         <button type="button" class="btn-close shadow-none" (click)="onClose()"></button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" [formGroup]="claimForm">
         <div class="form-row">
             <div class="fg"><label>Expense Category</label>
                 <ng-select [items]="expenseCategoryData" bindLabel="codeDesc" bindValue="codeId"
@@ -32,25 +32,51 @@
             </div>
         </div>
         <div class="form-row one">
-            <div class="fg"><label>Description</label><input placeholder="Brief description of expense"></div>
+            <div class="fg"><label>Description</label><input placeholder="Brief description of expense"
+                    formControlName="description"></div>
         </div>
         <div class="form-row">
             <div class="fg"><label>Amount (₹)</label>
-                <input type="number" placeholder="0.00">
+                <input type="number" placeholder="0.00" formControlName="amount">
             </div>
             <div class="fg"><label>Customer / Project</label>
-                <input type="text" placeholder="Select Customer / Project" readonly>
+                <input type="text" placeholder="Select Customer / Project" readonly formControlName="customerId">
             </div>
         </div>
-        <div class="upload-box">
-            <i class="bi bi-cloud-arrow-up"></i>
-            <h4>Upload Receipt</h4>
-            <p>Drag & drop files or browse</p>
-            <input type="file">
+        <div class="upload-box" [class.has-file]="selectedFile" [class.is-invalid]="isSubmitted && !selectedFile">
+            <input type="file" #fileInput (change)="handleFileUpload($event)" 
+                   [style.display]="selectedFile ? 'none' : 'block'">
+            
+            <div class="upload-content" *ngIf="!selectedFile">
+                <i class="bi bi-cloud-arrow-up"></i>
+                <h4>Upload Receipt</h4>
+                <p>Drag & drop files or browse</p>
+            </div>
+
+            <div class="preview-content" *ngIf="selectedFile">
+                <div class="preview-media">
+                    <img *ngIf="isImagePreview" [src]="filePreview" class="img-preview">
+                    <div *ngIf="isPdfPreview" class="pdf-preview">
+                        <i class="bi bi-file-pdf"></i>
+                        <span>{{ selectedFile.name }}</span>
+                    </div>
+                </div>
+                <div class="preview-controls">
+                    <button type="button" class="btn-action change" (click)="triggerFileInput()">
+                        <i class="ri-refresh-line"></i> Change
+                    </button>
+                    <button type="button" class="btn-action remove" (click)="removeFile($event)">
+                        <i class="ri-delete-bin-line"></i> Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isSubmitted && !selectedFile" class="text-danger mt-1 small fw-bold">
+            <i class="ri-error-warning-line me-1"></i> Receipt is required
         </div>
     </div>
     <div class="modal-footer">
-        <div style="display:flex;gap:8px"><button class="btn btn-red">Submit Claim</button><button
-                class="btn btn-outline">Save Draft</button></div>
+        <div style="display:flex;gap:8px"><button class="btn btn-red" (click)="onSubmit()">Submit Claim</button><button
+                class="btn btn-outline" (click)="onClose()">Cancel</button></div>
     </div>
 </ng-template>
