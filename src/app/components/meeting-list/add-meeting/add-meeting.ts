@@ -258,6 +258,7 @@ export class AddMeeting implements OnInit, OnDestroy {
       isAllDayEvent: new FormControl(false),
       attendeeIDs: new FormControl([]),
       meetingMOM: new FormControl([]),
+      MeetingOutcome: new FormControl([]),
       geoLocation: new FormControl(null),
       latitude: new FormControl(null),
       longitude: new FormControl(null),
@@ -413,7 +414,8 @@ export class AddMeeting implements OnInit, OnDestroy {
         ...form.value,
         attendeeIDs: form.value.attendeeIDs?.join(','),
         meetingMOM: form.value.meetingMOM?.join(','),
-        meetingDate: this.formatDate(form.value.meetingDate),
+        MeetingOutcome: form.value.MeetingOutcome?.join(','),
+        meetingDate: this.isMeetingList === 'Update' ? form.value.meetingDate : this.formatDate(form.value.meetingDate),
         customerCode: form.value.customerCode ? form.value.customerCode : customerCode,
         leadId: form.value.leadId ? form.value.leadId : '',
         // isAllDayEvent:false

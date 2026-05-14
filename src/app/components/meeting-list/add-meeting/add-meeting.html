@@ -317,8 +317,8 @@
                     <div class="col-lg-6">
                         <label class="form-label fw-bold">Meeting Outcomes</label>
                         <ng-select [items]="MeetingOutComes" bindLabel="codeDesc" bindValue="codeId"
-                            placeholder="Search Mom" [multiple]="true" [clearable]="true" [searchable]="true"
-                            [class.disabled]="checkOutValue === '-'">
+                            formControlName="MeetingOutcome" placeholder="Search Mom" [multiple]="true"
+                            [clearable]="true" [searchable]="true" [class.disabled]="checkOutValue === '-'">
                         </ng-select>
                         <!-- <div *ngIf="meetingForm.controls['meetingMOM'].invalid && meetingForm.controls['meetingMOM']?.touched"
                             class="text-danger">
