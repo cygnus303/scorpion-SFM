@@ -160,7 +160,7 @@ export class ExpenseClaim {
       const formData = this.claimForm.getRawValue();
 
       const uploadData = new FormData();
-      uploadData.append('ExpenseCode', this.expenseResponse?.expenseCode || '');
+      uploadData.append('ExpenseCode', this.expenseResponse?.expenseId || '');
       uploadData.append('CategoryId', formData.fleetType);
       uploadData.append('CustomerId', formData.customerId || '');
 
