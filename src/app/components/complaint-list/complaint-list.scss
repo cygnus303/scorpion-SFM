@@ -1,0 +1,59 @@
+.status-radio-group {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.status-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 16px;
+    min-width: 91px;
+    border: 1.5px solid #d9d9d9;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.status-card input[type="radio"] {
+    display: none;
+}
+
+.custom-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #9ca3af;
+    border-radius: 50%;
+    position: relative;
+    transition: 0.2s;
+}
+
+.status-card.active {
+    border-color: #2563eb;
+    background: #f8fbff;
+}
+
+.status-card.active .custom-radio {
+    border-color: #2563eb;
+}
+
+.status-card.active .custom-radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #2563eb;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.status-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+}
