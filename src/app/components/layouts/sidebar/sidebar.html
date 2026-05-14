@@ -31,7 +31,7 @@
     <div class="nav-item" [routerLink]="['/pickup-request']" routerLinkActive="active"
       (click)="onMenuClick('pickup-request')">
       <div class="nav-icon">🚚</div><span class="nav-text">PRQ — Pickup Req</span>
-    </div> 
+    </div>
     <div class="nav-item" [routerLink]="['/expense']" routerLinkActive="active" (click)="onMenuClick('expense')">
       <div class="nav-icon">💸</div><span class="nav-text">Expense</span>
     </div>
@@ -44,8 +44,11 @@
       <div class="nav-icon">✔</div><span class="nav-text">Expense Approval</span>
     </div>
 
-    <!-- <div class="sb-sec">Performance</div>
-    <div class="nav-item" [routerLink]="['/sales-dashboard']" routerLinkActive="active"
+    <div class="sb-sec">Performance</div>
+    <div class="nav-item" routerLinkActive="active" [routerLink]="['/payment']" (click)="onMenuClick('payment')">
+      <div class="nav-icon">📈</div><span class="nav-text">Payment</span>
+    </div>
+    <!-- <div class="nav-item" [routerLink]="['/sales-dashboard']" routerLinkActive="active"
       (click)="onMenuClick('sales-dashboard')">
       <div class="nav-icon">📈</div><span class="nav-text">Sales Dashboard</span>
     </div>

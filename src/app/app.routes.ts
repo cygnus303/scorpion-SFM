@@ -18,6 +18,7 @@ import { TaskList } from './components/task-list/task-list';
 import { MyCalendar } from './components/my-calendar/my-calendar';
 import { TrainingHub } from './components/training-hub/training-hub';
 import { authGuard } from './shared/guards/auth.guard';
+import { PaymentList } from './components/payment-list/payment-list';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -38,6 +39,7 @@ export const routes: Routes = [
   { path: 'task', component: TaskList, canActivate: [authGuard] },
   { path: 'calendar', component: MyCalendar, canActivate: [authGuard] },
   { path: 'training', component: TrainingHub, canActivate: [authGuard] },
+  { path: 'payment', component: PaymentList, canActivate: [authGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

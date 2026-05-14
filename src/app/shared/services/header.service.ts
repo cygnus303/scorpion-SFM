@@ -8,7 +8,7 @@ export class HeaderService {
   private headerTitleSource = new BehaviorSubject<string>('Dashboard');
   headerTitle$ = this.headerTitleSource.asObservable();
 
-  constructor() {}
+  constructor() { }
 
   updateHeaderFromMenu(menuKey: string) {
     let title = '';
@@ -63,6 +63,9 @@ export class HeaderService {
         break;
       case 'training':
         title = 'Training Hub';
+        break;
+      case 'payment':
+        title = 'Payment';
         break;
       default:
         title = 'Dashboard';

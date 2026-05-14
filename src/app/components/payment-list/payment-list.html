@@ -1,0 +1,79 @@
+<!-- ══ EXPENSE APPROVAL ══ -->
+<div class="page active fade-in">
+    <div class="card">
+        <div class="card-head">
+            <div class="ci a">✔</div>
+            <div class="card-title">Payment Queue</div>
+            <div style="margin-left:auto; display:flex; gap:8px;">
+                <button class="btn btn-square btn-primary pull-right rounded-3" (click)="downloadSampleImport($event)">
+                    <i class="ri-download-fill"></i>
+                    Download UTR Template
+                </button>
+                <button class="btn btn-square btn-success rounded-3" (click)="triggerFileInput($event)">
+                    <i class="ri-upload-cloud-2-fill"></i>
+                    Upload UTR Excel
+                </button>
+                <div class="file-upload">
+                    <input type="file" id="fileInput" (change)="onFileChange($event)" class="file" />
+                </div>
+                <button class="btn btn-square btn-success rounded-3" (click)="downloadExcel($event)"
+                    [disabled]="isdownloadLoading">
+                    <span *ngIf="isdownloadLoading" class="spinner-border spinner-border-sm"></span>
+                    <i *ngIf="!isdownloadLoading" class="ri-download-fill"></i> Generate NEFT/RTGS
+                </button>
+            </div>
+        </div>
+        <table class="mt">
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Amount</th>
+                    <th>User ID</th>
+                    <th>UTR No.</th>
+                    <th>UTR Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let payment of paymentList; let i = index">
+                    <th class="text-center"><input type="checkbox" class="pure-checkbox text-center"
+                            [(ngModel)]="payment.selected">
+                    </th>
+                    <td class="text-center">{{payment.requestID}}</td>
+                    <td class="text-center">{{payment.approvedAmt}}</td>
+                    <td class="text-center">{{payment.createdBy}}</td>
+                    <td class="text-center">{{payment.utrNo}}</td>
+                    <td class="text-center">{{payment.utrDate}}</td>
+                </tr>
+                <tr *ngIf="!loading && paymentList.length == 0">
+                    <td colspan="6" style="text-align:center; padding:40px;">
+                        <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
+                        <div style="font-size:12px; color:#999; margin-top:12px;">Sorry! No Data Found</div>
+                    </td>
+                </tr>
+                <tr *ngIf="loading && paymentList.length === 0">
+                    <td colspan="6" class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="mt-2 text-muted small">Fetching data...</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between align-items-center m-3" *ngIf="paymentList.length != 0">
+            <button class="btn btn-square btn-primary pull-right" [disabled]="!hasSelection()"
+                (click)="downloadSelectedUTR()">
+                <i class="bi bi-download"></i>
+                Download UTR Data
+            </button>
+        </div>
+        <!-- <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="totalItems > 0">
+            <div class="small text-muted">
+                Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
+                commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
+                totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+                of {{ totalItems }} entries
+            </div>
+        </div> -->
+    </div>
+</div>
