@@ -5,43 +5,44 @@ export interface ExpenseResponse {
   amount: number;
   status: string;
   createdBy: string;
-  
-  checkIn:string;
-  checkOut:string;
-  distanceTravelled:string;
-  requestDate:string;
-  companyName:string;
-  expenseRate:number;
-  expenseCreated:boolean;
-  contactName:string;
-  adminApproved:boolean;
-  managerApproved:boolean;
-  isEdit:string;
-  isManagerApproved:boolean;
-  isAuditApproved:boolean;
-  isManager_AuditApproved:boolean;
-  reqId:string;
-  meetingDate:string;
-  meetingId:string;
-  attendeeName:string;
-  attendeeIDs:string;
-  userName:string;
-  isSelected:boolean;
-  attendeeCode:string;
-  meetingMOM:string;
+
+  checkIn: string;
+  checkOut: string;
+  distanceTravelled: string;
+  requestDate: string;
+  companyName: string;
+  expenseRate: number;
+  expenseCreated: boolean;
+  contactName: string;
+  adminApproved: boolean;
+  managerApproved: boolean;
+  isEdit: string;
+  isManagerApproved: boolean;
+  isAuditApproved: boolean;
+  isManager_AuditApproved: boolean;
+  reqId: string;
+  meetingDate: string;
+  meetingId: string;
+  attendeeName: string;
+  attendeeIDs: string;
+  userName: string;
+  isSelected: boolean;
+  attendeeCode: string;
+  meetingMOM: string;
   exp_Status: number;
   showActions?: boolean;
   requestID?: string;
   requestIdDate?: string;
+  isTravelExpense?: boolean;
 }
 
 export interface ExpenseDetailResponse extends ExpenseResponse {
   punchedInLocation: string;
   checkedInLocation: string;
-  checkedOutLocation:string;
+  checkedOutLocation: string;
   distanceInKm: number;
-  meetingLat:string;
-  meetingId:string;
+  meetingLat: string;
+  meetingId: string;
   supportingDocument: string;
   remarks: string;
   customerName: string;
@@ -50,29 +51,29 @@ export interface ExpenseDetailResponse extends ExpenseResponse {
   createdDate: string;
   modifiedBy: string;
   modifiedDate: string;
-  expenseCreated:boolean;
-  transportModeId:string;
-  requestID:string;
-  auditRemarks:string;
-  expenseRate:number;
-  auditedBy:string;
-  auditDate:string;
-  approvedDate:string;
-  approvedBy:string;
-  expenseAddedDate:string;
-  expenseAddedTime:string;
-  expenseModifiedDate:string;
-  expenseModifiedBy:string;
-  auditRemark:string;
-  expenseAddedBy:string;
-  managerRemark:string;
-  approveByManagerName:string;
-  approvedManagerDate:string;
-  approvedByAuditorName:string;
-  approvedByAuditDate:string;
-  expensEditDate:string;
-  expenseEditedBy:string;
-  attendeeCode:any;
+  expenseCreated: boolean;
+  transportModeId: string;
+  requestID: string;
+  auditRemarks: string;
+  expenseRate: number;
+  auditedBy: string;
+  auditDate: string;
+  approvedDate: string;
+  approvedBy: string;
+  expenseAddedDate: string;
+  expenseAddedTime: string;
+  expenseModifiedDate: string;
+  expenseModifiedBy: string;
+  auditRemark: string;
+  expenseAddedBy: string;
+  managerRemark: string;
+  approveByManagerName: string;
+  approvedManagerDate: string;
+  approvedByAuditorName: string;
+  approvedByAuditDate: string;
+  expensEditDate: string;
+  expenseEditedBy: string;
+  attendeeCode: any;
 }
 
 export interface AddExpenseRequest {
@@ -82,12 +83,12 @@ export interface AddExpenseRequest {
   punchInLocation: string;
   checkedInLocation: string;
   distanceInKm: number;
-  supportingDocument:string;
-  createdBy:string;
-  UserId:string;
-  modifiedBy:string;
+  supportingDocument: string;
+  createdBy: string;
+  UserId: string;
+  modifiedBy: string;
   amount: number;
-  file:string;
+  file: string;
   remarks: string;
 }
 
@@ -97,9 +98,9 @@ export interface AddExpenseApprovalRequest {
 }
 
 export interface ApprovalRequest {
-    expenseId: string;
-    meetingId: string;
-    isApproved: boolean;
-    approvedBy: string;
-    reasonRemark: string;
+  expenseId: string;
+  meetingId: string;
+  isApproved: boolean;
+  approvedBy: string;
+  reasonRemark: string;
 }

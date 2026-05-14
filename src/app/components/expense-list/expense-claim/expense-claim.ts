@@ -10,6 +10,7 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { PrqService } from '../../../shared/services/prq-service';
 import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
 import { CommonService } from '../../../shared/services/common.service';
+import { ExpenseService } from '../../../shared/services/expense.service';
 
 @Component({
   selector: 'app-expense-claim',
@@ -23,13 +24,14 @@ export class ExpenseClaim {
   public expenseCategoryData: GeneralMaster[] = [];
   public customerData: any[] = [];
   public customerSearchSubject: Subject<string> = new Subject<string>();
-  
+
   public modalService = inject(BsModalService);
   private expenseGeneralService = inject(ExpenseGeneralService);
   private prqService = inject(PrqService);
   private sweetAlertService = inject(SweetAlertService);
   public commonService = inject(CommonService);
-  
+  private expenseService = inject(ExpenseService);
+
   public expenseResponse: any = null;
   public isLoading: boolean = false;
   public claimForm!: FormGroup;
@@ -56,16 +58,19 @@ export class ExpenseClaim {
     });
   }
 
+  public isSubmitted: boolean = false;
+
   initForm() {
     this.claimForm = new FormGroup({
-      categoryId: new FormControl(null, Validators.required),
-      expenseDate: new FormControl(new Date(), Validators.required),
+      fleetType: new FormControl(null, Validators.required),
+      loadingDate: new FormControl(new Date(), Validators.required),
       description: new FormControl('', [Validators.maxLength(500)]),
       amount: new FormControl(null, [Validators.required, Validators.min(0.01)]),
       customerId: new FormControl(null)
     });
     this.selectedFile = null;
     this.filePreview = null;
+    this.isSubmitted = false;
   }
 
   onClose() {
@@ -77,14 +82,18 @@ export class ExpenseClaim {
     this.isLoading = true;
     this.expenseResponse = null;
     this.initForm();
+    this.isSubmitted = false;
     this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered', backdrop: 'static' });
-    
+
     apiCall().subscribe({
       next: (response: any) => {
         const data = response?.data;
         if (data) {
           this.isLoading = false;
           this.expenseResponse = data;
+          this.claimForm.patchValue({
+            customerId: data.customerName || data.companyName
+          });
         }
       },
       error: (response: any) => {
@@ -146,24 +155,39 @@ export class ExpenseClaim {
   }
 
   onSubmit() {
-    if (this.claimForm.valid) {
+    this.isSubmitted = true;
+    if (this.claimForm.valid && this.selectedFile) {
       const formData = this.claimForm.getRawValue();
-      const payload = {
-        ExpenseCode: this.expenseResponse?.expenseId || '', // Assuming expenseId maps to ExpenseCode
-        CategoryId: formData.categoryId,
-        CustomerId: formData.customerId,
-        ExpenseDate: formData.expenseDate,
-        Description: formData.description,
-        Amount: formData.amount,
-        AttachmentPath: this.selectedFile ? this.selectedFile.name : null, // This should normally be handled via multipart/form-data or presigned URL
-        CreatedBy: this.commonService.globalFilters.UserID
-      };
-      
-      console.log('Claim Payload:', payload);
-      this.sweetAlertService.success('Expense Claim Submitted Successfully!');
-      this.onClose();
+
+      const uploadData = new FormData();
+      uploadData.append('ExpenseCode', this.expenseResponse?.expenseCode || '');
+      uploadData.append('CategoryId', formData.fleetType);
+      uploadData.append('CustomerId', formData.customerId || '');
+
+      // Format date
+      const dateVal = formData.loadingDate instanceof Date ? formData.loadingDate.toISOString() : formData.loadingDate;
+      uploadData.append('ExpenseDate', dateVal);
+
+      uploadData.append('Description', formData.description || '');
+      uploadData.append('Amount', formData.amount.toString());
+      uploadData.append('AttachmentPath', this.selectedFile.name);
+      uploadData.append('CreatedBy', this.commonService.globalFilters.UserID.toString());
+      uploadData.append('file', this.selectedFile);
+
+      this.expenseService.claimExpense(uploadData).subscribe({
+        next: (response: any) => {
+          this.sweetAlertService.success('Expense Claim Submitted Successfully!');
+          this.onClose();
+        },
+        error: (error: any) => {
+          this.sweetAlertService.error(error);
+        }
+      });
     } else {
       this.claimForm.markAllAsTouched();
+      if (!this.selectedFile) {
+        this.sweetAlertService.error('Please upload a receipt');
+      }
     }
   }
 }

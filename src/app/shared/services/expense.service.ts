@@ -83,4 +83,8 @@ export class ExpenseService {
     return this.apiHandlerService.Get(`Expense/ApprovalDashboardCards?startDate=${params.startDate}&endDate=${params.endDate}&userID=${params.userId}`);
   }
 
+  claimExpense(formData: FormData): Observable<IApiBaseResponse<CommonResponse>> {
+    return this.apiHandlerService.Post('Expense/AddTravelExpense', formData);
+  }
+
 }
