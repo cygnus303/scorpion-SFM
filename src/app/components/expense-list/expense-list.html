@@ -121,13 +121,6 @@
                         triggers="hover">
                         <i class="ri-eye-fill"></i>
                       </button>
-                      <!-- <button *ngIf="userType?.toLowerCase() === 'manager'"
-                        class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:28px; height:28px; background:var(--green); color:white;"
-                        (click)="approveModal($event, expense); expense.showActions = false" [popover]="'Approve'"
-                        placement="top" triggers="hover">
-                        <i class="ri-check-line" style="font-size:12px;"></i>
-                      </button> -->
                     </li>
                   </ul>
                 </div>
@@ -168,4 +161,4 @@
 </ng-template>
 <app-expense-detail #expenseDetail></app-expense-detail>
 <app-add-expense #addExpense (dataEmitter)="onDataEmitter()"></app-add-expense>
-<app-expense-claim #ExpenseClaim></app-expense-claim>
+<app-expense-claim #ExpenseClaim (dataEmitter)="onDataEmitter()"></app-expense-claim>

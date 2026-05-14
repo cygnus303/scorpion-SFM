@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, TemplateRef, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ExpenseGeneralService } from '../../../shared/services/expense-general.service';
@@ -35,6 +35,7 @@ export class ExpenseClaim {
   public expenseResponse: any = null;
   public isLoading: boolean = false;
   public claimForm!: FormGroup;
+  @Output() dataEmitter: EventEmitter<string> = new EventEmitter<string>();
 
   // File upload state
   public selectedFile: File | null = null;
@@ -176,6 +177,7 @@ export class ExpenseClaim {
 
       this.expenseService.claimExpense(uploadData).subscribe({
         next: (response: any) => {
+          this.dataEmitter.emit();
           this.sweetAlertService.success('Expense Claim Submitted Successfully!');
           this.onClose();
         },
