@@ -26,19 +26,19 @@
     <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search here...">
   </div>
   <div class="tc" [class.on]="activeQuickFilter === 'today'" (click)="setFilter('today')"
-    *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'payment'">
+    *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment'">
     Today</div>
   <div class="tc" [class.on]="activeQuickFilter === 'week'" (click)="setFilter('week')"
-    *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'payment'">
+    *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment'">
     This Week</div>
   <div class="tc" [class.on]="activeQuickFilter === 'month'" (click)="setFilter('month')"
-    *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'payment'">
+    *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment'">
     This Month</div>
   <app-date-range-picker
-    *ngIf="(headerTitle$ | async) !== 'My Calendar' && (headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'payment'"
+    *ngIf="(headerTitle$ | async) !== 'My Calendar' && (headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment'"
     id="topbar-action" [bsValue]="selectedDateRange" (dateSelected)="onDateSelected($event)"></app-date-range-picker>
   <div class="selected-date-info"
-    *ngIf="commonService.globalFilters.startDate && ((headerTitle$ | async) !== 'My Calendar' && ((headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'payment'))"
+    *ngIf="commonService.globalFilters.startDate && ((headerTitle$ | async) !== 'My Calendar' && ((headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment'))"
     style="color: #666; font-weight: 500; background: #f0f0f0; padding: 10px 17px; border-radius: 4px;">
     {{ commonService.globalFilters.startDate }} - {{ commonService.globalFilters.endDate }}
   </div>
