@@ -104,7 +104,7 @@
             <div class="position-relative">
               <input type="text" class="form-control" formControlName="docketNo" (input)="onDocketNoChange($event)"
                 [readonly]="complaint !== 'Add'" placeholder="Enter Docket No"
-                [class.border-danger]="ticketForm.controls['docketNo'].invalid && ticketForm.controls['docketNo']?.touched">
+                [ngClass]="{ 'border-danger': ticketForm.controls['docketNo'].invalid && ticketForm.controls['docketNo']?.touched}">
               <div *ngIf="loading && (complaint ==='Update' || complaint ==='Close')"
                 class="position-absolute top-50 end-0 translate-middle-y me-3">
                 <span class="spinner-border spinner-border-sm text-primary"></span>
@@ -112,7 +112,8 @@
             </div>
             <div *ngIf="ticketForm.controls['docketNo'].invalid && ticketForm.controls['docketNo']?.touched"
               class="text-danger">
-              <small *ngIf="ticketForm.controls['docketNo'].errors?.['required']">Docket no. is required.</small>
+              <small *ngIf="ticketForm.controls['docketNo'].errors?.['required']" class="text-danger small mt-1">Docket
+                no. is required.</small>
             </div>
           </div>
           <div class="col-4 fg">
@@ -151,7 +152,8 @@
             <div
               *ngIf="ticketForm.controls['ticketAddressTo'].invalid && ticketForm.controls['ticketAddressTo']?.touched"
               class="text-danger">
-              <small *ngIf="ticketForm.controls['ticketAddressTo'].errors?.['required']">Ticket Address To is
+              <small *ngIf="ticketForm.controls['ticketAddressTo'].errors?.['required']"
+                class="text-danger small mt-1">Ticket Address To is
                 required.</small>
             </div>
           </div>
