@@ -133,7 +133,7 @@ export class AddMeeting implements OnInit, OnDestroy {
     this.startTimeSlots = [];
     this.endTimeSlots = [];
 
-    const to24h = (hour: number, minute: number) => 
+    const to24h = (hour: number, minute: number) =>
       `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
 
     const to12h = (hour: number, minute: number) => {
@@ -145,7 +145,7 @@ export class AddMeeting implements OnInit, OnDestroy {
     // Generate start time slots (8 AM to 6 PM)
     for (let hour = 8; hour <= 18; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        if (hour === 18 && minute > 0) break; 
+        if (hour === 18 && minute > 0) break;
         this.startTimeSlots.push({
           label: to12h(hour, minute),
           value: to24h(hour, minute)
@@ -225,15 +225,19 @@ export class AddMeeting implements OnInit, OnDestroy {
   updateRemarksValidator() {
     const remarksControl = this.meetingForm.get('remarks');
     const meetingMOMControl = this.meetingForm.get('meetingMOM');
+    const meetingOutcomeControl = this.meetingForm.get('MeetingOutcome');
     if (this.meetingId !== '' && this.checkOutValue !== '-') {
       remarksControl?.setValidators([Validators.required]);
       meetingMOMControl?.setValidators([Validators.required]);
+      meetingOutcomeControl?.setValidators([Validators.required]);
     } else {
       remarksControl?.clearValidators();
       meetingMOMControl?.clearValidators();
+      meetingOutcomeControl?.clearValidators();
     }
     remarksControl?.updateValueAndValidity();
     meetingMOMControl?.updateValueAndValidity();
+    meetingOutcomeControl?.clearValidators();
   }
 
   buildForm(): void {
@@ -416,7 +420,7 @@ export class AddMeeting implements OnInit, OnDestroy {
         ...form.value,
         attendeeIDs: form.value.attendeeIDs?.join(','),
         meetingMOM: form.value.meetingMOM?.join(','),
-        MeetingOutcome: form.value.MeetingOutcome?.join(','),
+        meetingOutcome: form.value.MeetingOutcome?.join(','),
         meetingDate: this.isMeetingList === 'Update' ? form.value.meetingDate : this.formatDate(form.value.meetingDate),
         customerCode: form.value.customerCode ? form.value.customerCode : customerCode,
         leadId: form.value.leadId ? form.value.leadId : '',
