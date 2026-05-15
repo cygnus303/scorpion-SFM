@@ -119,7 +119,7 @@ export class AddMeeting implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.generateTimeSlots();
+    // this.generateTimeSlots();
     console.log(this.meetingResponse);
     this.meetingSubscription = this.meetingService.meetingResponseSubject.subscribe((res) => {
       if (res) {
@@ -166,7 +166,7 @@ export class AddMeeting implements OnInit, OnDestroy {
     }
   }
 
-  showPopup(apiCall?: () => any) {
+  showPopup(apiCall?: () => any, data?: any) {
     this.meetingForm.reset();
     this.meetingId = '';
     this.isChecked = false;
@@ -198,6 +198,17 @@ export class AddMeeting implements OnInit, OnDestroy {
     } else {
       this.isLoading = false;
       this.meetingForm.patchValue({ CreateBy: this.identityService.getLoggedUserId(), isAllDayEvent: false });
+    }
+
+    if (data) {
+      console.log('Patching data:', data);
+      this.checkOutValue = '-';
+      this.meetingForm.patchValue({
+        ...data,
+        customerName: data.companyName || data.customerName,
+        leadId: data.leadId || '',
+        customerCode: data.customerCode || ''
+      });
     }
   }
 

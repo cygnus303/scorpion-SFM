@@ -154,8 +154,45 @@
                         Meeting date is required.
                     </div>
                 </div>
+                <div class="col-lg-4">
+                    <div>
+                        <label for="startTime" class="form-label">Start Time*</label>
+                        <input type="time" class="form-control" formControlName="startTime" required
+                            [readonly]="checkOutValue !== '-' || meetingRole || isChecked " />
+                        @if(this.router.url !== '/my-calendar'){
+                        <div *ngIf="meetingForm.invalid && meetingForm.touched" class="text-danger">
+                            <small *ngIf="meetingForm.errors?.['startTimeAfterCurrentTime']">Start time must be after
+                                the current time.</small>
+                        </div>
+                        <div *ngIf="meetingForm.controls['startTime'].invalid && meetingForm.controls['startTime']?.touched"
+                            class="text-danger">
+                            <small *ngIf="meetingForm.get('startTime')?.errors?.['required']">Start Time is
+                                required.</small>
+                        </div>
+                        }
+                    </div>
+                </div>
 
                 <div class="col-lg-4">
+                    <div>
+                        <label for="endTime" class="form-label">End Time*</label>
+                        <input type="time" class="form-control" id="endTime" formControlName="endTime" required
+                            [readonly]="checkOutValue !== '-' || meetingRole || isChecked" />
+                        @if(this.router.url !== '/my-calendar'){
+                        <div *ngIf="meetingForm.invalid && meetingForm.touched" class="text-danger">
+                            <small *ngIf="meetingForm.errors?.['timeRangeValidator']">End time must be after the start
+                                time.</small>
+                        </div>
+                        <div *ngIf="meetingForm.controls['endTime'].invalid && meetingForm.controls['endTime']?.touched"
+                            class="text-danger">
+                            <small *ngIf="meetingForm.get('endTime')?.errors?.['required']">End Time is
+                                required.</small>
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- <div class="col-lg-4">
                     <label class="form-label fw-bold">Start Time <span class="text-danger">*</span></label>
                     <ng-select [items]="startTimeSlots" bindLabel="label" bindValue="value" placeholder="— From —"
                         formControlName="startTime" [clearable]="false" [searchable]="true"
@@ -190,9 +227,9 @@
                             time.</small>
                     </div>
                     }
-                </div>
+                </div> -->
 
-                <!-- Type & Attendees -->
+
                 <div class="col-lg-6">
                     <label class="form-label fw-bold">Meeting Type <span class="text-danger">*</span></label>
                     <div class="form-group">

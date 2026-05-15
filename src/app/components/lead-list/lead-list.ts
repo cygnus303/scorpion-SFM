@@ -17,11 +17,12 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ExternalService } from '../../shared/services/external.service';
 import { GeneralMasterResponse } from '../../shared/models/external.model';
+import { AddMeeting } from '../meeting-list/add-meeting/add-meeting';
 
 @Component({
   selector: 'app-lead-list',
   standalone: true,
-  imports: [CommonModule, AddLead, FormsModule, PaginationModule, NgSelectModule, PopoverModule, LeadDetail],
+  imports: [CommonModule, AddLead, FormsModule, PaginationModule, NgSelectModule, PopoverModule, LeadDetail, AddMeeting],
   templateUrl: './lead-list.html',
   styleUrl: './lead-list.scss',
   providers: [BsModalService]
@@ -29,6 +30,7 @@ import { GeneralMasterResponse } from '../../shared/models/external.model';
 export class LeadList implements OnInit, OnDestroy {
   @ViewChild('addLeadComponent') addLeadComponent!: AddLead;
   @ViewChild('leadDetailComponent') leadDetailComponent!: LeadDetail;
+  @ViewChild('addMeeting') addMeeting!: AddMeeting;
 
   public leads: LeadResponse[] = [];
   public totalItems: number = 0;
@@ -134,6 +136,11 @@ export class LeadList implements OnInit, OnDestroy {
       this.addLeadComponent.showPopup();
     }
   }
+
+  meetingModal(lead: any) {
+    this.addMeeting.showPopup(undefined, lead);
+  }
+
 
   openLeadDetailModal(lead?: any) {
     this.leadDetailComponent.showPopup(() => {
