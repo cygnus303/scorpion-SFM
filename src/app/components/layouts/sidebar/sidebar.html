@@ -1,10 +1,9 @@
 <aside class="sidebar">
-  <div class="sb-logo" (click)="toggleSidebar()" style="cursor: pointer;">
-    <img [src]="'./assets/images/logo_login.jpg'" height="25px">
-    <div>
-      <div class="sb-logo-text">ScorpForce</div>
-      <div class="sb-logo-sub">Sales Force Module</div>
-    </div>
+  <div class="sb-logo justify-content-center" [class.mt-3]="!commonService.isSidebarCollapsed()"
+    (click)="toggleSidebar()" style="cursor: pointer;">
+    <img *ngIf="!commonService.isSidebarCollapsed()" [src]="'./assets/images/logo.png'" height="80px"
+      style="transition: all 0.3s ease;">
+    <div *ngIf="commonService.isSidebarCollapsed()" class="sb-logo-mark">S</div>
   </div>
   <div class="sb-scroll">
     <div class="sb-sec">Main</div>
