@@ -3,6 +3,7 @@ import { CommonService } from '../../shared/services/common.service';
 import { DashboardService } from '../../shared/services/dashboard';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-content',
@@ -16,6 +17,7 @@ export class MainContent {
   public leadPipeline: any;
   public prospectLeaderboard: any;
   public totalCount: any = {};
+    public router = inject(Router);
 
   private destroy$ = new Subject<void>();
 

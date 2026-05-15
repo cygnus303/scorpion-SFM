@@ -58,8 +58,8 @@ export class PickupRequestList {
 
   getPRQCardList() {
     const payload = {
-      "fromDate": this.commonService.globalFilters.startDate,
-      "toDate": this.commonService.globalFilters.endDate,
+      "fromDate":  this.formatDate(this.commonService.globalFilters.startDate),
+      "toDate":  this.formatDate(this.commonService.globalFilters.endDate),
       "updateBy": this.commonService.globalFilters.UserID.toString(),
       "location": null,
       "type": "N"
@@ -69,20 +69,21 @@ export class PickupRequestList {
     });
   }
 
+formatDate = (dateStr: string) => {
+    const [day, month, year] = dateStr.split('/');
+    const date = new Date(+year, +month - 1, +day);
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    }).replace(',', '').toLowerCase();
+  };
+
   getPRQList() {
     this.isLoading = true;
-    const formatDate = (dateStr: string) => {
-      const [day, month, year] = dateStr.split('/');
-      const date = new Date(+year, +month - 1, +day);
-      return date.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-      }).replace(',', '').toLowerCase();
-    };
     const payload = {
-      startDate: formatDate(this.commonService.globalFilters.startDate),
-      endDate: formatDate(this.commonService.globalFilters.endDate),
+      startDate: this.formatDate(this.commonService.globalFilters.startDate),
+      endDate: this.formatDate(this.commonService.globalFilters.endDate),
       updateBy: this.commonService.globalFilters.UserID.toString(),
       baseLoc: this.identityService.getBranchCode(),
       type: "N",
@@ -94,6 +95,28 @@ export class PickupRequestList {
       this.totalItems = response.totalCount
     });
   }
+
+  getCardColor(color: string): string {
+  switch(color) {
+    case 'Newblue':
+      return 'red';
+
+    case 'Newblue1':
+      return '#f59e0b';
+
+    case 'Newblue3':
+      return '#dc2626';
+
+    case 'Newblue4':
+      return '#2563eb';
+
+    case 'Newblue6':
+      return '#6b7280';
+
+    default:
+      return '#ccc';
+  }
+}
 
   //   onPageChange(event: any): void {
   //   this.getPRQList(event.page);

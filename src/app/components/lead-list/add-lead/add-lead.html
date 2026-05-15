@@ -142,7 +142,7 @@
           <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Services Interested*</label>
           <ng-select formControlName="ServiceInterestedIDs" [items]="serviceInterests" bindLabel="codeDesc"
             bindValue="codeId" [multiple]="true" placeholder="Search Service Interesteds" [clearable]="true"
-            [searchable]="true"
+            [searchable]="true" appendTo="body"
             [ngClass]="{ 'border-danger': leadForm.controls['ServiceInterestedIDs'].invalid && leadForm.controls['ServiceInterestedIDs'].touched}">
           </ng-select>
           <div
