@@ -1,59 +1,62 @@
-.status-radio-group {
+.status-filter {
     display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
+    gap: 6px;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 50px;
+    border: 1px solid #e2e8f0;
+    align-items: center;
 }
 
-.status-card {
+.status-btn {
+    border: none;
+    background: transparent;
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 6px 16px;
-    min-width: 91px;
-    border: 1.5px solid #d9d9d9;
-    border-radius: 6px;
-    background: #fff;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-}
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
 
-.status-card input[type="radio"] {
-    display: none;
-}
+    .status-dot {
+        font-size: 8px;
+        color: #cbd5e1;
+        transition: all 0.3s;
+    }
 
-.custom-radio {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #9ca3af;
-    border-radius: 50%;
-    position: relative;
-    transition: 0.2s;
-}
+    /* Status Color Tokens */
+    &[data-status="all"] { --status-accent: #3b82f6; }
+    &[data-status="new"] { --status-accent: #10b981; }
+    &[data-status="closed"] { --status-accent: #64748b; }
+    &[data-status="escalated"] { --status-accent: #ef4444; }
+    &[data-status="updated"] { --status-accent: #8b5cf6; }
 
-.status-card.active {
-    border-color: #2563eb;
-    background: #f8fbff;
-}
+    &:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.5);
+        color: #334155;
+        
+        .status-dot {
+            color: var(--status-accent);
+            transform: scale(1.2);
+        }
+    }
 
-.status-card.active .custom-radio {
-    border-color: #2563eb;
-}
-
-.status-card.active .custom-radio::after {
-    content: '';
-    width: 10px;
-    height: 10px;
-    background: #2563eb;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.status-text {
-    font-size: 14px;
-    font-weight: 500;
-    color: #111827;
+    &.active {
+        background: #fff;
+        color: #1e293b;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        
+        .status-dot {
+            color: var(--status-accent);
+            transform: scale(1.3);
+            filter: drop-shadow(0 0 2px var(--status-accent));
+        }
+    }
 }

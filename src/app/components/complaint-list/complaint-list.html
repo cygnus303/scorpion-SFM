@@ -33,15 +33,13 @@
         <div class="ci p">🎫</div>
         <div class="card-title">Complaint Ticket List</div>
         <div style="margin-left:auto; display:flex; gap:8px;">
-          <div class="status-radio-group">
-            <label class="status-card" *ngFor="let status of statusList" [class.active]="selectedStatus === status.id">
-              <input type="radio" name="status" [value]="status.id" [(ngModel)]="selectedStatus"
-                (change)="getComplaintList()" />
-              <span class="custom-radio"></span>
-              <span class="status-text">
-                {{ status.name }}
-              </span>
-            </label>
+          <div class="status-filter">
+            <button *ngFor="let status of statusList" class="status-btn" [class.active]="selectedStatus === status.id"
+              [attr.data-status]="status.id ? status.id.toLowerCase() : 'all'"
+              (click)="selectedStatus = status.id; getComplaintList()">
+              <i class="ri-checkbox-blank-circle-fill status-dot"></i>
+              {{ status.name }}
+            </button>
           </div>
           <!-- <ng-select [placeholder]="'Search Category'" [clearable]="true" [searchable]="true"
             class="form-control border-start-1 line-height p-0 border-remover" style="width: 250px;">
