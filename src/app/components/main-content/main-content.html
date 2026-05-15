@@ -1,6 +1,6 @@
 <div class="page active fade-in">
   <div class="g5">
-    <div class="card" style="border-top:3px solid var(--red);cursor:pointer">
+    <div class="card" style="border-top:3px solid var(--red);cursor:pointer"  (click)="router.navigate(['/lead'])">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
         <div class="ci" style="width:26px;height:26px;font-size:13px">📋</div><span
           style="font-size:12px;font-weight:600">SFM Pipeline</span>
@@ -33,7 +33,7 @@
         style="display:inline-block;margin-top:6px;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--amber-lt);color:var(--amber)">
         NEW MODULE</div>
     </div>
-    <div class="card" style="border-top:3px solid var(--red);cursor:pointer">
+    <div class="card" style="border-top:3px solid var(--red);cursor:pointer" (click)="router.navigate(['/pickup-request'])">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
         <div class="ci" style="width:26px;height:26px;font-size:13px">🚚</div><span
           style="font-size:12px;font-weight:600">PRQ Module</span>
@@ -58,27 +58,27 @@
     </div>
   </div>
   <div class="kpi-row">
-    <div class="kpi" style="--kc:var(--red)">
+    <div class="kpi" style="--kc:var(--red);cursor:pointer">
       <div class="kpi-label">Revenue vs Target</div>
       <div class="kpi-val">₹0Cr</div>
       <div class="kpi-sub dn">▼ 80% of ₹3.0Cr</div>
     </div>
-    <div class="kpi" style="--kc:var(--red)">
+    <div class="kpi" style="--kc:var(--red);cursor:pointer">
       <div class="kpi-label">Outstanding Collection</div>
       <div class="kpi-val">₹{{ formatAmount(totalCount.totalOS) }}</div>
       <div class="kpi-sub dn">24 accounts overdue</div>
     </div>
-    <div class="kpi" style="--kc:var(--green)">
+    <div class="kpi" style="--kc:var(--green);cursor:pointer" (click)="router.navigate(['/lead'])">
       <div class="kpi-label">Active Leads</div>
       <div class="kpi-val">{{this.totalCount.totalLeadCount}}</div>
       <div class="kpi-sub up">▲ +{{this.totalCount.last7DaysLeadCount}} this week</div>
     </div>
-    <div class="kpi" style="--kc:var(--amber)">
+    <div class="kpi" style="--kc:var(--amber);cursor:pointer">
       <div class="kpi-label">PRQ Success Rate</div>
       <div class="kpi-val">{{totalCount.prQ_SuccessCount}}%</div>
       <div class="kpi-sub wn">⚠ Target: 95%</div>
     </div>
-    <div class="kpi" style="--kc:var(--red)">
+    <div class="kpi" style="--kc:var(--red);cursor:pointer" (click)="router.navigate(['/complaint'])">
       <div class="kpi-label">Open Complaints</div>
       <div class="kpi-val"> {{totalCount.openComplaints}}</div>
       <div class="kpi-sub dn">7 breaching SLA</div>

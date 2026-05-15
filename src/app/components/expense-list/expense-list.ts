@@ -121,7 +121,7 @@ export class ExpenseList implements OnInit {
       endDate: this.commonService.globalFilters.endDate,
     }
     this.isExportLoading = true;
-    this.expenseService.exportexport(this.commonService.globalFilters.UserID, '', '', data).subscribe({
+    this.expenseService.exportexport(this.commonService.globalFilters.UserID, this.commonService.globalFilters.startDate, this.commonService.globalFilters.endDate, '').subscribe({
       next: (response: any) => {
         if (response) {
           this.exportService.exportToExcel(response?.data);

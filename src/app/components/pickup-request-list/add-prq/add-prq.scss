@@ -5,9 +5,14 @@
     max-height: 90vh;
     overflow-y: auto;
 }
+
 /* For input-groups (icon + input) */
 .input-group.border-danger .form-control,
 .input-group.border-danger .input-group-text,
 ::ng-deep ng-select.border-danger .ng-select-container {
     border-color: #dc3545 !important;
+}
+
+::ng-deep .ng-dropdown-panel {
+    z-index: 99999 !important;
 }
