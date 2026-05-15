@@ -84,8 +84,8 @@ export class AddMeeting implements OnInit, OnDestroy {
   isCustomerLoading = false;
   public MeetingOutComes: any;
   public notCustomerNameValue = 'Please enter at least 3 characters';
-  public startTimeSlots: string[] = [];
-  public endTimeSlots: string[] = [];
+  public startTimeSlots: any[] = [];
+  public endTimeSlots: any[] = [];
 
   public modalRef!: BsModalRef;
   private modalService = inject(BsModalService);
@@ -133,33 +133,35 @@ export class AddMeeting implements OnInit, OnDestroy {
     this.startTimeSlots = [];
     this.endTimeSlots = [];
 
+    const to24h = (hour: number, minute: number) => 
+      `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+
+    const to12h = (hour: number, minute: number) => {
+      const h = hour % 12 || 12;
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      return `${String(h).padStart(2, '0')}:${String(minute).padStart(2, '0')} ${ampm}`;
+    };
+
     // Generate start time slots (8 AM to 6 PM)
     for (let hour = 8; hour <= 18; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const time = new Date();
-        time.setHours(hour, minute, 0, 0);
-        const formattedTime = time.toLocaleTimeString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true
+        if (hour === 18 && minute > 0) break; 
+        this.startTimeSlots.push({
+          label: to12h(hour, minute),
+          value: to24h(hour, minute)
         });
-        this.startTimeSlots.push(formattedTime);
       }
     }
 
     // Generate end time slots (8:30 AM to 7 PM)
     for (let hour = 8; hour <= 19; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const time = new Date();
-        time.setHours(hour, minute, 0, 0);
-        const formattedTime = time.toLocaleTimeString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true
-        });
-        // Skip times before 8:30 AM
         if (hour === 8 && minute === 0) continue;
-        this.endTimeSlots.push(formattedTime);
+        if (hour === 19 && minute > 0) break;
+        this.endTimeSlots.push({
+          label: to12h(hour, minute),
+          value: to24h(hour, minute)
+        });
       }
     }
   }
