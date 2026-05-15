@@ -19,6 +19,7 @@ import { MyCalendar } from './components/my-calendar/my-calendar';
 import { TrainingHub } from './components/training-hub/training-hub';
 import { authGuard } from './shared/guards/auth.guard';
 import { PaymentList } from './components/payment-list/payment-list';
+import { MeetingMomList } from './components/meeting-mom-list/meeting-mom-list';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -40,6 +41,7 @@ export const routes: Routes = [
   { path: 'calendar', component: MyCalendar, canActivate: [authGuard] },
   { path: 'training', component: TrainingHub, canActivate: [authGuard] },
   { path: 'payment', component: PaymentList, canActivate: [authGuard] },
+  { path: 'meeting-MOM', component: MeetingMomList, canActivate: [authGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];
