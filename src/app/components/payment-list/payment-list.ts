@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../shared/services/common.service';
 import { ExportService } from '../../shared/services/export.service';
 import { IdentityService } from '../../shared/services/identity.service';

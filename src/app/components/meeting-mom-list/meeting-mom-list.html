@@ -1,0 +1,104 @@
+<!-- ══ EXPENSE ══ -->
+<div class="page active fade-in">
+
+    <div>
+        <!-- Dynamic Expense Table Card -->
+        <div class="card">
+            <div class="card-head">
+                <div class="ci a">📌</div>
+                <div class="card-title">Meeting MOM</div>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="mt">
+                    <thead>
+                        <tr>
+                            <th>Meeting ID</th>
+                            <th>Meeting date</th>
+                            <th>Customer Name</th>
+                            <th>Check In Time</th>
+                            <th>Check Out Time</th>
+                            <th>Meeting MOM</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="loading && MOMList.length === 0">
+                            <td colspan="12" style="text-align:center; padding:40px;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div class="mt-2 text-muted small">Fetching data...</div>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of MOMList">
+                            <td> <a href="javascript:void(0)" class="fw-semibold text-decoration-underline"
+                                    (click)="onMeetingClick(item.meetingId)"
+                                    [ngClass]="{ 'text-danger': isRowActive(item) }">{{ item.meetingId }}</a></td>
+                            <td>{{ item.meetingDate?(item.meetingDate):'--' }}</td>
+                            <td>{{ item.custnm }}</td>
+                            <td>{{ item.checkIn ?(item.checkIn) :'--' }}</td>
+                            <td>{{ item.checkOut ? (item.checkOut ):'--' }}</td>
+                            <td>
+                                <ng-select [items]="meetingMom" bindLabel="moM" bindValue="moM" placeholder="Search Mom"
+                                    class="fixed-ng-select" [readonly]="!isRowActive(item)"
+                                    [(ngModel)]="item.meetingMOM" [multiple]="true" [ngClass]="{
+                                'border-danger': isRowActive(item) && (!item.meetingMOM || item.meetingMOM.length === 0)
+                                }">
+                                    <ng-template ng-option-tmp let-item="item">
+                                        <span [title]="item.moM">{{ item.moM }}</span>
+                                    </ng-template>
+                                </ng-select>
+                                <div class="text-danger small"
+                                    *ngIf="isRowActive(item) && (!item.meetingMOM || item.meetingMOM.length === 0)">
+                                    Meeting MOM is required
+                                </div>
+                            </td>
+                            <td> <textarea rows="1" class="form-control form-control-sm" placeholder="Remarks"
+                                    [disabled]="!isRowActive(item)" [required]="isRowActive(item)"
+                                    [(ngModel)]="item.remarks" [ngClass]="{
+                            'border-danger': isRowActive(item) && !item.remarks
+                            }"></textarea>
+                                <div class="text-danger small" *ngIf="isRowActive(item) && !item.remarks">
+                                    Remarks is required
+                                </div>
+                            </td>
+                            <td>
+                            <td>
+                                <div style="display:flex;gap:6px">
+                                    <div style="display:flex;gap:6px">
+                                        <button class="btn btn-green" (click)="onSubmit(item)"
+                                            [disabled]="!isRowActive(item)" style="font-size:10px;padding:3px 8px"
+                                            [ngClass]="{'disabled-button':!isRowActive(item)}">Submit</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!loading && MOMList.length == 0">
+                            <td colspan="12" style="text-align:center; padding:40px;">
+                                <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
+                                <div style="font-size:12px; color:#999; margin-top:12px;">Sorry! No Data Found</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center mt-3"
+                *ngIf="totalItems > commonService.globalFilters.PageSize">
+                <div class="small text-muted">
+                    Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to
+                    {{
+                    commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
+                    totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+                    of {{ totalItems }} entries
+                </div>
+                <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
+                    [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="onPageChange($event)"
+                    [maxSize]="5" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                    lastText="&raquo;">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div>

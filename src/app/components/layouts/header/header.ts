@@ -258,7 +258,9 @@ export class Header implements OnInit, OnDestroy {
       'task': 'task',
       'calendar': 'calendar',
       'training': 'training',
-      'login': 'Dashboard'
+      'login': 'Dashboard',
+      'meeting-MOM': 'meeting-MOM',
+      'payment': 'payment',
     };
 
     const menuKey = routeToMenuKey[cleanUrl] || 'Dashboard';

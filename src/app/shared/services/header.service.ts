@@ -67,6 +67,9 @@ export class HeaderService {
       case 'payment':
         title = 'Payment';
         break;
+      case 'meeting-MOM':
+        title = 'Meeting MOM';
+        break;
       default:
         title = 'Dashboard';
     }
