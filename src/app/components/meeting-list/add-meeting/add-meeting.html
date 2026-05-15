@@ -277,13 +277,15 @@
                         <label class="form-label fw-bold">Meeting Outcomes</label>
                         <ng-select [items]="MeetingOutComes" bindLabel="codeDesc" bindValue="codeId"
                             formControlName="MeetingOutcome" placeholder="Search Mom" [multiple]="true"
+                            [ngClass]="{ 'border-danger': meetingForm.controls['MeetingOutcome'].invalid && meetingForm.controls['MeetingOutcome'].touched}"
                             [clearable]="true" [searchable]="true" [class.disabled]="checkOutValue === '-'">
                         </ng-select>
-                        <!-- <div *ngIf="meetingForm.controls['meetingMOM'].invalid && meetingForm.controls['meetingMOM']?.touched"
+                        <div *ngIf="meetingForm.controls['MeetingOutcome'].invalid && meetingForm.controls['MeetingOutcome']?.touched"
                             class="text-danger">
-                            <small *ngIf="meetingForm.controls['meetingMOM'].errors?.['required']">Meeting Outcomes is
+                            <small *ngIf="meetingForm.controls['MeetingOutcome'].errors?.['required']">Meeting Outcomes
+                                is
                                 required.</small>
-                        </div> -->
+                        </div>
                     </div>
                 </ng-container>
 
