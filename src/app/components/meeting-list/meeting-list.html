@@ -92,8 +92,8 @@
                     <li class="d-flex px-2 gap-2">
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:30px; height:30px; background:var(--red); color:white;"
-                        (click)="openMeetingModal('Update', meeting.attendeeCode)" [popover]="'Edit'" placement="left"
-                        triggers="hover" [outsideClick]="true" container="body">
+                        (click)="openMeetingModal('Update', meeting.attendeeCode, meeting.checkOut)" [popover]="'Edit'"
+                        placement="left" triggers="hover" [outsideClick]="true" container="body">
                         <i class="ri-pencil-fill"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
@@ -218,7 +218,7 @@
   </div>
 </div>
 
-<app-add-meeting #addMeeting (dataEmitter)="onDataEmitter()"></app-add-meeting>
+<app-add-meeting #addMeeting (dataEmitter)="onDataEmitter()" [checkOutValue]="checkOutValue"></app-add-meeting>
 <app-meeting-detail #meetingDetail></app-meeting-detail>
 
 

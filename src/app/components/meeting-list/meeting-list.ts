@@ -27,6 +27,7 @@ export class MeetingList implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public selectedUser: any = null;
   public totalItems: number = 0;
+  public checkOutValue: any;
   public isExportLoading: boolean = false;
   public meetingCard: any;
 
@@ -45,8 +46,8 @@ export class MeetingList implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-        this.getMeetings();
-        this.onMeetingCard();
+      this.getMeetings();
+      this.onMeetingCard();
     });
     this.commonService.getUsers()
   }
@@ -123,13 +124,15 @@ export class MeetingList implements OnInit, OnDestroy {
   //   });
   // }
 
-  openMeetingModal(type: string, id?: string) {
+  openMeetingModal(type: string, id?: string, checkOut?: string) {
     if (id) {
       this.addMeeting.isMeetingList = type;
       this.addMeeting.showPopup(() => {
+        this.checkOutValue = checkOut;
         return this.meetingService.getMeetingDetails(id, this.commonService.globalFilters.UserID.toString());
       });
     } else {
+      this.checkOutValue = '-';
       this.addMeeting.isMeetingList = type;
       this.addMeeting.showPopup();
     }
