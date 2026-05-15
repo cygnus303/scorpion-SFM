@@ -90,7 +90,6 @@ export class AddMeeting implements OnInit, OnDestroy {
   public modalRef!: BsModalRef;
   private modalService = inject(BsModalService);
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
-
   @Input() checkOutValue: any = '-';
   @Input() meetingResponse: MeetingResponse | null = null;
   @Input() addmeetingResponse: AddMeetingResponse | null = null;
@@ -121,6 +120,7 @@ export class AddMeeting implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.generateTimeSlots();
+    console.log(this.meetingResponse);
     this.meetingSubscription = this.meetingService.meetingResponseSubject.subscribe((res) => {
       if (res) {
         this.meetingForm.patchValue({ customerName: res.customerName || res.companyName, customerCode: res.customerCode });

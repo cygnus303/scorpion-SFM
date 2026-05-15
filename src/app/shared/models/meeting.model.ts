@@ -34,6 +34,7 @@ export interface MeetingResponse {
   meetingAddress?: string;
   attendeeNames?: any;
   AttendeeIds?: any;
+  isComplete?: boolean;
   createdName?: any
 }
 export interface MeetingDetailResponse extends MeetingResponse {

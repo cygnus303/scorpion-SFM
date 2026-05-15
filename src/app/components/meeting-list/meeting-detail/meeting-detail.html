@@ -258,28 +258,28 @@
                 </div>
 
                 <!-- Check In Location -->
-                <div class="ld3-card">
+                <div class="ld3-card full-width">
                     <div class="ld3-card-icon" style="--ci:#0f766e;--cb:#ccfbf1;">
                         <i class="ri-map-pin-line"></i>
                     </div>
 
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Check In Location</span>
-                        <span class="ld3-card-val">
+                        <span class="ld3-card-val wrap-text">
                             {{ meetingResponse?.checkInLocation || '--' }}
                         </span>
                     </div>
                 </div>
 
                 <!-- Check Out Location -->
-                <div class="ld3-card">
+                <div class="ld3-card full-width">
                     <div class="ld3-card-icon" style="--ci:#dc2626;--cb:#fee2e2;">
                         <i class="ri-map-pin-2-line"></i>
                     </div>
 
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Check Out Location</span>
-                        <span class="ld3-card-val">
+                        <span class="ld3-card-val wrap-text">
                             {{ meetingResponse?.checkOutLocation || '--' }}
                         </span>
                     </div>
@@ -351,8 +351,8 @@
 
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Meeting Address</span>
-                        <span class="ld3-card-val">
-                            {{ meetingResponse?.meetingAddress || '--' }}
+                        <span class="ld3-card-val wrap-text">
+                            {{ meetingResponse?.address || '--' }}
                         </span>
                     </div>
                 </div>
