@@ -26,7 +26,7 @@ import { ExpenseClaim } from './expense-claim/expense-claim';
     PopoverModule,
     BsDatepickerModule,
     ExpenseDetail,
-    AddExpense,ExpenseClaim
+    AddExpense, ExpenseClaim
   ],
   templateUrl: './expense-list.html',
   styleUrl: './expense-list.scss',

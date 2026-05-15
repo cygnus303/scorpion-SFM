@@ -174,28 +174,28 @@
                 </div>
 
                 <!-- Meeting MOM -->
-                <div class="ld3-card full-width">
+                <div class="ld3-card">
                     <div class="ld3-card-icon" style="--ci:#b45309;--cb:#fef3c7;">
                         <i class="ri-file-text-line"></i>
                     </div>
 
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Meeting MOM</span>
-                        <span class="ld3-card-val">
+                        <span class="ld3-card-val wrap-text" title="{{ meetingResponse?.meetingMOM || '--' }}">
                             {{ meetingResponse?.meetingMOM || '--' }}
                         </span>
                     </div>
                 </div>
 
                 <!-- Attendees -->
-                <div class="ld3-card full-width">
+                <div class="ld3-card">
                     <div class="ld3-card-icon" style="--ci:#0f766e;--cb:#ccfbf1;">
                         <i class="ri-team-line"></i>
                     </div>
 
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Attendees</span>
-                        <span class="ld3-card-val">
+                        <span class="ld3-card-val wrap-text" title="{{ meetingResponse?.attendeeNames || '--' }}">
                             {{ meetingResponse?.attendeeNames || '--' }}
                         </span>
                     </div>
@@ -238,7 +238,7 @@
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Meeting Added Date</span>
                         <span class="ld3-card-val">
-                            {{ meetingResponse?.createdDate || '--' }}
+                            {{ (meetingResponse?.createdDate | date : "dd/MM/yyyy" )|| '--' }}
                         </span>
                     </div>
                 </div>
@@ -252,7 +252,7 @@
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Meeting Edit Date</span>
                         <span class="ld3-card-val">
-                            {{ meetingResponse?.modifiedDate || '--' }}
+                            {{ (meetingResponse?.modifiedDate | date : "dd/MM/yyyy" )|| '--' }}
                         </span>
                     </div>
                 </div>
@@ -265,7 +265,7 @@
 
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Check In Location</span>
-                        <span class="ld3-card-val">
+                        <span class="ld3-card-val wrap-text" title="{{ meetingResponse?.checkInLocation || '--' }}">
                             {{ meetingResponse?.checkInLocation || '--' }}
                         </span>
                     </div>
@@ -279,7 +279,7 @@
 
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Check Out Location</span>
-                        <span class="ld3-card-val">
+                        <span class="ld3-card-val wrap-text" title="{{ meetingResponse?.checkOutLocation || '--' }}">
                             {{ meetingResponse?.checkOutLocation || '--' }}
                         </span>
                     </div>

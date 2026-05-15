@@ -68,7 +68,7 @@ export class ComplaintList {
       endDate: this.commonService.globalFilters.endDate,
       userId: this.commonService.globalFilters.UserID.toString(),
       export: false,
-      compaintStatus: this.selectedStatus
+      complaintStatus: this.selectedStatus
     }
     this.isLoading = true;
     this.complaintService.getComplaintList(data).subscribe({
@@ -110,7 +110,7 @@ export class ComplaintList {
     const startDate = this.commonService.globalFilters.startDate;
     const endDate = this.commonService.globalFilters.endDate;
     const filters: any = {
-      compaintStatus: this.selectedStatus
+      complaintStatus: this.selectedStatus
     };
     this.isExportLoading = true;
     this.complaintService.getComplaintListexport(this.commonService.globalFilters.UserID.toString(), startDate, endDate, filters).subscribe({

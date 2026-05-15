@@ -258,6 +258,7 @@ export class Header implements OnInit, OnDestroy {
       'task': 'task',
       'calendar': 'calendar',
       'training': 'training',
+      'payment': 'payment',
       'login': 'Dashboard'
     };
 
