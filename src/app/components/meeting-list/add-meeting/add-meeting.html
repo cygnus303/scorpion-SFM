@@ -163,10 +163,12 @@
                         [ngClass]="{ 'border-danger': meetingForm.controls['startTime'].invalid && meetingForm.controls['startTime'].touched}">
                     </ng-select>
                     @if(this.router.url !== '/my-calendar'){
-                    <div *ngIf="meetingForm.invalid && meetingForm.touched" class="text-danger small mt-1">
-                        <small *ngIf="meetingForm.get('startTime')?.hasError('required')">Start time is
+                    <div *ngIf="meetingForm.invalid && meetingForm.touched">
+                        <small *ngIf="meetingForm.get('startTime')?.hasError('required')"
+                            class="text-danger small mt-1">Start time is
                             required.</small>
-                        <small *ngIf="meetingForm.errors?.['startTimeAfterCurrentTime']">Start time must be after the
+                        <small *ngIf="meetingForm.errors?.['startTimeAfterCurrentTime']"
+                            class="text-danger small mt-1">Start time must be after the
                             current time.</small>
                     </div>
                     }
@@ -181,8 +183,10 @@
                     </ng-select>
                     @if(this.router.url !== '/my-calendar'){
                     <div *ngIf="meetingForm.invalid && meetingForm.touched" class="text-danger small mt-1">
-                        <small *ngIf="meetingForm.get('endTime')?.hasError('required')">End time is required.</small>
-                        <small *ngIf="meetingForm.errors?.['timeRangeValidator']">End time must be after the start
+                        <small *ngIf="meetingForm.get('endTime')?.hasError('required')"
+                            class="text-danger small mt-1">End time is required.</small>
+                        <small *ngIf="meetingForm.errors?.['timeRangeValidator']" class="text-danger small mt-1">End
+                            time must be after the start
                             time.</small>
                     </div>
                     }
