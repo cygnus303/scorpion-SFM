@@ -40,49 +40,6 @@ export class CustomerList {
   checkOutValue: string = '';
   private destroy$ = new Subject<void>();
 
-  // ranges: IRange[] = [
-  //   {
-  //     value: [new Date(new Date().setDate(new Date().getDate() - 7)), new Date()],
-  //     label: 'Last 7 Days',
-  //   },
-  //   {
-  //     value: [new Date(), new Date()],
-  //     label: 'Today',
-  //   },
-  //   {
-  //     value: [
-  //       new Date(new Date().setDate(new Date().getDate() - 1)),
-  //       new Date(new Date().setDate(new Date().getDate() - 1)),
-  //     ],
-  //     label: 'Yesterday',
-  //   },
-  //   {
-  //     value: [new Date(new Date().setDate(new Date().getDate() - 30)), new Date()],
-  //     label: 'Last 30 Days',
-  //   },
-  //   {
-  //     value: [
-  //       new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-  //       new Date(),
-  //     ],
-  //     label: 'This Month',
-  //   },
-  //   {
-  //     value: [
-  //       new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
-  //       new Date(new Date().getFullYear(), new Date().getMonth(), 0),
-  //     ],
-  //     label: 'Last Month',
-  //   },
-  //   {
-  //     value: [
-  //       new Date(new Date().getFullYear(), 0, 1), // First day of the year
-  //       new Date(new Date().getFullYear(), 11, 31), // Last day of the year
-  //     ],
-  //     label: 'This Year',
-  //   },
-  // ];
-
   constructor(
     private customerService: CustomerService,
     public commonService: CommonService,
@@ -102,41 +59,6 @@ export class CustomerList {
     this.destroy$.complete();
   }
 
-  // getCustomerfilters(event:any){
-  //   this.getfilter=[];
-  //   this.startDate= event?.[0] ? event[0].toLocaleDateString("en-GB") : this.dateRange?.[0]?.toLocaleDateString("en-GB") || null,
-  //   this.endDate = event?.[1]  ? event[1].toLocaleDateString("en-GB") : this.dateRange?.[1]?.toLocaleDateString("en-GB") || null
-  //   if(event?.length){
-  //     const filters = {
-  //       userid:this.identityService.getLoggedUserId(),
-  //       // startdate:this.startDate,
-  //       // enddate:this.endDate
-  //     }
-  //     this.isCardLoading=true;
-  //   this.customerService.getLeadCustomerfilters(filters).subscribe({
-  //     next:(response) =>{
-  //       this.getCustomerfilter = response.data;
-  //       this.getfilter = [
-  //         { name: "Total Customers", count: response.data.customerCount || 0 ,color:'green' },
-  //         { name: "Total Sales", count: response.data.totalSales || 0 ,color:'wheat' },
-  //         { name: "Overdue O/s", count: response.data.overdueOS || 0 ,color:'pink' },
-  //         { name: "Total O/s", count: response.data.totalOS || 0 ,color:'lightgreen' },
-  //         { name: "NBD", count: response.data.nbd || 0 ,color:'blue' },
-  //         { name: "Lost Customer", count: response.data.lostCustomerCount || 0 ,color:'purple ' },
-  //         { name: "Yield", count: response.data.yield || 0 ,color:'bluecolor' },
-  //       ];
-  //     this.isCardLoading=false;
-
-  //     },
-  //     error: (response: any) => {
-  //       this.sweetAlertService.error(response);
-  //     this.isCardLoading=false;
-
-  //     },
-  //   });
-  //   }
-  //   this.getCustomers()
-  // }
 
   onQuatation(event: Event, customer: any) {
     event.preventDefault();
@@ -190,6 +112,7 @@ export class CustomerList {
       Page: this.commonService.globalFilters.Page.toString(),
       UserID: this.commonService.globalFilters.UserID.toString(),
       PageSize: this.commonService.globalFilters.PageSize.toString(),
+      SearchFilter: this.commonService.globalFilters.searchText,
       startDate: this.commonService.globalFilters.startDate,
       endDate: this.commonService.globalFilters.endDate
     };

@@ -26,8 +26,11 @@
       <div class="card-head">
         <div class="ci b">👤</div>
         <div class="card-title">Customer List</div>
-        <!-- <div class="card-title">Customer List</div><button class="tbtn"
-          style="margin-left:auto;padding:5px 12px;font-size:11px">＋ Add Customer</button> -->
+        <button class="btn btn-primary" style="margin-left:auto;padding:5px 12px;font-size:11px"
+          [disabled]="isExportLoading" (click)="exportCustomers($event)">
+          <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
+          <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
+        </button>
       </div>
       <table class="mt">
         <thead>
