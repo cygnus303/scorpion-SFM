@@ -90,7 +90,7 @@ export class AddMeeting implements OnInit, OnDestroy {
   public modalRef!: BsModalRef;
   private modalService = inject(BsModalService);
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
-  @Input() checkOutValue: any = '-';
+  public checkOutValue: any;
   @Input() meetingResponse: MeetingResponse | null = null;
   @Input() addmeetingResponse: AddMeetingResponse | null = null;
   @Input() isMeetingList: string = 'Add';
@@ -123,6 +123,7 @@ export class AddMeeting implements OnInit, OnDestroy {
     console.log(this.meetingResponse);
     this.meetingSubscription = this.meetingService.meetingResponseSubject.subscribe((res) => {
       if (res) {
+        this.checkOutValue = res.checkOutTime || '-';
         this.meetingForm.patchValue({ customerName: res.customerName || res.companyName, customerCode: res.customerCode });
         this.getCustomerDetail('', res.customerCode);
       }
