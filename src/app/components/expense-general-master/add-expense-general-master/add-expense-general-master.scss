@@ -4,3 +4,7 @@
 ::ng-deep ng-select.border-danger .ng-select-container {
     border-color: #dc3545 !important;
 }
+
+::ng-deep .ng-dropdown-panel {
+    z-index: 99999 !important;
+}

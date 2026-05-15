@@ -33,7 +33,7 @@
                     </div>
                     <div class="fg" style="margin-bottom:0" style="width: 384px;">
                         <label> Customer Code <span style="color:var(--red)">*</span></label>
-                        <ng-select [items]="customerData" bindLabel="text" bindValue="id"
+                        <ng-select [items]="customerData" bindLabel="text" bindValue="id" appendTo="body"
                             placeholder="Search Customer Code..." [clearable]="true" [searchable]="true"
                             (search)="getCustomerList($event)" (change)="onChangeCustomer($event?.id)"
                             formControlName="customerCode" notFoundText="Search Customer Code..." [ngClass]="{
@@ -75,7 +75,7 @@
                         <label>Email <span style="color:var(--red)">*</span></label>
                         <ng-select [items]="emailData" bindLabel="text" bindValue="id" placeholder="Search Email..."
                             [multiple]="true" [clearable]="true" [searchable]="true" (search)="getEmailList($event)"
-                            formControlName="emailID"
+                            formControlName="emailID" appendTo="body"
                             [ngClass]="{ 'border-danger': prqForm.controls['emailID'].invalid && prqForm.controls['emailID'].touched}"
                             notFoundText="Search Email...">
                         </ng-select>
@@ -89,7 +89,7 @@
                         <ng-select [items]="pincodeData" bindLabel="text" bindValue="id" placeholder="Pin Code"
                             [clearable]="true" [searchable]="true" (search)="getPincodeList($event)"
                             (change)="onChangePincode($event.id)" formControlName="pinCode"
-                            notFoundText='Please enter 2 more characters'
+                            notFoundText='Please enter 2 more characters' appendTo="body"
                             typeToSearchText='Please enter 2 more characters'
                             [ngClass]="{ 'border-danger': prqForm.controls['pinCode'].invalid && prqForm.controls['pinCode'].touched}">
                         </ng-select>
@@ -150,7 +150,7 @@
                         <ng-select [items]="destPincodeData" bindLabel="text" bindValue="id" placeholder="Pin Code"
                             [clearable]="true" [searchable]="true" (search)="getDestPincodeList($event)"
                             (change)="onChangeDestPincode($event.id)" formControlName="desPincode"
-                            notFoundText='Please enter 2 more characters'
+                            notFoundText='Please enter 2 more characters' appendTo="body"
                             typeToSearchText='Please enter 2 more characters'
                             [ngClass]="{ 'border-danger': prqForm.controls['desPincode'].invalid && prqForm.controls['desPincode'].touched}">
                         </ng-select>
@@ -167,7 +167,7 @@
                     <div class="fg" style="margin-bottom:0">
                         <label>Service Type<span style="color:var(--red)">*</span></label>
                         <ng-select [items]="serviceTypes" bindLabel="name" bindValue="name" placeholder="Select Type"
-                            [clearable]="true" formControlName="service_Type" readonly
+                            [clearable]="true" formControlName="service_Type" readonly appendTo="body"
                             [ngClass]="{ 'border-danger': prqForm.controls['service_Type'].invalid && prqForm.controls['service_Type'].touched}"></ng-select>
                         <div class="text-danger small mt-1"
                             *ngIf="prqForm.get('service_Type')?.touched &&prqForm.get('service_Type')?.invalid">
@@ -190,21 +190,21 @@
                         <label>Product Type</label>
                         <ng-select [items]="productTypeData" bindLabel="codeDesc" bindValue="codeId"
                             placeholder="Select Product" [clearable]="true" [searchable]="true"
-                            formControlName="productType">
+                            formControlName="productType" appendTo="body">
                         </ng-select>
                     </div>
                     <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
                         <label>No Of Vehicles</label>
                         <ng-select [items]="vehicleCountList" bindLabel="text" bindValue="id"
                             placeholder="Select No Of Vehicles" [clearable]="true" [searchable]="true"
-                            formControlName="noOfVeh">
+                            formControlName="noOfVeh" appendTo="body">
                         </ng-select>
                     </div>
                     <div class="fg" style="margin-bottom:0" *ngIf="PRQType === 'FTL'">
                         <label>Fleet Type</label>
                         <ng-select [items]="fleetTypeData" bindLabel="codeDesc" bindValue="codeId"
                             placeholder="Select Fleet" [clearable]="true" [searchable]="true"
-                            formControlName="fleetType"
+                            formControlName="fleetType" appendTo="body"
                             [ngClass]="{ 'border-danger': prqForm.controls['fleetType'].invalid && prqForm.controls['fleetType'].touched}">
                         </ng-select>
                         <div class="text-danger small mt-1"

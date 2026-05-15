@@ -34,7 +34,7 @@
         <div class="col-lg-6">
           <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Lead Category*</label>
           <ng-select [items]="leadCategories" bindLabel="codeDesc" bindValue="codeId" formControlName="leadCategoryId"
-            placeholder="Search Lead Category" [searchable]="true" [readonly]="leadId?false:true"
+            placeholder="Search Lead Category" [searchable]="true" [readonly]="leadId?false:true" appendTo="body"
             [ngClass]="{ 'border-danger': leadForm.controls['leadCategoryId'].invalid && leadForm.controls['leadCategoryId'].touched}">
           </ng-select>
           <div *ngIf="leadForm.controls['leadCategoryId'].invalid && leadForm.controls['leadCategoryId']?.touched"
@@ -113,28 +113,28 @@
         <div class="col-lg-6">
           <label class="form-label small fw-bold text-muted mb-1 text-uppercase">City</label>
           <ng-select formControlName="cityId" placeholder="Search City" [items]="cities" bindLabel="location"
-            bindValue="city_code" [clearable]="true" [searchable]="true">
+            bindValue="city_code" [clearable]="true" [searchable]="true" appendTo="body">
           </ng-select>
         </div>
 
         <div class="col-lg-6">
           <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Lead Source</label>
           <ng-select formControlName="LeadSourceId" [items]="leadSources" bindLabel="codeDesc" bindValue="codeId"
-            placeholder="Search Lead Source" [clearable]="true" [searchable]="true">
+            placeholder="Search Lead Source" [clearable]="true" [searchable]="true" appendTo="body">
           </ng-select>
         </div>
 
         <div class="col-lg-6">
           <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Assigned To</label>
           <ng-select formControlName="assignedToId" [items]="users" bindLabel="displayText" bindValue="userId"
-            placeholder="Search Assigned To" [clearable]="true" [searchable]="true">
+            placeholder="Search Assigned To" [clearable]="true" [searchable]="true" appendTo="body">
           </ng-select>
         </div>
 
         <div class="col-lg-6">
           <label class="form-label small fw-bold text-muted mb-1 text-uppercase">Industry Type</label>
           <ng-select [items]="industryTypes" bindLabel="codeDesc" bindValue="codeId" formControlName="industryTypeId"
-            placeholder="Search Industry Type" [searchable]="true">
+            placeholder="Search Industry Type" [searchable]="true" appendTo="body">
           </ng-select>
         </div>
 

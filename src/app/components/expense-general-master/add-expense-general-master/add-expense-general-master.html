@@ -26,7 +26,7 @@
                         <ng-select [items]="designationList" bindLabel="codeDesc" bindValue="codeId"
                             formControlName="designationId" placeholder="Select Designation" [searchable]="true"
                             [clearable]="true" [readonly]="type === 'Update Expense' ? true:false"
-                            class="custom-ng-select"
+                            class="custom-ng-select" appendTo="body"
                             [ngClass]="{ 'is-invalid border-danger': expenseMasterForm.controls['designationId'].invalid && expenseMasterForm.controls['designationId'].touched}">
                         </ng-select>
                         <div *ngIf="expenseMasterForm.controls['designationId'].invalid && expenseMasterForm.controls['designationId']?.touched"
@@ -43,7 +43,7 @@
                         <ng-select [items]="transportModes" bindLabel="codeDesc" bindValue="codeId"
                             formControlName="transportModeId" placeholder="Select Transport Mode" [searchable]="true"
                             [clearable]="true" [readonly]="type === 'Update Expense' ? true:false"
-                            class="custom-ng-select"
+                            class="custom-ng-select" appendTo="body"
                             [ngClass]="{ 'is-invalid border-danger': expenseMasterForm.controls['transportModeId'].invalid && expenseMasterForm.controls['transportModeId'].touched}">
                         </ng-select>
                         <div *ngIf="expenseMasterForm.controls['transportModeId'].invalid && expenseMasterForm.controls['transportModeId']?.touched"
