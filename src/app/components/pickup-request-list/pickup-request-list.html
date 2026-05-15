@@ -68,6 +68,21 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngIf="!isLoading && PRQList.length === 0">
+          <td colspan="9" style="text-align:center; padding:40px;">
+            <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
+            <div style="font-size:12px; color:#999; margin-top:12px;">Sorry! No Data Found</div>
+          </td>
+        </tr>
+        <!-- Loading Row -->
+        <tr *ngIf="isLoading">
+          <td colspan="9" style="text-align:center;padding:50px;">
+            <div class="spinner-border text-primary"></div>
+            <div style="margin-top:10px;font-size:12px;color:#777;">
+              Loading PRQ Data...
+            </div>
+          </td>
+        </tr>
         <tr *ngFor="let data of PRQList">
           <td><strong>{{data.indentStatus}}</strong></td>
           <td>{{data.indentNo}}</td>

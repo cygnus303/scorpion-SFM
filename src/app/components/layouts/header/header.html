@@ -21,7 +21,7 @@
     <div class="topbar-title" id="page-title">{{ headerTitle$ | async }}</div>
   </div>
   <div class="tsp"></div>
-  <div class="search-box">
+  <div class="search-box" *ngIf="(headerTitle$ | async) !==  'Dashboard'">
     <span class="search-icon">🔍</span>
     <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search here...">
   </div>

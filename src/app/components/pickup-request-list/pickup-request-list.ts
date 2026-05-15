@@ -25,6 +25,7 @@ export class PickupRequestList {
   @ViewChild('addPRQ') addPRQ!: AddPrq;
   @ViewChild('PrqDetail') PrqDetail!: PrqDetail;
   public isExportLoading: boolean = false;
+  public isLoading: boolean = false;
   private sweetAlertService = inject(SweetAlertService);
   private identityService = inject(IdentityService);
   constructor(
@@ -69,6 +70,7 @@ export class PickupRequestList {
   }
 
   getPRQList() {
+    this.isLoading = true;
     const formatDate = (dateStr: string) => {
       const [day, month, year] = dateStr.split('/');
       const date = new Date(+year, +month - 1, +day);
@@ -87,6 +89,7 @@ export class PickupRequestList {
       status: ""
     }
     this.PRQService.getPRQList(payload).subscribe((response: any) => {
+      this.isLoading = false;
       this.PRQList = response.data;
       this.totalItems = response.totalCount
     });
