@@ -27,12 +27,11 @@ export class CustomerService {
 
   constructor(
     @Inject(ApiHandlerService) private apiHandlerService: ApiHandlerService,
-    private commonService:CommonService,
-    private identityService:IdentityService,
-    private toasterService:ToastrService,
-    private externalService:ExternalService
-  ) {}
-  
+    private identityService: IdentityService,
+    private toasterService: ToastrService,
+    private externalService: ExternalService
+  ) { }
+
   getCustomerList(
     filters: any
   ): Observable<IApiBaseResponse<CustomerResponse[]>> {
@@ -68,40 +67,40 @@ export class CustomerService {
     return this.apiHandlerService.Patch('customer/' + id, null);
   }
 
-  getLeadCustomerfilters(filters:any): Observable<IApiBaseResponse<CustomerFilter>> {
-    return this.apiHandlerService.Get('Dashboard/',filters);
+  getCustomerfilters(filters: any): Observable<IApiBaseResponse<CustomerFilter>> {
+    return this.apiHandlerService.Get('Dashboard/', filters);
   }
 
-  getCustomerdropdown(filters:any): Observable<IApiBaseResponse<CustomersListResponse>> {
+  getCustomerdropdown(filters: any): Observable<IApiBaseResponse<CustomersListResponse>> {
     return this.apiHandlerService.Get(`Customer/dropdown?searchtext=${filters}`);
   }
 
-   customerDropdown(event:any){
-      const searchTerm = event?.target ? event?.target.value:event;
-      if (searchTerm.length >= 3) {
-        this.getCustomerdropdown(searchTerm).pipe(debounceTime(300), distinctUntilChanged()).subscribe((data: any) => {
-          this.customersList = data.data;
-        });
-      }
+  customerDropdown(event: any) {
+    const searchTerm = event?.target ? event?.target.value : event;
+    if (searchTerm.length >= 3) {
+      this.getCustomerdropdown(searchTerm).pipe(debounceTime(300), distinctUntilChanged()).subscribe((data: any) => {
+        this.customersList = data.data;
+      });
     }
+  }
 
-      getUsers() {
-        this.externalService.getUserData(this.identityService.getLoggedUserId()).subscribe({
-          next: (response) => {
-            if (response) {
-              this.users= response.data.map((user: any) => ({
-                userId: user.userId,
-                name: `${user.userId } : ${user.name}`,
-              }));
-            }
-          },
-          error: (response: any) => {
-            this.toasterService.error(response);
-          },
-        });
-      }
+  getUsers() {
+    this.externalService.getUserData(this.identityService.getLoggedUserId()).subscribe({
+      next: (response) => {
+        if (response) {
+          this.users = response.data.map((user: any) => ({
+            userId: user.userId,
+            name: `${user.userId} : ${user.name}`,
+          }));
+        }
+      },
+      error: (response: any) => {
+        this.toasterService.error(response);
+      },
+    });
+  }
 
-  getCustomerDetail(customerCode:string | undefined): Observable<IApiBaseResponse<CustomerDetailResponse[]>>{
-        return this.apiHandlerService.Get(`Customer/CustomerDetail?customerCode=${customerCode}`);
+  getCustomerDetail(customerCode: string | undefined): Observable<IApiBaseResponse<CustomerDetailResponse[]>> {
+    return this.apiHandlerService.Get(`Customer/CustomerDetail?customerCode=${customerCode}`);
   }
 }

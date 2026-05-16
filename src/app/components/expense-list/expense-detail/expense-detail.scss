@@ -1,0 +1,29 @@
+.lead-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+:host ::ng-deep {
+    .modal-body {
+        max-height: none !important;
+        overflow-y: visible !important;
+        padding: 20px !important;
+    }
+}
+
+.ld3-card {
+    padding: 10px 14px;
+
+    .ld3-card-val {
+        font-size: 11.5px;
+    }
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.span-2 {
+    grid-column: span 2;
+}

@@ -17,6 +17,7 @@ export class MainContent {
   public leadPipeline: any;
   public prospectLeaderboard: any;
   public totalCount: any = {};
+  public salesCollectionCount: any = {}
   public router = inject(Router);
 
   private destroy$ = new Subject<void>();
@@ -100,8 +101,7 @@ export class MainContent {
     this.dashboardService.GetDashboardSalesOS(params).subscribe({
       next: (response: any) => {
         if (response.success) {
-          this.totalCount.totalSales = response.data.totalSales;
-          this.totalCount.totalOS = response.data.totalOS;
+          this.salesCollectionCount = response.data;
         }
       }
     });

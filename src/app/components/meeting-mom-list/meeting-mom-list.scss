@@ -1,4 +1,24 @@
+.active-edit-row {
+    background-color: rgba(67, 97, 238, 0.05) !important;
+    transition: background-color 0.3s ease;
+
+    td {
+        border-top: 1px solid rgba(67, 97, 238, 0.2);
+        border-bottom: 1px solid rgba(67, 97, 238, 0.2);
+    }
+}
+
 .disabled-button {
     cursor: not-allowed;
     opacity: 0.6;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+
+    &:hover {
+        background-color: #218838;
+    }
 }

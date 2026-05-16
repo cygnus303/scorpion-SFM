@@ -18,7 +18,7 @@ export class LeadDetail {
   showPopup(apiCall: () => any) {
     this.isLoading = true;
     this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered', backdrop: true });
-     apiCall().subscribe({
+    apiCall().subscribe({
       next: (response: any) => {
         const data = response?.data;
         if (data) {

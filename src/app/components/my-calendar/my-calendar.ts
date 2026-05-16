@@ -29,8 +29,8 @@ export class MyCalendar implements OnInit, OnDestroy {
   public isCall: boolean = false;
   public isBrowser: boolean = false;
   public isLoadingMeeting: boolean = false;
-  public todayEvents: any[] = [];
-  public upcomingEvents: any[] = [];
+  public sidebarTodayEvents: any[] = [];
+  public sidebarUpcomingEvents: any[] = [];
   public currentFormattedDate: string = '';
 
   calendarOptions: CalendarOptions = {
@@ -131,16 +131,16 @@ export class MyCalendar implements OnInit, OnDestroy {
     const endOfWeek = new Date(today);
     endOfWeek.setDate(today.getDate() + 7);
 
-    this.todayEvents = events.filter(event => {
+    this.sidebarTodayEvents = events.filter(event => {
       const eventDate = new Date(event.start);
       eventDate.setHours(0, 0, 0, 0);
       return eventDate.getTime() === today.getTime();
     });
 
-    this.upcomingEvents = events.filter(event => {
+    this.sidebarUpcomingEvents = events.filter(event => {
       const eventDate = new Date(event.start);
       eventDate.setHours(0, 0, 0, 0);
-      return eventDate > today && eventDate <= endOfWeek;
+      return eventDate >= today && eventDate <= endOfWeek;
     }).sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
   }
 
@@ -187,12 +187,16 @@ export class MyCalendar implements OnInit, OnDestroy {
   }
 
   getEventTime(dateStr: string): string {
+    if (!dateStr) return '--';
     const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return '--';
     return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
   }
 
   getEventDate(dateStr: string): string {
+    if (!dateStr) return '--';
     const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return '--';
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 
@@ -200,7 +204,7 @@ export class MyCalendar implements OnInit, OnDestroy {
     this.calendarService.getUpcomingWeek(this.identityService.getLoggedUserId()).subscribe({
       next: (response) => {
         if (response && response.data) {
-          this.upcomingEvents = response.data;
+          this.sidebarUpcomingEvents = response.data;
         }
       },
       error: (response: any) => {

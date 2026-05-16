@@ -13,14 +13,14 @@
           <div class="card-title">Today's Events — {{ currentFormattedDate }}</div>
         </div>
         <div class="tl">
-          <div class="tl-item" *ngFor="let event of todayEvents">
+          <div class="tl-item" *ngFor="let event of sidebarTodayEvents">
             <div class="tl-dot green">✓</div>
             <div class="tl-content">
-              <div class="tl-title">{{ getEventTime(event.start) }} — {{ event.title }}</div>
-              <div class="tl-meta">{{ event.description || 'Calendar Event' }}</div>
+              <div class="tl-title">{{ event.displayDate || getEventTime(event.start) }} — {{ event.title }}</div>
+              <div class="tl-meta">{{ event.description || event.subText || 'Calendar Event' }}</div>
             </div>
           </div>
-          <div class="no-events" *ngIf="todayEvents.length === 0"
+          <div class="no-events" *ngIf="sidebarTodayEvents.length === 0"
             style="padding: 10px; color: var(--text-muted); font-size: 12px; text-align: center;">
             No events for today
           </div>
@@ -31,16 +31,15 @@
           <div class="ci">📅</div>
           <div class="card-title">Upcoming — This Week</div>
         </div>
-        <div class="tl">
-          <div class="tl-item" *ngFor="let event of upcomingEvents"
-            (click)="editMeetingModal(event.meetingId || event.callId)">
+        <div class="tl" style="max-height: 450px; overflow-y: auto; padding-right: 5px;">
+          <div class="tl-item" *ngFor="let event of sidebarUpcomingEvents">
             <div class="tl-dot amber">!</div>
             <div class="tl-content">
-              <div class="tl-title">{{ getEventDate(event.start) }} — {{ event.title }}</div>
+              <div class="tl-title">{{ event.displayDate || getEventDate(event.start) }} — {{ event.title }}</div>
               <div class="tl-meta">{{ event?.rightText }}</div>
             </div>
           </div>
-          <div class="no-events" *ngIf="upcomingEvents.length === 0"
+          <div class="no-events" *ngIf="sidebarUpcomingEvents.length === 0"
             style="padding: 10px; color: var(--text-muted); font-size: 12px; text-align: center;">
             No upcoming events
           </div>

@@ -70,6 +70,14 @@ export class MeetingMomList {
     this.selectedMeetingId = meetingId;
   }
 
+  startEdit(item: any) {
+    this.selectedMeetingId = item.meetingId;
+  }
+
+  cancelEdit() {
+    this.selectedMeetingId = null;
+  }
+
   clearDate() {
     this.filters['MeetingDate'] = '';
     this.getMeetingMOMList();

@@ -1,584 +1,201 @@
 <ng-template #Templatepod>
-
     <!-- Header -->
     <div class="modal-header custom-header border-0">
-
         <div class="d-flex align-items-center gap-3">
-
             <div class="header-icon" style="background:#2563eb;">
                 <i class="ri-money-rupee-circle-line"></i>
             </div>
-
             <div>
                 <h5 class="modal-title fw-bold mb-0">Expense Details</h5>
-
-                <small class="text-muted">
-                    View complete expense information
-                </small>
+                <small class="text-muted">View complete expense information</small>
             </div>
-
         </div>
-
-        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()">
-        </button>
-
+        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
     </div>
 
     <!-- Body -->
     <div class="modal-body">
-
         <!-- Loader -->
         <div *ngIf="isLoading" class="loading-section">
-
             <div class="spinner-border text-primary"></div>
-
-            <p class="mt-3 mb-0 text-muted">
-                Loading expense details...
-            </p>
-
+            <p class="mt-3 mb-0 text-muted">Loading expense details...</p>
         </div>
 
         <!-- Content -->
         <div *ngIf="!isLoading && expenseResponse">
-
             <div class="lead-grid">
-
-                <!-- Expense Code -->
+                <!-- Basic Info Row -->
                 <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#2563eb;--cb:#dbeafe;">
-
-                        <i class="ri-bill-line"></i>
-                    </div>
-
+                    <div class="ld3-card-icon" style="--ci:#2563eb;--cb:#dbeafe;"><i class="ri-bill-line"></i></div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Expense Code</span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.expenseId || '--' }}
-                        </span>
+                        <span class="ld3-card-val">{{ expenseResponse?.expenseId || '--' }}</span>
                     </div>
                 </div>
 
-                <!-- Customer Name -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#7c3aed;--cb:#ede9fe;">
-
-                        <i class="ri-building-line"></i>
-                    </div>
-
+                <div class="ld3-card span-2">
+                    <div class="ld3-card-icon" style="--ci:#7c3aed;--cb:#ede9fe;"><i class="ri-building-line"></i></div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Customer Name</span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.companyName ||
-                            expenseResponse?.customerName || '--' }}
-                        </span>
+                        <span class="ld3-card-val">{{ expenseResponse?.companyName || expenseResponse?.customerName ||
+                            '--' }}</span>
                     </div>
                 </div>
 
-                <!-- Meeting ID -->
+                <!-- Financial Row -->
                 <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#16a34a;--cb:#dcfce7;">
-
-                        <i class="ri-calendar-event-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">Meeting ID</span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.meetingId || '--' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Meeting MOM -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#dc2626;--cb:#fee2e2;">
-
-                        <i class="ri-file-text-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">Meeting MOM</span>
-
-                        <span class="ld3-card-val wrap-text">
-                            {{ expenseResponse?.meetingMOM || '--' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Payment ID -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#0891b2;--cb:#cffafe;">
-
-                        <i class="ri-secure-payment-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">Payment ID</span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.requestID || '--' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Meeting Date -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#9333ea;--cb:#f3e8ff;">
-
-                        <i class="ri-calendar-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">Meeting Date</span>
-
-                        <span class="ld3-card-val">
-                            {{expenseResponse?.expenseDate ||'--'}}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- UTR Date -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#b45309;--cb:#fef3c7;">
-
-                        <i class="ri-bank-card-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">UTR Date</span>
-
-                        <span class="ld3-card-val">
-                            {{
-                            (expenseResponse?.utrDate &&
-                            expenseResponse?.utrDate !== '0001-01-01T00:00:00')
-                            ?
-                            (expenseResponse?.utrDate | date:'dd/MM/yyyy')
-                            :
-                            '--'
-                            }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- UTR No -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#15803d;--cb:#dcfce7;">
-
-                        <i class="ri-numbers-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">UTR No.</span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.utrNo || '--' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Expense Date -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#4f46e5;--cb:#e0e7ff;">
-
-                        <i class="ri-calendar-check-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">Expense Date</span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.expenseDate || '--' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Transport Mode -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#ea580c;--cb:#ffedd5;">
-
-                        <i class="ri-car-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">Transport Mode</span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.transportMode || '--' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Checked In Location -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#0f766e;--cb:#ccfbf1;">
-
-                        <i class="ri-map-pin-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">
-                            Checked In Location
-                        </span>
-
-                        <span class="ld3-card-val wrap-text">
-                            {{ expenseResponse?.checkedInLocation || '--' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Checked Out Location -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#dc2626;--cb:#fee2e2;">
-
-                        <i class="ri-map-pin-2-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">
-                            Checked Out Location
-                        </span>
-
-                        <span class="ld3-card-val wrap-text">
-                            {{ expenseResponse?.checkedOutLocation || '--' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Distance -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#2563eb;--cb:#dbeafe;">
-
-                        <i class="ri-route-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">
-                            Distance In Km
-                        </span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.distanceInKm ||
-                            expenseResponse?.distanceTravelled || '0' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Amount -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#16a34a;--cb:#dcfce7;">
-
-                        <i class="ri-money-rupee-circle-line"></i>
-                    </div>
-
+                    <div class="ld3-card-icon" style="--ci:#16a34a;--cb:#dcfce7;"><i
+                            class="ri-money-rupee-circle-line"></i></div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Amount</span>
-
-                        <span class="ld3-card-val text-success">
-                            ₹{{ expenseResponse?.amount || '0' }}
-                        </span>
+                        <span class="ld3-card-val fw-bold text-success">₹{{ expenseResponse?.amount || '0' }}</span>
                     </div>
                 </div>
 
-                <!-- Supporting Document -->
                 <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#7c3aed;--cb:#ede9fe;">
-
-                        <i class="ri-attachment-2"></i>
+                    <div class="ld3-card-icon" style="--ci:#0891b2;--cb:#cffafe;"><i class="ri-shield-check-line"></i>
                     </div>
-
                     <div class="ld3-card-body">
-                        <span class="ld3-card-label">
-                            Supporting Document
-                        </span>
-
-                        <span class="ld3-card-val">
-
-                            <a *ngIf="expenseResponse?.supportingDocument" [href]="expenseResponse.supportingDocument"
-                                target="_blank" class="btn btn-sm btn-outline-primary py-0 px-2">
-
-                                View Doc
-                            </a>
-
-                            <span *ngIf="!expenseResponse?.supportingDocument">
-                                --
-                            </span>
-
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Status -->
-                <div class="ld3-card">
-
-                    <div class="ld3-card-icon" style="--ci:#0891b2;--cb:#cffafe;">
-
-                        <i class="ri-shield-check-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-
                         <span class="ld3-card-label">Status</span>
-
-                        <span class="ld3-card-val wrap-text">
-
+                        <span class="ld3-card-val">
                             <span class="badge" [ngClass]="{
                                 'bg-success': expenseResponse?.exp_Status === 5,
                                 'bg-danger': expenseResponse?.exp_Status === 6,
                                 'bg-warning text-dark': expenseResponse?.exp_Status === 2 || expenseResponse?.exp_Status === 3
-                            }">
-
-                                {{ expenseResponse?.status || '--' }}
-
-                            </span>
-
+                            }">{{ expenseResponse?.status || '--' }}</span>
                         </span>
-
                     </div>
-
                 </div>
 
-                <!-- Expense Added By -->
                 <div class="ld3-card">
-
-                    <div class="ld3-card-icon" style="--ci:#15803d;--cb:#dcfce7;">
-
-                        <i class="ri-user-add-line"></i>
+                    <div class="ld3-card-icon" style="--ci:#b45309;--cb:#fef3c7;"><i class="ri-bank-card-line"></i>
                     </div>
-
                     <div class="ld3-card-body">
-
-                        <span class="ld3-card-label">
-                            Expense Added By
-                        </span>
-
+                        <span class="ld3-card-label">UTR Info</span>
                         <span class="ld3-card-val">
-                            {{ expenseResponse?.expenseAddedBy ||
-                            expenseResponse?.createdBy || '--' }}
+                            {{ expenseResponse?.utrNo || '--' }}
+                            <small
+                                *ngIf="expenseResponse?.utrDate && expenseResponse?.utrDate !== '0001-01-01T00:00:00'">
+                                ({{ expenseResponse?.utrDate | date:'dd/MM/yyyy' }})
+                            </small>
                         </span>
-
                     </div>
-
                 </div>
 
-                <!-- Expense Added Date -->
+                <!-- Travel & Docs -->
                 <div class="ld3-card">
-
-                    <div class="ld3-card-icon" style="--ci:#9333ea;--cb:#f3e8ff;">
-
-                        <i class="ri-calendar-todo-line"></i>
-                    </div>
-
+                    <div class="ld3-card-icon" style="--ci:#ea580c;--cb:#ffedd5;"><i class="ri-car-line"></i></div>
                     <div class="ld3-card-body">
-
-                        <span class="ld3-card-label">
-                            Expense Added Date
-                        </span>
-
+                        <span class="ld3-card-label">Travel Details</span>
                         <span class="ld3-card-val">
-                            {{ expenseResponse?.expenseAddedDate || '--' }}
+                            {{ expenseResponse?.transportMode || '--' }} ({{ expenseResponse?.distanceInKm ||
+                            expenseResponse?.distanceTravelled || '0' }} Km)
                         </span>
-
                     </div>
-
                 </div>
 
-                <!-- Expense Edited By -->
                 <div class="ld3-card">
-
-                    <div class="ld3-card-icon" style="--ci:#c2410c;--cb:#ffedd5;">
-
-                        <i class="ri-edit-2-line"></i>
+                    <div class="ld3-card-icon" style="--ci:#4f46e5;--cb:#e0e7ff;"><i class="ri-calendar-check-line"></i>
                     </div>
-
                     <div class="ld3-card-body">
+                        <span class="ld3-card-label">Expense Date</span>
+                        <span class="ld3-card-val">{{ expenseResponse?.expenseDate || '--' }}</span>
+                    </div>
+                </div>
 
-                        <span class="ld3-card-label">
-                            Expense Edited By
-                        </span>
-
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#7c3aed;--cb:#ede9fe;"><i class="ri-attachment-2"></i></div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Supporting Doc</span>
                         <span class="ld3-card-val">
-                            {{ expenseResponse?.expenseEditedBy ||
-                            expenseResponse?.modifiedBy || '--' }}
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <!-- Expense Edited Date -->
-                <div class="ld3-card">
-
-                    <div class="ld3-card-icon" style="--ci:#4f46e5;--cb:#e0e7ff;">
-
-                        <i class="ri-calendar-event-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-
-                        <span class="ld3-card-label">
-                            Expense Edited Date
-                        </span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.expensEditDate ||
-                            expenseResponse?.modifiedDate || '--' }}
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <!-- Approved By Manager -->
-                <div class="ld3-card">
-
-                    <div class="ld3-card-icon" style="--ci:#16a34a;--cb:#dcfce7;">
-
-                        <i class="ri-user-star-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-
-                        <span class="ld3-card-label">
-                            Approved By Manager
-                        </span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.approveByManagerName || '--' }}
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <!-- Manager Approved Date -->
-                <div class="ld3-card">
-
-                    <div class="ld3-card-icon" style="--ci:#2563eb;--cb:#dbeafe;">
-
-                        <i class="ri-calendar-check-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-
-                        <span class="ld3-card-label">
-                            Manager Approved Date
-                        </span>
-
-                        <span class="ld3-card-val">
-                            {{
-                            (expenseResponse?.approvedManagerDate &&
-                            expenseResponse?.approvedManagerDate !==
-                            '0001-01-01T00:00:00')
-                            ?
-                            expenseResponse?.approvedManagerDate
-                            :
-                            '--'
-                            }}
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <!-- Approved By Auditor -->
-                <div class="ld3-card">
-
-                    <div class="ld3-card-icon" style="--ci:#dc2626;--cb:#fee2e2;">
-
-                        <i class="ri-user-settings-line"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-
-                        <span class="ld3-card-label">
-                            Approved By Auditor
-                        </span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.approvedByAuditorName || '--' }}
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <!-- Auditor Approved Date -->
-                <div class="ld3-card">
-
-                    <div class="ld3-card-icon" style="--ci:#0891b2;--cb:#cffafe;">
-
-                        <i class="ri-calendar-event-fill"></i>
-                    </div>
-
-                    <div class="ld3-card-body">
-
-                        <span class="ld3-card-label">
-                            Auditor Approved Date
-                        </span>
-
-                        <span class="ld3-card-val">
-                            {{ expenseResponse?.approvedByAuditDate || '--' }}
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <!-- Auditor Remarks -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#9333ea;--cb:#f3e8ff;">
-                        <i class="ri-chat-quote-line"></i>
-                    </div>
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">
-                            Auditor Remarks
-                        </span>
-                        <span class="ld3-card-val" style="white-space:normal;overflow:visible;text-overflow:unset;">
-                            {{ expenseResponse?.auditRemark ||
-                            expenseResponse?.auditRemarks || '--' }}
+                            <a *ngIf="expenseResponse?.supportingDocument" [href]="expenseResponse.supportingDocument"
+                                target="_blank" class="btn btn-xs btn-outline-primary py-0 px-2 small">View</a>
+                            <span *ngIf="!expenseResponse?.supportingDocument">--</span>
                         </span>
                     </div>
                 </div>
 
-                <!-- Manager Remarks -->
-                <div class="ld3-card">
-
-                    <div class="ld3-card-icon" style="--ci:#b45309;--cb:#fef3c7;">
-
-                        <i class="ri-chat-smile-2-line"></i>
+                <!-- Meeting Info -->
+                <div class="ld3-card span-2">
+                    <div class="ld3-card-icon" style="--ci:#dc2626;--cb:#fee2e2;"><i class="ri-file-text-line"></i>
                     </div>
-
                     <div class="ld3-card-body">
-
-                        <span class="ld3-card-label">
-                            Manager Remarks
-                        </span>
-
-                        <span class="ld3-card-val" style="white-space:normal;overflow:visible;text-overflow:unset;">
-
-                            {{ expenseResponse?.managerRemark || '--' }}
-
-                        </span>
-
+                        <span class="ld3-card-label">Meeting MOM</span>
+                        <span class="ld3-card-val wrap-text">{{ expenseResponse?.meetingMOM || '--' }}</span>
                     </div>
-
                 </div>
 
-                <!-- Remarks -->
                 <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#7c2d12;--cb:#ffedd5;">
-                        <i class="ri-chat-1-line"></i>
+                    <div class="ld3-card-icon" style="--ci:#16a34a;--cb:#dcfce7;"><i class="ri-calendar-event-line"></i>
                     </div>
                     <div class="ld3-card-body">
-                        <span class="ld3-card-label">
-                            Remarks
-                        </span>
-                        <span class="ld3-card-val" style="white-space:normal;overflow:visible;text-overflow:unset;">
-                            {{ expenseResponse?.remarks || '--' }}
-                        </span>
+                        <span class="ld3-card-label">Meeting ID</span>
+                        <span class="ld3-card-val">{{ expenseResponse?.meetingId || '--' }}</span>
+                    </div>
+                </div>
+
+                <!-- Locations -->
+                <div class="ld3-card full-width">
+                    <div class="ld3-card-icon" style="--ci:#0f766e;--cb:#ccfbf1;"><i class="ri-map-pin-line"></i></div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">In/Out Locations</span>
+                        <div class="small mt-1">
+                            <strong>IN:</strong> {{ expenseResponse?.checkedInLocation || '--' }}<br>
+                            <strong>OUT:</strong> {{ expenseResponse?.checkedOutLocation || '--' }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approvals & System Logs -->
+                <div class="ld3-card span-2">
+                    <div class="ld3-card-icon" style="--ci:#4b5563;--cb:#f3f4f6;"><i class="ri-history-line"></i></div>
+                    <div class="ld3-card-body w-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="ld3-card-label d-block text-uppercase"
+                                    style="font-size: 8px;">Created</span>
+                                <span class="ld3-card-val small">{{ expenseResponse?.expenseAddedBy ||
+                                    expenseResponse?.createdBy || '--' }} on {{ expenseResponse?.expenseAddedDate ||
+                                    '--' }}</span>
+                            </div>
+                            <div class="text-end border-start ps-3">
+                                <span class="ld3-card-label d-block text-uppercase"
+                                    style="font-size: 8px;">Modified</span>
+                                <span class="ld3-card-val small">{{ expenseResponse?.expenseEditedBy ||
+                                    expenseResponse?.modifiedBy || '--' }} on {{ expenseResponse?.expensEditDate ||
+                                    expenseResponse?.modifiedDate || '--' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#15803d;--cb:#dcfce7;"><i class="ri-shield-star-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Approvals</span>
+                        <div class="small" style="font-size: 10px;">
+                            Mgr: {{ expenseResponse?.approveByManagerName || '--' }}<br>
+                            Aud: {{ expenseResponse?.approvedByAuditorName || '--' }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Remarks Combined -->
+                <div class="ld3-card full-width">
+                    <div class="ld3-card-icon" style="--ci:#7c2d12;--cb:#ffedd5;"><i class="ri-chat-1-line"></i></div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Consolidated Remarks</span>
+                        <div class="small mt-1 d-flex gap-3">
+                            <div *ngIf="expenseResponse?.remarks"><strong>General:</strong> {{ expenseResponse?.remarks
+                                }}</div>
+                            <div *ngIf="expenseResponse?.auditRemark || expenseResponse?.auditRemarks">
+                                <strong>Audit:</strong> {{ expenseResponse?.auditRemark || expenseResponse?.auditRemarks
+                                }}
+                            </div>
+                            <div *ngIf="expenseResponse?.managerRemark"><strong>Manager:</strong> {{
+                                expenseResponse?.managerRemark }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -587,8 +204,8 @@
 
     <!-- Footer -->
     <div class="modal-footer border-0 px-4 pb-4">
-        <button type="button" class="btn btn-danger px-4 py-2 rounded-3" (click)="modalRef.hide()">
-            <i class="ri-money-rupee-circle-line me-2"></i> Close
+        <button type="button" class="btn btn-danger px-4 py-2 rounded-3 fw-bold" (click)="modalRef.hide()">
+            Close
         </button>
     </div>
 </ng-template>

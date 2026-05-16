@@ -2,7 +2,7 @@
   <div class="g4">
     <div class="kpi" style="--kc:var(--blue)">
       <div class="kpi-label">Total Customers</div>
-      <div class="kpi-val">284</div>
+      <div class="kpi-val">{{getCustomerCount?.customerCount}}</div>
       <div class="kpi-sub up">▲ +8 this month</div>
     </div>
     <div class="kpi" style="--kc:var(--green)">
@@ -27,7 +27,7 @@
         <div class="ci b">👤</div>
         <div class="card-title">Customer List</div>
         <button class="btn btn-primary" style="margin-left:auto;padding:5px 12px;font-size:11px"
-          [disabled]="isExportLoading" (click)="exportCustomers($event)">
+          [disabled]="isExportLoading" (click)="exportCustomers()">
           <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
           <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
         </button>
