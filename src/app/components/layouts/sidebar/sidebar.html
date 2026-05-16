@@ -8,27 +8,27 @@
   <div class="sb-scroll">
     <div class="sb-sec">Main</div>
     <div class="nav-item" [routerLink]="['/dashboard']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
-      (click)="onMenuClick('Dashboard')">
+      (click)="onMenuClick('Dashboard')" data-title="Dashboard">
       <div class="nav-icon">⊞</div><span class="nav-text">Dashboard</span>
     </div>
     <div class="nav-item" [routerLink]="['/customer']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
-      (click)="onMenuClick('customer')">
+      (click)="onMenuClick('customer')" data-title="Customer">
       <div class="nav-icon">👤</div><span class="nav-text">Customer</span>
     </div>
     <div class="nav-item" [routerLink]="['/lead']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
-      (click)="onMenuClick('Lead')">
+      (click)="onMenuClick('Lead')" data-title="Lead">
       <div class="nav-icon">◎</div><span class="nav-text">Lead</span>
     </div>
     <div class="nav-item" [routerLink]="['/meeting']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
-      (click)="onMenuClick('Meeting')">
+      (click)="onMenuClick('Meeting')" data-title="Meeting">
       <div class="nav-icon">◷</div><span class="nav-text">Meeting</span>
     </div>
     <div class="nav-item" [routerLink]="['/meeting-MOM']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
-      (click)="onMenuClick('meeting-MOM')">
+      (click)="onMenuClick('meeting-MOM')" data-title="Meeting MOM">
       <div class="nav-icon">📝</div><span class="nav-text">Meeting MOM</span>
     </div>
     <div class="nav-item" [routerLink]="['/call']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
-      (click)="onMenuClick('call')">
+      (click)="onMenuClick('call')" data-title="Call">
       <div class="nav-icon">☎</div><span class="nav-text">Call</span>
     </div>
 
@@ -37,25 +37,25 @@
       <div class="nav-icon">📄</div><span class="nav-text">Quotation - QMS V2</span>
     </div>-->
     <div class="nav-item" [routerLink]="['/pickup-request']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
-      (click)="onMenuClick('pickup-request')">
+      (click)="onMenuClick('pickup-request')" data-title="PRQ — Pickup Req">
       <div class="nav-icon">🚚</div><span class="nav-text">PRQ — Pickup Req</span>
     </div>
     <div class="nav-item" [routerLink]="['/expense']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
-      (click)="onMenuClick('expense')">
+      (click)="onMenuClick('expense')" data-title="Expense">
       <div class="nav-icon">💸</div><span class="nav-text">Expense</span>
     </div>
     <div class="nav-item" [routerLink]="['/general-master']" *ngIf="isSFMMasters?.ISSFMMASTER" routerLinkActive="active"
-      (click)="onMenuClick('expense-master')">
+      (click)="onMenuClick('expense-master')" data-title="Expense General Master">
       <div class="nav-icon">⚙</div><span class="nav-text">Expense General Master</span>
     </div>
     <div class="nav-item" [routerLink]="['/expense-approval']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
-      (click)="onMenuClick('expense-approval')">
+      (click)="onMenuClick('expense-approval')" data-title="Expense Approval">
       <div class="nav-icon">✔</div><span class="nav-text">Expense Approval</span>
     </div>
 
     <div class="sb-sec" *ngIf="isSFMMasters?.SFM==='Y'">Performance</div>
     <div class="nav-item" routerLinkActive="active" *ngIf="isSFMMasters?.SFM==='Y'" [routerLink]="['/payment']"
-      (click)="onMenuClick('payment')">
+      (click)="onMenuClick('payment')" data-title="Payment">
       <div class="nav-icon">📈</div><span class="nav-text">Payment</span>
     </div>
     <!-- <div class="nav-item" [routerLink]="['/sales-dashboard']" routerLinkActive="active"
@@ -73,14 +73,14 @@
 
     <div class="sb-sec" *ngIf="isSFMMasters?.SFM==='Y' || isSFMMasters?.COMPLAINT_MGNT==='Y'">Customer Service</div>
     <div class="nav-item" [routerLink]="['/complaint']" *ngIf="isSFMMasters?.COMPLAINT_MGNT==='Y'"
-      routerLinkActive="active" (click)="onMenuClick('complaint')">
+      routerLinkActive="active" (click)="onMenuClick('complaint')" data-title="Complaint (CCM)">
       <div class="nav-icon">🎫</div><span class="nav-text">Complaint (CCM)</span>
     </div>
     <!-- <div class="nav-item" [routerLink]="['/task']" routerLinkActive="active" (click)="onMenuClick('task')">
       <div class="nav-icon">✅</div><span class="nav-text">Task</span>
     </div> -->
     <div class="nav-item" [routerLink]="['/calendar']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
-      (click)="onMenuClick('calendar')">
+      (click)="onMenuClick('calendar')" data-title="My Calendar">
       <div class="nav-icon">📅</div><span class="nav-text">My Calendar</span>
     </div>
 

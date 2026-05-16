@@ -32,8 +32,7 @@ export class PaymentList {
     public commonService: CommonService,
     private exportService: ExportService,
     private identityService: IdentityService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
 
@@ -161,9 +160,7 @@ export class PaymentList {
   }
 
   downloadSelectedUTR() {
-
     const selectedData = this.paymentList.filter((item: any) => item.selected);
-
     if (selectedData.length === 0) {
       alert('Please select at least one record');
       return;

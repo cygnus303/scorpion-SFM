@@ -19,6 +19,23 @@
     position: relative;
     cursor: pointer;
     transition: all 0.2s;
+
+    // Tooltip on hover
+    &:hover::after {
+      content: attr(data-title);
+      position: fixed;
+      left: 270px;
+      background: #4e4359;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      white-space: nowrap;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+      opacity: 1;
+    }
   }
 }
 
@@ -26,6 +43,11 @@
 :host-context(.mini-sidebar) {
   .sidebar {
     width: 60px;
+
+    // Tooltip positioning for collapsed sidebar
+    .nav-item:hover::after {
+      left: 70px;
+    }
 
     .sb-logo-text,
     .sb-logo-sub,
@@ -74,22 +96,6 @@
         margin: 0 !important;
         display: block !important;
         line-height: 1 !important;
-      }
-
-      // Tooltip on hover
-      &:hover::after {
-        content: attr(data-title);
-        position: absolute;
-        left: 85px;
-        background: #4e4359;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 4px;
-        font-size: 12px;
-        white-space: nowrap;
-        z-index: 2000;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        pointer-events: none;
       }
 
       &.active {

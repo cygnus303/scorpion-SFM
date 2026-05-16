@@ -1,4 +1,4 @@
-import { Component, inject, PLATFORM_ID, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, PLATFORM_ID, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonService } from '../../../shared/services/common.service';
@@ -18,6 +18,7 @@ import { Subject, Subscription } from 'rxjs';
   styleUrl: './header.scss'
 })
 export class Header implements OnInit, OnDestroy {
+  @ViewChild('dateRangePicker') dateRangePickerComponent?: DateRangePickerComponent;
   public headerService = inject(HeaderService);
   public headerTitle$ = this.headerService.headerTitle$;
   public commonService = inject(CommonService);
@@ -265,5 +266,11 @@ export class Header implements OnInit, OnDestroy {
 
     const menuKey = routeToMenuKey[cleanUrl] || 'Dashboard';
     this.headerService.updateHeaderFromMenu(menuKey);
+  }
+
+  toggleDateRangePicker(event: MouseEvent) {
+    if (this.dateRangePickerComponent) {
+      this.dateRangePickerComponent.togglePicker(event);
+    }
   }
 }

@@ -34,12 +34,13 @@
   <div class="tc" [class.on]="activeQuickFilter === 'month'" (click)="setFilter('month')"
     *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM'">
     This Month</div>
-  <app-date-range-picker
+  <app-date-range-picker #dateRangePicker
     *ngIf="(headerTitle$ | async) !== 'My Calendar' && (headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM'"
     id="topbar-action" [bsValue]="selectedDateRange" (dateSelected)="onDateSelected($event)"></app-date-range-picker>
   <div class="selected-date-info"
     *ngIf="commonService.globalFilters.startDate && ((headerTitle$ | async) !== 'My Calendar' && ((headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment'&& (headerTitle$ | async) !==  'Meeting MOM'))"
-    style="color: #666; font-weight: 500; background: #f0f0f0; padding: 10px 17px; border-radius: 4px;">
+    (click)="toggleDateRangePicker($event)"
+    style="color: #666; font-weight: 500; background: #f0f0f0; padding: 10px 17px; border-radius: 4px; cursor: pointer;">
     {{ commonService.globalFilters.startDate }} - {{ commonService.globalFilters.endDate }}
   </div>
 

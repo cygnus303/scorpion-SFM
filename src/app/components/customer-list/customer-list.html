@@ -26,7 +26,7 @@
       <div class="card-head">
         <div class="ci b">👤</div>
         <div class="card-title">Customer List</div>
-        <button class="btn btn-primary" style="margin-left:auto;padding:5px 12px;font-size:11px"
+        <button class="btn btn-primary" style="margin-left:auto;"
           [disabled]="isExportLoading" (click)="exportCustomers()">
           <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
           <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
@@ -45,7 +45,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let customer of customers; let i = index">
-            <td><strong>{{customer.customerCode}}:{{ customer.customerName }}</strong><br></td>
+            <td><strong>{{customer.customerCode}}</strong> : {{ customer.customerName }}</td>
             <td>Mumbai N.</td>
             <td>Arjun S.</td>
             <td style="font-weight:600">₹{{customer.salesMonth ||0}}</td>
