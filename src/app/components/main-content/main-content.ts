@@ -17,7 +17,7 @@ export class MainContent {
   public leadPipeline: any;
   public prospectLeaderboard: any;
   public totalCount: any = {};
-    public router = inject(Router);
+  public router = inject(Router);
 
   private destroy$ = new Subject<void>();
 
@@ -50,6 +50,7 @@ export class MainContent {
     const params = {
       fromDate: this.formatDate(this.commonService.globalFilters.startDate),
       toDate: this.formatDate(this.commonService.globalFilters.endDate),
+      userId: this.commonService.globalFilters.UserID.toString(),
     }
 
     this.dashboardService.GetDashboardSummary(params).subscribe({
@@ -106,20 +107,20 @@ export class MainContent {
     });
   }
 
-formatAmount(value: number | null | undefined): string {
-  if (value == null || isNaN(value)) {
-    return '0';
+  formatAmount(value: number | null | undefined): string {
+    if (value == null || isNaN(value)) {
+      return '0';
+    }
+    if (value >= 10000000) {
+      return (value / 10000000).toFixed(2) + 'Cr';
+    } else if (value >= 100000) {
+      return (value / 100000).toFixed(2) + 'L';
+    } else if (value >= 1000) {
+      return (value / 1000).toFixed(2) + 'K';
+    } else {
+      return value.toFixed(2);
+    }
   }
-  if (value >= 10000000) {
-    return (value / 10000000).toFixed(2) + 'Cr';
-  } else if (value >= 100000) {
-    return (value / 100000).toFixed(2) + 'L';
-  } else if (value >= 1000) {
-    return (value / 1000).toFixed(2) + 'K';
-  } else {
-    return value.toFixed(2);
-  }
-}
 
   GetProspectLeaderboard() {
     const params = {

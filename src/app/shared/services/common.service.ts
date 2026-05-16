@@ -4,6 +4,7 @@ import { BehaviorSubject, debounceTime, distinctUntilChanged, Observable, Subjec
 import { IdentityService } from './identity.service';
 import { ExternalService } from './external.service';
 import { UserResponse } from '../models/meeting.model';
+import { IApiBaseResponse } from '../interfaces/api-base-action-response';
 
 @Injectable({
   providedIn: 'root'
@@ -80,8 +81,8 @@ export class CommonService {
     // You can emit this status through a subject if needed for UI components
   }
 
-  getMenu(): Observable<any> {
-    return this.apiHandlerService.Get('menu');
+  getMenu(): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Get(`External/Menu?userid=${this.identityService.getLoggedUserId()}`);
   }
 
   isLoading(): boolean {
@@ -112,13 +113,13 @@ export class CommonService {
     return `${d}/${m}/${y}`;
   }
 
-   isDateDisabled = (date: { year: number; month: number; day: number }) => {
+  isDateDisabled = (date: { year: number; month: number; day: number }) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Normalize today's date
-  
+
     const selectedDate = new Date(date.year, date.month - 1, date.day);
     selectedDate.setHours(0, 0, 0, 0); // Normalize selected date
-  
+
     return selectedDate < today; // Disable only past dates, allow today
   };
 }

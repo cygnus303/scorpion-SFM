@@ -119,7 +119,11 @@ export class Login implements OnInit {
           localStorage.setItem('loginUser', JSON.stringify(response.data));
           this.commonService.updateUserId(); // Update user ID after login
           this.toasterService.success('Login Successfully.');
-          this.router.navigateByUrl('/dashboard');
+          this.commonService.getMenu().subscribe((res) => {
+            localStorage.setItem('ISSFMMASTER', JSON.stringify(res.data[0]));
+            this.router.navigateByUrl('/dashboard');
+            this.identityService.setUserType()
+          });
           this.loading = false;
           setTimeout(() => {
             this.refreshToken();

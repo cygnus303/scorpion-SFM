@@ -12,6 +12,7 @@ import { HeaderService } from '../../../shared/services/header.service';
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
+  public isSFMMasters: any
   public commonService = inject(CommonService);
   public headerService = inject(HeaderService);
 
@@ -21,5 +22,9 @@ export class Sidebar {
 
   onMenuClick(menuKey: string) {
     this.headerService.updateHeaderFromMenu(menuKey);
+  }
+
+  ngOnInit(): void {
+    this.isSFMMasters = JSON.parse(localStorage.getItem('ISSFMMASTER') || '{}');
   }
 }
