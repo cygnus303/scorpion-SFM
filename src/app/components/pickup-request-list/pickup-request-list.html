@@ -1,27 +1,25 @@
 <!-- ══ PRQ ══ -->
 <div class="page active fade-in">
-<div class="kpi-row">
+  <div class="kpi-row">
 
-  <div class="kpi"
-       *ngFor="let card of PRQCard"
-        [style.border-top]="'3px solid ' + getCardColor(card.color)">
+    <div class="kpi" *ngFor="let card of PRQCard" [style.border-top]="'3px solid ' + getCardColor(card.color)">
 
-    <div class="kpi-label">
-      {{ card.codeDesc }}
-    </div>
+      <div class="kpi-label">
+        {{ card.codeDesc }}
+      </div>
 
-    <div class="kpi-val">
-      {{ card.cnt }}
-    </div>
+      <div class="kpi-val">
+        {{ card.cnt }}
+      </div>
 
-    <div class="kpi-sub dn">
-      <!-- Order : {{ card.ord }} -->
+      <div class="kpi-sub dn">
+        <!-- Order : {{ card.ord }} -->
+      </div>
+
     </div>
 
   </div>
-
-</div>
-  <div class="card s2">
+  <div class="card s2 no-hover">
     <div class="card-head">
       <div class="ci">🚚</div>
       <div class="card-title">Pickup Request List</div>
@@ -65,15 +63,33 @@
         <!-- Loading Skeleton -->
         <ng-container *ngIf="isLoading">
           <tr *ngFor="let i of [1,2,3,4,5]" class="skeleton-row">
-            <td><div class="skel"></div></td>
-            <td><div class="skel"></div></td>
-            <td><div class="skel" style="width:80%"></div></td>
-            <td><div class="skel" style="width:60%"></div></td>
-            <td><div class="skel" style="width:60%"></div></td>
-            <td><div class="skel" style="width:70%"></div></td>
-            <td><div class="skel" style="width:65%"></div></td>
-            <td><div class="skel skel-pill" style="width:55%"></div></td>
-            <td><div class="skel" style="width:48px; height:24px; border-radius:4px;"></div></td>
+            <td>
+              <div class="skel"></div>
+            </td>
+            <td>
+              <div class="skel"></div>
+            </td>
+            <td>
+              <div class="skel" style="width:80%"></div>
+            </td>
+            <td>
+              <div class="skel" style="width:60%"></div>
+            </td>
+            <td>
+              <div class="skel" style="width:60%"></div>
+            </td>
+            <td>
+              <div class="skel" style="width:70%"></div>
+            </td>
+            <td>
+              <div class="skel" style="width:65%"></div>
+            </td>
+            <td>
+              <div class="skel skel-pill" style="width:55%"></div>
+            </td>
+            <td>
+              <div class="skel" style="width:48px; height:24px; border-radius:4px;"></div>
+            </td>
           </tr>
         </ng-container>
 
@@ -86,7 +102,7 @@
         </tr>
 
         <!-- Data Rows -->
-        <tr *ngFor="let data of PRQList" >
+        <tr *ngFor="let data of PRQList">
           <td><strong>{{data.indentStatus}}</strong></td>
           <td>{{data.indentNo}}</td>
           <td>{{data.customerCode}}:{{data.customer_Name}}</td>

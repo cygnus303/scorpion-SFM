@@ -136,3 +136,10 @@ export interface MeetingCheckInRequest {
   lat: number,
   lng: number
 }
+
+export interface TodayScheduleData {
+  meetingTime: string;
+  title: string;
+  subText: string;
+  status: string;
+}

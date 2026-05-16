@@ -22,12 +22,12 @@
     </div>
   </div>
   <div class="g2">
-    <div class="card">
+    <div class="card no-hover">
       <div class="card-head">
         <div class="ci b">👤</div>
         <div class="card-title">Customer List</div>
-        <button class="btn btn-primary" style="margin-left:auto;"
-          [disabled]="isExportLoading" (click)="exportCustomers()">
+        <button class="btn btn-primary" style="margin-left:auto;" [disabled]="isExportLoading"
+          (click)="exportCustomers()">
           <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
           <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
         </button>
@@ -46,8 +46,8 @@
         <tbody>
           <tr *ngFor="let customer of customers; let i = index">
             <td><strong>{{customer.customerCode}}</strong> : {{ customer.customerName }}</td>
-            <td>Mumbai N.</td>
-            <td>Arjun S.</td>
+            <td>{{customer.newzone}}</td>
+            <td>{{customer.repName}}</td>
             <td style="font-weight:600">₹{{customer.salesMonth ||0}}</td>
             <td style="font-weight:600">₹{{customer.salesYear ||0}}</td>
             <td style="font-weight:600">₹{{customer.oSonDate ||0}}</td>
@@ -90,44 +90,20 @@
           <div class="card-title">Zone-wise Customer Count</div>
         </div>
         <div class="hbar">
-          <div class="hbr">
-            <div class="hbl">Mumbai North</div>
+          <div class="hbr" *ngFor="let zone of zoneWiseData">
+            <div class="hbl">{{ zone.zoneName }}</div>
             <div class="hbt">
-              <div class="hbf" style="width:76%;background:var(--red)"></div>
+              <div class="hbf" [style.width.%]="(zone.customerCount / maxCustomerCount) * 100"
+                [style.background]="getBarColor(zone.customerCount)"></div>
             </div>
-            <div class="hbv">84</div>
+            <div class="hbv">{{ zone.customerCount }}</div>
           </div>
-          <div class="hbr">
-            <div class="hbl">Mumbai South</div>
-            <div class="hbt">
-              <div class="hbf" style="width:67%;background:var(--red)"></div>
-            </div>
-            <div class="hbv">72</div>
-          </div>
-          <div class="hbr">
-            <div class="hbl">Thane / Navi</div>
-            <div class="hbt">
-              <div class="hbf" style="width:48%;background:var(--amber)"></div>
-            </div>
-            <div class="hbv">52</div>
-          </div>
-          <div class="hbr">
-            <div class="hbl">Pune</div>
-            <div class="hbt">
-              <div class="hbf" style="width:41%;background:var(--amber)"></div>
-            </div>
-            <div class="hbv">44</div>
-          </div>
-          <div class="hbr">
-            <div class="hbl">Nashik / Aurang.</div>
-            <div class="hbt">
-              <div class="hbf" style="width:30%;background:var(--text3)"></div>
-            </div>
-            <div class="hbv">32</div>
+          <div *ngIf="zoneWiseData.length === 0" class="text-center py-3 text-muted small">
+            No zone data available
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="card no-hover">
         <div class="card-head">
           <div class="ci">⭐</div>
           <div class="card-title">CSAT Health Summary</div>

@@ -8,7 +8,14 @@ export interface CustomerResponse {
   salesYear: number;
   oSonDate: number;
   leadId: string;
-  totalCount:number
+  totalCount: number;
+  repName: string;
+  newzone: string;
+}
+
+export interface ZoneWiseData {
+  zoneName: string;
+  customerCount: number;
 }
 export interface LeadCustomerResponse {
   leadId: string;
@@ -50,28 +57,28 @@ export interface AddCustomerRequest {
 }
 
 export interface CustomerFilter {
-  id: string;               
-  customerCount: number;    
-  totalSales: number;       
-  overdueOS: number;        
-  totalOS: number;          
-  nbd: number;              
+  id: string;
+  customerCount: number;
+  totalSales: number;
+  overdueOS: number;
+  totalOS: number;
+  nbd: number;
   lostCustomerCount: number;
   avgGP: number;
-  yield:number;           
+  yield: number;
 }
 
 export interface GetFilter {
-  count:number | string;
-  name:string; 
-  color:string;  
-  id?:number;       
+  count: number | string;
+  name: string;
+  color: string;
+  id?: number;
 }
 
-export interface CustomerDetailResponse{
-      CustomerCode:string,
-      ContactName:string,
-      Address:string,
-      ContactNo:string,
-      Email: string
+export interface CustomerDetailResponse {
+  CustomerCode: string,
+  ContactName: string,
+  Address: string,
+  ContactNo: string,
+  Email: string
 }

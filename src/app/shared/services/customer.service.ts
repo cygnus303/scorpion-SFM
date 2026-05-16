@@ -9,6 +9,7 @@ import {
   CustomerResponse,
   CustomersListResponse,
   LeadCustomerResponse,
+  ZoneWiseData,
 } from '../models/customer.model';
 import { ApiHandlerService } from './api-handler.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -102,5 +103,9 @@ export class CustomerService {
 
   getCustomerDetail(customerCode: string | undefined): Observable<IApiBaseResponse<CustomerDetailResponse[]>> {
     return this.apiHandlerService.Get(`Customer/CustomerDetail?customerCode=${customerCode}`);
+  }
+
+  getZoneWiseCustomerCount(userId: number): Observable<IApiBaseResponse<ZoneWiseData[]>> {
+    return this.apiHandlerService.Get(`Customer/zone-wise-count?userId=${userId}`);
   }
 }

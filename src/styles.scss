@@ -439,7 +439,14 @@ body {
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 16px;
-  box-shadow: var(--shadow)
+  box-shadow: var(--shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:not(.no-hover):hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    // border-color: var(--red);
+  }
 }
 
 .card-head {
@@ -574,7 +581,13 @@ body {
   border-radius: 10px;
   padding: 14px 16px;
   box-shadow: var(--shadow);
-  border-top: 3px solid var(--kc, var(--red))
+  border-top: 3px solid var(--kc, var(--red));
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
 }
 
 .kpi-label {
@@ -613,6 +626,14 @@ body {
 .mt {
   width: 100%;
   border-collapse: collapse
+}
+
+.mt tr {
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.02);
+  }
 }
 
 .mt th {
@@ -753,7 +774,16 @@ body {
 .fr {
   display: flex;
   align-items: center;
-  gap: 8px
+  gap: 8px;
+  padding: 2px 4px;
+  margin: 0 -4px;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+  }
 }
 
 .fl {
@@ -821,6 +851,21 @@ body {
   margin-top: 2px
 }
 
+.leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  margin: 0 -10px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+  }
+}
+
 /* ACCT HEALTH */
 .ar {
   display: flex;
@@ -878,8 +923,16 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 9px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border)
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s ease;
+  margin: 0 -10px;
+  border-radius: 6px;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+  }
 }
 
 .ai:last-child {

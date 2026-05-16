@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
+import { ZoneWiseData } from '../../shared/models/customer.model';
 
 @Component({
   selector: 'app-customer-list',
@@ -21,6 +22,8 @@ export class CustomerList {
   public loading: boolean = false;
   public isExportLoading = false;
   public getCustomerCount: any;
+  public zoneWiseData: ZoneWiseData[] = [];
+  public maxCustomerCount: number = 0;
 
   @Output() edit = new EventEmitter<CustomerResponse>()
   private destroy$ = new Subject<void>();
@@ -36,6 +39,7 @@ export class CustomerList {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getCustomers();
       this.getCustomerfilters();
+      this.getZoneWiseCustomerCount();
     });
   }
 
@@ -102,5 +106,27 @@ export class CustomerList {
         this.getCustomerCount = response.data;
       }
     });
+  }
+
+  getZoneWiseCustomerCount() {
+    const userId = this.commonService.globalFilters.UserID;
+    this.customerService.getZoneWiseCustomerCount(userId).subscribe({
+      next: (response) => {
+        if (response && response.data) {
+          this.zoneWiseData = response.data;
+          this.maxCustomerCount = Math.max(...this.zoneWiseData.map(z => z.customerCount), 1);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching zone-wise count:', error);
+      }
+    });
+  }
+
+  getBarColor(count: number): string {
+    const percentage = (count / this.maxCustomerCount) * 100;
+    if (percentage > 70) return 'var(--red)';
+    if (percentage > 40) return 'var(--amber)';
+    return 'var(--text3)';
   }
 }

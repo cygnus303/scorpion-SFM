@@ -3,7 +3,7 @@ import { ApiHandlerService } from './api-handler.service';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IApiBaseResponse } from '../interfaces/api-base-action-response';
-import { AddMeetingRequest, MeetingCountDayWise, MeetingDetailResponse, MeetingMoMResponse, MeetingResponse } from '../models/meeting.model';
+import { AddMeetingRequest, MeetingCountDayWise, MeetingDetailResponse, MeetingMoMResponse, MeetingResponse, TodayScheduleData } from '../models/meeting.model';
 import { CommonResponse } from '../models/common.model';
 import { CustomersListResponse } from '../models/customer.model';
 
@@ -98,6 +98,10 @@ export class MeetingService {
   }
 
   meetingCard(params: any): Observable<any> {
-      return this.apiHandlerService.Get(`Meeting/GetMeetingDashboard?startDate=${params.startDate}&endDate=${params.endDate}&userID=${params.userId}`);
+    return this.apiHandlerService.Get(`Meeting/GetMeetingDashboard?startDate=${params.startDate}&endDate=${params.endDate}&userID=${params.userId}`);
+  }
+
+  getTodaySchedule(userId: string): Observable<IApiBaseResponse<TodayScheduleData[]>> {
+    return this.apiHandlerService.Get(`Meeting/today-schedule?userId=${userId}`);
   }
 }

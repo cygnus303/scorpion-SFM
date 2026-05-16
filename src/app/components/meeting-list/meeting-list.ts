@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MeetingResponse } from '../../shared/models/meeting.model';
+import { MeetingResponse, TodayScheduleData } from '../../shared/models/meeting.model';
 import { MeetingService } from '../../shared/services/meeting.service';
 import { CommonService } from '../../shared/services/common.service';
 import { IdentityService } from '../../shared/services/identity.service';
@@ -30,6 +30,7 @@ export class MeetingList implements OnInit, OnDestroy {
   public checkOutValue: any;
   public isExportLoading: boolean = false;
   public meetingCard: any;
+  public todaySchedule: TodayScheduleData[] = [];
 
   @ViewChild('addMeeting') addMeeting!: AddMeeting;
   @ViewChild('meetingDetail') meetingDetail!: MeetingDetail;
@@ -48,6 +49,7 @@ export class MeetingList implements OnInit, OnDestroy {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getMeetings();
       this.onMeetingCard();
+      this.fetchTodaySchedule();
     });
     this.commonService.getUsers()
   }
@@ -189,5 +191,36 @@ export class MeetingList implements OnInit, OnDestroy {
 
   getOutcomeWidth(value: number): string {
     return `${this.getOutcomePercentage(value)}%`;
+  }
+
+  fetchTodaySchedule() {
+    const userId = this.commonService.globalFilters.UserID.toString();
+    this.meetingService.getTodaySchedule(userId).subscribe({
+      next: (response) => {
+        if (response && response.data) {
+          this.todaySchedule = response.data;
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching today schedule:', error);
+      }
+    });
+  }
+
+  getDotClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'completed': return 'green';
+      case 'in progress': return 'amber';
+      case 'upcoming': return '';
+      default: return '';
+    }
+  }
+
+  getDotContent(status: string, index: number): string {
+    switch (status.toLowerCase()) {
+      case 'completed': return '✓';
+      case 'in progress': return '!';
+      default: return (index + 1).toString();
+    }
   }
 }

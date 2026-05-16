@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="g2">
-    <div class="card">
+    <div class="card no-hover">
       <div class="card-head">
         <div class="ci b text-light">◷</div>
         <div style="margin-left:auto; display:flex; gap:8px;">
@@ -191,26 +191,18 @@
           <div class="card-title">Today's Schedule</div>
         </div>
         <div class="tl">
-          <div class="tl-item">
-            <div class="tl-dot green">✓</div>
+          <div class="tl-item" *ngFor="let item of todaySchedule; let i = index">
+            <div class="tl-dot" [ngClass]="getDotClass(item.status)"
+              [style.border-color]="!getDotClass(item.status) ? 'var(--border)' : ''">
+              {{ getDotContent(item.status, i) }}
+            </div>
             <div class="tl-content">
-              <div class="tl-title">10:00 AM — Reliance Freight (Arjun S.)</div>
-              <div class="tl-meta">Rate negotiation · Completed</div>
+              <div class="tl-title">{{ item.meetingTime }} — {{ item.title }}</div>
+              <div class="tl-meta">{{ item.subText }} · {{ item.status }}</div>
             </div>
           </div>
-          <div class="tl-item">
-            <div class="tl-dot amber">!</div>
-            <div class="tl-content">
-              <div class="tl-title">2:30 PM — Nexus Logistics (Priya M.)</div>
-              <div class="tl-meta">New business pitch · In progress</div>
-            </div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot" style="border-color:var(--border)">4</div>
-            <div class="tl-content">
-              <div class="tl-title">4:00 PM — SkyBridge Logistics (Karan M.)</div>
-              <div class="tl-meta">Contract discussion · Upcoming</div>
-            </div>
+          <div *ngIf="todaySchedule.length === 0" class="text-center py-3 text-muted small">
+            No meetings scheduled for today
           </div>
         </div>
       </div>
