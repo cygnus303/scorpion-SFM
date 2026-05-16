@@ -49,8 +49,8 @@ export class MeetingList implements OnInit, OnDestroy {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getMeetings();
       this.onMeetingCard();
-      this.fetchTodaySchedule();
     });
+    this.fetchTodaySchedule();
     this.commonService.getUsers()
   }
 

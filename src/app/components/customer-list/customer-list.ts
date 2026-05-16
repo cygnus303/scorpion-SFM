@@ -39,8 +39,8 @@ export class CustomerList {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getCustomers();
       this.getCustomerfilters();
-      this.getZoneWiseCustomerCount();
     });
+    this.getZoneWiseCustomerCount();
   }
 
   ngOnDestroy(): void {
