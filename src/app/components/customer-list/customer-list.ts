@@ -71,6 +71,7 @@ export class CustomerList {
   }
 
   getCustomers(page: number = this.commonService.globalFilters.Page) {
+    this.loading =true;
     this.commonService.globalFilters.Page = page;
     const filters: any = {
       Page: this.commonService.globalFilters.Page.toString(),
@@ -86,8 +87,10 @@ export class CustomerList {
           this.customers = response.data;
           this.totalItems = response.totalCount;
         }
+          this.loading =false;
       },
       error: (response: any) => {
+        this.loading =false;
         this.sweetAlertService.error(response);
       },
     });

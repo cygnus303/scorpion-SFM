@@ -151,7 +151,7 @@ export class PaymentList {
 
       },
       error: (response: any) => {
-        this.sweetAlertService.error(response);
+        this.sweetAlertService.error(response.error.message);
         this.commonService.updateLoader(false);
         this.isdownloadLoading = false;
 

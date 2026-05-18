@@ -26,6 +26,14 @@ export class AddPrq {
   public PRQType: string = '';
   public emailData: any[] = [];
   public customerData: any[] = [];
+  public isCustomerLoading: boolean = false;
+  public isEmailLoading: boolean = false;
+  public isPincodeLoading: boolean = false;
+  public isDestPincodeLoading: boolean = false;
+  public customerNotFoundText: string = 'Please enter 3 more characters';
+  public emailNotFoundText: string = 'Please enter 3 more characters';
+  public pincodeNotFoundText: string = 'Please enter 3 more characters';
+  public destPincodeNotFoundText: string = 'Please enter 3 more characters';
   public searchSubject: Subject<string> = new Subject<string>();
   public customerSearchSubject: Subject<string> = new Subject<string>();
   public pincodeSearchSubject: Subject<string> = new Subject<string>();
@@ -53,46 +61,82 @@ export class AddPrq {
   ngOnInit(): void {
     this.initForm();
     // Email Search Subscription
-    this.searchSubject.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((term: string) => {
-      if (term?.trim()) {
-        this.prqService.getEmailList(term).subscribe((res: any) => {
-          this.emailData = res.data;
+    this.searchSubject.pipe(debounceTime(400)).subscribe((term: string) => {
+      if (term?.trim() && term.length >= 3) {
+        this.isEmailLoading = true;
+        this.prqService.getEmailList(term).subscribe({
+          next: (res: any) => {
+            this.emailData = res?.data || [];
+            this.isEmailLoading = false;
+          },
+          error: () => {
+            this.emailData = [];
+            this.isEmailLoading = false;
+          }
         });
       } else {
         this.emailData = [];
+        this.isEmailLoading = false;
       }
     });
 
     // Customer Search Subscription
-    this.customerSearchSubject.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((term: string) => {
+    this.customerSearchSubject.pipe(debounceTime(400)).subscribe((term: string) => {
       if (term?.trim() && term.length >= 3) {
-        this.prqService.getCustomerList(term).subscribe((res: any) => {
-          this.customerData = res.data;
+        this.isCustomerLoading = true;
+        this.prqService.getCustomerList(term).subscribe({
+          next: (res: any) => {
+            this.customerData = res?.data || [];
+            this.isCustomerLoading = false;
+          },
+          error: () => {
+            this.customerData = [];
+            this.isCustomerLoading = false;
+          }
         });
       } else {
         this.customerData = [];
+        this.isCustomerLoading = false;
       }
     });
 
     // Pincode Search Subscription
-    this.pincodeSearchSubject.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((term: string) => {
+    this.pincodeSearchSubject.pipe(debounceTime(400)).subscribe((term: string) => {
       if (term?.trim() && term.length >= 3) {
-        this.prqService.getCityPincodeDetails(term).subscribe((res: any) => {
-          this.pincodeData = res.data;
+        this.isPincodeLoading = true;
+        this.prqService.getCityPincodeDetails(term).subscribe({
+          next: (res: any) => {
+            this.pincodeData = res.data || [];
+            this.isPincodeLoading = false;
+          },
+          error: () => {
+            this.pincodeData = [];
+            this.isPincodeLoading = false;
+          }
         });
       } else {
         this.pincodeData = [];
+        this.isPincodeLoading = false;
       }
     });
 
     // Destination Pincode Search Subscription
-    this.destPincodeSearchSubject.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((term: string) => {
+    this.destPincodeSearchSubject.pipe(debounceTime(400)).subscribe((term: string) => {
       if (term?.trim() && term.length >= 3) {
-        this.prqService.getCityPincodeDetails(term).subscribe((res: any) => {
-          this.destPincodeData = res.data;
+        this.isDestPincodeLoading = true;
+        this.prqService.getCityPincodeDetails(term).subscribe({
+          next: (res: any) => {
+            this.destPincodeData = res.data || [];
+            this.isDestPincodeLoading = false;
+          },
+          error: () => {
+            this.destPincodeData = [];
+            this.isDestPincodeLoading = false;
+          }
         });
       } else {
         this.destPincodeData = [];
+        this.isDestPincodeLoading = false;
       }
     });
   }
@@ -158,22 +202,66 @@ export class AddPrq {
   onClose() {
     this.modalRef.hide();
     this.initForm();
+    this.customerData = [];
+    this.customerNotFoundText = 'Please enter 3 more characters';
+    this.emailData = [];
+    this.emailNotFoundText = 'Please enter 3 more characters';
+    this.pincodeData = [];
+    this.destPincodeData = [];
+    this.pincodeNotFoundText = 'Please enter 3 more characters';
+    this.destPincodeNotFoundText = 'Please enter 3 more characters';
   }
 
   getEmailList(event: any) {
-    this.searchSubject.next(event.term);
+    const term = event.term?.trim();
+    if (term && term.length >= 3) {
+      this.emailNotFoundText = 'No data found';
+      this.isEmailLoading = true;
+      this.searchSubject.next(term);
+    } else {
+      this.emailNotFoundText = 'Please enter 3 more characters';
+      this.emailData = [];
+      this.isEmailLoading = false;
+    }
   }
 
   getCustomerList(event: any) {
-    this.customerSearchSubject.next(event.term);
+    const term = event.term?.trim();
+    if (term && term.length >= 3) {
+      this.customerNotFoundText = 'No data found';
+      this.isCustomerLoading = true;
+      this.customerSearchSubject.next(term);
+    } else {
+      this.customerNotFoundText = 'Please enter 3 more characters';
+      this.customerData = [];
+      this.isCustomerLoading = false;
+    }
   }
 
   getPincodeList(event: any) {
-    this.pincodeSearchSubject.next(event.term);
+    const term = event.term?.trim();
+    if (term && term.length >= 3) {
+      this.pincodeNotFoundText = 'No data found';
+      this.isPincodeLoading = true;
+      this.pincodeSearchSubject.next(term);
+    } else {
+      this.pincodeNotFoundText = 'Please enter 3 more characters';
+      this.pincodeData = [];
+      this.isPincodeLoading = false;
+    }
   }
 
   getDestPincodeList(event: any) {
-    this.destPincodeSearchSubject.next(event.term);
+    const term = event.term?.trim();
+    if (term && term.length >= 3) {
+      this.destPincodeNotFoundText = 'No data found';
+      this.isDestPincodeLoading = true;
+      this.destPincodeSearchSubject.next(term);
+    } else {
+      this.destPincodeNotFoundText = 'Please enter 3 more characters';
+      this.destPincodeData = [];
+      this.isDestPincodeLoading = false;
+    }
   }
 
   getProductType(searchText: string | null = null) {
@@ -197,18 +285,31 @@ export class AddPrq {
   }
 
   onChangeCustomer(event: any) {
-    this.prqService.getCustomerDetails(event).subscribe((res: any) => {
-      if (res.success && res.data && res.data.length > 0) {
-        const detail = res.data[0];
-        this.prqForm.patchValue({
-          customer_Name: detail.custnm,
-          customer_KRM: detail.name
-        });
-      }
-    });
+    this.customerData = [];
+    this.customerNotFoundText = 'Please enter 3 more characters';
+    if (event) {
+      this.prqService.getCustomerDetails(event).subscribe({
+        next: (res: any) => {
+          if (res.success && res.data && res.data.length > 0) {
+            const detail = res.data[0];
+            this.prqForm.patchValue({
+              customer_Name: detail.custnm,
+              customer_KRM: detail.name
+            });
+          }
+        },
+      });
+    }
+  }
+
+  onChangeEmail() {
+    this.emailData = [];
+    this.emailNotFoundText = 'Please enter 3 more characters';
   }
 
   onChangePincode(event: any) {
+    this.pincodeData = [];
+    this.pincodeNotFoundText = 'Please enter 3 more characters';
     this.prqService.getBranchCityFromPincode(event).subscribe((res: any) => {
       if (res.success && res.data && res.data.length > 0) {
         const loc = res.data[0];
@@ -222,6 +323,8 @@ export class AddPrq {
   }
 
   onChangeDestPincode(event: any) {
+    this.destPincodeData = [];
+    this.destPincodeNotFoundText = 'Please enter 3 more characters';
     this.prqService.getBranchCityFromPincode(event).subscribe((res: any) => {
       if (res.success && res.data && res.data.length > 0) {
         const loc = res.data[0];

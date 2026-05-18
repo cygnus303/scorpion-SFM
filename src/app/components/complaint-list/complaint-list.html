@@ -114,7 +114,6 @@
                         style="width:30px; height:30px; background:var(--red); color:white;" [popover]="'Edit'"
                         placement="auto" triggers="hover" [outsideClick]="true" container="body"
                         [ngClass]="{'disabled-image': complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'}"
-                        [disabled]="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'"
                         (click)="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes' ? null : openAddTicketModal('Update',complaint.complaintID)">
                         <i class="ri-pencil-fill"></i>
                       </button>
@@ -130,7 +129,6 @@
                         style="width:30px; height:30px; background:transparent; border:none; padding:0"
                         [popover]="'Closed'" placement="auto" triggers="hover" [outsideClick]="true" container="body"
                         [ngClass]="{'disabled-image': complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'}"
-                        [disabled]="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'"
                         (click)="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes' ? null : openAddTicketModal('Close', complaint.complaintID)">
                         <img src="./assets/images/closed-icon.png"
                           style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />
@@ -141,7 +139,6 @@
                         [popover]="'Escalation'" placement="auto" triggers="hover" [outsideClick]="true"
                         container="body"
                         [ngClass]="{'disabled-image': complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'}"
-                        [disabled]="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes'"
                         (click)="complaint.compaintStatus === 'Closed' || complaint.autoClosure === 'Yes' ? null : openAddTicketModal('Escalation',complaint.complaintID)">
                         <img src="./assets/images/escalation-icon.jpg"
                           style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />

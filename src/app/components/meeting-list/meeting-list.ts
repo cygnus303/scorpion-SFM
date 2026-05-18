@@ -95,6 +95,8 @@ export class MeetingList implements OnInit, OnDestroy {
   onDataEmitter() {
     this.getMeetings();
     this.onMeetingCard();
+    this.fetchMeetingOutcomes();
+    this.fetchTodaySchedule();
   }
 
   // getMeetingDetails(id: string, mode: 'edit' | 'view' = 'edit') {

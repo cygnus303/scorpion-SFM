@@ -35,8 +35,10 @@
                         <label> Customer Code <span style="color:var(--red)">*</span></label>
                         <ng-select [items]="customerData" bindLabel="text" bindValue="id" appendTo="body"
                             placeholder="Search Customer Code..." [clearable]="true" [searchable]="true"
-                            (search)="getCustomerList($event)" (change)="onChangeCustomer($event?.id)"
-                            formControlName="customerCode" notFoundText="Search Customer Code..." [ngClass]="{
+                            [loading]="isCustomerLoading" (search)="getCustomerList($event)"
+                            (change)="onChangeCustomer($event?.id)" formControlName="customerCode"
+                            [notFoundText]="customerNotFoundText"
+                            typeToSearchText="Please type 3 or more characters to search..." [ngClass]="{
                           'border-danger':
                           prqForm.get('customerCode')?.touched &&
                           prqForm.get('customerCode')?.invalid
@@ -74,10 +76,11 @@
                     <div class="fg" style="margin-bottom:0">
                         <label>Email <span style="color:var(--red)">*</span></label>
                         <ng-select [items]="emailData" bindLabel="text" bindValue="id" placeholder="Search Email..."
-                            [multiple]="true" [clearable]="true" [searchable]="true" (search)="getEmailList($event)"
-                            formControlName="emailID" appendTo="body"
+                            [multiple]="true" [clearable]="true" [searchable]="true" [loading]="isEmailLoading"
+                            (search)="getEmailList($event)" formControlName="emailID" appendTo="body"
                             [ngClass]="{ 'border-danger': prqForm.controls['emailID'].invalid && prqForm.controls['emailID'].touched}"
-                            notFoundText="Search Email...">
+                            [notFoundText]="emailNotFoundText" (change)="onChangeEmail()"
+                            typeToSearchText="Please type 3 or more characters to search...">
                         </ng-select>
                         <div class="text-danger small mt-1"
                             *ngIf="prqForm.get('emailID')?.touched &&prqForm.get('emailID')?.invalid">
@@ -87,10 +90,10 @@
                     <div class="fg" style="margin-bottom:0">
                         <label>Pickup Pin Code <span style="color:var(--red)">*</span></label>
                         <ng-select [items]="pincodeData" bindLabel="text" bindValue="id" placeholder="Pin Code"
-                            [clearable]="true" [searchable]="true" (search)="getPincodeList($event)"
-                            (change)="onChangePincode($event.id)" formControlName="pinCode"
-                            notFoundText='Please enter 2 more characters' appendTo="body"
-                            typeToSearchText='Please enter 2 more characters'
+                            [clearable]="true" [searchable]="true" [loading]="isPincodeLoading"
+                            (search)="getPincodeList($event)" (change)="onChangePincode($event?.id)"
+                            formControlName="pinCode" [notFoundText]="pincodeNotFoundText" appendTo="body"
+                            typeToSearchText="Please type 3 or more characters to search..."
                             [ngClass]="{ 'border-danger': prqForm.controls['pinCode'].invalid && prqForm.controls['pinCode'].touched}">
                         </ng-select>
                         <div class="text-danger small mt-1"
@@ -148,10 +151,10 @@
                     <div class="fg" style="margin-bottom:0">
                         <label>Dest. Pin Code <span style="color:var(--red)">*</span></label>
                         <ng-select [items]="destPincodeData" bindLabel="text" bindValue="id" placeholder="Pin Code"
-                            [clearable]="true" [searchable]="true" (search)="getDestPincodeList($event)"
-                            (change)="onChangeDestPincode($event.id)" formControlName="desPincode"
-                            notFoundText='Please enter 2 more characters' appendTo="body"
-                            typeToSearchText='Please enter 2 more characters'
+                            [clearable]="true" [searchable]="true" [loading]="isDestPincodeLoading"
+                            (search)="getDestPincodeList($event)" (change)="onChangeDestPincode($event?.id)"
+                            formControlName="desPincode" [notFoundText]="destPincodeNotFoundText" appendTo="body"
+                            typeToSearchText="Please type 3 or more characters to search..."
                             [ngClass]="{ 'border-danger': prqForm.controls['desPincode'].invalid && prqForm.controls['desPincode'].touched}">
                         </ng-select>
                         <div class="text-danger small mt-1"

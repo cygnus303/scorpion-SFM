@@ -10,6 +10,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class ExpenseDetail {
   public modalRef!: BsModalRef;
+  public docModalRef!: BsModalRef;
   public modalService = inject(BsModalService);
   public expenseResponse: any = null;
   public isLoading: boolean = false;
@@ -17,6 +18,7 @@ export class ExpenseDetail {
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
   onClose() {
     this.modalRef?.hide();
+    this.docModalRef?.hide();
   }
 
   showPopup(apiCall: () => any) {
@@ -37,5 +39,9 @@ export class ExpenseDetail {
         this.onClose();
       },
     });
+  }
+
+  openPOD(template: TemplateRef<any>) {
+    this.docModalRef = this.modalService.show(template, { class: 'modal-md modal-dialog-centered' });
   }
 }
