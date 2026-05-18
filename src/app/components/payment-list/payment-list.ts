@@ -10,6 +10,7 @@ import { Payment } from '../../shared/services/payment';
 import { PaymentResponse } from '../../shared/models/payment.model';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { SweetAlertService } from '../../shared/services/sweet-alert.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-payment-list',
@@ -21,47 +22,56 @@ export class PaymentList {
   public showTable = true;
   public loading: boolean = false;
   public isdownloadLoading: boolean = false;
-  page = 1; // Current page number
-  pageSize = 10; // Number of items per page
   totalItems = 0; // Total number of items
   public paymentList: PaymentResponse[] = [];
-
+  private destroy$ = new Subject<void>();
   constructor(
     private paymentservice: Payment,
     private sweetAlertService: SweetAlertService,
     public commonService: CommonService,
     private exportService: ExportService,
     private identityService: IdentityService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
-
-    this.getPayment();
+    this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.getPayment();
+    });
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   toggleTable() {
     this.showTable = this.showTable;
   }
 
-  getPayment(page: number = 1) {
-    this.commonService.updateLoader(true);
-    this.paymentservice.getPaymentList().subscribe({
+  getPayment(page: number = this.commonService.globalFilters.Page) {
+    this.commonService.globalFilters.Page = page;
+    const filters = {
+      Page: this.commonService.globalFilters.Page.toString(),
+      PageSize: this.commonService.globalFilters.PageSize.toString(),
+      SearchFilter: this.commonService.globalFilters.searchText,
+    }
+    this.loading = true;
+    this.paymentservice.getPaymentList(filters).subscribe({
       next: (response: any) => {
         if (response) {
           this.paymentList = response.data;
           this.totalItems = response.totalCount;
         }
-        this.commonService.updateLoader(false);
+        this.loading = false;
       },
       error: (response: any) => {
-        this.sweetAlertService.error(response);
-        this.commonService.updateLoader(false);
+        this.sweetAlertService.error(response.error.message);
+        this.loading = false;
       },
     })
   }
 
-  downloadSampleImport(event: any) {
-    event.preventDefault();
+  downloadSampleImport() {
     this.paymentservice.downloadSample().subscribe({
       next: (response: Blob) => {
         const blob = new Blob([response], {
@@ -76,7 +86,6 @@ export class PaymentList {
       },
       error: (response: any) => {
         this.sweetAlertService.error(response);
-        this.commonService.updateLoader(false);
       },
     });
   }
@@ -133,8 +142,7 @@ export class PaymentList {
     });
   }
 
-  downloadExcel(event: any) {
-    event.preventDefault();
+  downloadExcel() {
     this.isdownloadLoading = true;
     this.paymentservice.DownloadExcel(this.identityService.getLoggedUserId()).subscribe({
       next: (response: Blob) => {
@@ -151,8 +159,7 @@ export class PaymentList {
 
       },
       error: (response: any) => {
-        this.sweetAlertService.error(response.error.message);
-        this.commonService.updateLoader(false);
+        this.sweetAlertService.error(response);
         this.isdownloadLoading = false;
 
       },
@@ -160,7 +167,9 @@ export class PaymentList {
   }
 
   downloadSelectedUTR() {
+
     const selectedData = this.paymentList.filter((item: any) => item.selected);
+
     if (selectedData.length === 0) {
       alert('Please select at least one record');
       return;
@@ -183,8 +192,20 @@ export class PaymentList {
     return this.paymentList.some((item: any) => item.selected);
   }
 
-  onPageChange(page: number) {
-    this.page = page;
-    this.getPayment(this.page);
+  getSelectedCount(): number {
+    return this.paymentList.filter((item: any) => item.selected).length;
+  }
+
+  selectAll(event: any): void {
+    const isChecked = event.target.checked;
+    this.paymentList.forEach(payment => payment.selected = isChecked);
+  }
+
+  isAllSelected(): boolean {
+    return this.paymentList.length > 0 && this.paymentList.every(payment => payment.selected);
+  }
+
+  onPageChange(event: any) {
+    this.getPayment(event.page);
   }
 }

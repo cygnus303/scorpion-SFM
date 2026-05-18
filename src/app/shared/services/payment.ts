@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
 export class Payment {
   constructor(@Inject(ApiHandlerService) private apiHandlerService: ApiHandlerService, private http: HttpClient) { }
 
-  getPaymentList(): Observable<IApiBaseResponse<PaymentResponse[]>> {
-    return this.apiHandlerService.Get('Expense/GetGeneratePaymentList');
+   getPaymentList(filters: any): Observable<IApiBaseResponse<PaymentResponse[]>> {
+    return this.apiHandlerService.Get('Expense/GetGeneratePaymentList', filters);
   }
 
   uploadExcel(formData: any): Observable<IApiBaseResponse<any>> {
