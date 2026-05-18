@@ -69,7 +69,7 @@ export class CustomerService {
   }
 
   getCustomerfilters(filters: any): Observable<IApiBaseResponse<CustomerFilter>> {
-    return this.apiHandlerService.Get('Dashboard/', filters);
+    return this.apiHandlerService.Get(`Dashboard/customer-summary-cards?userId=${filters.userId}&startDate=${filters.startDate}&endDate=${filters.endDate}`);
   }
 
   getCustomerdropdown(filters: any): Observable<IApiBaseResponse<CustomersListResponse>> {

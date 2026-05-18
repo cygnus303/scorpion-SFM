@@ -3,7 +3,7 @@ import { ApiHandlerService } from './api-handler.service';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IApiBaseResponse } from '../interfaces/api-base-action-response';
-import { AddMeetingRequest, MeetingCountDayWise, MeetingDetailResponse, MeetingMoMResponse, MeetingResponse, TodayScheduleData } from '../models/meeting.model';
+import { AddMeetingRequest, MeetingCountDayWise, MeetingDetailResponse, MeetingMoMResponse, MeetingResponse, TodayScheduleData, MeetingOutcome } from '../models/meeting.model';
 import { CommonResponse } from '../models/common.model';
 import { CustomersListResponse } from '../models/customer.model';
 
@@ -103,5 +103,9 @@ export class MeetingService {
 
   getTodaySchedule(userId: string): Observable<IApiBaseResponse<TodayScheduleData[]>> {
     return this.apiHandlerService.Get(`Meeting/today-schedule?userId=${userId}`);
+  }
+
+  getMeetingOutcomes(params: any): Observable<IApiBaseResponse<MeetingOutcome[]>> {
+    return this.apiHandlerService.Get(`Meeting/MeetingOutcomes?userId=${params.userId}&startDate=${params.startDate}&endDate=${params.endDate}`);
   }
 }

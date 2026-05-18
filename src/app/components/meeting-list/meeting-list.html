@@ -92,7 +92,8 @@
                     <li class="d-flex px-2 gap-2">
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:30px; height:30px; background:var(--red); color:white;"
-                        (click)="openMeetingModal('Update', meeting.attendeeCode, meeting.checkOut)" [popover]="'Edit'"
+                        [ngClass]="{'disabled-image': meeting.isExpired || meeting.isComplete}"
+                        (click)="meeting.isExpired || meeting.isComplete ? null : openMeetingModal('Update', meeting.attendeeCode, meeting.checkOut)" [popover]="'Edit'"
                         placement="left" triggers="hover" [outsideClick]="true" container="body">
                         <i class="ri-pencil-fill"></i>
                       </button>
@@ -159,29 +160,16 @@
           <div class="card-title">Meeting Outcomes</div>
         </div>
         <div class="hbar">
-          <div class="hbr">
-            <div class="hbl">Positive / Won</div>
+          <div class="hbr" *ngFor="let item of meetingOutcomes">
+            <div class="hbl">{{ item.outcomeName }}</div>
             <div class="hbt">
-              <div class="hbf" [style.width]="getOutcomeWidth(meetingCard?.outcome?.positiveWon)"
-                style="background:var(--green)"></div>
+              <div class="hbf" [style.width.%]="item.percentage"
+                [style.background]="getOutcomeColor(item.outcomeName)"></div>
             </div>
-            <div class="hbv up">{{getOutcomePercentage(meetingCard?.outcome?.positiveWon)}}%</div>
+            <div class="hbv" [ngClass]="getOutcomeClass(item.outcomeName)">{{ item.percentage }}%</div>
           </div>
-          <div class="hbr">
-            <div class="hbl">Follow-up req.</div>
-            <div class="hbt">
-              <div class="hbf" [style.width]="getOutcomeWidth(meetingCard?.outcome?.followUp)"
-                style="background:var(--amber)"></div>
-            </div>
-            <div class="hbv wn">{{getOutcomePercentage(meetingCard?.outcome?.followUp)}}%</div>
-          </div>
-          <div class="hbr">
-            <div class="hbl">No outcome</div>
-            <div class="hbt">
-              <div class="hbf" [style.width]="getOutcomeWidth(meetingCard?.outcome?.noOutcome)"
-                style="background:var(--red)"></div>
-            </div>
-            <div class="hbv dn">{{getOutcomePercentage(meetingCard?.outcome?.noOutcome)}}%</div>
+          <div *ngIf="meetingOutcomes.length === 0" class="text-center py-3 text-muted small">
+            No outcome data available
           </div>
         </div>
       </div>

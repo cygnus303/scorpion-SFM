@@ -2,22 +2,22 @@
   <div class="g4">
     <div class="kpi" style="--kc:var(--blue)">
       <div class="kpi-label">Total Customers</div>
-      <div class="kpi-val">{{getCustomerCount?.customerCount}}</div>
-      <div class="kpi-sub up">▲ +8 this month</div>
+      <div class="kpi-val">{{getCustomerCount?.totalCustomers}}</div>
+      <div class="kpi-sub up">▲ +{{getCustomerCount?.newThisMonth}} this month</div>
     </div>
     <div class="kpi" style="--kc:var(--green)">
       <div class="kpi-label">Active Accounts</div>
-      <div class="kpi-val">241</div>
-      <div class="kpi-sub up">85% retention</div>
+      <div class="kpi-val">{{getCustomerCount?.activeAccounts}}</div>
+      <div class="kpi-sub up">{{getCustomerCount?.retentionPct}}% retention</div>
     </div>
     <div class="kpi" style="--kc:var(--amber)">
       <div class="kpi-label">At Risk</div>
-      <div class="kpi-val">18</div>
-      <div class="kpi-sub wn">CSAT below 3.5</div>
+      <div class="kpi-val">{{getCustomerCount?.atRisk}}</div>
+      <div class="kpi-sub wn">CSAT below</div>
     </div>
     <div class="kpi" style="--kc:var(--red)">
       <div class="kpi-label">Churned MTD</div>
-      <div class="kpi-val">3</div>
+      <div class="kpi-val">{{getCustomerCount?.churnedMTD}}</div>
       <div class="kpi-sub dn">Needs review</div>
     </div>
   </div>

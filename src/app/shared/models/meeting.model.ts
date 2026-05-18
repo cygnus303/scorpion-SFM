@@ -143,3 +143,11 @@ export interface TodayScheduleData {
   subText: string;
   status: string;
 }
+
+export interface MeetingOutcome {
+  outcomeName: string;
+  outcomeId: number;
+  count: number;
+  percentage: number;
+}
+

@@ -225,7 +225,8 @@ export class AddMeeting implements OnInit, OnDestroy {
 
     this.meetingForm.patchValue({
       ...meeting,
-      meetingTypeId: meeting.meetingTypeId?.toString()
+      meetingTypeId: meeting.meetingTypeId?.toString(),
+      meetingOutcome: meeting.meetingOutcome?.toString()
     });
 
     this.updateRemarksValidator();
@@ -236,7 +237,7 @@ export class AddMeeting implements OnInit, OnDestroy {
   updateRemarksValidator() {
     const remarksControl = this.meetingForm.get('remarks');
     const meetingMOMControl = this.meetingForm.get('meetingMOM');
-    const meetingOutcomeControl = this.meetingForm.get('MeetingOutcome');
+    const meetingOutcomeControl = this.meetingForm.get('meetingOutcome');
     if (this.meetingId !== '' && this.checkOutValue !== '-') {
       remarksControl?.setValidators([Validators.required]);
       meetingMOMControl?.setValidators([Validators.required]);
@@ -275,7 +276,7 @@ export class AddMeeting implements OnInit, OnDestroy {
       isAllDayEvent: new FormControl(false),
       attendeeIDs: new FormControl([]),
       meetingMOM: new FormControl([]),
-      MeetingOutcome: new FormControl([]),
+      meetingOutcome: new FormControl(null),
       geoLocation: new FormControl(null),
       latitude: new FormControl(null),
       longitude: new FormControl(null),
@@ -431,7 +432,7 @@ export class AddMeeting implements OnInit, OnDestroy {
         ...form.value,
         attendeeIDs: form.value.attendeeIDs?.join(','),
         meetingMOM: form.value.meetingMOM?.join(','),
-        meetingOutcome: form.value.MeetingOutcome?.join(','),
+        meetingOutcome: Number(form.value.meetingOutcome),
         meetingDate: this.isMeetingList === 'Update' ? form.value.meetingDate : this.formatDate(form.value.meetingDate),
         customerCode: form.value.customerCode ? form.value.customerCode : customerCode,
         leadId: form.value.leadId ? form.value.leadId : '',

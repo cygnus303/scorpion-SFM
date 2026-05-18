@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MeetingResponse, TodayScheduleData } from '../../shared/models/meeting.model';
+import { MeetingResponse, TodayScheduleData, MeetingOutcome } from '../../shared/models/meeting.model';
 import { MeetingService } from '../../shared/services/meeting.service';
 import { CommonService } from '../../shared/services/common.service';
 import { IdentityService } from '../../shared/services/identity.service';
@@ -31,6 +31,7 @@ export class MeetingList implements OnInit, OnDestroy {
   public isExportLoading: boolean = false;
   public meetingCard: any;
   public todaySchedule: TodayScheduleData[] = [];
+  public meetingOutcomes: MeetingOutcome[] = [];
 
   @ViewChild('addMeeting') addMeeting!: AddMeeting;
   @ViewChild('meetingDetail') meetingDetail!: MeetingDetail;
@@ -49,6 +50,7 @@ export class MeetingList implements OnInit, OnDestroy {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getMeetings();
       this.onMeetingCard();
+      this.fetchMeetingOutcomes();
     });
     this.fetchTodaySchedule();
     this.commonService.getUsers()
@@ -223,4 +225,47 @@ export class MeetingList implements OnInit, OnDestroy {
       default: return (index + 1).toString();
     }
   }
+
+  fetchMeetingOutcomes() {
+    const params = {
+      startDate: this.commonService.globalFilters.startDate,
+      endDate: this.commonService.globalFilters.endDate,
+      userId: this.commonService.globalFilters.UserID.toString(),
+    };
+    this.meetingService.getMeetingOutcomes(params).subscribe({
+      next: (response) => {
+        if (response && response.data) {
+          this.meetingOutcomes = response.data;
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching meeting outcomes:', error);
+      }
+    });
+  }
+
+  getOutcomeColor(name: string): string {
+    if (!name) return 'var(--text3)';
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('positive') || lowerName.includes('won')) {
+      return 'var(--green)';
+    } else if (lowerName.includes('follow') || lowerName.includes('pending')) {
+      return 'var(--amber)';
+    } else {
+      return 'var(--red)';
+    }
+  }
+
+  getOutcomeClass(name: string): string {
+    if (!name) return '';
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('positive') || lowerName.includes('won')) {
+      return 'up';
+    } else if (lowerName.includes('follow') || lowerName.includes('pending')) {
+      return 'wn';
+    } else {
+      return 'dn';
+    }
+  }
 }
+

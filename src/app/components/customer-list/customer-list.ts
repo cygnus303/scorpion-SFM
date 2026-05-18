@@ -99,7 +99,9 @@ export class CustomerList {
 
   getCustomerfilters() {
     const filters: any = {
-      UserID: this.commonService.globalFilters.UserID.toString(),
+      userId: this.commonService.globalFilters.UserID.toString(),
+      startDate: this.commonService.globalFilters.startDate,
+      endDate: this.commonService.globalFilters.endDate
     };
     this.customerService.getCustomerfilters(filters).subscribe({
       next: (response) => {
