@@ -92,6 +92,7 @@ export class ExpenseApproval {
   showRejectModal(expense: ExpenseResponse, type: string): void {
     this.typeEvent = type;
     this.expenseList = expense;
+    this.isDefaultComment = '';
     this.modalRef = this.modalService.show(this.Templatepod, {
       class: 'modal-lg modal-dialog-centered modal-width',
       backdrop: true,
@@ -102,6 +103,7 @@ export class ExpenseApproval {
 
   openReasonSwal(type: string) {
     this.typeEvent = type;
+    this.isDefaultComment = '';
     this.modalRef = this.modalService.show(this.TemplateMultipleApproval, {
       class: 'modal-lg modal-dialog-centered modal-width',
       backdrop: true,
