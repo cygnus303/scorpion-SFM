@@ -117,7 +117,7 @@
       </tbody>
     </table>
     <!-- Pagination -->
-    <!-- <div class="d-flex justify-content-between align-items-center mt-3"
+    <div class="d-flex justify-content-between align-items-center mt-3"
         *ngIf="totalItems > commonService.globalFilters.PageSize">
         <div class="small text-muted">
           Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
@@ -129,7 +129,7 @@
           [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="onPageChange($event)" [maxSize]="5"
           [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
         </pagination>
-      </div> -->
+      </div>
   </div>
 </div>
 

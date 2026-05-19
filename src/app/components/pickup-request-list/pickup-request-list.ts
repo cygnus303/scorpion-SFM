@@ -79,11 +79,14 @@ formatDate = (dateStr: string) => {
     }).replace(',', '').toLowerCase();
   };
 
-  getPRQList() {
+  getPRQList(page: number = this.commonService.globalFilters.Page) {
     this.isLoading = true;
+     this.commonService.globalFilters.Page = page;
     const payload = {
       startDate: this.formatDate(this.commonService.globalFilters.startDate),
       endDate: this.formatDate(this.commonService.globalFilters.endDate),
+      Page:this.commonService.globalFilters.Page.toString(),
+      pageSize:this.commonService.globalFilters.PageSize.toString(),
       updateBy: this.commonService.globalFilters.UserID.toString(),
       baseLoc: this.identityService.getBranchCode(),
       type: "N",
@@ -94,6 +97,10 @@ formatDate = (dateStr: string) => {
       this.PRQList = response.data;
       this.totalItems = response.totalCount
     });
+  }
+
+  onPageChange(event:any){
+    this.getPRQList(event.page)
   }
 
   getCardColor(color: string): string {
