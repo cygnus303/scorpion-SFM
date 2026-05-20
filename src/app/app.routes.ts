@@ -48,9 +48,9 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', component: CsatDashboard },
-      { path: 'send', component: CsatSendSurvey },
-      { path: 'survey', component: CsatCustomerSurvey },
-      { path: 'log', component: CsatSurveyLog }
+      { path: 'send-survey', component: CsatSendSurvey },
+      { path: 'customer-survey', component: CsatCustomerSurvey },
+      { path: 'survey-log', component: CsatSurveyLog }
     ]
   },
   { path: 'task', component: TaskList, canActivate: [authGuard] },

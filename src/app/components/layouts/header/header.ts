@@ -256,6 +256,7 @@ export class Header implements OnInit, OnDestroy {
       'collection-dashboard': 'collection-dashboard',
       'cs-dashboard': 'cs-dashboard',
       'complaint': 'complaint',
+      'csat': 'CSAT',
       'task': 'task',
       'calendar': 'calendar',
       'training': 'training',
@@ -264,8 +265,12 @@ export class Header implements OnInit, OnDestroy {
       'payment': 'payment',
     };
 
-    const menuKey = routeToMenuKey[cleanUrl] || 'Dashboard';
-    this.headerService.updateHeaderFromMenu(menuKey);
+    let menuKey = routeToMenuKey[cleanUrl];
+    if (!menuKey && cleanUrl.startsWith('csat/')) {
+      menuKey = 'CSAT';
+    }
+    
+    this.headerService.updateHeaderFromMenu(menuKey || 'Dashboard');
   }
 
   toggleDateRangePicker(event: MouseEvent) {
