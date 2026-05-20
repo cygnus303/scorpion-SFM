@@ -1,3 +1,90 @@
 .file-upload {
     display: none;
 }
+
+/* Colorful Table Design */
+table.mt {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+
+    thead {
+        /* Beautiful colorful gradient for the header */
+        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+
+        th {
+            padding: 11px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #1e3a8a;
+            /* Deep blue text to contrast the pastel header */
+            border-bottom: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    tbody {
+        tr {
+            transition: all 0.2s ease;
+
+            &:nth-child(even) {
+                background-color: #fafbfc;
+                /* Subtle alternating row color */
+            }
+
+            &:hover {
+                background-color: #f0f7ff;
+                /* Nice blue hover effect */
+            }
+
+            td {
+                padding: 6px 10px;
+                font-size: 12px;
+                color: #334155;
+                border-bottom: 1px solid #f1f5f9;
+                vertical-align: middle;
+
+                strong {
+                    color: #0f172a;
+                    /* Darker name text */
+                }
+
+                .fw-semibold {
+                    color: #059669;
+                    /* Rich green color for Amounts */
+                }
+            }
+        }
+    }
+}
+
+/* Beautiful Status Pills */
+.pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.pill.pg {
+    /* Processed - Vibrant Green */
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    color: #15803d;
+    border: 1px solid #86efac;
+}
+
+.pill.pw {
+    /* Pending - Vibrant Orange/Amber */
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #b45309;
+    border: 1px solid #fcd34d;
+}
