@@ -20,6 +20,7 @@ import { TrainingHub } from './components/training-hub/training-hub';
 import { authGuard } from './shared/guards/auth.guard';
 import { PaymentList } from './components/payment-list/payment-list';
 import { MeetingMomList } from './components/meeting-mom-list/meeting-mom-list';
+import { CsatLayout } from './components/csat-layout/csat-layout';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -37,6 +38,7 @@ export const routes: Routes = [
   { path: 'collection-dashboard', component: CollectionDashboard, canActivate: [authGuard] },
   { path: 'cs-dashboard', component: CSLevelDashboard, canActivate: [authGuard] },
   { path: 'complaint', component: ComplaintList, canActivate: [authGuard] },
+  { path: 'csat', component: CsatLayout, canActivate: [authGuard] },
   { path: 'task', component: TaskList, canActivate: [authGuard] },
   { path: 'calendar', component: MyCalendar, canActivate: [authGuard] },
   { path: 'training', component: TrainingHub, canActivate: [authGuard] },
