@@ -1,1 +1,70 @@
-<p>csat-survey-log works!</p>
+<!-- ── TAB: LOG ── -->
+<div id="csat-panel-log">
+    <div class="card no-hover">
+        <div class="card-head">
+            <div class="ci dk">📋</div>
+            <div class="card-title">Survey Sent Log</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+            <input placeholder="Search by account..." style="flex:1;font-size:12px;padding:7px 10px">
+            <select style="font-size:12px;padding:7px 10px">
+                <option>All Status</option>
+                <option>Pending</option>
+                <option>Responded</option>
+                <option>Expired</option>
+            </select>
+            <select style="font-size:12px;padding:7px 10px">
+                <option>All Triggers</option>
+                <option>Post-Delivery</option>
+                <option>Post-Complaint</option>
+                <option>Monthly Review</option>
+            </select>
+        </div>
+        <table class="mt">
+            <thead>
+                <tr>
+                    <th>Account</th>
+                    <th>Sent To</th>
+                    <th>Trigger</th>
+                    <th>Sent By</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Score</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="csat-log-tbody">
+                <tr *ngFor="let s of surveys">
+                    <td><strong>{{ s.account }}</strong></td>
+                    <td style="color:var(--text3);font-size:11px">
+                        {{ s.email }}<br>
+                        <span style="font-size:10px">{{ s.contact }}</span>
+                    </td>
+                    <td><span class="pill pgy" style="font-size:10px">{{ s.trigger }}</span></td>
+                    <td style="color:var(--text3)">{{ s.sentBy }}</td>
+                    <td style="color:var(--text3)">{{ s.sentOn }}</td>
+                    <td>
+                        <span class="pill" [ngClass]="{
+                            'pg': s.status === 'Responded',
+                            'pa': s.status === 'Pending',
+                            'pr': s.status === 'Expired'
+                        }">{{ s.status }}</span>
+                    </td>
+                    <td>
+                        <span *ngIf="s.score; else noScore" style="font-size:13px;font-weight:700;"
+                            [style.color]="s.score >= 4 ? 'var(--green)' : s.score >= 3 ? 'var(--amber)' : 'var(--red)'">
+                            {{ s.score }} ★
+                        </span>
+                        <ng-template #noScore>—</ng-template>
+                    </td>
+                    <td>
+                        <button *ngIf="s.status === 'Pending'" class="btn btn-outline"
+                            style="font-size:10px;padding:2px 7px">Resend</button>
+                        <button *ngIf="s.status === 'Responded'" class="btn btn-outline"
+                            style="font-size:10px;padding:2px 7px">View</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
