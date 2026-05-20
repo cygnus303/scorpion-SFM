@@ -21,6 +21,10 @@ import { authGuard } from './shared/guards/auth.guard';
 import { PaymentList } from './components/payment-list/payment-list';
 import { MeetingMomList } from './components/meeting-mom-list/meeting-mom-list';
 import { CsatLayout } from './components/csat-layout/csat-layout';
+import { CsatDashboard } from './components/csat-layout/csat-dashboard/csat-dashboard';
+import { CsatSendSurvey } from './components/csat-layout/csat-send-survey/csat-send-survey';
+import { CsatCustomerSurvey } from './components/csat-layout/csat-customer-survey/csat-customer-survey';
+import { CsatSurveyLog } from './components/csat-layout/csat-survey-log/csat-survey-log';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -38,7 +42,17 @@ export const routes: Routes = [
   { path: 'collection-dashboard', component: CollectionDashboard, canActivate: [authGuard] },
   { path: 'cs-dashboard', component: CSLevelDashboard, canActivate: [authGuard] },
   { path: 'complaint', component: ComplaintList, canActivate: [authGuard] },
-  { path: 'csat', component: CsatLayout, canActivate: [authGuard] },
+  {
+    path: 'csat',
+    component: CsatLayout,
+    canActivate: [authGuard],
+    children: [
+      { path: '', component: CsatDashboard },
+      { path: 'send', component: CsatSendSurvey },
+      { path: 'survey', component: CsatCustomerSurvey },
+      { path: 'log', component: CsatSurveyLog }
+    ]
+  },
   { path: 'task', component: TaskList, canActivate: [authGuard] },
   { path: 'calendar', component: MyCalendar, canActivate: [authGuard] },
   { path: 'training', component: TrainingHub, canActivate: [authGuard] },

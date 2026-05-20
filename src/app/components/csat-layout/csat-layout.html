@@ -1,15 +1,12 @@
-<div
-    style="display:flex;gap:0;margin-bottom:18px;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content">
-    <button id="csat-tab-dashboard" class="btn"
-        style="border-radius:7px;font-size:12px;font-weight:600;padding:6px 16px;border:none;background:var(--red);color:#fff"
-        onclick="csatTab('dashboard')">📊 Dashboard</button>
-    <button id="csat-tab-send" class="btn"
-        style="border-radius:7px;font-size:12px;font-weight:500;padding:6px 16px;border:none;background:transparent;color:var(--text2)"
-        onclick="csatTab('send')">📨 Send Survey</button>
-    <button id="csat-tab-survey" class="btn"
-        style="border-radius:7px;font-size:12px;font-weight:500;padding:6px 16px;border:none;background:transparent;color:var(--text2)"
-        onclick="csatTab('survey')">⭐ Customer Survey</button>
-    <button id="csat-tab-log" class="btn"
-        style="border-radius:7px;font-size:12px;font-weight:500;padding:6px 16px;border:none;background:transparent;color:var(--text2)"
-        onclick="csatTab('log')">📋 Survey Log</button>
+<div class="csat-tab-container">
+    <button id="csat-tab-dashboard" class="csat-tab-btn"
+        [routerLink]="['/csat']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">📊 Dashboard</button>
+    <button id="csat-tab-send" class="csat-tab-btn"
+        [routerLink]="['/csat/send']" routerLinkActive="active">📨 Send Survey</button>
+    <button id="csat-tab-survey" class="csat-tab-btn"
+        [routerLink]="['/csat/survey']" routerLinkActive="active">⭐ Customer Survey</button>
+    <button id="csat-tab-log" class="csat-tab-btn"
+        [routerLink]="['/csat/log']" routerLinkActive="active">📋 Survey Log</button>
 </div>
+
+<router-outlet></router-outlet>
