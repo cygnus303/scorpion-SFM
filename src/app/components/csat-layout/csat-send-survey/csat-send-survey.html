@@ -1,1 +1,106 @@
-<p>csat-send-survey works!</p>
+  <!-- ── TAB: SEND SURVEY ── -->
+  <div id="csat-panel-send">
+    <div class="g2">
+      <div class="card">
+        <div class="card-head"><div class="ci">📨</div><div class="card-title">Compose & Send CSAT Survey Email</div></div>
+
+        <div style="background:var(--bg);border-radius:9px;padding:14px;margin-bottom:14px;border:1px solid var(--border)">
+          <div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Step 1 — Recipient</div>
+          <div class="fg" style="margin-bottom:10px">
+            <label>Customer Account *</label>
+            <select id="csat-customer" onchange="csatUpdateRecipient()">
+              <option value="">— Choose account —</option>
+              <option value="Reliance Freight" data-email="r.sharma@reliancefreight.com" data-contact="Mr. R. Sharma" data-color="#16A34A">Reliance Freight</option>
+              <option value="BlueDart Corp" data-email="nisha.patel@bluedart.com" data-contact="Ms. Nisha Patel" data-color="#D97706">BlueDart Corp</option>
+              <option value="Nexus Logistics" data-email="arun.singh@nexuslog.com" data-contact="Mr. Arun Singh" data-color="#2563EB">Nexus Logistics</option>
+              <option value="Sunrise Traders" data-email="sunita.r@sunrisetraders.com" data-contact="Ms. Sunita R." data-color="#CC0000">Sunrise Traders</option>
+              <option value="GlobalPack Ltd" data-email="vikram.g@globalpack.com" data-contact="Mr. Vikram G." data-color="#CC0000">GlobalPack Ltd</option>
+              <option value="SkyBridge Logistics" data-email="nisha.r@skybridge.com" data-contact="Ms. Nisha R." data-color="#CC0000">SkyBridge Logistics</option>
+              <option value="IndoFreight Ltd" data-email="riya.shah@indofreight.com" data-contact="Ms. Riya Shah" data-color="#2563EB">IndoFreight Ltd</option>
+              <option value="Apex Cargo" data-email="suresh.k@apexcargo.com" data-contact="Mr. Suresh K." data-color="#D97706">Apex Cargo</option>
+            </select>
+          </div>
+          <div id="csat-recipient-info" style="display:none;align-items:center;gap:10px;padding:10px 12px;background:var(--white);border-radius:7px;border:1px solid var(--border)">
+            <div id="csat-ri-avatar" style="width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">RK</div>
+            <div style="flex:1"><div id="csat-ri-name" style="font-size:12px;font-weight:600;color:var(--text1)"></div><div id="csat-ri-email" style="font-size:11px;color:var(--text3);margin-top:1px"></div></div>
+            <span class="pill pg">Confirmed</span>
+          </div>
+        </div>
+
+        <div style="background:var(--bg);border-radius:9px;padding:14px;margin-bottom:14px;border:1px solid var(--border)">
+          <div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Step 2 — Survey Type</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="fg" style="margin-bottom:0"><label>Survey Trigger *</label>
+              <select id="csat-trigger">
+                <option>Post-Delivery Survey</option>
+                <option>Post-Complaint Resolution</option>
+                <option>Monthly Account Review</option>
+                <option>Post-Onboarding</option>
+                <option>Ad-hoc / Manual</option>
+              </select>
+            </div>
+            <div class="fg" style="margin-bottom:0"><label>Valid For</label>
+              <select id="csat-validity"><option value="7">7 days</option><option value="14" selected>14 days</option><option value="30">30 days</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg);border-radius:9px;padding:14px;margin-bottom:14px;border:1px solid var(--border)">
+          <div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Step 3 — Email Message</div>
+          <div class="fg" style="margin-bottom:10px"><label>Subject Line</label><input id="csat-subject" value="Quick feedback? Tell us about your Scorpion Express experience"></div>
+          <div class="fg" style="margin-bottom:0"><label>Opening Message</label><textarea id="csat-message" style="min-height:66px">We'd love to hear how we're doing. Your feedback helps us serve you better — it takes less than 2 minutes!</textarea></div>
+        </div>
+
+        <!-- Sent by — read only -->
+        <div style="padding:11px 14px;background:var(--dark);border-radius:8px;display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">MK</div>
+          <div style="flex:1"><div style="font-size:12px;font-weight:600;color:#fff">Sent by: Manoj Kumar</div><div style="font-size:10px;color:rgba(255,255,255,.4)">CTO · 3673 · cto@scorpionexpress.com</div></div>
+          <div style="font-size:10px;font-weight:600;background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);padding:2px 7px;border-radius:4px;white-space:nowrap">READ-ONLY 🔒</div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-red" style="flex:1;justify-content:center" onclick="csatSend()">📨 Send Survey Email</button>
+          <button class="btn btn-outline" [routerLink]="['/csat/survey']">👁 Preview Survey</button>
+        </div>
+      </div>
+
+      <!-- Email Preview -->
+      <div class="card">
+        <div class="card-head"><div class="ci b">📧</div><div class="card-title">Email Preview (Live)</div></div>
+        <div style="background:#f0f0f5;border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+          <div style="background:#e4e4ea;padding:7px 12px;display:flex;align-items:center;gap:6px">
+            <div style="width:10px;height:10px;border-radius:50%;background:#FF5F57"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#FEBC2E"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#28C840"></div>
+            <div style="flex:1;background:rgba(0,0,0,.06);border-radius:4px;height:16px;margin-left:6px;display:flex;align-items:center;padding:0 8px"><span style="font-size:10px;color:var(--text3)">Mail — CSAT Survey — Scorpion Express</span></div>
+          </div>
+          <div style="padding:10px 14px;background:var(--bg);border-bottom:1px solid var(--border)">
+            <div style="display:flex;gap:5px;margin-bottom:3px;font-size:11px"><span style="color:var(--text3);width:38px;flex-shrink:0">From:</span><span style="font-weight:500;color:var(--text1)">Manoj Kumar — Scorpion Express</span></div>
+            <div style="display:flex;gap:5px;margin-bottom:3px;font-size:11px"><span style="color:var(--text3);width:38px;flex-shrink:0">To:</span><span id="ep2-to" style="color:var(--blue)">— Select account above —</span></div>
+            <div style="display:flex;gap:5px;font-size:11px"><span style="color:var(--text3);width:38px;flex-shrink:0">Sub:</span><span id="ep2-sub" style="font-weight:500;color:var(--text1)">Quick feedback? Tell us about your Scorpion Express experience</span></div>
+          </div>
+          <div style="background:var(--dark);padding:16px 20px;display:flex;align-items:center;gap:10px">
+            <div style="width:32px;height:32px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0">S</div>
+            <div><div style="font-size:13px;font-weight:600;color:#fff">Scorpion Express</div><div style="font-size:10px;color:rgba(255,255,255,.4)">Customer Satisfaction Survey</div></div>
+          </div>
+          <div style="padding:20px">
+            <div id="ep2-greeting" style="font-size:14px;font-weight:600;color:var(--text1);margin-bottom:8px">Dear Valued Customer,</div>
+            <div id="ep2-msg" style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:14px">We'd love to hear how we're doing. Your feedback helps us serve you better — it takes less than 2 minutes!</div>
+            <div style="padding:14px;background:var(--bg);border-radius:8px;text-align:center;margin-bottom:14px;border:1px solid var(--border)">
+              <div style="font-size:12px;font-weight:600;color:var(--text1);margin-bottom:10px">How was your experience?</div>
+              <div style="display:flex;justify-content:center;gap:4px;margin-bottom:6px">
+                <div style="width:38px;height:38px;border-radius:7px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer" [routerLink]="['/csat/survey']">⭐</div>
+                <div style="width:38px;height:38px;border-radius:7px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer" [routerLink]="['/csat/survey']">⭐⭐</div>
+                <div style="width:38px;height:38px;border-radius:7px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer" [routerLink]="['/csat/survey']">⭐⭐⭐</div>
+                <div style="width:38px;height:38px;border-radius:7px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer" [routerLink]="['/csat/survey']">⭐⭐⭐⭐</div>
+                <div style="width:38px;height:38px;border-radius:7px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer" [routerLink]="['/csat/survey']">⭐⭐⭐⭐⭐</div>
+              </div>
+              <div style="font-size:10px;color:var(--text3)">Tap any star or click below to open the full survey</div>
+            </div>
+            <div style="text-align:center;margin-bottom:14px"><div style="display:inline-block;background:var(--red);color:#fff;padding:10px 24px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer"  [routerLink]="['/csat/survey']">Take the Full Survey →</div></div>
+            <div style="font-size:10px;color:var(--text3);border-top:1px solid var(--border);padding-top:10px;text-align:center">Valid for <strong id="ep2-validity">14 days</strong> · Confidential · Scorpion Express Pvt Ltd</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
