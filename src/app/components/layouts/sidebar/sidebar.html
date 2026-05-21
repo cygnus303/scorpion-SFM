@@ -76,8 +76,8 @@
       routerLinkActive="active" (click)="onMenuClick('complaint')" data-title="Complaint (CCM)">
       <div class="nav-icon">🎫</div><span class="nav-text">Complaint (CCM)</span>
     </div>
-    <div class="nav-item" [routerLink]="['/csat']" routerLinkActive="active" (click)="onMenuClick('CSAT')"
-      data-title="CSAT">
+    <div class="nav-item" [routerLink]="['/csat']" routerLinkActive="active" *ngIf="isSFMMasters?.SFM==='Y'"
+      (click)="onMenuClick('CSAT')" data-title="CSAT">
       <div class="nav-icon">⭐</div><span class="nav-text">CSAT Module</span>
     </div>
     <!-- <div class="nav-item" [routerLink]="['/task']" routerLinkActive="active" (click)="onMenuClick('task')">

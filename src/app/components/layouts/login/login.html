@@ -1,66 +1,97 @@
-<div class="login-container">
-  <div class="login-card">
-    <!-- Logo Section -->
-    <div class="login-logo">
-      <div class="logo">
-        <span class="scorp">Scorp</span><span class="force">Force</span>
+<div class="login-split-container">
+  <!-- Left Side: Image and Text -->
+  <div class="split-left">
+    <!-- Image Slider -->
+    <div class="bg-slider" [class.animations-ready]="animationsReady">
+      <div *ngFor="let img of backgroundImages; let i = index" class="bg-slide"
+        [style.background-image]="'url(' + img + ')'" [class.active]="i === currentBgIndex">
       </div>
-      <div class="logo-subtitle">Sales Force Module</div>
     </div>
-
-    <!-- Login Form -->
-    <div class="login-form">
-      <h2>Welcome Back</h2>
-      <p class="login-subtitle">Sign in to access your dashboard</p>
-
-      <form [formGroup]="loginForm" class="form">
-        <div class="form-group">
-          <label for="email">Username</label>
-          <div class="input-group">
-            <input type="text" formControlName="username" placeholder="Enter your username" 
-                   [class.error]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
-          </div>
-          <div class="text-danger pt-2" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
-            <span *ngIf="loginForm.get('username')?.errors?.['required']">Username is required</span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="password">Password</label>
-          <div class="input-group">
-            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Enter your password"
-                   [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-            <div class="input-icon password-toggle" (click)="togglePassword()">
-              <div class="password-icon">
-                <svg *ngIf="!showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-                  <line x1="1" y1="1" x2="23" y2="23"/>
-                </svg>
-                <svg *ngIf="showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                  <circle cx="12" cy="12" r="3"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="text-danger pt-2" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-            <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
-          </div>
-        </div>
-
-
-        <button type="submit" class="btn-login" (click)="login()" [disabled]="loading">
-          <ng-container *ngIf="!loading; else loadingTemplate">
-            Log In
-            <span class="btn-arrow">→</span>
-          </ng-container>
-          <ng-template #loadingTemplate>
-            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            Loading...
-          </ng-template>
-        </button>
-      </form>
-
-
+    <div class="split-left-overlay"></div>
+    <div class="left-content">
+      <h1 class="display-title">SCORPION EXPRESS:<br />LOGISTICS REDEFINED</h1>
+      <p class="display-subtitle">
+        We are committed to delivering reliability and speed with every shipment. Our modern fleet
+        and cutting-edge logistics solutions ensure timely delivery to every corner.
+      </p>
     </div>
   </div>
+
+  <!-- Right Side: Login Form -->
+  <div class="split-right">
+    <div class="login-card-wrapper">
+      <div class="login-card">
+
+        <!-- Brand & Logo -->
+        <div class="brand-section">
+          <!-- We use s_logo.png as it seems more likely to be the Scorpion one -->
+          <img src="assets/images/logo_login.jpg" alt="Scorpion Express" class="brand-logo" />
+        </div>
+
+        <!-- Welcome Message -->
+        <div class="welcome-section">
+          <h2>Welcome Back</h2>
+          <h4 class="sub-welcome">LOGISTICS EXCELLENCE</h4>
+        </div>
+
+        <!-- Login Form -->
+        <form [formGroup]="loginForm" class="form">
+          <div class="form-group">
+            <input type="text" formControlName="username" class="form-control" placeholder="Email or Employee Code"
+              [class.error]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" />
+            <div class="error-text" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+              <span *ngIf="loginForm.get('username')?.errors?.['required']">Username is required</span>
+            </div>
+          </div>
+
+          <div class="form-group password-group">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control"
+              placeholder="Password"
+              [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" />
+
+            <button type="button" class="password-toggle" (click)="togglePassword()">
+              <svg *ngIf="!showPassword" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg *ngIf="showPassword" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                </path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+            <div class="error-text" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+              <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="remember-me">
+              <input type="checkbox" />
+              <span class="checkmark"></span>
+              Remember me
+            </label>
+          </div>
+
+          <button type="submit" class="btn-confirm" (click)="login()" [disabled]="loading">
+            <ng-container *ngIf="!loading; else loadingTemplate">
+              CONFIRM & LOG IN
+            </ng-container>
+            <ng-template #loadingTemplate>
+              <span class="spinner" role="status" aria-hidden="true"></span>
+              Logging in...
+            </ng-template>
+          </button>
+        </form>
+
+        <div class="terms-text">
+          By logging in, you agree to our <a>Conditions & Privacy</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

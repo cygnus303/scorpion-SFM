@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -22,7 +22,16 @@ import { SweetAlertService } from '../../../shared/services/sweet-alert.service'
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login implements OnInit {
+export class Login implements OnInit, OnDestroy {
+  public backgroundImages: string[] = [
+    'assets/images/login-bg.png', // Logistics warehouse
+    'assets/images/bg-img.png', // Delivery trucks
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2670&auto=format&fit=crop' // Awesome Analytics UI / Technology interface
+  ];
+  public currentBgIndex: number = 0;
+  public animationsReady: boolean = false;
+  private bgInterval: any;
+
   public loginForm!: FormGroup;
   public isFormSubmit = false;
   isPasswordVisible: boolean = false;
@@ -47,6 +56,7 @@ export class Login implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      this.startBackgroundAnimation();
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get('token');
       if (token) {
@@ -54,6 +64,22 @@ export class Login implements OnInit {
       }
     }
     this.buildLoginForm();
+  }
+
+  ngOnDestroy(): void {
+    if (this.bgInterval) {
+      clearInterval(this.bgInterval);
+    }
+  }
+
+  startBackgroundAnimation() {
+    setTimeout(() => {
+      this.animationsReady = true;
+    }, 100);
+
+    this.bgInterval = setInterval(() => {
+      this.currentBgIndex = (this.currentBgIndex + 1) % this.backgroundImages.length;
+    }, 5000);
   }
 
   buildLoginForm(): void {
