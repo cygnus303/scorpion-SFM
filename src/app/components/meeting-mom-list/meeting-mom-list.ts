@@ -95,7 +95,8 @@ export class MeetingMomList {
       const payload = {
         meetingId: item.meetingId,
         meetingMOM: item.meetingMOM.join(','),
-        remarks: item.remarks
+        remarks: item.remarks,
+        attendeeCode: item.attendeeCode
       }
       this.meetingService.onSubmitMOM(this.identityService.getLoggedUserId(), payload).subscribe({
         next: (response) => {
