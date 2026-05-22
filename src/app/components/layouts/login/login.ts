@@ -24,6 +24,7 @@ import { SweetAlertService } from '../../../shared/services/sweet-alert.service'
 })
 export class Login implements OnInit, OnDestroy {
   public backgroundImages: string[] = [
+    'assets/images/img-lead.jpg',
     'assets/images/login-bg.png', // Logistics warehouse
     'assets/images/bg-img.png', // Delivery trucks
     'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2670&auto=format&fit=crop' // Awesome Analytics UI / Technology interface
@@ -75,11 +76,11 @@ export class Login implements OnInit, OnDestroy {
   startBackgroundAnimation() {
     setTimeout(() => {
       this.animationsReady = true;
-    }, 100);
+    }, 500);
 
     this.bgInterval = setInterval(() => {
       this.currentBgIndex = (this.currentBgIndex + 1) % this.backgroundImages.length;
-    }, 5000);
+    }, 2000);
   }
 
   buildLoginForm(): void {
