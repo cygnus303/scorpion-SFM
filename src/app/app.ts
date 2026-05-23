@@ -17,6 +17,6 @@ export class App {
   public commonService = inject(CommonService);
 
   get isLoginPage(): boolean {
-    return this.router.url === '/login' || this.router.url === '/';
+    return this.router.url === '/login' || this.router.url === '/' || this.router.url === '/customer-survey';
   }
 }

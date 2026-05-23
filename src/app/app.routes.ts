@@ -28,6 +28,10 @@ import { CsatSurveyLog } from './components/csat-layout/csat-survey-log/csat-sur
 
 export const routes: Routes = [
   { path: 'login', component: Login },
+  
+   // Login without auth
+  { path: 'customer-survey', component: CsatCustomerSurvey },
+
   { path: 'dashboard', component: MainContent, canActivate: [authGuard] },
   { path: 'customer', component: CustomerList, canActivate: [authGuard] },
   { path: 'lead', component: LeadList, canActivate: [authGuard] },
