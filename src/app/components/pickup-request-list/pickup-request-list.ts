@@ -41,8 +41,8 @@ export class PickupRequestList {
 
   }
 
-  selectPrqType(type: string) {
-    this.addPRQ.showPopup(type);
+  selectPrqType() {
+    this.addPRQ.showPopup();
   }
 
   openPRQDetailModal(indentNo?: any) {

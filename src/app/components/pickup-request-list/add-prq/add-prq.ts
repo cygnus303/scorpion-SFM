@@ -143,25 +143,37 @@ export class AddPrq {
 
   showPopup(type?: string) {
     this.initForm();
-    if (type === 'FTL') {
-      this.getProductType(null);
-      this.getFleetType(null);
-      // Required validators for FTL
-      this.prqForm.get('fleetType')?.setValidators([Validators.required]);
-      this.prqForm.get('expMargin')?.setValidators([Validators.required]);
-    } else {
-      // Remove validators for LTL
-      this.prqForm.get('fleetType')?.clearValidators();
-      this.prqForm.get('expMargin')?.clearValidators();
-    }
-    this.prqForm.get('fleetType')?.updateValueAndValidity();
-    this.prqForm.get('expMargin')?.updateValueAndValidity();
-    if (type) {
-      this.PRQType = type;
-      this.prqForm.patchValue({ service_Type: type });
-    }
-    this.modalRef = this.modalService.show(this.Templatepod, { backdrop: 'static', class: 'modal-lg modal-dialog-centered' });
+     this.PRQType =  '';; 
+   this.prqForm.get('fleetType')?.clearValidators();
+  this.prqForm.get('expMargin')?.clearValidators();
+  this.prqForm.get('fleetType')?.updateValueAndValidity();
+  this.prqForm.get('expMargin')?.updateValueAndValidity();
+
+  this.modalRef = this.modalService.show(this.Templatepod, { 
+    backdrop: 'static', 
+    class: 'modal-lg modal-dialog-centered' 
+  });
   }
+
+  onPRQTypeChange(type: string) {
+  this.PRQType = type;
+  this.initForm();
+  this.prqForm.patchValue({ service_Type: type });
+
+  if (type === 'FTL') {
+    this.getProductType(null);
+    this.getFleetType(null);
+      // Required validators for FTL
+    this.prqForm.get('fleetType')?.setValidators([Validators.required]);
+    this.prqForm.get('expMargin')?.setValidators([Validators.required]);
+  } else {
+      // Remove validators for LTL
+    this.prqForm.get('fleetType')?.clearValidators();
+    this.prqForm.get('expMargin')?.clearValidators();
+  }
+  this.prqForm.get('fleetType')?.updateValueAndValidity();
+  this.prqForm.get('expMargin')?.updateValueAndValidity();
+}
 
   initForm() {
     this.prqForm = new FormGroup({

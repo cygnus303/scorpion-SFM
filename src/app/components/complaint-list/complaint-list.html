@@ -42,7 +42,24 @@
 
     </div>
   </div>
-  <div>
+  <!-- RAISE  SECTION -->
+<div class="card no-hover" style="padding:8px;">
+  <div style="display:flex;align-items:center;gap:16px;padding:8px 0">
+    <div style="font-size:13px;font-weight:600;color:var(--text1);min-width:120px">Raise Request:</div>
+    <div style="display:flex;gap:6px;flex:1;align-items:center">
+      <button class="tc" [class.on]="activeTab === 'complaint'" 
+              (click)="setActiveTab('complaint')" 
+              style="padding:6px 14px;font-size:12px">Complaints</button>
+      <button class="tc" [class.on]="activeTab === 'enquiry'" 
+              (click)="setActiveTab('enquiry')" 
+              style="padding:6px 14px;font-size:12px">Enquiry</button>
+      <button class="tc" [class.on]="activeTab === 'prq'" 
+              (click)="setActiveTab('prq')" 
+              style="padding:6px 14px;font-size:12px">PRQ</button>
+    </div>
+  </div>
+</div>
+  <div *ngIf="activeTab === 'complaint'">
     <div class="card no-hover">
       <div class="card-head">
         <div class="ci p">🎫</div>
@@ -188,6 +205,15 @@
         </pagination>
       </div>
     </div>
+  </div>
+  
+  <div *ngIf="activeTab === 'prq'">
+    <app-pickup-request-list></app-pickup-request-list>
+  </div>
+  
+  <!-- Enquiry Section (future) -->
+  <div *ngIf="activeTab === 'enquiry'">
+    <!-- enquiry component here -->
   </div>
 </div>
 

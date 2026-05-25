@@ -13,10 +13,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ComplaintDetail } from './complaint-detail/complaint-detail';
 import { AddTicket } from './add-ticket/add-ticket';
 import { PrqService } from '../../shared/services/prq-service';
+import { PickupRequestList } from '../pickup-request-list/pickup-request-list';
 
 @Component({
   selector: 'app-complaint-list',
-  imports: [CommonModule, FormsModule, PopoverModule, PaginationModule, NgSelectModule, ComplaintDetail, AddTicket],
+  imports: [CommonModule, FormsModule, PopoverModule, PaginationModule, NgSelectModule, ComplaintDetail, AddTicket,PickupRequestList],
   templateUrl: './complaint-list.html',
   styleUrl: './complaint-list.scss',
 })
@@ -27,6 +28,7 @@ export class ComplaintList {
   public isExportLoading: boolean = false;
   public isLoading: boolean = false;
   public compliantCard: any;
+  public activeTab: string = 'complaint';
 
   public statusList: any[] = [
     { id: '', name: 'All' },
@@ -54,6 +56,10 @@ export class ComplaintList {
       this.getPRQCardList()
       this.getCompliantCard();
     });
+  }
+
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
   }
 
   ngOnDestroy(): void {

@@ -15,8 +15,28 @@
                 <button type="button" class="btn-close shadow-none" (click)="onClose()"></button>
             </div>
 
+<div class="card no-hover">
+    <div style="display:flex;align-items:center;gap:16px;padding:8px 0">
+        <div style="font-size:13px;font-weight:600;color:var(--text1);min-width:120px">Service Type:</div>
+        <div style="display:flex;gap:32px;flex:1;align-items:center">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:500">
+                <input type="radio" name="raise_type" value="LTL" [checked]="PRQType === 'LTL'"
+                    (change)="onPRQTypeChange('LTL')"
+                    style="width:16px;height:16px;cursor:pointer;accent-color:var(--red)">
+                LTL (Less Than Truckload)
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:500">
+                <input type="radio" name="raise_type" value="FTL" [checked]="PRQType === 'FTL'"
+                    (change)="onPRQTypeChange('FTL')"
+                    style="width:16px;height:16px;cursor:pointer;accent-color:var(--red)">
+                FTL (Full Truckload)
+            </label>
+        </div>
+    </div>
+</div>
+
             <!-- STEP 1: Customer & Contact -->
-            <div class="modal-body py-4 position-relative pb-2 pt-2">
+            <div class="modal-body py-4 position-relative pb-2 pt-2" *ngIf="PRQType !== ''">
                 <div
                     style="display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">
                     <div

@@ -1,6 +1,6 @@
 <!-- ══ PRQ ══ -->
 <div class="page active fade-in">
-  <div class="kpi-row">
+  <!-- <div class="kpi-row">
 
     <div class="kpi" *ngFor="let card of PRQCard" [style.border-top]="'3px solid ' + getCardColor(card.color)">
 
@@ -13,12 +13,11 @@
       </div>
 
       <div class="kpi-sub dn">
-        <!-- Order : {{ card.ord }} -->
       </div>
 
     </div>
 
-  </div>
+  </div> -->
   <div class="card s2 no-hover">
     <div class="card-head">
       <div class="ci">🚚</div>
@@ -29,10 +28,10 @@
           <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
         </button>
         <button class="tbtn" style="margin-left:auto;padding:9px 12px;font-size:11px" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"  (click)="selectPrqType()" >
           <span>＋ Raise PRQ</span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-end custom-mini-dropdown">
+        <!-- <ul class="dropdown-menu dropdown-menu-end custom-mini-dropdown">
           <li class="d-flex gap-2 px-2 py-2">
             <button class="btn btn-primary text-white" (click)="selectPrqType('LTL')">
               LTL
@@ -41,7 +40,7 @@
               FTL
             </button>
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
     <table class="mt">
@@ -116,8 +115,8 @@
         </tr>
       </tbody>
     </table>
-    <!-- Pagination -->
-    <div class="d-flex justify-content-between align-items-center mt-3"
+        <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-3"
         *ngIf="totalItems > commonService.globalFilters.PageSize">
         <div class="small text-muted">
           Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
