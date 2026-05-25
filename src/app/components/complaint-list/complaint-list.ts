@@ -12,6 +12,7 @@ import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ComplaintDetail } from './complaint-detail/complaint-detail';
 import { AddTicket } from './add-ticket/add-ticket';
+import { PrqService } from '../../shared/services/prq-service';
 
 @Component({
   selector: 'app-complaint-list',
@@ -22,6 +23,7 @@ import { AddTicket } from './add-ticket/add-ticket';
 export class ComplaintList {
   public complaints: ComplaintResponse[] = [];
   public totalItems: number = 0;
+  public PRQCard: any[] = [];
   public isExportLoading: boolean = false;
   public isLoading: boolean = false;
   public compliantCard: any;
@@ -41,6 +43,7 @@ export class ComplaintList {
   public complaintService = inject(ComplaintService);
   public commonService = inject(CommonService); // Public to access globalFilters in HTML
   private exportService = inject(ExportService);
+  private PRQService=inject(PrqService);
   private destroy$ = new Subject<void>();
 
   constructor() { }
@@ -48,6 +51,7 @@ export class ComplaintList {
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getComplaintList();
+      this.getPRQCardList()
       this.getCompliantCard();
     });
   }
@@ -56,6 +60,51 @@ export class ComplaintList {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+    getPRQCardList() {
+    const payload = {
+      "fromDate":  this.formatDate(this.commonService.globalFilters.startDate),
+      "toDate":  this.formatDate(this.commonService.globalFilters.endDate),
+      "updateBy": this.commonService.globalFilters.UserID.toString(),
+      "location": null,
+      "type": "N"
+    }
+    this.PRQService.getPRQCard(payload).subscribe((response: any) => {
+      this.PRQCard = response.data;
+    });
+  }
+
+  formatDate = (dateStr: string) => {
+    const [day, month, year] = dateStr.split('/');
+    const date = new Date(+year, +month - 1, +day);
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    }).replace(',', '').toLowerCase();
+  };
+
+    getCardColor(color: string): string {
+  switch(color) {
+    case 'Newblue':
+      return 'red';
+
+    case 'Newblue1':
+      return '#f59e0b';
+
+    case 'Newblue3':
+      return '#dc2626';
+
+    case 'Newblue4':
+      return '#2563eb';
+
+    case 'Newblue6':
+      return '#6b7280';
+
+    default:
+      return '#ccc';
+  }
+}
 
 
   getComplaintList(page: number = this.commonService.globalFilters.Page) {
