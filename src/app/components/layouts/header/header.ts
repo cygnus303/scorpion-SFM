@@ -19,6 +19,7 @@ import { Subject, Subscription } from 'rxjs';
 })
 export class Header implements OnInit, OnDestroy {
   @ViewChild('dateRangePicker') dateRangePickerComponent?: DateRangePickerComponent;
+  private closeTimeout?: any;
   public headerService = inject(HeaderService);
   public headerTitle$ = this.headerService.headerTitle$;
   public commonService = inject(CommonService);
@@ -269,7 +270,7 @@ export class Header implements OnInit, OnDestroy {
     if (!menuKey && cleanUrl.startsWith('csat/')) {
       menuKey = 'CSAT';
     }
-    
+
     this.headerService.updateHeaderFromMenu(menuKey || 'Dashboard');
   }
 
@@ -277,5 +278,31 @@ export class Header implements OnInit, OnDestroy {
     if (this.dateRangePickerComponent) {
       this.dateRangePickerComponent.togglePicker(event);
     }
+  }
+
+  openDateRangePicker() {
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = undefined;
+    }
+    if (this.dateRangePickerComponent) {
+      this.dateRangePickerComponent.openPicker();
+    }
+  }
+
+  closeDateRangePicker() {
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+    }
+    this.closeTimeout = setTimeout(() => {
+      const isHovered = document.querySelector('app-date-range-picker:hover') ||
+                        document.querySelector('.selected-date-info:hover') ||
+                        document.querySelector('.bs-datepicker-container:hover') ||
+                        document.querySelector('.bs-calendar-container:hover');
+      
+      if (!isHovered && this.dateRangePickerComponent) {
+        this.dateRangePickerComponent.closePicker();
+      }
+    }, 200);
   }
 }

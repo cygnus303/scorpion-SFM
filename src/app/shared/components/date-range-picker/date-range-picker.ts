@@ -399,6 +399,15 @@ export class DateRangePickerComponent {
     }
   }
 
+  openPicker() {
+    this.showPicker = true;
+    if (this.bsValue && this.bsValue.length === 2) {
+      this.tempStartDate = new Date(this.bsValue[0]);
+      this.tempEndDate = new Date(this.bsValue[1]);
+      this.updateActiveRangeLabel();
+    }
+  }
+
   closePicker() {
     this.showPicker = false;
   }

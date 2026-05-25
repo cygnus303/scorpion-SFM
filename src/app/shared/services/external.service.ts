@@ -49,4 +49,12 @@ export class ExternalService {
   getUserData(id: string) {
     return this.apiHandlerService.Get(`User/GetMasterUser?userId=${id}`);
   }
+
+   decisionEmail(custcd: string) {
+    return this.apiHandlerService.Get(`External/DecisionEmail?custcd=${custcd}`);
+  }
+
+   sendCSATSurvey(data: any) {
+    return this.apiHandlerService.Post(`CSAT/InsertUpdateCSATSurvey`, data);
+  }
 }
