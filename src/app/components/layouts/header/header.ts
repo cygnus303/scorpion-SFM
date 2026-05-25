@@ -50,7 +50,7 @@ export class Header implements OnInit, OnDestroy {
       const cleanUrl = url.replace(/^\//, '').split('?')[0];
       this.updateHeaderFromUrl(url);
 
-      if (cleanUrl === 'calendar' || cleanUrl === 'dashboard') {
+      if (cleanUrl === 'calendar') {
         this.setFilter('month');
       } else {
         this.commonService.resetFilters();
@@ -97,7 +97,7 @@ export class Header implements OnInit, OnDestroy {
 
     // Check current route and set appropriate filter
     const currentUrl = this.router.url.replace(/^\//, '').split('?')[0];
-    if (currentUrl === 'dashboard' || currentUrl === 'calendar') {
+    if (currentUrl === 'calendar') {
       this.setFilter('month');
     } else {
       this.setFilter('today');
