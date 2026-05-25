@@ -14,10 +14,11 @@ import { ComplaintDetail } from './complaint-detail/complaint-detail';
 import { AddTicket } from './add-ticket/add-ticket';
 import { PrqService } from '../../shared/services/prq-service';
 import { PickupRequestList } from '../pickup-request-list/pickup-request-list';
+import { EnquiryList } from '../enquiry-list/enquiry-list';
 
 @Component({
   selector: 'app-complaint-list',
-  imports: [CommonModule, FormsModule, PopoverModule, PaginationModule, NgSelectModule, ComplaintDetail, AddTicket,PickupRequestList],
+  imports: [CommonModule, FormsModule, PopoverModule, PaginationModule, NgSelectModule, ComplaintDetail, AddTicket,PickupRequestList,EnquiryList],
   templateUrl: './complaint-list.html',
   styleUrl: './complaint-list.scss',
 })
