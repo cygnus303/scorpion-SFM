@@ -15,6 +15,7 @@ import { AddTicket } from './add-ticket/add-ticket';
 import { PrqService } from '../../shared/services/prq-service';
 import { PickupRequestList } from '../pickup-request-list/pickup-request-list';
 import { EnquiryList } from '../enquiry-list/enquiry-list';
+import { IdentityService } from '../../shared/services/identity.service';
 
 @Component({
   selector: 'app-complaint-list',
@@ -47,6 +48,7 @@ export class ComplaintList {
   public commonService = inject(CommonService); // Public to access globalFilters in HTML
   private exportService = inject(ExportService);
   private PRQService = inject(PrqService);
+  private identityService = inject(IdentityService);
   private destroy$ = new Subject<void>();
 
   constructor() { }
@@ -73,7 +75,7 @@ export class ComplaintList {
       "fromDate": this.formatDate(this.commonService.globalFilters.startDate),
       "toDate": this.formatDate(this.commonService.globalFilters.endDate),
       "updateBy": this.commonService.globalFilters.UserID.toString(),
-      "location": null,
+      "location": this.identityService.getBranchCode(),
       "type": "N"
     }
     this.PRQService.getPRQCard(payload).subscribe({

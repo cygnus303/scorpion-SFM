@@ -35,7 +35,7 @@ export class PickupRequestList {
 
   ngOnInit() {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.getPRQCardList();
+      // this.getPRQCardList();
       this.getPRQList()
     });
 
@@ -56,20 +56,20 @@ export class PickupRequestList {
     this.destroy$.complete();
   }
 
-  getPRQCardList() {
-    const payload = {
-      "fromDate":  this.formatDate(this.commonService.globalFilters.startDate),
-      "toDate":  this.formatDate(this.commonService.globalFilters.endDate),
-      "updateBy": this.commonService.globalFilters.UserID.toString(),
-      "location": null,
-      "type": "N"
-    }
-    this.PRQService.getPRQCard(payload).subscribe((response: any) => {
-      this.PRQCard = response.data;
-    });
-  }
+  // getPRQCardList() {
+  //   const payload = {
+  //     "fromDate": this.formatDate(this.commonService.globalFilters.startDate),
+  //     "toDate": this.formatDate(this.commonService.globalFilters.endDate),
+  //     "updateBy": this.commonService.globalFilters.UserID.toString(),
+  //     "location": null,
+  //     "type": "N"
+  //   }
+  //   this.PRQService.getPRQCard(payload).subscribe((response: any) => {
+  //     this.PRQCard = response.data;
+  //   });
+  // }
 
-formatDate = (dateStr: string) => {
+  formatDate = (dateStr: string) => {
     const [day, month, year] = dateStr.split('/');
     const date = new Date(+year, +month - 1, +day);
     return date.toLocaleDateString('en-GB', {
@@ -81,12 +81,12 @@ formatDate = (dateStr: string) => {
 
   getPRQList(page: number = this.commonService.globalFilters.Page) {
     this.isLoading = true;
-     this.commonService.globalFilters.Page = page;
+    this.commonService.globalFilters.Page = page;
     const payload = {
       startDate: this.formatDate(this.commonService.globalFilters.startDate),
       endDate: this.formatDate(this.commonService.globalFilters.endDate),
-      Page:this.commonService.globalFilters.Page.toString(),
-      pageSize:this.commonService.globalFilters.PageSize.toString(),
+      Page: this.commonService.globalFilters.Page.toString(),
+      pageSize: this.commonService.globalFilters.PageSize.toString(),
       updateBy: this.commonService.globalFilters.UserID.toString(),
       baseLoc: this.identityService.getBranchCode(),
       type: "N",
@@ -99,38 +99,38 @@ formatDate = (dateStr: string) => {
     });
   }
 
-  onPageChange(event:any){
+  onPageChange(event: any) {
     this.getPRQList(event.page)
   }
 
   getCardColor(color: string): string {
-  switch(color) {
-    case 'Newblue':
-      return 'red';
+    switch (color) {
+      case 'Newblue':
+        return 'red';
 
-    case 'Newblue1':
-      return '#f59e0b';
+      case 'Newblue1':
+        return '#f59e0b';
 
-    case 'Newblue3':
-      return '#dc2626';
+      case 'Newblue3':
+        return '#dc2626';
 
-    case 'Newblue4':
-      return '#2563eb';
+      case 'Newblue4':
+        return '#2563eb';
 
-    case 'Newblue6':
-      return '#6b7280';
+      case 'Newblue6':
+        return '#6b7280';
 
-    default:
-      return '#ccc';
+      default:
+        return '#ccc';
+    }
   }
-}
 
   //   onPageChange(event: any): void {
   //   this.getPRQList(event.page);
   // }
 
   onDataEmitter() {
-    this.getPRQCardList();
+    // this.getPRQCardList();
     this.getPRQList();
   }
 

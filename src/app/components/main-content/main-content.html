@@ -83,12 +83,13 @@
         {{formatAmount(salesCollectionCount.currentMonthOS)}} This Month</div>
     </div>
 
-    <div class="kpi" style="--kc:var(--green); padding: 10px 12px; cursor:pointer" (click)="router.navigate(['/lead'])">
+    <div class="kpi" style="--kc:var(--green); padding: 10px 12px; cursor:pointer"
+      (click)="router.navigate(['/meeting'])">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
         <div class="kpi-label" style="font-size:11px;">Meetings</div>
         <div class="kpi-icon" style="font-size:16px;">🤝</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{this.totalCount.totalLeadCount}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{this.totalCount.totalMeetingCount}}</div>
       <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">▲ +{{this.totalCount.last7DaysLeadCount}} this
         week</div>
     </div>
