@@ -327,28 +327,16 @@
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;margin-bottom:14px">
 
                 <!-- Customer -->
-                <div class="fg" style="margin-bottom:0">
-                    <label>Customer Account *</label>
-                    <select id="dash-customer" onchange="dashUpdateRecipient()">
-                        <option value="">— Select account —</option>
-                        <option value="Reliance Freight" data-email="r.sharma@reliancefreight.com"
-                            data-contact="Mr. R. Sharma" data-color="#16A34A">Reliance Freight</option>
-                        <option value="BlueDart Corp" data-email="nisha.patel@bluedart.com"
-                            data-contact="Ms. Nisha Patel" data-color="#D97706">BlueDart Corp</option>
-                        <option value="Nexus Logistics" data-email="arun.singh@nexuslog.com"
-                            data-contact="Mr. Arun Singh" data-color="#2563EB">Nexus Logistics</option>
-                        <option value="Sunrise Traders" data-email="sunita.r@sunrisetraders.com"
-                            data-contact="Ms. Sunita R." data-color="#CC0000">Sunrise Traders</option>
-                        <option value="GlobalPack Ltd" data-email="vikram.g@globalpack.com" data-contact="Mr. Vikram G."
-                            data-color="#CC0000">GlobalPack Ltd</option>
-                        <option value="SkyBridge Logistics" data-email="nisha.r@skybridge.com"
-                            data-contact="Ms. Nisha R." data-color="#CC0000">SkyBridge Logistics</option>
-                        <option value="IndoFreight Ltd" data-email="riya.shah@indofreight.com"
-                            data-contact="Ms. Riya Shah" data-color="#2563EB">IndoFreight Ltd</option>
-                        <option value="Apex Cargo" data-email="suresh.k@apexcargo.com" data-contact="Mr. Suresh K."
-                            data-color="#D97706">Apex Cargo</option>
-                    </select>
-                </div>
+            <div class="fg" style="margin-bottom:0">
+                <label>Customer Account *</label>
+            <ng-select [placeholder]="'Search customers'" [searchable]="true" [clearable]="true" [dropdownPosition]="'bottom'"
+                appendTo="body">
+                <ng-option *ngFor='let customer of customers' [value]="customer.custcd"
+                 [title]="customer.custcd + ': ' + customer.custnm">
+                    {{customer.custcd}}:{{ customer.custnm }}
+                </ng-option>
+            </ng-select>
+            </div>
 
                 <!-- Survey Trigger -->
                 <div class="fg" style="margin-bottom:0">

@@ -25,12 +25,21 @@ import { CsatDashboard } from './components/csat-layout/csat-dashboard/csat-dash
 import { CsatSendSurvey } from './components/csat-layout/csat-send-survey/csat-send-survey';
 import { CsatCustomerSurvey } from './components/csat-layout/csat-customer-survey/csat-customer-survey';
 import { CsatSurveyLog } from './components/csat-layout/csat-survey-log/csat-survey-log';
+import { SurveySubmittedGuard } from './shared/guards/survey-submitted.guard';
+import { SurveyDone } from './components/csat-layout/survey-done/survey-done';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
   
-   // Login without auth
-  { path: 'customer-survey', component: CsatCustomerSurvey },
+    // ✅ Guard add karyo
+  { 
+    path: 'customer-survey', 
+    component: CsatCustomerSurvey,
+    canActivate: [SurveySubmittedGuard]
+  },
+
+  // ✅ Done page add karyo
+  {path: 'survey-done', component: SurveyDone},
 
   { path: 'dashboard', component: MainContent, canActivate: [authGuard] },
   { path: 'customer', component: CustomerList, canActivate: [authGuard] },

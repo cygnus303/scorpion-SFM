@@ -17,6 +17,10 @@ export class App {
   public commonService = inject(CommonService);
 
   get isLoginPage(): boolean {
-    return this.router.url === '/login' || this.router.url === '/' || this.router.url === '/customer-survey';
-  }
+  const url = this.router.url;
+  return url === '/login' || 
+         url === '/' || 
+         url.startsWith('/customer-survey') ||  // ✅ startsWith use karo
+         url.startsWith('/survey-done');          // ✅ startsWith use karo
+}
 }

@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-csat-customer-survey',
-  imports: [],
+  imports: [CommonModule, RouterModule],
   templateUrl: './csat-customer-survey.html',
   styleUrl: './csat-customer-survey.scss',
 })
 export class CsatCustomerSurvey {
+constructor(private router: Router, private route: ActivatedRoute) {}
+
   private answers: Record<string, number | null> = { q1: null, q2: null, q3: null, q4: null, nps: null };
   rate(q: string, val: number, btn: EventTarget) {
     const el = btn as HTMLElement;
@@ -59,4 +64,15 @@ export class CsatCustomerSurvey {
       row.appendChild(btn);
     }
   }
+
+  csatSubmit() {
+   const token = this.route.snapshot.queryParams['token'];
+  if (token) {
+    const usedTokens: string[] = JSON.parse(localStorage.getItem('usedSurveyTokens') || '[]');
+    usedTokens.push(token);
+    localStorage.setItem('usedSurveyTokens', JSON.stringify(usedTokens));
+  }
+
+  this.router.navigate(['/survey-done'], { queryParams: { status: 'success' } });
+}
 }
