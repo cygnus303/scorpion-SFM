@@ -40,6 +40,7 @@ export class LeadList implements OnInit, OnDestroy {
   public selectedLeadCategory: any = null;
   public leadCategories: GeneralMasterResponse[] = [];
   public leadCardsCard: any;
+  public isCardsLoading: boolean = false;
 
   private leadService = inject(LeadService);
   public commonService = inject(CommonService); // Public to access globalFilters in HTML
@@ -178,12 +179,16 @@ export class LeadList implements OnInit, OnDestroy {
       userId: this.commonService.globalFilters.UserID.toString(),
     }
 
+    this.isCardsLoading = true;
     this.leadService.getLeadCards(params).subscribe({
       next: (response) => {
         if (response.success) {
           this.leadCardsCard = response.data;
         }
-        this.isExportLoading = false;
+        this.isCardsLoading = false;
+      },
+      error: () => {
+        this.isCardsLoading = false;
       }
     });
   }

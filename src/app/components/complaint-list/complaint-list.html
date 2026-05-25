@@ -1,46 +1,56 @@
 <!-- ══ COMPLAINT CCM ══ -->
 <div class="page active fade-in">
   <div class="kpi-row">
-    <div class="kpi" style="--kc:var(--red)">
-      <div class="kpi-label">Open Tickets</div>
-      <div class="kpi-val">{{compliantCard?.openTickets}}</div>
-      <!-- <div class="kpi-sub dn">7 breaching SLA</div> -->
-    </div>
-    <div class="kpi" style="--kc:var(--green)">
-      <div class="kpi-label">Resolved Today</div>
-      <div class="kpi-val">{{compliantCard?.resolvedToday}}</div>
-      <!-- <div class="kpi-sub up">Avg 1.8 hrs</div> -->
-    </div>
-    <div class="kpi" style="--kc:var(--amber)">
-      <div class="kpi-label">SLA Compliance</div>
-      <div class="kpi-val">{{compliantCard?.slaCompliance}}%</div>
-      <!-- <div class="kpi-sub wn">Target: 95%</div> -->
-    </div>
-    <div class="kpi" style="--kc:var(--red)">
-      <div class="kpi-label">DEPS Complaints</div>
-      <div class="kpi-val">{{compliantCard?.depsComplaints}}</div>
-      <!-- <div class="kpi-sub dn">Damage / Error</div> -->
-    </div>
-    <div class="kpi" style="--kc:var(--green)">
-      <div class="kpi-label">First Call Resolution</div>
-      <div class="kpi-val">{{compliantCard?.firstCallResolution}}%</div>
-      <!-- <div class="kpi-sub up">Target: 80%</div> -->
-    </div>
-    <div class="kpi" *ngFor="let card of PRQCard" [style.border-top]="'3px solid ' + getCardColor(card.color)">
 
-      <div class="kpi-label">
-        {{ card.codeDesc }}
+    <div class="kpi" style="--kc:var(--red); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Open Tickets</div>
+        <div class="kpi-icon" style="font-size:16px;">🎫</div>
       </div>
-
-      <div class="kpi-val">
-        {{ card.cnt }}
-      </div>
-
-      <div class="kpi-sub dn">
-        <!-- Order : {{ card.ord }} -->
-      </div>
-
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.openTickets}}</div>
     </div>
+
+    <div class="kpi" style="--kc:var(--green); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Resolved Today</div>
+        <div class="kpi-icon" style="font-size:16px;">✅</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.resolvedToday}}</div>
+    </div>
+
+    <div class="kpi" style="--kc:var(--amber); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">SLA Compliance</div>
+        <div class="kpi-icon" style="font-size:16px;">📋</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.slaCompliance}}%</div>
+    </div>
+
+    <div class="kpi" style="--kc:var(--red); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">DEPS Complaints</div>
+        <div class="kpi-icon" style="font-size:16px;">⚠️</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.depsComplaints}}</div>
+    </div>
+
+    <div class="kpi" style="--kc:var(--green); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">First Call Resolution</div>
+        <div class="kpi-icon" style="font-size:16px;">📞</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.firstCallResolution}}%</div>
+    </div>
+
+    <div class="kpi" *ngFor="let card of PRQCard" [style.border-top]="'3px solid ' + getCardColor(card.color)"
+      style="padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">{{ card.codeDesc }}</div>
+        <div class="kpi-icon" style="font-size:16px;">{{ getIconEmoji(card.icon) }}</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{ card.cnt }}</div>
+    </div>
+
   </div>
   <!-- RAISE  SECTION -->
   <div class="card no-hover" style="padding:8px;">

@@ -1,29 +1,44 @@
 <div class="page active fade-in">
   <div class="kpi-row">
-    <div class="kpi" style="--kc:var(--blue)">
-      <div class="kpi-label">Total Active Leads</div>
-      <div class="kpi-val">{{leadCardsCard?.totalActiveLeads}}</div>
-      <!-- <div class="kpi-sub up">▲ +12 this week</div> -->
+
+    <div class="kpi" style="--kc:var(--blue); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Total Active Leads</div>
+        <div class="kpi-icon" style="font-size:16px;">📊</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{leadCardsCard?.totalActiveLeads}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--amber)">
-      <div class="kpi-label">Proposals Sent</div>
-      <div class="kpi-val">{{leadCardsCard?.proposalsSent}}</div>
-      <!-- <div class="kpi-sub wn">8 awaiting response</div> -->
+
+    <div class="kpi" style="--kc:var(--amber); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Proposals Sent</div>
+        <div class="kpi-icon" style="font-size:16px;">📤</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{leadCardsCard?.proposalsSent}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--green)">
-      <div class="kpi-label">Won This Month</div>
-      <div class="kpi-val">{{leadCardsCard?.wonThisMonth}}</div>
-      <!-- <div class="kpi-sub up">₹14L new revenue</div> -->
+
+    <div class="kpi" style="--kc:var(--green); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Won This Month</div>
+        <div class="kpi-icon" style="font-size:16px;">🏆</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{leadCardsCard?.wonThisMonth}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--red)">
-      <div class="kpi-label">Cold / At Risk</div>
-      <div class="kpi-val">{{leadCardsCard?.coldAtRisk}}</div>
-      <!-- <div class="kpi-sub dn">No contact &gt;14 days</div> -->
+
+    <div class="kpi" style="--kc:var(--red); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Cold / At Risk</div>
+        <div class="kpi-icon" style="font-size:16px;">❄️</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{leadCardsCard?.coldAtRisk}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--amber)">
-      <div class="kpi-label">Conversion Rate</div>
-      <div class="kpi-val">{{leadCardsCard?.conversionRate}}%</div>
-      <!-- <div class="kpi-sub wn">Target: 25%</div> -->
+
+    <div class="kpi" style="--kc:var(--amber); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Conversion Rate</div>
+        <div class="kpi-icon" style="font-size:16px;">🎯</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{leadCardsCard?.conversionRate}}%</div>
     </div>
   </div>
   <div class="g2">

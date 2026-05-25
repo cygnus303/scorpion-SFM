@@ -1,25 +1,40 @@
 <!-- ══ EXPENSE APPROVAL ══ -->
 <div class="page active fade-in">
   <div class="g4">
-    <div class="kpi" style="--kc:var(--amber)">
-      <div class="kpi-label">Pending My Approval</div>
-      <div class="kpi-val">{{approvalCard?.pendingMyApproval}}</div>
-      <div class="kpi-sub wn">{{approvalCard?.awaitingAction}}</div>
+    <div class="kpi" style="--kc:var(--amber); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Pending My Approval</div>
+        <div class="kpi-icon" style="font-size:16px;">⏳</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{approvalCard?.pendingMyApproval}}</div>
+      <div class="kpi-sub wn" style="font-size:10px; margin-top:2px;">{{approvalCard?.awaitingAction}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--green)">
-      <div class="kpi-label">Approved This Week</div>
-      <div class="kpi-val">{{approvalCard?.approvedThisWeek}}</div>
-      <div class="kpi-sub up">{{approvalCard?.approvedThisWeekTotal}}</div>
+
+    <div class="kpi" style="--kc:var(--green); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Approved This Week</div>
+        <div class="kpi-icon" style="font-size:16px;">✅</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{approvalCard?.approvedThisWeek}}</div>
+      <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">{{approvalCard?.approvedThisWeekTotal}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--red)">
-      <div class="kpi-label">Rejected This Week</div>
-      <div class="kpi-val">{{approvalCard?.rejectedThisWeek}}</div>
-      <div class="kpi-sub">{{approvalCard?.rejectedThisWeekText}}</div>
+
+    <div class="kpi" style="--kc:var(--red); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Rejected This Week</div>
+        <div class="kpi-icon" style="font-size:16px;">❌</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{approvalCard?.rejectedThisWeek}}</div>
+      <div class="kpi-sub" style="font-size:10px; margin-top:2px;">{{approvalCard?.rejectedThisWeekText}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--blue)">
-      <div class="kpi-label">Team Spend MTD</div>
-      <div class="kpi-val">{{approvalCard?.teamSpendMTD}}</div>
-      <div class="kpi-sub wn">{{approvalCard?.teamSpendMTDText}}</div>
+
+    <div class="kpi" style="--kc:var(--blue); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Team Spend MTD</div>
+        <div class="kpi-icon" style="font-size:16px;">💳</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{approvalCard?.teamSpendMTD}}</div>
+      <div class="kpi-sub wn" style="font-size:10px; margin-top:2px;">{{approvalCard?.teamSpendMTDText}}</div>
     </div>
   </div>
   <div class="card no-hover">

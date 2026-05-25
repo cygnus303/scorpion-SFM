@@ -1,26 +1,45 @@
 <div class="page active fade-in">
   <div class="g4">
-    <div class="kpi" style="--kc:var(--blue)">
-      <div class="kpi-label">Total Customers</div>
-      <div class="kpi-val">{{getCustomerCount?.totalCustomers}}</div>
-      <div class="kpi-sub up">▲ +{{getCustomerCount?.newThisMonth}} this month</div>
+
+    <div class="kpi" style="--kc:var(--blue); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Total Customers</div>
+        <div class="kpi-icon" style="font-size:16px;">👥</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{getCustomerCount?.totalCustomers}}</div>
+      <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">▲ +{{getCustomerCount?.newThisMonth}} this month
+      </div>
     </div>
-    <div class="kpi" style="--kc:var(--green)">
-      <div class="kpi-label">Active Accounts</div>
-      <div class="kpi-val">{{getCustomerCount?.activeAccounts}}</div>
-      <div class="kpi-sub up">{{getCustomerCount?.retentionPct}}% retention</div>
+
+    <div class="kpi" style="--kc:var(--green); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Active Accounts</div>
+        <div class="kpi-icon" style="font-size:16px;">✅</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{getCustomerCount?.activeAccounts}}</div>
+      <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">{{getCustomerCount?.retentionPct}}% retention
+      </div>
     </div>
-    <div class="kpi" style="--kc:var(--amber)">
-      <div class="kpi-label">At Risk</div>
-      <div class="kpi-val">{{getCustomerCount?.atRisk}}</div>
-      <div class="kpi-sub wn">CSAT below</div>
+
+    <div class="kpi" style="--kc:var(--amber); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">At Risk</div>
+        <div class="kpi-icon" style="font-size:16px;">⚠️</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{getCustomerCount?.atRisk}}</div>
+      <div class="kpi-sub wn" style="font-size:10px; margin-top:2px;">CSAT below</div>
     </div>
-    <div class="kpi" style="--kc:var(--red)">
-      <div class="kpi-label">Churned MTD</div>
-      <div class="kpi-val">{{getCustomerCount?.churnedMTD}}</div>
-      <div class="kpi-sub dn">Needs review</div>
+
+    <div class="kpi" style="--kc:var(--red); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Churned MTD</div>
+        <div class="kpi-icon" style="font-size:16px;">📉</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{getCustomerCount?.churnedMTD}}</div>
+      <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">Needs review</div>
     </div>
   </div>
+
   <div class="g2">
     <div class="card no-hover">
       <div class="card-head">

@@ -1,24 +1,41 @@
 <div class="page active fade-in">
   <div class="g4">
-    <div class="kpi" style="--kc:var(--blue)">
-      <div class="kpi-label">Meetings This Week</div>
-      <div class="kpi-val">{{meetingCard?.cards?.meetingsThisWeek || 0}}</div>
-      <div class="kpi-sub up">▲ {{meetingCard?.cards?.meetingsThisWeekText || ''}}</div>
+    <div class="kpi" style="--kc:var(--blue); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Meetings This Week</div>
+        <div class="kpi-icon" style="font-size:16px;">📅</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{meetingCard?.cards?.meetingsThisWeek || 0}}</div>
+      <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">▲ {{meetingCard?.cards?.meetingsThisWeekText ||
+        ''}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--green)">
-      <div class="kpi-label">Meetings Today</div>
-      <div class="kpi-val">{{meetingCard?.cards?.meetingsToday || 0}}</div>
-      <div class="kpi-sub up">{{meetingCard?.cards?.meetingsTodayText || ''}}</div>
+
+    <div class="kpi" style="--kc:var(--green); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Meetings Today</div>
+        <div class="kpi-icon" style="font-size:16px;">🗓️</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{meetingCard?.cards?.meetingsToday || 0}}</div>
+      <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">{{meetingCard?.cards?.meetingsTodayText || ''}}
+      </div>
     </div>
-    <div class="kpi" style="--kc:var(--amber)">
-      <div class="kpi-label">Avg per Rep/Day</div>
-      <div class="kpi-val">{{meetingCard?.cards?.avgPerRepDay || 0}}</div>
-      <div class="kpi-sub wn">{{meetingCard?.cards?.avgText || ''}}</div>
+
+    <div class="kpi" style="--kc:var(--amber); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Avg per Rep/Day</div>
+        <div class="kpi-icon" style="font-size:16px;">📈</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{meetingCard?.cards?.avgPerRepDay || 0}}</div>
+      <div class="kpi-sub wn" style="font-size:10px; margin-top:2px;">{{meetingCard?.cards?.avgText || ''}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--red)">
-      <div class="kpi-label">Missed Meetings</div>
-      <div class="kpi-val">{{meetingCard?.cards?.missedMeetings || 0}}</div>
-      <div class="kpi-sub dn">{{meetingCard?.cards?.missedText || ''}}</div>
+
+    <div class="kpi" style="--kc:var(--red); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Missed Meetings</div>
+        <div class="kpi-icon" style="font-size:16px;">❌</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{meetingCard?.cards?.missedMeetings || 0}}</div>
+      <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">{{meetingCard?.cards?.missedText || ''}}</div>
     </div>
   </div>
   <div class="g2">
@@ -93,8 +110,8 @@
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
                         style="width:30px; height:30px; background:var(--red); color:white;"
                         [ngClass]="{'disabled-image': meeting.isExpired || meeting.isComplete}"
-                        (click)="meeting.isExpired || meeting.isComplete ? null : openMeetingModal('Update', meeting.attendeeCode, meeting.checkOut)" [popover]="'Edit'"
-                        placement="left" triggers="hover" [outsideClick]="true" container="body">
+                        (click)="meeting.isExpired || meeting.isComplete ? null : openMeetingModal('Update', meeting.attendeeCode, meeting.checkOut)"
+                        [popover]="'Edit'" placement="left" triggers="hover" [outsideClick]="true" container="body">
                         <i class="ri-pencil-fill"></i>
                       </button>
                       <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
@@ -163,8 +180,8 @@
           <div class="hbr" *ngFor="let item of meetingOutcomes">
             <div class="hbl">{{ item.outcomeName }}</div>
             <div class="hbt">
-              <div class="hbf" [style.width.%]="item.percentage"
-                [style.background]="getOutcomeColor(item.outcomeName)"></div>
+              <div class="hbf" [style.width.%]="item.percentage" [style.background]="getOutcomeColor(item.outcomeName)">
+              </div>
             </div>
             <div class="hbv" [ngClass]="getOutcomeClass(item.outcomeName)">{{ item.percentage }}%</div>
           </div>

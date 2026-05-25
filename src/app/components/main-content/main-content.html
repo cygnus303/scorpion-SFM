@@ -61,31 +61,57 @@
     </div>
   </div>
   <div class="kpi-row">
-    <div class="kpi" style="--kc:var(--red);cursor:pointer">
-      <div class="kpi-label">Revenue vs Target</div>
-      <div class="kpi-val">₹{{formatAmount(salesCollectionCount.currentMonthRevenue)}}</div>
-      <div class="kpi-sub dn">▼ 80% of ₹3.0Cr</div>
+
+    <div class="kpi" style="--kc:var(--red); padding: 10px 12px; cursor:pointer">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Revenue vs Target</div>
+        <div class="kpi-icon" style="font-size:16px;">💰</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">
+        ₹{{formatAmount(salesCollectionCount.currentMonthRevenue)}}</div>
+      <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">▼ 80% of ₹3.0Cr</div>
     </div>
-    <div class="kpi" style="--kc:var(--red);cursor:pointer">
-      <div class="kpi-label">Outstanding Collection</div>
-      <div class="kpi-val">₹{{ formatAmount(salesCollectionCount.totalOS) }}</div>
-      <div class="kpi-sub dn">{{formatAmount(salesCollectionCount.currentMonthOS)}} This Month</div>
+
+    <div class="kpi" style="--kc:var(--red); padding: 10px 12px; cursor:pointer">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Outstanding Collection</div>
+        <div class="kpi-icon" style="font-size:16px;">📊</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">₹{{ formatAmount(salesCollectionCount.totalOS) }}
+      </div>
+      <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">
+        {{formatAmount(salesCollectionCount.currentMonthOS)}} This Month</div>
     </div>
-    <div class="kpi" style="--kc:var(--green);cursor:pointer" (click)="router.navigate(['/lead'])">
-      <div class="kpi-label">Meetings</div>
-      <div class="kpi-val">{{this.totalCount.totalLeadCount}}</div>
-      <div class="kpi-sub up">▲ +{{this.totalCount.last7DaysLeadCount}} this week</div>
+
+    <div class="kpi" style="--kc:var(--green); padding: 10px 12px; cursor:pointer" (click)="router.navigate(['/lead'])">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Meetings</div>
+        <div class="kpi-icon" style="font-size:16px;">🤝</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{this.totalCount.totalLeadCount}}</div>
+      <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">▲ +{{this.totalCount.last7DaysLeadCount}} this
+        week</div>
     </div>
-    <div class="kpi" style="--kc:var(--amber);cursor:pointer">
-      <div class="kpi-label">BDSL</div>
-      <div class="kpi-val">{{totalCount.prQ_SuccessCount}}%</div>
-      <div class="kpi-sub wn">⚠ Target: 95%</div>
+
+    <div class="kpi" style="--kc:var(--amber); padding: 10px 12px; cursor:pointer">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">BDSL</div>
+        <div class="kpi-icon" style="font-size:16px;">🎯</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{totalCount.prQ_SuccessCount}}%</div>
+      <div class="kpi-sub wn" style="font-size:10px; margin-top:2px;">⚠ Target: 95%</div>
     </div>
-    <div class="kpi" style="--kc:var(--red);cursor:pointer" (click)="router.navigate(['/complaint'])">
-      <div class="kpi-label">Open Complaints</div>
-      <div class="kpi-val"> {{totalCount.openComplaints}}</div>
-      <div class="kpi-sub dn">7 breaching SLA</div>
+
+    <div class="kpi" style="--kc:var(--red); padding: 10px 12px; cursor:pointer"
+      (click)="router.navigate(['/complaint'])">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Open Complaints</div>
+        <div class="kpi-icon" style="font-size:16px;">🎫</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{totalCount.openComplaints}}</div>
+      <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">7 breaching SLA</div>
     </div>
+
   </div>
   <div class="g3">
     <div class="card">

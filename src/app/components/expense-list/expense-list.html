@@ -1,25 +1,40 @@
 <!-- ══ EXPENSE ══ -->
 <div class="page active fade-in">
   <div class="g4">
-    <div class="kpi" style="--kc:var(--blue)">
-      <div class="kpi-label">Total Expenses</div>
-      <div class="kpi-val">{{expenseCard?.totalExpenses}}</div>
-      <div class="kpi-sub">{{expenseCard?.totalText}}</div>
+    <div class="kpi" style="--kc:var(--blue); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Total Expenses</div>
+        <div class="kpi-icon" style="font-size:16px;">💰</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{expenseCard?.totalExpenses}}</div>
+      <div class="kpi-sub" style="font-size:10px; margin-top:2px;">{{expenseCard?.totalText}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--green)">
-      <div class="kpi-label">Approved</div>
-      <div class="kpi-val">₹ {{expenseCard?.approvedAmount}}</div>
-      <div class="kpi-sub up">{{expenseCard?.approvedText}}</div>
+
+    <div class="kpi" style="--kc:var(--green); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Approved</div>
+        <div class="kpi-icon" style="font-size:16px;">✅</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">₹ {{expenseCard?.approvedAmount}}</div>
+      <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">{{expenseCard?.approvedText}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--amber)">
-      <div class="kpi-label">Pending Approval</div>
-      <div class="kpi-val">{{expenseCard?.pendingAmount}}</div>
-      <div class="kpi-sub wn">{{expenseCard?.pendingText}}</div>
+
+    <div class="kpi" style="--kc:var(--amber); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Pending Approval</div>
+        <div class="kpi-icon" style="font-size:16px;">⏳</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{expenseCard?.pendingAmount}}</div>
+      <div class="kpi-sub wn" style="font-size:10px; margin-top:2px;">{{expenseCard?.pendingText}}</div>
     </div>
-    <div class="kpi" style="--kc:var(--red)">
-      <div class="kpi-label">Rejected</div>
-      <div class="kpi-val">₹{{expenseCard?.rejectedAmount}}</div>
-      <div class="kpi-sub up">{{expenseCard?.rejectedText}}</div>
+
+    <div class="kpi" style="--kc:var(--red); padding: 10px 12px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div class="kpi-label" style="font-size:11px;">Rejected</div>
+        <div class="kpi-icon" style="font-size:16px;">❌</div>
+      </div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">₹{{expenseCard?.rejectedAmount}}</div>
+      <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">{{expenseCard?.rejectedText}}</div>
     </div>
   </div>
 
