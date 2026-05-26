@@ -11,18 +11,45 @@
         style="display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--red-lt);color:var(--red)">
         LIVE</div>
     </div>
-    <div class="card" style="border-top:3px solid var(--green);cursor:pointer">
+    <!-- <div class="card" style="border-top:3px solid var(--green);cursor:pointer">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
         <div class="ci g" style="width:26px;height:26px;font-size:13px">💰</div><span
           style="font-size:12px;font-weight:600">Sales Analysis</span>
       </div>
-      <div style="font-size:22px;font-weight:700;color:var(--text1)"> ₹{{ formatAmount(salesCollectionCount.totalSales)
+      <div style="font-size:22px;font-weight:700;color:var(--text1)"> ₹{{ formatAmount(salesCollectionCount.currentMonthRevenue)
         }}</div>
       <div style="font-size:13px;color:var(--text3);margin-top:2px">
       </div>
       <div
         style="display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--amber-lt);color:var(--amber)">
-        {{formatAmount(salesCollectionCount.currentMonthSales) }} THIS MONTH</div>
+        {{formatAmount(salesCollectionCount.currentMonthRevenue) }}/{{formatAmount(nextMonthSales?.currentMonthRevenue) }} THIS MONTH</div>
+    </div> -->
+    <div class="card" style="border-top:3px solid var(--green);cursor:pointer">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+        <div class="ci g" style="width:26px;height:26px;font-size:13px">💰</div>
+        <span style="font-size:12px;font-weight:600">Sales Analysis</span>
+      </div>
+      <div style="font-size:22px;font-weight:700;color:var(--text1)">
+        ₹{{ formatAmount(salesCollectionCount?.currentMonthRevenue) }}
+      </div>
+      <div
+        style="display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--amber-lt);color:var(--amber)">
+        {{ formatAmount(salesCollectionCount?.currentMonthRevenue) }}
+        /
+        {{ formatAmount(nextMonthSales?.currentMonthRevenue) }}
+
+        <!-- Arrow: up jo current > next, down jo current < next -->
+        <span *ngIf="salesCollectionCount?.currentMonthRevenue > nextMonthSales?.currentMonthRevenue"
+          style="color:green;font-size:14px">&#9650;</span>
+
+        <span *ngIf="salesCollectionCount?.currentMonthRevenue < nextMonthSales?.currentMonthRevenue"
+          style="color:red;font-size:14px">&#9660;</span>
+
+        <span *ngIf="salesCollectionCount?.currentMonthRevenue === nextMonthSales?.currentMonthRevenue"
+          style="color:gray;font-size:14px">&#9654;</span>
+
+        THIS MONTH
+      </div>
     </div>
     <div class="card" style="border-top:3px solid var(--amber);cursor:pointer">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
@@ -69,7 +96,7 @@
       </div>
       <div class="kpi-val" style="font-size:20px; margin-top:2px;">
         ₹{{formatAmount(salesCollectionCount.currentMonthRevenue)}}</div>
-      <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">▼ 80% of ₹3.0Cr</div>
+      <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;"></div>
     </div>
 
     <div class="kpi" style="--kc:var(--red); padding: 10px 12px; cursor:pointer">
@@ -90,17 +117,33 @@
         <div class="kpi-icon" style="font-size:16px;">🤝</div>
       </div>
       <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{this.totalCount.totalMeetingCount}}</div>
-      <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">▲ +{{this.totalCount.last7DaysLeadCount}} this
-        week</div>
+      <div class="kpi-sub up" style="font-size:10px; margin-top:2px;"></div>
     </div>
 
-    <div class="kpi" style="--kc:var(--amber); padding: 10px 12px; cursor:pointer">
+    <div class="kpi"
+      [style]="'--kc:' + (totalCount.totalBDSLCount >= 95 ? 'var(--green)' : 'var(--red)') + '; padding: 10px 12px; cursor:pointer'">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
         <div class="kpi-label" style="font-size:11px;">BDSL</div>
         <div class="kpi-icon" style="font-size:16px;">🎯</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{totalCount.prQ_SuccessCount}}%</div>
-      <div class="kpi-sub wn" style="font-size:10px; margin-top:2px;">⚠ Target: 95%</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">
+        {{ totalCount.totalBDSLCount }}%
+      </div>
+      <div class="kpi-sub" style="font-size:10px; margin-top:2px; display:flex; align-items:center; gap:5px;"
+        [style.color]="totalCount.totalBDSLCount >= 95 ? 'var(--green)' : 'var(--red)'">
+
+        <!-- Up Arrow SVG (Green - >= 95) -->
+        <svg *ngIf="totalCount.totalBDSLCount >= 95" width="10" height="20" viewBox="0 0 10 20" fill="none">
+          <polygon points="5,0 10,8 6.5,8 6.5,20 3.5,20 3.5,8 0,8" fill="var(--green)" />
+        </svg>
+
+        <!-- Down Arrow SVG (Red - < 95) -->
+        <svg *ngIf="totalCount.totalBDSLCount < 95" width="10" height="20" viewBox="0 0 10 20" fill="none">
+          <polygon points="5,20 10,12 6.5,12 6.5,0 3.5,0 3.5,12 0,12" fill="var(--red)" />
+        </svg>
+
+        <span>{{ totalCount.totalBDSLCount >= 95 ? 'Target: 95%' : 'Target: 95%' }}</span>
+      </div>
     </div>
 
     <div class="kpi" style="--kc:var(--red); padding: 10px 12px; cursor:pointer"
@@ -110,7 +153,7 @@
         <div class="kpi-icon" style="font-size:16px;">🎫</div>
       </div>
       <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{totalCount.openComplaints}}</div>
-      <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">7 breaching SLA</div>
+      <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;"></div>
     </div>
 
   </div>
