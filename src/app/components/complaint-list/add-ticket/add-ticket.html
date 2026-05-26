@@ -169,8 +169,24 @@
           <div class="step-num">2</div>
           Complaint Classification
         </div>
-
         <div class="row g-3">
+          <div class="col-md-6">
+            <div class="fg">
+              <label>Ticket Category</label>
+              <div style="display:flex;gap:16px;margin-top:6px">
+                <label
+                  style="display: flex; align-items: center; gap: 6px; font-weight: 400; text-transform: none; font-size: 13px;">
+                  <input type="radio" id="categoryEnquiry" formControlName="ticketCategory" value="Enquiry">
+                  <span>Enquiry</span>
+                </label>
+                <label
+                  style="display: flex; align-items: center; gap: 6px; font-weight: 400; text-transform: none; font-size: 13px;">
+                  <input type="radio" id="categoryComplaint" formControlName="ticketCategory" value="Complaint">
+                  <span>Complaint</span>
+                </label>
+              </div>
+            </div>
+          </div>
           <div class="col-md-6">
             <div class="fg">
               <label>Ticket Source *</label>

@@ -132,7 +132,7 @@ export class AddTicket {
     private datePipe: DatePipe,
     public toasterService: ToastrService,
     private complaintService: ComplaintService,) {
-    this.docketNoSubject.pipe(debounceTime(100),distinctUntilChanged(),filter(value => value.length >= 2)).subscribe(docketNo => {
+    this.docketNoSubject.pipe(debounceTime(100), distinctUntilChanged(), filter(value => value.length >= 2)).subscribe(docketNo => {
       this.loading = true;
       this.onDocketNo(docketNo);
     });
@@ -210,9 +210,40 @@ export class AddTicket {
       closeRemark: new FormControl(''),
       customerID: new FormControl(''),
       closureDate: new FormControl(new Date()),
-      currentLocation: new FormControl('')
+      currentLocation: new FormControl(''),
+      ticketCategory: new FormControl('Enquiry')
     });
 
+    this.ticketForm.get('complaintDate')?.valueChanges.subscribe(() => this.checkTicketCategory());
+    this.ticketForm.get('EDD')?.valueChanges.subscribe(() => this.checkTicketCategory());
+  }
+
+  checkTicketCategory() {
+    const eddStr = this.ticketForm.get('EDD')?.value;
+    const tktDate = this.ticketForm.get('complaintDate')?.value;
+
+    if (eddStr && tktDate) {
+      const edd = new Date(eddStr);
+      let ticketDate: Date;
+      if (tktDate instanceof Date) {
+        ticketDate = tktDate;
+      } else if (tktDate && typeof tktDate === 'object' && tktDate.year) {
+        ticketDate = new Date(tktDate.year, tktDate.month - 1, tktDate.day);
+      } else {
+        ticketDate = new Date(tktDate);
+      }
+
+      if (!isNaN(edd.getTime()) && !isNaN(ticketDate.getTime())) {
+        edd.setHours(0, 0, 0, 0);
+        ticketDate.setHours(0, 0, 0, 0);
+
+        if (ticketDate > edd) {
+          this.ticketForm.get('ticketCategory')?.setValue('Complaint');
+        } else {
+          this.ticketForm.get('ticketCategory')?.setValue('Enquiry');
+        }
+      }
+    }
   }
 
   createEscalationForm(data?: any) {
@@ -452,8 +483,9 @@ export class AddTicket {
           data.SubType = this.ticketForm.value.subType,
           data.Type = this.ticketForm.value.type,
           data.UserID = this.ticketForm.value.userID,
-          // data.complaintDate =  this.datePipe.transform(this.ticketForm.value.complaintDate, 'dd/MM/yyyy') || '';  
-          this.addTicket(data);
+          data.TicketCategory = this.ticketForm.getRawValue().ticketCategory;
+        // data.complaintDate =  this.datePipe.transform(this.ticketForm.value.complaintDate, 'dd/MM/yyyy') || '';  
+        this.addTicket(data);
       } else if (this.complaint === 'Close') {
         const close = {
           ComplaintID: this.ticketForm.value.complaintId,

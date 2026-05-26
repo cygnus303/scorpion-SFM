@@ -5,42 +5,43 @@
     <div class="kpi" style="--kc:var(--red);">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
         <div class="kpi-label" style="font-size:11px;">Total Complaints</div>
-        <div class="kpi-icon" style="font-size:16px;">🎫</div>
+        <div class="kpi-icon" style="font-size:16px;">🗂️</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.openTickets}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.totalComCount}}</div>
     </div>
 
     <div class="kpi" style="--kc:var(--green);">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
-        <div class="kpi-label" style="font-size:11px;">Resolved Today</div>
-        <div class="kpi-icon" style="font-size:16px;">✅</div>
+        <div class="kpi-label" style="font-size:11px;">Open Complaints</div>
+        <div class="kpi-icon" style="font-size:16px;">📂</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.resolvedToday}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.new}}</div>
     </div>
 
     <div class="kpi" style="--kc:var(--amber);">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
-        <div class="kpi-label" style="font-size:11px;">SLA Compliance</div>
-        <div class="kpi-icon" style="font-size:16px;">📋</div>
+        <div class="kpi-label" style="font-size:11px;">Escalated Complaints</div>
+        <div class="kpi-icon" style="font-size:16px;">🚨</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.slaCompliance}}%</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.escalated}}</div>
     </div>
 
     <div class="kpi" style="--kc:var(--red);">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
-        <div class="kpi-label" style="font-size:11px;">DEPS Complaints</div>
-        <div class="kpi-icon" style="font-size:16px;">⚠️</div>
+        <div class="kpi-label" style="font-size:11px;">Updated Complaints</div>
+        <div class="kpi-icon" style="font-size:16px;">🔄</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.depsComplaints}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.updated}}</div>
     </div>
 
     <div class="kpi" style="--kc:var(--green);">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
-        <div class="kpi-label" style="font-size:11px;">First Call Resolution</div>
-        <div class="kpi-icon" style="font-size:16px;">📞</div>
+        <div class="kpi-label" style="font-size:11px;">Closed Complaints</div>
+        <div class="kpi-icon" style="font-size:16px;">🔒</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.firstCallResolution}}%</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.closed}}</div>
     </div>
+
   </div>
   <div class="kpi-row">
     <div class="kpi" *ngFor="let card of PRQCard" [style.border-top]="'3px solid ' + getCardColor(card.color)">

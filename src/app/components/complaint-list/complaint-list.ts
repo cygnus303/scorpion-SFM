@@ -199,17 +199,39 @@ export class ComplaintList {
     this.getCompliantCard();
   }
 
+  formatToGMT = (dateStr: string, isEndDate = false): string => {
+    if (!dateStr) return '';
+    let date: Date;
+    if (dateStr.includes('/')) {
+      const [day, month, year] = dateStr.split('/');
+      // ✅ UTC ma directly banavo
+      date = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
+    } else {
+      date = new Date(dateStr);
+    }
+    if (isNaN(date.getTime())) {
+      console.error('Invalid date:', dateStr);
+      return '';
+    }
+    if (isEndDate) {
+      date.setUTCHours(23, 59, 59, 0);
+    } else {
+      date.setUTCHours(0, 0, 0, 0);
+    }
+    return date.toUTCString();
+  };
+
   getCompliantCard() {
     const params = {
-      startDate: this.commonService.globalFilters.startDate,
-      endDate: this.commonService.globalFilters.endDate,
+      startDate: this.formatToGMT(this.commonService.globalFilters.startDate),
+      endDate: this.formatToGMT(this.commonService.globalFilters.endDate),
       userId: this.commonService.globalFilters.UserID.toString(),
     }
 
-    this.complaintService.getCompliantCard(params).subscribe({
+    this.complaintService.getCompalintCounteData(params).subscribe({
       next: (response) => {
         if (response.success) {
-          this.compliantCard = response.data;
+          this.compliantCard = response.data[0];
         }
         this.isExportLoading = false;
       }
