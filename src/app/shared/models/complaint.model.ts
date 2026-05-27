@@ -44,6 +44,7 @@ export interface ComplaintResponse {
   autoClosure: any;
   deliveryStatus: any;
   ticketDate: string;
+  ticketCategory: string;
 }
 
 export interface ComplaintDetailResponse extends ComplaintResponse {

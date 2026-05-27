@@ -213,8 +213,8 @@ export class AddTicket {
       customerID: new FormControl(''),
       closureDate: new FormControl(new Date()),
       currentLocation: new FormControl(''),
-      ticketCategory: new FormControl('Enquiry'),
-      enquiryCategories: new FormControl(null),
+      moduleType: new FormControl(null),
+      // enquiryCategories: new FormControl(null),
     });
 
     this.ticketForm.get('complaintDate')?.valueChanges.subscribe(() => this.checkTicketCategory());
@@ -241,9 +241,9 @@ export class AddTicket {
         ticketDate.setHours(0, 0, 0, 0);
 
         if (ticketDate > edd) {
-          this.ticketForm.get('ticketCategory')?.setValue('Complaint');
+          this.ticketForm.get('moduleType')?.setValue('C');
         } else {
-          this.ticketForm.get('ticketCategory')?.setValue('Enquiry');
+          this.ticketForm.get('moduleType')?.setValue('E');
         }
       }
     }
@@ -456,7 +456,7 @@ export class AddTicket {
 
   success(message: string, id: string): Promise<any> {
     return Swal.fire({
-      title: `Complaint ID : ${id}`,
+      title: `ID : ${id}`,
       html: `<div>${message}</div>`,
       icon: 'success',
       iconColor: '#7066e0'
@@ -486,7 +486,7 @@ export class AddTicket {
           data.SubType = this.ticketForm.value.subType,
           data.Type = this.ticketForm.value.type,
           data.UserID = this.ticketForm.value.userID,
-          data.TicketCategory = this.ticketForm.getRawValue().ticketCategory;
+          data.moduleType = this.ticketForm.getRawValue().moduleType;
         // data.complaintDate =  this.datePipe.transform(this.ticketForm.value.complaintDate, 'dd/MM/yyyy') || '';  
         this.addTicket(data);
       } else if (this.complaint === 'Close') {

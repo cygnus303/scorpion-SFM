@@ -176,12 +176,12 @@
               <div style="display:flex;gap:16px;margin-top:6px">
                 <label
                   style="display: flex; align-items: center; gap: 6px; font-weight: 400; text-transform: none; font-size: 13px;">
-                  <input type="radio" id="categoryEnquiry" formControlName="ticketCategory" value="Enquiry">
+                  <input type="radio" id="categoryEnquiry" formControlName="moduleType" value="E">
                   <span>Enquiry</span>
                 </label>
                 <label
                   style="display: flex; align-items: center; gap: 6px; font-weight: 400; text-transform: none; font-size: 13px;">
-                  <input type="radio" id="categoryComplaint" formControlName="ticketCategory" value="Complaint">
+                  <input type="radio" id="categoryComplaint" formControlName="moduleType" value="C">
                   <span>Complaint</span>
                 </label>
               </div>
@@ -232,7 +232,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6" *ngIf="this.ticketForm.value.ticketCategory === 'Complaint'">
+          <div class="col-md-6" *ngIf="this.ticketForm.value.moduleType === 'C'">
             <div class="fg">
               <label>Ticket Type *</label>
               <ng-select [items]="ticketTypes" bindLabel="codeDesc" bindValue="codeId" placeholder="Search Ticket Type"
@@ -246,11 +246,11 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6" *ngIf="this.ticketForm.value.ticketCategory === 'Enquiry'">
+          <div class="col-md-6" *ngIf="this.ticketForm.value.moduleType === 'E'">
             <div class="fg">
               <label>Enquiry Category *</label>
               <ng-select [items]="enquiryCategories" bindLabel="codeDesc" bindValue="codeId"
-                placeholder="Search Ticket Type" formControlName="enquiryCategories"
+                placeholder="Search Ticket Type" formControlName="type"
                 (change)="getTicketSubTypes($event.codeId)" appendTo="body"
                 [ngClass]="{'border-danger': ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched}">
               </ng-select>

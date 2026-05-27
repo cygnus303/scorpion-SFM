@@ -217,7 +217,16 @@
       <div class="card-head">
         <div class="ci" style="background:#DC2626">🔔</div>
         <div class="card-title">Smart Alerts</div>
-        <div class="ctag tr">Action Reqd.</div>
+        <div class="ctag tr" style="cursor: pointer;" (click)="GetLatestEvents()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            style="display:inline-block; vertical-align:middle; margin-right:4px;">
+            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+            <path d="M21 3v5h-5" />
+            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+            <path d="M8 16H3v5" />
+          </svg>
+        </div>
       </div>
       <!-- Latest PRQ -->
       <div class="ai" *ngIf="latestEvents?.latestPRQ">
@@ -235,7 +244,7 @@
         <div class="ad" style="background:var(--red)"></div>
         <div>
           <div class="at">Complaint # {{latestEvents.latestComplaint.docketNo}}
-            ({{latestEvents.latestComplaint.customerName}})</div>
+            ({{latestEvents.latestComplaint.customerName}}) {{latestEvents.latestComplaint.userID}}</div>
           <div class="as2">{{latestEvents.latestComplaint.eventName}}</div>
         </div>
         <div class="atm">{{getTimeAgo(latestEvents.latestComplaint.eventDate)}}</div>

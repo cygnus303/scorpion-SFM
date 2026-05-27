@@ -61,16 +61,21 @@
 
   <!-- RAISE  SECTION -->
   <div class="card no-hover" style="padding:8px;">
-    <div style="display:flex;align-items:center;gap:16px;padding:8px 0">
-      <div style="font-size:13px;font-weight:600;color:var(--text1);min-width:120px">Raise Request:</div>
-      <div style="display:flex;gap:6px;flex:1;align-items:center">
-        <button class="tc" [class.on]="activeTab === 'complaint'" (click)="setActiveTab('complaint')"
-          style="padding:6px 14px;font-size:12px">Complaints</button>
-        <button class="tc" [class.on]="activeTab === 'enquiry'" (click)="setActiveTab('enquiry')"
-          style="padding:6px 14px;font-size:12px">Enquiry</button>
-        <button class="tc" [class.on]="activeTab === 'prq'" (click)="setActiveTab('prq')"
-          style="padding:6px 14px;font-size:12px">PRQ</button>
+    <div style="display:flex;align-items:center;gap:16px;padding:8px 0" class="justify-content-between">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="font-size:13px;font-weight:600;color:var(--text1);min-width:120px">Raise Request:</div>
+        <div style="display:flex;gap:6px;flex:1;align-items:center">
+          <button class="tc" [class.on]="activeTab === 'complaint'" (click)="setActiveTab('complaint')"
+            style="padding:6px 14px;font-size:12px">Complaints</button>
+          <button class="tc" [class.on]="activeTab === 'enquiry'" (click)="setActiveTab('enquiry')"
+            style="padding:6px 14px;font-size:12px">Enquiry</button>
+          <button class="tc" [class.on]="activeTab === 'prq'" (click)="setActiveTab('prq')"
+            style="padding:6px 14px;font-size:12px">PRQ</button>
+        </div>
       </div>
+      <button *ngIf="activeTab === 'complaint' || activeTab === 'enquiry'" class="tbtn" style="font-size:11px"
+        (click)="openAddTicketModal('Add')">＋ New
+        Ticket</button>
     </div>
   </div>
   <div *ngIf="activeTab === 'complaint'">
@@ -95,8 +100,7 @@
             <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
             <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
           </button>
-          <button class="tbtn" style="padding:5px 12px;font-size:11px" (click)="openAddTicketModal('Add')">＋ New
-            Ticket</button>
+
         </div>
       </div>
       <table class="mt">
