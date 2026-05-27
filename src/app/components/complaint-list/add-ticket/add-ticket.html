@@ -232,12 +232,26 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" *ngIf="this.ticketForm.value.ticketCategory === 'Complaint'">
             <div class="fg">
               <label>Ticket Type *</label>
               <ng-select [items]="ticketTypes" bindLabel="codeDesc" bindValue="codeId" placeholder="Search Ticket Type"
                 formControlName="type" [readonly]="complaint !== 'Add'" (change)="getTicketSubTypes($event.codeId)"
                 appendTo="body"
+                [ngClass]="{'border-danger': ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched}">
+              </ng-select>
+              <div *ngIf="ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched"
+                class="text-danger">
+                <small *ngIf="ticketForm.controls['type'].errors?.['required']">Ticket Type is required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="this.ticketForm.value.ticketCategory === 'Enquiry'">
+            <div class="fg">
+              <label>Enquiry Category *</label>
+              <ng-select [items]="enquiryCategories" bindLabel="codeDesc" bindValue="codeId"
+                placeholder="Search Ticket Type" formControlName="enquiryCategories"
+                (change)="getTicketSubTypes($event.codeId)" appendTo="body"
                 [ngClass]="{'border-danger': ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched}">
               </ng-select>
               <div *ngIf="ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched"

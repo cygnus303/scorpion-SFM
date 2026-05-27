@@ -29,6 +29,7 @@ export class AddTicket {
   public ticketSubTypes: GeneralMasterResponse[] = [];
   public priorities: GeneralMasterResponse[] = [];
   public ticketSources: GeneralMasterResponse[] = [];
+  public enquiryCategories: GeneralMasterResponse[] = [];
   public users: UserResponse[] = [];
   public ticketForm!: FormGroup;
   public escalationForm!: FormGroup;
@@ -59,6 +60,7 @@ export class AddTicket {
     this.modalRef = this.modalService.show(this.Templatepod, { class: 'modal-lg modal-dialog-centered modal-width', backdrop: true });
     this.buildForm();
     this.getTicketTypes();
+    this.getEnquiryCategories();
     this.getticketSources()
     this.getPriorities();
     this.getUsers();
@@ -211,7 +213,8 @@ export class AddTicket {
       customerID: new FormControl(''),
       closureDate: new FormControl(new Date()),
       currentLocation: new FormControl(''),
-      ticketCategory: new FormControl('Enquiry')
+      ticketCategory: new FormControl('Enquiry'),
+      enquiryCategories: new FormControl(null),
     });
 
     this.ticketForm.get('complaintDate')?.valueChanges.subscribe(() => this.checkTicketCategory());
@@ -597,6 +600,19 @@ export class AddTicket {
       next: (response) => {
         if (response) {
           this.ticketTypes = response.data;
+        }
+      },
+      error: (response: any) => {
+        this.toasterService.error(response);
+      },
+    });
+  }
+
+  getEnquiryCategories(searchText: string | null = null) {
+    this.externalService.getGeneralMaster(searchText, 'ENQCAT').subscribe({
+      next: (response) => {
+        if (response) {
+          this.enquiryCategories = response.data;
         }
       },
       error: (response: any) => {

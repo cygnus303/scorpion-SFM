@@ -43,4 +43,8 @@ export class DashboardService {
   GetDashboardSalesOS(filters: any): Observable<IApiBaseResponse<LeadByStatusResponse>> {
     return this.apiHandlerService.Get(`Dashboard/GetDashboardSalesOS?startDate=${filters.startDate}&endDate=${filters.endDate}&userId=${filters.userId}`);
   }
+
+  GetLatestEvents(): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Get(`Dashboard/GetLatestEvents`);
+  }
 }

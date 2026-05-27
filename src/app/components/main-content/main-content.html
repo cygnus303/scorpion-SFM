@@ -219,45 +219,67 @@
         <div class="card-title">Smart Alerts</div>
         <div class="ctag tr">Action Reqd.</div>
       </div>
-      <div class="ai">
+      <!-- Latest PRQ -->
+      <div class="ai" *ngIf="latestEvents?.latestPRQ">
         <div class="ad" style="background:var(--red)"></div>
         <div>
-          <div class="at">PRQ #4821 (Sunrise Traders) SLA breach in 12 mins</div>
-          <div class="as2">PRQ Module</div>
+          <div class="at">PRQ # {{latestEvents.latestPRQ.indentNo}} ({{latestEvents.latestPRQ.customerName}})
+            {{latestEvents.latestPRQ.generatedBy}}</div>
+          <div class="as2">{{latestEvents.latestPRQ.eventName}}</div>
         </div>
-        <div class="atm">2m</div>
+        <div class="atm">{{getTimeAgo(latestEvents.latestPRQ.eventDate)}}</div>
       </div>
-      <div class="ai">
+
+      <!-- Latest Complaint -->
+      <div class="ai" *ngIf="latestEvents?.latestComplaint">
         <div class="ad" style="background:var(--red)"></div>
         <div>
-          <div class="at">CCM-0291 (DEPS damage) SLA breached — escalate</div>
-          <div class="as2">Complaint</div>
+          <div class="at">Complaint # {{latestEvents.latestComplaint.docketNo}}
+            ({{latestEvents.latestComplaint.customerName}})</div>
+          <div class="as2">{{latestEvents.latestComplaint.eventName}}</div>
         </div>
-        <div class="atm">30m</div>
+        <div class="atm">{{getTimeAgo(latestEvents.latestComplaint.eventDate)}}</div>
       </div>
-      <div class="ai">
+
+      <!-- Latest Meeting -->
+      <div class="ai" *ngIf="latestEvents?.latestMeeting">
         <div class="ad" style="background:var(--amber)"></div>
         <div>
-          <div class="at">Quote QMS-0044 no response 48hrs — follow up</div>
-          <div class="as2">QMS V2</div>
+          <div class="at">Meeting # {{latestEvents.latestMeeting.meetingId}} checked out by
+            {{latestEvents.latestMeeting.createdBy}}</div>
+          <div class="as2">{{latestEvents.latestMeeting.eventName}}</div>
         </div>
-        <div class="atm">1h</div>
+        <div class="atm">{{getTimeAgo(latestEvents.latestMeeting.eventDate)}}</div>
       </div>
-      <div class="ai">
+
+      <!-- Latest Customer -->
+      <div class="ai" *ngIf="latestEvents?.latestCustomer">
+        <div class="ad" style="background:var(--blue)"></div>
+        <div>
+          <div class="at">Contract {{latestEvents.latestCustomer.custcode}}
+            ({{latestEvents.latestCustomer.customerName}}) {{latestEvents.latestCustomer.qmGeneratedBY}}</div>
+          <div class="as2">{{latestEvents.latestCustomer.eventName}} - {{latestEvents.latestCustomer.signingLocation}}
+          </div>
+        </div>
+        <div class="atm">{{getTimeAgo(latestEvents.latestCustomer.eventDate)}}</div>
+      </div>
+
+      <!-- Latest Quotation -->
+      <div class="ai" *ngIf="latestEvents?.latestQuotation">
         <div class="ad" style="background:var(--amber)"></div>
         <div>
-          <div class="at">Rahul Singh — 0 visits logged today (target: 4)</div>
-          <div class="as2">SFM Activity</div>
+          <div class="at">Quotation # {{latestEvents.latestQuotation.quotationID}}
+            ({{latestEvents.latestQuotation.prospectName}})</div>
+          <div class="as2">{{latestEvents.latestQuotation.eventName}} - {{latestEvents.latestQuotation.userName}}</div>
         </div>
-        <div class="atm">4h</div>
+        <div class="atm">{{getTimeAgo(latestEvents.latestQuotation.eventDate)}}</div>
       </div>
-      <div class="ai">
-        <div class="ad" style="background:var(--green)"></div>
-        <div>
-          <div class="at">Arjun Sharma crossed monthly target — 105%!</div>
-          <div class="as2">Sales Dashboard</div>
-        </div>
-        <div class="atm">5h</div>
+
+      <!-- Fallback empty state if no events -->
+      <div
+        *ngIf="!latestEvents?.latestPRQ && !latestEvents?.latestComplaint && !latestEvents?.latestMeeting && !latestEvents?.latestCustomer && !latestEvents?.latestQuotation"
+        style="padding:15px;text-align:center;color:var(--text3);font-size:12px">
+        No new alerts found.
       </div>
     </div>
   </div>

@@ -19,6 +19,7 @@ export class MainContent {
   public nextMonthSales: any;
   public totalCount: any = {};
   public salesCollectionCount: any = {}
+  public latestEvents: any;
   public router = inject(Router);
 
   private destroy$ = new Subject<void>();
@@ -30,6 +31,7 @@ export class MainContent {
       this.GetProspectLeaderboard();
       this.GetDashboardSummary();
       this.GetnextMonthSales();
+      this.GetLatestEvents();
     });
   }
 
@@ -133,7 +135,7 @@ export class MainContent {
 
     // Calculate number of months selected
     const monthSpan = (currentEndDate.getFullYear() - currentStartDate.getFullYear()) * 12
-                    + (currentEndDate.getMonth() - currentStartDate.getMonth()) + 1;
+      + (currentEndDate.getMonth() - currentStartDate.getMonth()) + 1;
 
     // Subtract the month span from both dates to get the previous period
     let prevStartDate = new Date(currentStartDate);
@@ -194,5 +196,37 @@ export class MainContent {
         }
       }
     });
+  }
+
+  GetLatestEvents() {
+    this.dashboardService.GetLatestEvents().subscribe({
+      next: (response: any) => {
+        if (response.success) {
+          this.latestEvents = response.data;
+        }
+      }
+    });
+  }
+
+  getTimeAgo(dateStr: string): string {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+
+    // if future or invalid date
+    if (diffMs < 0 || isNaN(diffMs)) return 'just now';
+
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHrs = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHrs / 24);
+
+    if (diffMins < 60) {
+      return `${diffMins}m`;
+    } else if (diffHrs < 24) {
+      return `${diffHrs}h`;
+    } else {
+      return `${diffDays}d`;
+    }
   }
 }
