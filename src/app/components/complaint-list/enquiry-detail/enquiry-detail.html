@@ -1,0 +1,301 @@
+<ng-template #Templatepod>
+
+    <!-- Header -->
+    <div class="modal-header custom-header border-0">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div class="header-icon" style="background:#2563eb;">
+                <i class="ri-file-list-3-line"></i>
+            </div>
+
+            <div>
+                <h5 class="modal-title fw-bold mb-0">
+                    Enquiry Details
+                </h5>
+                <small class="text-muted">Complete Enquiry & docket information</small>
+            </div>
+
+        </div>
+
+        <button type="button" class="btn-close shadow-none" (click)="modalRef.hide()"></button>
+
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+
+        <!-- Loading -->
+        <div *ngIf="isLoading" class="text-center py-5">
+            <span class="spinner-border spinner-border-sm"></span>
+            <div class="mt-2 text-muted">Loading Enquiry details...</div>
+        </div>
+
+        <!-- Content -->
+        <div *ngIf="!isLoading && enquiryResponse">
+
+            <div class="lead-grid">
+
+                <!-- BASIC INFO -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#7c3aed;--cb:#ede9fe;">
+                        <i class="ri-hashtag"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Enquiry ID</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.complaintID || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#ea580c;--cb:#ffedd5;">
+                        <i class="ri-calendar-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Complaint Date</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.compalaintDate || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#16a34a;--cb:#dcfce7;">
+                        <i class="ri-map-pin-user-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Addressed To</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.ticketAddressTo || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#2563eb;--cb:#dbeafe;">
+                        <i class="ri-scan-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Ticket Source</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.ticketSource || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#dc2626;--cb:#fee2e2;">
+                        <i class="ri-ticket-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Ticket Type</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.ticketType || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#f59e0b;--cb:#fef3c7;">
+                        <i class="ri-price-tag-3-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Sub Type</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.ticketSubType || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#ef4444;--cb:#fee2e2;">
+                        <i class="ri-alert-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Priority</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.ticketPriority || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#9333ea;--cb:#f3e8ff;">
+                        <i class="ri-file-text-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Description</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.description || '--' }}</span>
+                    </div>
+                </div>
+
+                <!-- DATES -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#0ea5e9;--cb:#e0f2fe;">
+                        <i class="ri-calendar-check-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">EDD</span>
+                        <span class="ld3-card-val">{{enquiryResponse?.edd ? (enquiryResponse?.edd |
+                            date:'dd/MM/yyyy') : '--'}}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#22c55e;--cb:#dcfce7;">
+                        <i class="ri-calendar-event-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">ADD</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.addDate ? (enquiryResponse?.addDate |
+                            date:'dd/MM/yyyy') : '--'}}</span>
+                    </div>
+                </div>
+
+                <!-- STATUS INFO -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#6366f1;--cb:#e0e7ff;">
+                        <i class="ri-shield-check-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Auto Closure</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.autoClosure || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#14b8a6;--cb:#ccfbf1;">
+                        <i class="ri-truck-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Delivery Status</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.deliveryStatus || '--' }}</span>
+                    </div>
+                </div>
+
+                <!-- CLOSURE -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#f97316;--cb:#ffedd5;">
+                        <i class="ri-user-star-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Closed By</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.closeBy || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#a855f7;--cb:#f3e8ff;">
+                        <i class="ri-calendar-close-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Closure Date</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.closeDate || '--' }}</span>
+                    </div>
+                </div>
+
+                <!-- UPDATES -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#0ea5e9;--cb:#e0f2fe;">
+                        <i class="ri-edit-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Last Update Date</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.updateDate || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#ef4444;--cb:#fee2e2;">
+                        <i class="ri-message-2-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Update Remarks</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.updateRemark || '--' }}</span>
+                    </div>
+                </div>
+
+                <!-- DOCKET INFO -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#f59e0b;--cb:#fef3c7;">
+                        <i class="ri-folder-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Docket No</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.documentNo || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#16a34a;--cb:#dcfce7;">
+                        <i class="ri-user-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Assigned To</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.assignedTo || '--' }}</span>
+                    </div>
+                </div>
+
+                <!-- DOCKET DETAILS -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#0ea5e9;--cb:#e0f2fe;">
+                        <i class="ri-calendar-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Doc Date</span>
+                        <span class="ld3-card-val">{{ docketNoList?.documentDate || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#22c55e;--cb:#dcfce7;">
+                        <i class="ri-building-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Billing Party</span>
+                        <span class="ld3-card-val">{{ docketNoList?.customerName || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#f97316;--cb:#ffedd5;">
+                        <i class="ri-road-map-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Origin</span>
+                        <span class="ld3-card-val">{{ docketNoList?.origin || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#ef4444;--cb:#fee2e2;">
+                        <i class="ri-map-pin-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Destination</span>
+                        <span class="ld3-card-val">{{ docketNoList?.destination || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#6366f1;--cb:#e0e7ff;">
+                        <i class="ri-map-pin-user-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Current Location</span>
+                        <span class="ld3-card-val">{{ docketNoList?.currentLocation || '--' }}</span>
+                    </div>
+                </div>
+
+                <!-- STATUS -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#14b8a6;--cb:#ccfbf1;">
+                        <i class="ri-flag-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Current Status</span>
+                        <span class="ld3-card-val wrap-text">{{ docketNoList?.currentStatus || '--' }}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer border-0 px-4 pb-4">
+        <button type="button" class="btn btn-danger px-4 py-2 rounded-3" (click)="modalRef.hide()">
+            Close
+        </button>
+    </div>
+
+</ng-template>

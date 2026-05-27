@@ -141,4 +141,8 @@ export class ComplaintService {
     return this.apiHandlerService.Get('Complaint/GetEnquiryList', filters);
   }
 
+    GetEnquiryDetail(id: string, UserId: string): Observable<IApiBaseResponse<ComplaintDetailResponse>> {
+    return this.apiHandlerService.Get(`Complaint/GetEnquiryDetail/${id}?UserId=${UserId}`);
+  }
+
 }

@@ -21,10 +21,12 @@ export class MainContent {
   public salesCollectionCount: any = {}
   public latestEvents: any;
   public router = inject(Router);
+  public isSFMMasters: any
 
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
+    this.isSFMMasters = JSON.parse(localStorage.getItem('ISSFMMASTER') || '{}');
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.GetLeadPipeline();
       this.GetDashboardSalesOS();

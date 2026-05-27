@@ -145,7 +145,7 @@
           <div class="col-8 fg">
             <label>Ticket Address To</label>
             <ng-select [items]="locations" bindLabel="locName" bindValue="locCode" formControlName="ticketAddressTo"
-              placeholder="Search Ticket Address To" [searchable]="true" [clearable]="true"
+              placeholder="Search Ticket Address To" [searchable]="true" [dropdownPosition]="'bottom'" [clearable]="true"
               (change)="getAssignTo($event.locCode)" appendTo="body"
               [ngClass]="{'border-danger': ticketForm.controls['ticketAddressTo'].invalid && ticketForm.controls['ticketAddressTo']?.touched}">
             </ng-select>
@@ -170,7 +170,7 @@
           Complaint Classification
         </div>
         <div class="row g-3">
-          <div class="col-md-6">
+          <div class="col-md-6" *ngIf="complaint === 'Add'">
             <div class="fg">
               <label>Ticket Category</label>
               <div style="display:flex;gap:16px;margin-top:6px">
@@ -185,6 +185,10 @@
                   <span>Complaint</span>
                 </label>
               </div>
+              <div *ngIf="ticketForm.controls['moduleType'].invalid && ticketForm.controls['moduleType']?.touched"
+                class="text-danger">
+                <small *ngIf="ticketForm.controls['moduleType'].errors?.['required']">Ticket Category is required.</small>
+              </div>
             </div>
           </div>
           <div class="col-md-6">
@@ -192,7 +196,7 @@
               <label>Ticket Source *</label>
               <ng-select formControlName="source" [items]="ticketSources" bindLabel="codeDesc" bindValue="codeId"
                 placeholder="Search Ticket Source" [clearable]="true" [searchable]="true" appendTo="body"
-                [readonly]="complaint !== 'Add'"
+                [readonly]="complaint !== 'Add'" [dropdownPosition]="'bottom'"
                 [ngClass]="{'border-danger': ticketForm.controls['source'].invalid && ticketForm.controls['source']?.touched}">
               </ng-select>
               <div *ngIf="ticketForm.controls['source'].invalid && ticketForm.controls['source']?.touched"
@@ -204,7 +208,7 @@
           <div class="col-md-6">
             <div class="fg">
               <label>Ticket Priority *</label>
-              <ng-select [items]="priorities" bindLabel="codeDesc" bindValue="codeId" appendTo="body"
+              <ng-select [items]="priorities" bindLabel="codeDesc" bindValue="codeId" appendTo="body" [dropdownPosition]="'bottom'"
                 placeholder="Search Ticket Priority" formControlName="priority" [readonly]="complaint !== 'Add'"
                 [ngClass]="{'border-danger': ticketForm.controls['priority'].invalid && ticketForm.controls['priority']?.touched}">
               </ng-select>
@@ -237,7 +241,7 @@
               <label>Ticket Type *</label>
               <ng-select [items]="ticketTypes" bindLabel="codeDesc" bindValue="codeId" placeholder="Search Ticket Type"
                 formControlName="type" [readonly]="complaint !== 'Add'" (change)="getTicketSubTypes($event.codeId)"
-                appendTo="body"
+                appendTo="body" [dropdownPosition]="'bottom'"
                 [ngClass]="{'border-danger': ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched}">
               </ng-select>
               <div *ngIf="ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched"
@@ -246,12 +250,12 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6" *ngIf="this.ticketForm.value.moduleType === 'E'">
+          <div class="col-md-6" *ngIf="this.ticketForm.value.moduleType === 'E' && complaint === 'Add'">
             <div class="fg">
               <label>Enquiry Category *</label>
               <ng-select [items]="enquiryCategories" bindLabel="codeDesc" bindValue="codeId"
-                placeholder="Search Ticket Type" formControlName="type"
-                (change)="getTicketSubTypes($event.codeId)" appendTo="body"
+                placeholder="Search Enquiry Category" formControlName="type" (change)="getTicketSubTypes($event.codeId)"
+                appendTo="body" [dropdownPosition]="'bottom'"
                 [ngClass]="{'border-danger': ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched}">
               </ng-select>
               <div *ngIf="ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched"
@@ -275,7 +279,7 @@
           <div class="col-md-6">
             <div class="fg">
               <label>Ticket Sub Type *</label>
-              <ng-select [items]="ticketSubTypes" bindLabel="codeDesc" bindValue="codeId" appendTo="body"
+              <ng-select [items]="ticketSubTypes" bindLabel="codeDesc" bindValue="codeId" appendTo="body" [dropdownPosition]="'bottom'"
                 placeholder="Search Ticket Sub Type" formControlName="subType" [readonly]="complaint !== 'Add'"
                 [ngClass]="{'border-danger': ticketForm.controls['subType'].invalid && ticketForm.controls['subType']?.touched}">
               </ng-select>
@@ -305,7 +309,7 @@
             <div class="fg">
               <label>Assigned To</label>
               <ng-select formControlName="assignedToId" [items]="assignToList" bindLabel="userName" bindValue="userId"
-                placeholder="Search Assigned To" [clearable]="true" [searchable]="true" appendTo="body"
+                placeholder="Search Assigned To" [clearable]="true" [searchable]="true" appendTo="body" [dropdownPosition]="'bottom'"
                 [ngClass]="{'border-danger': ticketForm.controls['assignedToId'].invalid && ticketForm.controls['assignedToId']?.touched}">
               </ng-select>
               <div *ngIf="ticketForm.controls['assignedToId'].invalid && ticketForm.controls['assignedToId']?.touched"
@@ -429,7 +433,7 @@
             <div class="fg">
               <label>Ticket Type</label>
               <ng-select [items]="ticketTypes" bindLabel="codeDesc" bindValue="codeId" placeholder="Search Ticket Type"
-                formControlName="type" [readonly]="complaint === 'Escalation'" appendTo="body"
+                formControlName="type" [readonly]="complaint === 'Escalation'" appendTo="body" [dropdownPosition]="'bottom'"
                 [ngClass]="{'border-danger': escalationForm.controls['type'].invalid && escalationForm.controls['type']?.touched}"></ng-select>
               <div *ngIf="escalationForm.controls['type'].invalid && escalationForm.controls['type']?.touched"
                 class="text-danger">
@@ -453,7 +457,7 @@
           <div class="col-md-6">
             <div class="fg">
               <label>Assigned To</label>
-              <ng-select formControlName="assigned" [items]="assignToList" bindLabel="userName" bindValue="userId"
+              <ng-select formControlName="assigned" [items]="assignToList" bindLabel="userName" bindValue="userId" [dropdownPosition]="'bottom'"
                 placeholder="Search Assigned To" [clearable]="true" [searchable]="true" readonly="true" appendTo="body"
                 [ngClass]="{'border-danger': escalationForm.controls['assigned'].invalid && escalationForm.controls['assigned']?.touched}"></ng-select>
               <div *ngIf="escalationForm.controls['assigned'].invalid && escalationForm.controls['assigned']?.touched"
@@ -476,7 +480,7 @@
           <div class="col-md-6">
             <div class="fg">
               <label>Priority</label>
-              <ng-select [items]="priorities" bindLabel="codeDesc" bindValue="codeId" appendTo="body"
+              <ng-select [items]="priorities" bindLabel="codeDesc" bindValue="codeId" appendTo="body" [dropdownPosition]="'bottom'"
                 placeholder="Search Ticket Priority" formControlName="priority" [readonly]="complaint === 'Escalation'"
                 [ngClass]="{'border-danger': escalationForm.controls['priority'].invalid && escalationForm.controls['priority']?.touched}"></ng-select>
               <div *ngIf="escalationForm.controls['priority'].invalid && escalationForm.controls['priority']?.touched"
@@ -490,7 +494,7 @@
               <label>Escalate To *</label>
               <ng-select formControlName="escalatedTo" [items]="assignToList" bindLabel="userName" bindValue="userId"
                 (change)="onAssignToList($event)" placeholder="Search Escalate To" [clearable]="true"
-                [searchable]="true" [multiple]="true" appendTo="body"
+                [searchable]="true" [multiple]="true" appendTo="body" [dropdownPosition]="'bottom'"
                 [ngClass]="{'border-danger': escalationForm.controls['escalatedTo'].invalid && escalationForm.controls['escalatedTo']?.touched}"></ng-select>
               <div
                 *ngIf="escalationForm.controls['escalatedTo'].invalid && escalationForm.controls['escalatedTo']?.touched"

@@ -8,12 +8,12 @@ import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { ComplaintDetail } from '../complaint-detail/complaint-detail';
+import { EnquiryDetail } from '../enquiry-detail/enquiry-detail';
 
 @Component({
   selector: 'app-enquiry-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, PaginationModule,ComplaintDetail],
+  imports: [CommonModule, FormsModule, PaginationModule,EnquiryDetail],
   templateUrl: './enquiry-list.html',
   styleUrl: './enquiry-list.scss',
 })
@@ -21,7 +21,7 @@ export class EnquiryList {
   public enquiryList: ComplaintResponse[] = [];
   public isLoading: boolean = false;
   public totalItems: number = 0;
-  @ViewChild('ComplaintDetail') ComplaintDetail!: ComplaintDetail;
+  @ViewChild('EnquiryDetail') EnquiryDetail!: EnquiryDetail;
   private sweetAlertService = inject(SweetAlertService);
   public complaintService = inject(ComplaintService);
   public commonService = inject(CommonService); // Public to access globalFilters in HTML
@@ -65,8 +65,8 @@ export class EnquiryList {
   }
 
    viewModal(id: any) {
-    this.ComplaintDetail.showPopupWithLoading(() => {
-      return this.complaintService.getComplaintDetails(id, this.commonService.globalFilters.UserID.toString());
+    this.EnquiryDetail.showPopupWithLoading(() => {
+      return this.complaintService.GetEnquiryDetail(id, this.commonService.globalFilters.UserID.toString());
     });
   }
 }

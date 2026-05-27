@@ -99,7 +99,8 @@ export class AddTicket {
               assignedToId: ComplaintResponse?.assignToId,
               remarks: ComplaintResponse.remarks,
               ticketAddressTo: ComplaintResponse.ticketAddressToId,
-              customerID: ComplaintResponse.customerID
+              customerID: ComplaintResponse.customerID,
+              moduleType: ComplaintResponse.moduleType
             })
             if (this.complaint === 'Update') {
               this.ticketForm.get('updateRemarks')?.setValidators([Validators.required]);
@@ -213,7 +214,7 @@ export class AddTicket {
       customerID: new FormControl(''),
       closureDate: new FormControl(new Date()),
       currentLocation: new FormControl(''),
-      moduleType: new FormControl(null),
+      moduleType: new FormControl(null, this.complaint === 'Add' ? Validators.required : []),
       // enquiryCategories: new FormControl(null),
     });
 
