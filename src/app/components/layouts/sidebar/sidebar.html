@@ -53,8 +53,8 @@
       <div class="nav-icon">✔</div><span class="nav-text">Expense Approval</span>
     </div>
 
-    <div class="sb-sec" *ngIf="isSFMMasters?.SFM==='Y'">Performance</div>
-    <div class="nav-item" routerLinkActive="active" *ngIf="isSFMMasters?.SFM==='Y'" [routerLink]="['/payment']"
+    <div class="sb-sec" *ngIf="isSFMMasters?.SFM ==='Y' || isSFMMasters?.IsAuditor ==='Y'">Performance</div>
+    <div class="nav-item" routerLinkActive="active" *ngIf="isSFMMasters?.IsAuditor ==='Y'" [routerLink]="['/payment']"
       (click)="onMenuClick('payment')" data-title="Payment">
       <div class="nav-icon">📈</div><span class="nav-text">Payment</span>
     </div>
