@@ -1,0 +1,159 @@
+/* ===== Dashboard Layout ===== */
+.card-ui {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+/* ===== Common Card ===== */
+.card-card,
+.kpi {
+    background: #fff;
+    border-radius: 18px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    border: 1px solid #ececec;
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.05),
+        0 1px 3px rgba(0, 0, 0, 0.04);
+    height: auto !important;
+    min-height: 125px;
+    align-self: start;
+}
+
+.card-card:hover,
+.kpi:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.08),
+        0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Top Border Colors ===== */
+.card-card:nth-child(1)::before {
+    background: var(--red);
+}
+
+.card-card:nth-child(2)::before {
+    background: var(--green);
+}
+
+.card-card:nth-child(3)::before {
+    background: var(--amber);
+}
+
+.card-card:nth-child(4)::before {
+    background: var(--red);
+}
+
+.card-card:nth-child(5)::before {
+    background: var(--blue);
+}
+
+.card-card:nth-child(6)::before {
+    background: var(--amber);
+}
+
+.card-card:nth-child(7)::before {
+    background: var(--green);
+}
+
+.card-card:nth-child(8)::before {
+    background: var(--amber);
+}
+
+.card-card:nth-child(9)::before {
+    background: var(--blue);
+}
+
+.card-card:nth-child(10)::before {
+    background: var(--amber);
+}
+
+
+.card-card::before,
+.kpi::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+}
+
+/* ===== Icon Circle ===== */
+.ci,
+.kpi-icon {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px !important;
+    background: linear-gradient(135deg, #f3f4f6, #ffffff);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, .6);
+}
+
+/* ===== Titles ===== */
+.card-card span,
+.kpi-label {
+    color: #6b7280;
+    font-size: 13px !important;
+    font-weight: 600;
+    letter-spacing: .2px;
+}
+
+/* ===== Main Values ===== */
+.card-value,
+.kpi-val,
+.card-card div[style*="font-size:22px"] {
+    font-size: 20px !important;
+    font-weight: 700;
+    color: #111827 !important;
+    margin-top: 10px;
+    line-height: 1.2;
+}
+
+/* ===== Bottom Status Badge ===== */
+.status-badge,
+.card-card div[style*="display:inline-block"],
+.card-card div[style*="display:inline-flex"] {
+    margin-top: 12px !important;
+    border-radius: 999px !important;
+    padding: 5px 10px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: .4px;
+}
+
+/* ===== KPI Sub Text ===== */
+.kpi-sub {
+    margin-top: 8px !important;
+    font-size: 11px !important;
+    font-weight: 600;
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 768px) {
+
+    .g5,
+    .kpi-row {
+        grid-template-columns: 1fr;
+    }
+
+    .card-card,
+    .kpi {
+        padding: 14px;
+        min-height: auto;
+    }
+
+    .card-value,
+    .kpi-val,
+    .card-card div[style*="font-size:22px"] {
+        font-size: 22px !important;
+    }
+}

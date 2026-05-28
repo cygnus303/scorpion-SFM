@@ -1,6 +1,7 @@
 <div class="page active fade-in">
-  <div class="g5">
-    <div class="card" style="border-top:3px solid var(--red);cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'" (click)="router.navigate(['/lead'])">
+  <div class="g5 card-ui">
+    <div class="card-card" style="--kc:var(--red);cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'"
+      (click)="router.navigate(['/lead'])">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
         <div class="ci" style="width:26px;height:26px;font-size:13px">📋</div><span
           style="font-size:12px;font-weight:600">Lead Pipeline</span>
@@ -11,20 +12,7 @@
         style="display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--red-lt);color:var(--red)">
         LIVE</div>
     </div>
-    <!-- <div class="card" style="border-top:3px solid var(--green);cursor:pointer">
-      <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
-        <div class="ci g" style="width:26px;height:26px;font-size:13px">💰</div><span
-          style="font-size:12px;font-weight:600">Sales Analysis</span>
-      </div>
-      <div style="font-size:22px;font-weight:700;color:var(--text1)"> ₹{{ formatAmount(salesCollectionCount.currentMonthRevenue)
-        }}</div>
-      <div style="font-size:13px;color:var(--text3);margin-top:2px">
-      </div>
-      <div
-        style="display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--amber-lt);color:var(--amber)">
-        {{formatAmount(salesCollectionCount.currentMonthRevenue) }}/{{formatAmount(nextMonthSales?.currentMonthRevenue) }} THIS MONTH</div>
-    </div> -->
-    <div class="card" style="border-top:3px solid var(--green);cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
+    <div class="card-card" style="--kc:var(--green);cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
         <div class="ci g" style="width:26px;height:26px;font-size:13px">💰</div>
         <span style="font-size:12px;font-weight:600">Sales Analysis</span>
@@ -51,7 +39,7 @@
         THIS MONTH
       </div>
     </div>
-    <div class="card" style="border-top:3px solid var(--amber);cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
+    <div class="card-card" style="--kc:var(--amber);cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
         <div class="ci a" style="width:26px;height:26px;font-size:13px">📄</div><span
           style="font-size:12px;font-weight:600">QMS V2</span>
@@ -62,7 +50,7 @@
         style="display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--amber-lt);color:var(--amber)">
         Live</div>
     </div>
-    <div class="card" style="border-top:3px solid var(--red);cursor:pointer" *ngIf="isSFMMasters?.COMPLAINT_MGNT==='Y'"
+    <div class="card-card" style="--kc:var(--red);cursor:pointer" *ngIf="isSFMMasters?.COMPLAINT_MGNT==='Y'"
       (click)="router.navigate(['/pickup-request'])">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
         <div class="ci" style="width:26px;height:26px;font-size:13px">🚚</div><span
@@ -75,7 +63,7 @@
         style="display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--red-lt);color:var(--red)">
         LIVE</div>
     </div>
-    <div class="card" style="border-top:3px solid var(--blue);cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
+    <div class="card-card" style="--kc:var(--blue);cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
         <div class="ci b" style="width:26px;height:26px;font-size:13px">⭐</div><span
           style="font-size:12px;font-weight:600">CS Level</span>
@@ -86,10 +74,7 @@
         style="display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--blue-lt);color:var(--blue)">
         CSAT View</div>
     </div>
-  </div>
-  <div class="kpi-row">
-
-    <div class="kpi" style="--kc:var(--red); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
+    <div class="card-card" style="--kc:var(--red); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
         <div class="kpi-label" style="font-size:11px;">Revenue vs Target</div>
         <div class="kpi-icon" style="font-size:16px;">💰</div>
@@ -98,8 +83,8 @@
         ₹{{formatAmount(salesCollectionCount.currentMonthRevenue)}}</div>
       <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;"></div>
     </div>
-
-    <div class="kpi" style="--kc:var(--red); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
+  
+    <div class="card-card" style="--kc:var(--blue); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
         <div class="kpi-label" style="font-size:11px;">Outstanding Collection</div>
         <div class="kpi-icon" style="font-size:16px;">📊</div>
@@ -109,8 +94,8 @@
       <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">
         {{formatAmount(salesCollectionCount.currentMonthOS)}} This Month</div>
     </div>
-
-    <div class="kpi" style="--kc:var(--green); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'"
+  
+    <div class="card-card" style="--kc:var(--green); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'"
       (click)="router.navigate(['/meeting'])">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
         <div class="kpi-label" style="font-size:11px;">Meetings</div>
@@ -119,8 +104,8 @@
       <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{this.totalCount.totalMeetingCount}}</div>
       <div class="kpi-sub up" style="font-size:10px; margin-top:2px;"></div>
     </div>
-
-    <div class="kpi" *ngIf="isSFMMasters?.SFM==='Y'"
+  
+    <div class="card-card" style="--kc:var(--amber); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'"
       [style]="'--kc:' + (totalCount.totalBDSLCount >= 95 ? 'var(--green)' : 'var(--red)') + '; padding: 10px 12px; cursor:pointer'">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
         <div class="kpi-label" style="font-size:11px;">BDSL</div>
@@ -131,23 +116,23 @@
       </div>
       <div class="kpi-sub" style="font-size:10px; margin-top:2px; display:flex; align-items:center; gap:5px;"
         [style.color]="totalCount.totalBDSLCount >= 95 ? 'var(--green)' : 'var(--red)'">
-
+  
         <!-- Up Arrow SVG (Green - >= 95) -->
         <svg *ngIf="totalCount.totalBDSLCount >= 95" width="10" height="20" viewBox="0 0 10 20" fill="none">
           <polygon points="5,0 10,8 6.5,8 6.5,20 3.5,20 3.5,8 0,8" fill="var(--green)" />
         </svg>
-
+  
         <!-- Down Arrow SVG (Red - < 95) -->
         <svg *ngIf="totalCount.totalBDSLCount < 95" width="10" height="20" viewBox="0 0 10 20" fill="none">
           <polygon points="5,20 10,12 6.5,12 6.5,0 3.5,0 3.5,12 0,12" fill="var(--red)" />
         </svg>
-
+  
         <span>{{ totalCount.totalBDSLCount >= 95 ? 'Target: 95%' : 'Target: 95%' }}</span>
       </div>
     </div>
-
-    <div class="kpi" style="--kc:var(--red); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.COMPLAINT_MGNT==='Y'"
-      (click)="router.navigate(['/complaint'])">
+  
+    <div class="card-card" style="--kc:var(--red); padding: 10px 12px; cursor:pointer"
+      *ngIf="isSFMMasters?.COMPLAINT_MGNT==='Y'" (click)="router.navigate(['/complaint'])">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
         <div class="kpi-label" style="font-size:11px;">Open Complaints</div>
         <div class="kpi-icon" style="font-size:16px;">🎫</div>
@@ -155,8 +140,8 @@
       <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{totalCount.openComplaints}}</div>
       <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;"></div>
     </div>
-
   </div>
+
   <div class="g3">
     <div class="card">
       <div class="card-head">
