@@ -42,6 +42,7 @@ export class ComplaintList {
   public selectedStatus: string = '';
   @ViewChild('ComplaintDetail') ComplaintDetail!: ComplaintDetail;
   @ViewChild('AddTicket') AddTicket!: AddTicket;
+  @ViewChild(EnquiryList) enquiryListComp!: EnquiryList;
 
   private sweetAlertService = inject(SweetAlertService);
   public complaintService = inject(ComplaintService);
@@ -195,7 +196,11 @@ export class ComplaintList {
   }
 
   onDataEmitter() {
-    this.getComplaintList();
+    if (this.activeTab === 'enquiry' && this.enquiryListComp) {
+      this.enquiryListComp.getEnquiryList();
+    } else {
+      this.getComplaintList();
+    }
     this.getCompliantCard();
   }
 
