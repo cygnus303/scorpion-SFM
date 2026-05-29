@@ -37,7 +37,7 @@ export class MyCalendar implements OnInit, OnDestroy {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth', // Month view
     dayMaxEvents: false,      // important
-    fixedWeekCount: false,    // extra empty rows remove કરે
+    fixedWeekCount: false,    //
     height: 'auto',
     headerToolbar: false,
     buttonText: {

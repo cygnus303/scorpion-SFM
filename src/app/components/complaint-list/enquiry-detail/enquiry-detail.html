@@ -161,14 +161,14 @@
                     </div>
                 </div>
 
-                <!-- CLOSURE -->
+                <!-- created -->
                 <div class="ld3-card">
                     <div class="ld3-card-icon" style="--ci:#f97316;--cb:#ffedd5;">
                         <i class="ri-user-star-line"></i>
                     </div>
                     <div class="ld3-card-body">
-                        <span class="ld3-card-label">Closed By</span>
-                        <span class="ld3-card-val">{{ enquiryResponse?.closeBy || '--' }}</span>
+                        <span class="ld3-card-label">Added By</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.userID || '--' }}</span>
                     </div>
                 </div>
 
@@ -177,29 +177,8 @@
                         <i class="ri-calendar-close-line"></i>
                     </div>
                     <div class="ld3-card-body">
-                        <span class="ld3-card-label">Closure Date</span>
-                        <span class="ld3-card-val">{{ enquiryResponse?.closeDate || '--' }}</span>
-                    </div>
-                </div>
-
-                <!-- UPDATES -->
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#0ea5e9;--cb:#e0f2fe;">
-                        <i class="ri-edit-line"></i>
-                    </div>
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">Last Update Date</span>
-                        <span class="ld3-card-val">{{ enquiryResponse?.updateDate || '--' }}</span>
-                    </div>
-                </div>
-
-                <div class="ld3-card">
-                    <div class="ld3-card-icon" style="--ci:#ef4444;--cb:#fee2e2;">
-                        <i class="ri-message-2-line"></i>
-                    </div>
-                    <div class="ld3-card-body">
-                        <span class="ld3-card-label">Update Remarks</span>
-                        <span class="ld3-card-val">{{ enquiryResponse?.updateRemark || '--' }}</span>
+                        <span class="ld3-card-label">Added Date</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.createdDate || '--' }}</span>
                     </div>
                 </div>
 

@@ -16,31 +16,13 @@ import { Observable } from 'rxjs';
 export class ApiHandlerService implements IApiBaseActions {
   constructor(public httpClient: HttpClient) { }
 
-  private cache = new Map<string, any>();
-
   Get(url: string, params?: ParamsType, headers?: HttpHeaders) {
-    const fullUrl = environment.apiUrl + url;
-    const httpParams = this.createParams(params);
-    const cacheKey = fullUrl + '?' + httpParams.toString();
-
-    if (this.cache.has(cacheKey)) {
-      return new Observable<IApiBaseResponse<any>>((observer) => {
-        observer.next(this.cache.get(cacheKey));
-        observer.complete();
-      });
-    }
-
     return this.httpClient
-      .get<IApiBaseResponse<any>>(fullUrl, {
+      .get<IApiBaseResponse<any>>(environment.apiUrl + url, {
         headers: headers,
-        params: httpParams,
+        params: this.createParams(params),
       })
-      .pipe(
-        tap((x) => {
-          this.HandleResponse(x);
-          this.cache.set(cacheKey, x);
-        })
-      );
+      .pipe(tap((x) => this.HandleResponse(x)));
   }
 
   GetAll(url: string, params?: ParamsType, headers?: HttpHeaders) {

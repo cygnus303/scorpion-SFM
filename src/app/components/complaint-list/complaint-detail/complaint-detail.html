@@ -161,6 +161,27 @@
                     </div>
                 </div>
 
+                <!-- created -->
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#f97316;--cb:#ffedd5;">
+                        <i class="ri-user-star-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Added By</span>
+                        <span class="ld3-card-val">{{ complaintResponse?.userID || '--' }}</span>
+                    </div>
+                </div>
+
+                <div class="ld3-card">
+                    <div class="ld3-card-icon" style="--ci:#a855f7;--cb:#f3e8ff;">
+                        <i class="ri-calendar-close-line"></i>
+                    </div>
+                    <div class="ld3-card-body">
+                        <span class="ld3-card-label">Added Date</span>
+                        <span class="ld3-card-val">{{ complaintResponse?.createdDate || '--' }}</span>
+                    </div>
+                </div>
+
                 <!-- CLOSURE -->
                 <div class="ld3-card">
                     <div class="ld3-card-icon" style="--ci:#f97316;--cb:#ffedd5;">

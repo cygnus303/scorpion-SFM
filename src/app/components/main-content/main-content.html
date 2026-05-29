@@ -83,7 +83,7 @@
         ₹{{formatAmount(salesCollectionCount.currentMonthRevenue)}}</div>
       <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;"></div>
     </div>
-  
+
     <div class="card-card" style="--kc:var(--blue); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
         <div class="kpi-label" style="font-size:11px;">Outstanding Collection</div>
@@ -94,7 +94,7 @@
       <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">
         {{formatAmount(salesCollectionCount.currentMonthOS)}} This Month</div>
     </div>
-  
+
     <div class="card-card" style="--kc:var(--green); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'"
       (click)="router.navigate(['/meeting'])">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
@@ -104,7 +104,7 @@
       <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{this.totalCount.totalMeetingCount}}</div>
       <div class="kpi-sub up" style="font-size:10px; margin-top:2px;"></div>
     </div>
-  
+
     <div class="card-card" style="--kc:var(--amber); padding: 10px 12px; cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'"
       [style]="'--kc:' + (totalCount.totalBDSLCount >= 95 ? 'var(--green)' : 'var(--red)') + '; padding: 10px 12px; cursor:pointer'">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
@@ -116,21 +116,21 @@
       </div>
       <div class="kpi-sub" style="font-size:10px; margin-top:2px; display:flex; align-items:center; gap:5px;"
         [style.color]="totalCount.totalBDSLCount >= 95 ? 'var(--green)' : 'var(--red)'">
-  
+
         <!-- Up Arrow SVG (Green - >= 95) -->
         <svg *ngIf="totalCount.totalBDSLCount >= 95" width="10" height="20" viewBox="0 0 10 20" fill="none">
           <polygon points="5,0 10,8 6.5,8 6.5,20 3.5,20 3.5,8 0,8" fill="var(--green)" />
         </svg>
-  
+
         <!-- Down Arrow SVG (Red - < 95) -->
         <svg *ngIf="totalCount.totalBDSLCount < 95" width="10" height="20" viewBox="0 0 10 20" fill="none">
           <polygon points="5,20 10,12 6.5,12 6.5,0 3.5,0 3.5,12 0,12" fill="var(--red)" />
         </svg>
-  
+
         <span>{{ totalCount.totalBDSLCount >= 95 ? 'Target: 95%' : 'Target: 95%' }}</span>
       </div>
     </div>
-  
+
     <div class="card-card" style="--kc:var(--red); padding: 10px 12px; cursor:pointer"
       *ngIf="isSFMMasters?.COMPLAINT_MGNT==='Y'" (click)="router.navigate(['/complaint'])">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
@@ -221,7 +221,7 @@
             {{latestEvents.latestPRQ.generatedBy}}</div>
           <div class="as2">{{latestEvents.latestPRQ.eventName}}</div>
         </div>
-        <div class="atm">{{getTimeAgo(latestEvents.latestPRQ.eventDate)}}</div>
+        <!-- <div class="atm">{{getTimeAgo(latestEvents.latestPRQ.eventDate)}}</div> -->
       </div>
 
       <!-- Latest Complaint -->
@@ -232,7 +232,7 @@
             ({{latestEvents.latestComplaint.customerName}}) {{latestEvents.latestComplaint.userID}}</div>
           <div class="as2">{{latestEvents.latestComplaint.eventName}}</div>
         </div>
-        <div class="atm">{{getTimeAgo(latestEvents.latestComplaint.eventDate)}}</div>
+        <!-- <div class="atm">{{getTimeAgo(latestEvents.latestComplaint.eventDate)}}</div> -->
       </div>
 
       <!-- Latest Meeting -->
@@ -243,7 +243,7 @@
             {{latestEvents.latestMeeting.createdBy}}</div>
           <div class="as2">{{latestEvents.latestMeeting.eventName}}</div>
         </div>
-        <div class="atm">{{getTimeAgo(latestEvents.latestMeeting.eventDate)}}</div>
+        <!-- <div class="atm">{{getTimeAgo(latestEvents.latestMeeting.eventDate)}}</div> -->
       </div>
 
       <!-- Latest Customer -->
@@ -255,7 +255,7 @@
           <div class="as2">{{latestEvents.latestCustomer.eventName}} - {{latestEvents.latestCustomer.signingLocation}}
           </div>
         </div>
-        <div class="atm">{{getTimeAgo(latestEvents.latestCustomer.eventDate)}}</div>
+        <!-- <div class="atm">{{getTimeAgo(latestEvents.latestCustomer.eventDate)}}</div> -->
       </div>
 
       <!-- Latest Quotation -->
@@ -266,7 +266,7 @@
             ({{latestEvents.latestQuotation.prospectName}})</div>
           <div class="as2">{{latestEvents.latestQuotation.eventName}} - {{latestEvents.latestQuotation.userName}}</div>
         </div>
-        <div class="atm">{{getTimeAgo(latestEvents.latestQuotation.eventDate)}}</div>
+        <!-- <div class="atm">{{getTimeAgo(latestEvents.latestQuotation.eventDate)}}</div> -->
       </div>
 
       <!-- Fallback empty state if no events -->

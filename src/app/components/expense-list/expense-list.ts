@@ -67,8 +67,8 @@ export class ExpenseList implements OnInit {
       Page: this.commonService.globalFilters.Page.toString(),
       PageSize: this.commonService.globalFilters.PageSize.toString(),
       SearchFilter: this.commonService.globalFilters.searchText,
-      startDate: this.commonService.globalFilters.startDate,
-      endDate: this.commonService.globalFilters.endDate,
+      // startDate: this.commonService.globalFilters.startDate,
+      // endDate: this.commonService.globalFilters.endDate,
       userId: this.commonService.globalFilters.UserID.toString(),
     }
     this.loading = true;
@@ -89,8 +89,8 @@ export class ExpenseList implements OnInit {
 
   onExpenseCard() {
     const params = {
-      startDate: this.commonService.globalFilters.startDate,
-      endDate: this.commonService.globalFilters.endDate,
+      // startDate: this.commonService.globalFilters.startDate,
+      // endDate: this.commonService.globalFilters.endDate,
       userId: this.commonService.globalFilters.UserID.toString(),
     }
     this.expenseService.expenseCard(params).subscribe({
@@ -117,11 +117,11 @@ export class ExpenseList implements OnInit {
   exportExpenses() {
     const data = {
       export: true,
-      startDate: this.commonService.globalFilters.startDate,
-      endDate: this.commonService.globalFilters.endDate,
+      // startDate: this.commonService.globalFilters.startDate,
+      // endDate: this.commonService.globalFilters.endDate,
     }
     this.isExportLoading = true;
-    this.expenseService.exportexport(this.commonService.globalFilters.UserID, this.commonService.globalFilters.startDate, this.commonService.globalFilters.endDate, '').subscribe({
+    this.expenseService.exportexport(this.commonService.globalFilters.UserID, '', '', '').subscribe({
       next: (response: any) => {
         if (response) {
           this.exportService.exportToExcel(response?.data);
