@@ -27,6 +27,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 export class AddTicket {
   public ticketTypes: GeneralMasterResponse[] = [];
   public ticketSubTypes: GeneralMasterResponse[] = [];
+  public enquirySubTypes: GeneralMasterResponse[] = [];
   public priorities: GeneralMasterResponse[] = [];
   public ticketSources: GeneralMasterResponse[] = [];
   public enquiryCategories: GeneralMasterResponse[] = [];
@@ -220,6 +221,14 @@ export class AddTicket {
 
     this.ticketForm.get('complaintDate')?.valueChanges.subscribe(() => this.checkTicketCategory());
     this.ticketForm.get('EDD')?.valueChanges.subscribe(() => this.checkTicketCategory());
+    this.ticketForm.get('moduleType')?.valueChanges.subscribe(() => this.moduleTypeChanges());
+  }
+
+  moduleTypeChanges() {
+    this.ticketForm.patchValue({
+      subType: null,
+      type: null,
+    });
   }
 
   checkTicketCategory() {
@@ -630,6 +639,22 @@ export class AddTicket {
       next: (response) => {
         if (response) {
           this.ticketSubTypes = response.data;
+        }
+      },
+      error: (response: any) => {
+        this.toasterService.error(response);
+      },
+    });
+  }
+
+  getEnquirySubType(event: any) {
+    this.ticketForm.patchValue({
+      subType: null
+    })
+    this.complaintService.getEnquirySubType(event).subscribe({
+      next: (response) => {
+        if (response) {
+          this.enquirySubTypes = response.data;
         }
       },
       error: (response: any) => {

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { CommonService } from '../../../shared/services/common.service';
 
 @Component({
   selector: 'app-expense-detail',
@@ -14,7 +15,7 @@ export class ExpenseDetail {
   public modalService = inject(BsModalService);
   public expenseResponse: any = null;
   public isLoading: boolean = false;
-
+  public commonService = inject(CommonService);
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
   onClose() {
     this.modalRef?.hide();

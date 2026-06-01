@@ -1,6 +1,7 @@
 import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CommonModule } from '@angular/common';
+import { CommonService } from '../../../shared/services/common.service';
 
 @Component({
   selector: 'app-meeting-detail',
@@ -13,6 +14,7 @@ export class MeetingDetail {
   public modalService = inject(BsModalService);
   public meetingResponse: any = null;
   public isLoading: boolean = false;
+  public commonService = inject(CommonService);
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
 
   showPopup(apiCall: () => any) {

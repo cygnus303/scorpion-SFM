@@ -145,4 +145,7 @@ export class ComplaintService {
     return this.apiHandlerService.Get(`Complaint/GetEnquiryDetail/${id}?UserId=${UserId}`);
   }
 
+  getEnquirySubType(codeId: string): Observable<IApiBaseResponse<GeneralMasterResponse[]>> {
+    return this.apiHandlerService.Get(`external/CodeEnquirySubType?codeId=${codeId}`);
+  }
 }

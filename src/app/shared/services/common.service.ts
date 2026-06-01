@@ -105,6 +105,19 @@ export class CommonService {
     });
   }
 
+  convertToDisplayDate(dateStr: string): string {
+    if (!dateStr) return '--';
+
+    const [day, month, year] = dateStr.split('/');
+    const date = new Date(+year, +month - 1, +day);
+
+    return new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    }).format(date);
+  }
+
   formatDate(date: Date): string {
     if (!date) return '';
     const d = String(date.getDate()).padStart(2, '0');

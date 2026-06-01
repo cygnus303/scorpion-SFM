@@ -3,6 +3,7 @@ import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ComplaintService } from '../../../shared/services/complaint.service';
 import { DocDataDetail, EscalatedHistory, UpdateHistory } from '../../../shared/models/complaint.model';
+import { CommonService } from '../../../shared/services/common.service';
 // import { Modal } from 'bootstrap'; // removed – using ngx-bootstrap modal service
 
 @Component({
@@ -23,6 +24,7 @@ export class ComplaintDetail {
   public isLoading: boolean = false;
   public modalService = inject(BsModalService);
   public complaintService = inject(ComplaintService);
+  public commonService = inject(CommonService);
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
   @ViewChild('historyModalTemplate') historyModalTemplate!: TemplateRef<any>;
   @ViewChild('escalationModalTemplate') escalationModalTemplate!: TemplateRef<any>;

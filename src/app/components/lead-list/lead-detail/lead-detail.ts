@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { CommonService } from '../../../shared/services/common.service';
 
 @Component({
   selector: 'app-lead-detail',
@@ -13,6 +14,7 @@ export class LeadDetail {
   public modalService = inject(BsModalService);
   public leadResponse: any = null;
   public isLoading: boolean = false;
+  public commonService = inject(CommonService);
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
 
   showPopup(apiCall: () => any) {

@@ -126,7 +126,7 @@
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Meeting Date</span>
                         <span class="ld3-card-val">
-                            {{ meetingResponse?.meetingDate || '--' }}
+                            {{ meetingResponse?.meetingDate ? commonService.convertToDisplayDate(meetingResponse?.meetingDate) : '--' }}
                         </span>
                     </div>
                 </div>
@@ -197,14 +197,14 @@
                                 <span class="ld3-card-label d-block">Created By</span>
                                 <span class="ld3-card-val small">
                                     {{ meetingResponse?.createdBy || '--' }} on {{ (meetingResponse?.createdDate | date
-                                    : "dd/MM/yyyy" )|| '--' }}
+                                    : "dd MMM yyyy" )|| '--' }}
                                 </span>
                             </div>
                             <div class="text-end">
                                 <span class="ld3-card-label d-block">Last Modified</span>
                                 <span class="ld3-card-val small">
                                     {{ meetingResponse?.modifiedBy || '--' }} on {{ (meetingResponse?.modifiedDate |
-                                    date : "dd/MM/yyyy" )|| '--' }}
+                                    date : "dd MMM yyyy" )|| '--' }}
                                 </span>
                             </div>
                         </div>

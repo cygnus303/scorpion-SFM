@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
 import { ComplaintService } from '../../../shared/services/complaint.service';
 import { DocDataDetail } from '../../../shared/models/complaint.model';
+import { CommonService } from '../../../shared/services/common.service';
 
 @Component({
   selector: 'app-enquiry-detail',
@@ -17,8 +18,8 @@ export class EnquiryDetail {
     public docketNoList?: DocDataDetail;
     public modalService = inject(BsModalService);
     public complaintService = inject(ComplaintService);
+    public commonService = inject(CommonService);
     @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
-
   showPopupWithLoading(apiCall: () => any) {
     this.isLoading = true;
     this.enquiryResponse = null;

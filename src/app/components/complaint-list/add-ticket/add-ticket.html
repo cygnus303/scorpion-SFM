@@ -254,7 +254,7 @@
             <div class="fg">
               <label>Enquiry Category *</label>
               <ng-select [items]="enquiryCategories" bindLabel="codeDesc" bindValue="codeId"
-                placeholder="Search Enquiry Category" formControlName="type" (change)="getTicketSubTypes($event.codeId)"
+                placeholder="Search Enquiry Category" formControlName="type" (change)="getEnquirySubType($event.codeId)"
                 appendTo="body" [dropdownPosition]="'bottom'"
                 [ngClass]="{'border-danger': ticketForm.controls['type'].invalid && ticketForm.controls['type']?.touched}">
               </ng-select>
@@ -276,7 +276,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" *ngIf="this.ticketForm.value.moduleType === 'C'">
             <div class="fg">
               <label>Ticket Sub Type *</label>
               <ng-select [items]="ticketSubTypes" bindLabel="codeDesc" bindValue="codeId" appendTo="body" [dropdownPosition]="'bottom'"
@@ -286,6 +286,19 @@
               <div *ngIf="ticketForm.controls['subType'].invalid && ticketForm.controls['subType']?.touched"
                 class="text-danger">
                 <small *ngIf="ticketForm.controls['subType'].errors?.['required']">Ticket Sub Type is required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="this.ticketForm.value.moduleType === 'E' && complaint === 'Add'">
+            <div class="fg">
+              <label>Enquiry Sub Type *</label>
+              <ng-select [items]="enquirySubTypes" bindLabel="codeDesc" bindValue="codeId" appendTo="body" [dropdownPosition]="'bottom'"
+                placeholder="Search Enquiry Sub Type" formControlName="subType" [readonly]="complaint !== 'Add'"
+                [ngClass]="{'border-danger': ticketForm.controls['subType'].invalid && ticketForm.controls['subType']?.touched}">
+              </ng-select>
+              <div *ngIf="ticketForm.controls['subType'].invalid && ticketForm.controls['subType']?.touched"
+                class="text-danger">
+                <small *ngIf="ticketForm.controls['subType'].errors?.['required']">Enquiry Sub Type is required.</small>
               </div>
             </div>
           </div>
