@@ -1,5 +1,5 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, Subscription } from 'rxjs';
 import { ComplaintResponse } from '../../shared/models/complaint.model';
 import { CommonService } from '../../shared/services/common.service';
 import { ExportService } from '../../shared/services/export.service';
@@ -31,6 +31,7 @@ export class ComplaintList {
   public isLoading: boolean = false;
   public compliantCard: any;
   public activeTab: string = 'complaint';
+  public selectedTab: number = 0;
 
   public statusList: any[] = [
     { id: '', name: 'All' },
@@ -51,6 +52,7 @@ export class ComplaintList {
   private PRQService = inject(PrqService);
   private identityService = inject(IdentityService);
   private destroy$ = new Subject<void>();
+  private complaintSubscription?: Subscription;
 
   constructor() { }
 
@@ -67,6 +69,7 @@ export class ComplaintList {
   }
 
   ngOnDestroy(): void {
+    if (this.complaintSubscription) { this.complaintSubscription.unsubscribe(); }
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -140,10 +143,12 @@ export class ComplaintList {
       endDate: this.commonService.globalFilters.endDate,
       userId: this.commonService.globalFilters.UserID.toString(),
       export: false,
-      complaintStatus: this.selectedStatus
+      complaintStatus: this.selectedStatus,
+      AssignFilter: this.selectedTab
     }
+    if (this.complaintSubscription) { this.complaintSubscription.unsubscribe(); }
     this.isLoading = true;
-    this.complaintService.getComplaintList(data).subscribe({
+    this.complaintSubscription = this.complaintService.getComplaintList(data).subscribe({
       next: (response: any) => {
         if (response) {
           this.complaints = response.data;
