@@ -53,7 +53,7 @@
           <th>To</th>
           <th>Raised By</th>
           <th>Service Type</th>
-          <th>Status</th>
+          <!-- <th>Status</th> -->
           <th>Action</th>
 
         </tr>
@@ -83,9 +83,9 @@
             <td>
               <div class="skel" style="width:65%"></div>
             </td>
-            <td>
+            <!-- <td>
               <div class="skel skel-pill" style="width:55%"></div>
-            </td>
+            </td> -->
             <td>
               <div class="skel" style="width:48px; height:24px; border-radius:4px;"></div>
             </td>
@@ -107,28 +107,28 @@
           <td>{{data.customerCode}}:{{data.customer_Name}}</td>
           <td>{{data.fromloc}}</td>
           <td>{{data.toloc}}</td>
-          <td>{{data.entryBy}}</td>
+          <td>{{data.entryBy}}</td> 
           <td>{{data.service_Type}}</td>
-          <td><span class="pill pg">{{data.status}}</span></td>
+          <!-- <td><span class="pill pg">{{data.status}}</span></td> -->
           <td><button class="btn btn-danger" style="font-size:10px;padding:3px 8px"
               (click)="openPRQDetailModal(data.indentNo)">View</button></td>
         </tr>
       </tbody>
     </table>
-        <!-- Pagination -->
-      <div class="d-flex justify-content-between align-items-center mt-3"
-        *ngIf="totalItems > commonService.globalFilters.PageSize">
-        <div class="small text-muted">
-          Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
-          commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
-          totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
-          of {{ totalItems }} entries
-        </div>
-        <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
-          [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="onPageChange($event)" [maxSize]="5"
-          [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
-        </pagination>
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center mt-3"
+      *ngIf="totalItems > commonService.globalFilters.PageSize">
+      <div class="small text-muted">
+        Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
+        commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
+        totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+        of {{ totalItems }} entries
       </div>
+      <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
+        [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="onPageChange($event)" [maxSize]="5"
+        [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+      </pagination>
+    </div>
   </div>
 </div>
 
