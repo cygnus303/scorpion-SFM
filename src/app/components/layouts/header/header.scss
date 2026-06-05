@@ -68,3 +68,131 @@
   position: relative;
   z-index: 100;
 }
+
+// Desktop alignment and ordering system
+.menu-toggle {
+  order: 1;
+}
+
+.title-container {
+  order: 2;
+  display: flex;
+  align-items: center;
+}
+
+.tsp {
+  order: 3;
+  flex: 1;
+}
+
+.topbar-actions {
+  order: 4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.filters-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selected-date-info {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.tc, 
+app-date-range-picker {
+  flex-shrink: 0 !important;
+}
+
+.upill {
+  order: 5;
+}
+
+// Responsive Design for Tablets and Mobile
+@media (max-width: 1024px) {
+  // Let the topbar wrap elements and adjust height/padding dynamically
+  :host-context(.topbar),
+  .topbar {
+    flex-wrap: wrap !important;
+    height: auto !important;
+    min-height: 70px !important;
+    padding: 10px 16px !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  // Adjust order: user profile is on the first line on the right
+  .upill {
+    order: 4 !important;
+    margin-left: auto;
+  }
+
+  // Force topbar actions (search and filters) to the second line
+  .topbar-actions {
+    order: 5 !important;
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 8px;
+    margin-top: 2px;
+    flex: none !important;
+    justify-content: flex-start !important;
+  }
+
+  // On smaller screens, the search box takes full width
+  .search-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    
+    &:focus-within {
+      width: 100% !important;
+    }
+  }
+
+  // The filters wrapper becomes horizontally scrollable so they never overflow
+  .filters-wrapper {
+    width: 100% !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding: 6px 2px !important;
+    gap: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    
+    // Hide scrollbars but keep scrolling functional
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  // Make sure filter items don't shrink when scrolled
+  .tc, 
+  app-date-range-picker, 
+  .selected-date-info {
+    flex-shrink: 0 !important;
+    display: inline-block !important;
+  }
+
+  // Hide the email/designation details in upill to save space, keeping only the avatar
+  .user-details {
+    display: none !important;
+  }
+
+  .upill {
+    padding: 4px !important;
+    background: transparent !important;
+    border: none !important;
+  }
+}

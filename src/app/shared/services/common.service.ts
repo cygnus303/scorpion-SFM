@@ -41,6 +41,29 @@ export class CommonService {
     this.globalFilters.startDate = new Date(now.setHours(0, 0, 0, 0)).toLocaleDateString("en-GB");
     this.globalFilters.endDate = new Date(now.setHours(23, 59, 59, 999)).toLocaleDateString("en-GB");
     console.log(this.globalFilters)
+
+    if (typeof window !== 'undefined') {
+      // Set initial state
+      this.adjustSidebarState(window.innerWidth);
+
+      // Listen to resize
+      window.addEventListener('resize', () => {
+        this.adjustSidebarState(window.innerWidth);
+      });
+    }
+  }
+
+  private adjustSidebarState(width: number): void {
+    if (width <= 1024) {
+      // Mobile: hidden by default
+      this.isSidebarCollapsed.set(true);
+    } else if (width <= 1200) {
+      // Intermediate screen (e.g. 1188px): show as mini sidebar (60px)
+      this.isSidebarCollapsed.set(true);
+    } else {
+      // Large screen (> 1200px): show expanded sidebar
+      this.isSidebarCollapsed.set(false);
+    }
   }
 
   updateUserId(): void {

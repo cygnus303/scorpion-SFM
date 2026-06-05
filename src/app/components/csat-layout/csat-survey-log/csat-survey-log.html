@@ -5,32 +5,36 @@
             <div class="ci dk">📋</div>
             <div class="card-title">Survey Sent Log</div>
         </div>
-        <div style="display:flex;gap:8px;margin-bottom:12px">
-            <input placeholder="Search by account..." style="flex:1;font-size:12px;padding:7px 10px">
-            <select style="font-size:12px;padding:7px 10px">
-                <option>All Status</option>
-                <option>Pending</option>
-                <option>Responded</option>
-                <option>Expired</option>
-            </select>
-            <select style="font-size:12px;padding:7px 10px">
-                <option>All Triggers</option>
-                <option>Post-Delivery</option>
-                <option>Post-Complaint</option>
-                <option>Monthly Review</option>
-            </select>
+        <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">      
+            <ng-select [items]="statusList" 
+                       placeholder="Select Status" 
+                       [(ngModel)]="selectedStatus" 
+                       (change)="loadSurveyLogs()"
+                       [clearable]="true"
+                       style="width:160px;font-size:12px;">
+            </ng-select>
+            
+            <ng-select [items]="triggerList" 
+                       placeholder="Select Trigger" 
+                       [(ngModel)]="selectedTrigger" 
+                       bindLabel="codeDesc"
+                       bindValue="codeId"
+                       (change)="loadSurveyLogs()"
+                       [clearable]="true"
+                       style="width:200px;font-size:12px;">
+            </ng-select>
         </div>
         <table class="mt">
             <thead>
                 <tr>
-                    <th>Account</th>
-                    <th>Sent To</th>
-                    <th>Trigger</th>
-                    <th>Sent By</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Score</th>
-                    <th></th>
+                    <th style="width: 25%">Account</th>
+                    <th style="width: 22%">Sent To</th>
+                    <th style="width: 18%">Trigger</th>
+                    <th style="width: 10%">Sent By</th>
+                    <th style="width: 11%">Date</th>
+                    <th style="width: 6%">Status</th>
+                    <th style="width: 4%">Score</th>
+                    <th style="width: 4%"></th>
                 </tr>
             </thead>
             <tbody id="csat-log-tbody">
@@ -38,11 +42,11 @@
                     <td><strong>{{ s.account }}</strong></td>
                     <td style="color:var(--text3);font-size:11px">
                         {{ s.email }}<br>
-                        <span style="font-size:10px">{{ s.contact }}</span>
+                        <span style="font-size:10px">{{ s.custCd }}</span>
                     </td>
-                    <td><span class="pill pgy" style="font-size:10px">{{ s.trigger }}</span></td>
-                    <td style="color:var(--text3)">{{ s.sentBy }}</td>
-                    <td style="color:var(--text3)">{{ s.sentOn }}</td>
+                    <td><span class="pill pgy" style="font-size:10px">{{ s.triggerName }}</span></td>
+                    <td style="color:var(--text3)">{{ s.entryBy }}</td>
+                    <td style="color:var(--text3)">{{ s.entryDate | date: 'dd MMM yyyy' }}</td>
                     <td>
                         <span class="pill" [ngClass]="{
                             'pg': s.status === 'Responded',
@@ -51,9 +55,9 @@
                         }">{{ s.status }}</span>
                     </td>
                     <td>
-                        <span *ngIf="s.score; else noScore" style="font-size:13px;font-weight:700;"
-                            [style.color]="s.score >= 4 ? 'var(--green)' : s.score >= 3 ? 'var(--amber)' : 'var(--red)'">
-                            {{ s.score }} ★
+                        <span *ngIf="s.scoreLabel; else noScore" style="font-size:13px;font-weight:700;"
+                            [style.color]="s.scoreLabel >= '4' ? 'var(--green)' : s.scoreLabel >= '3' ? 'var(--amber)' : 'var(--red)'">
+                            {{ s.scoreLabel }} ★
                         </span>
                         <ng-template #noScore>—</ng-template>
                     </td>
@@ -66,5 +70,21 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-3"
+            *ngIf="totalItems > commonService.globalFilters.PageSize">
+            <div class="small text-muted">
+                Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to
+                {{commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
+                totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+                of {{ totalItems }} entries
+            </div>
+            <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
+                [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="onPageChange($event)" [maxSize]="5"
+                [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                lastText="&raquo;">
+            </pagination>
+        </div>
     </div>
 </div>

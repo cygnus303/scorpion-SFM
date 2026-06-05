@@ -8,4 +8,4 @@ import { RouterModule } from '@angular/router';
   templateUrl: './csat-send-survey.html',
   styleUrl: './csat-send-survey.scss',
 })
-export class CsatSendSurvey {}
+export class CsatSendSurvey { }

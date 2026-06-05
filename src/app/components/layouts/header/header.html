@@ -17,36 +17,44 @@
       </svg>
     </ng-template>
   </button>
-  <div>
+  <div class="title-container">
     <div class="topbar-title" id="page-title">{{ headerTitle$ | async }}</div>
   </div>
   <div class="tsp"></div>
-  <div class="search-box" *ngIf="(headerTitle$ | async) !==  'Dashboard'">
-    <span class="search-icon">🔍</span>
-    <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search here...">
-  </div>
-  <div class="tc" [class.on]="activeQuickFilter === 'today'" (click)="setFilter('today')"
-    *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'Expense'">
-    Today</div>
-  <div class="tc" [class.on]="activeQuickFilter === 'week'" (click)="setFilter('week')"
-    *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'Expense'">
-    This Week</div>
-  <div class="tc" [class.on]="activeQuickFilter === 'month'" (click)="setFilter('month')"
-    *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'Expense'">
-    This Month</div>
-  <app-date-range-picker #dateRangePicker
-    *ngIf="(headerTitle$ | async) !== 'My Calendar' && (headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'Expense'"
-    id="topbar-action" [bsValue]="selectedDateRange" (dateSelected)="onDateSelected($event)"></app-date-range-picker>
-  <div class="selected-date-info"
-    *ngIf="commonService.globalFilters.startDate && ((headerTitle$ | async) !== 'My Calendar' && ((headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Expense' && (headerTitle$ | async) !==  'Meeting MOM'))"
-    (click)="toggleDateRangePicker($event)"
-    style="color: #666; font-weight: 500; background: #f0f0f0; padding: 10px 17px; border-radius: 4px; cursor: pointer;">
-    {{ commonService.globalFilters.startDate }} - {{ commonService.globalFilters.endDate }}
+
+  <div class="topbar-actions">
+    <div class="search-box" *ngIf="(headerTitle$ | async) !==  'Dashboard' && (headerTitle$ | async) !==  'CSAT'">
+      <span class="search-icon">🔍</span>
+      <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search here...">
+    </div>
+    <div class="filters-wrapper">
+      <div class="tc" [class.on]="activeQuickFilter === 'today'" (click)="setFilter('today')"
+        *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'Expense' && (headerTitle$ | async) !==  'CSAT'">
+        Today</div>
+      <div class="tc" [class.on]="activeQuickFilter === 'week'" (click)="setFilter('week')"
+        *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'Expense' && (headerTitle$ | async) !==  'CSAT'">
+        This Week</div>
+      <div class="tc" [class.on]="activeQuickFilter === 'month'" (click)="setFilter('month')"
+        *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'Expense' && (headerTitle$ | async) !==  'CSAT'">
+        This Month</div>
+
+      <app-date-range-picker #dateRangePicker
+        *ngIf="(headerTitle$ | async) !== 'My Calendar' && (headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'Expense' && (headerTitle$ | async) !==  'CSAT'"
+        id="topbar-action" [bsValue]="selectedDateRange"
+        (dateSelected)="onDateSelected($event)"></app-date-range-picker>
+
+      <div class="selected-date-info"
+        *ngIf="commonService.globalFilters.startDate && ((headerTitle$ | async) !== 'My Calendar' && ((headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Expense' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'CSAT'))"
+        (click)="toggleDateRangePicker($event)"
+        style="color: #666; font-weight: 500; background: #f0f0f0; padding: 10px 17px; border-radius: 4px; cursor: pointer;">
+        {{ commonService.globalFilters.startDate }} - {{ commonService.globalFilters.endDate }}
+      </div>
+    </div>
   </div>
 
   <div class="upill" (click)="toggleDropdown()">
     <div class="av">{{ userInfo?.name?.substring(0,2)?.toUpperCase() || 'U' }}</div>
-    <div>
+    <div class="user-details">
       <div class="un">{{ userInfo?.emailId || 'User' }}</div>
       <div class="ur">{{ userInfo?.designation || 'User' }} · {{ userInfo?.userId || 'ID' }}</div>
     </div>

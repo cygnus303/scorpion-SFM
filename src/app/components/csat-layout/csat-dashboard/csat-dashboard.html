@@ -391,7 +391,7 @@
                         <ng-select [items]="validityData"
                             [ngClass]="{ 'border-danger': sendCSATSurveyForm.controls['validity'].invalid && sendCSATSurveyForm.controls['validity'].touched}"
                             bindLabel="codeDesc" bindValue="codeId" formControlName="validity"
-                            placeholder="Select Validity" [clearable]="true" [searchable]="true" appendTo="body">
+                            placeholder="Select Validity" [clearable]="true" [dropdownPosition]="'bottom'" [searchable]="true" appendTo="body">
                         </ng-select>
                         <div *ngIf="sendCSATSurveyForm.controls['validity'].invalid && sendCSATSurveyForm.controls['validity'].touched"
                             class="text-danger small mt-1">
@@ -434,8 +434,8 @@
                     <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0">
                         <button class="btn btn-red" style="white-space:nowrap;padding:10px 20px"
                             (click)="sendSurvey()">📨 Send Survey Email</button>
-                        <button class="btn btn-outline" style="white-space:nowrap;padding:10px 20px;font-size:12px"
-                            [routerLink]="['/csat/survey']">👁 Preview Survey Form</button>
+                        <!-- <button class="btn btn-outline" style="white-space:nowrap;padding:10px 20px;font-size:12px"
+                            [routerLink]="['/csat/survey']">👁 Preview Survey Form</button> -->
                     </div>
                 </div>
 

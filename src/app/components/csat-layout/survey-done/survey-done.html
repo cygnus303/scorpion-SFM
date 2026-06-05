@@ -2,33 +2,63 @@
 
 <div class="success-page">
 
-  <!-- Confetti -->
-  <div class="confetti" *ngFor="let item of [].constructor(50)"></div>
+  <!-- Confetti (Only show on success) -->
+  <ng-container *ngIf="status === 'success'">
+    <div class="confetti" *ngFor="let item of [].constructor(50)"></div>
+  </ng-container>
 
   <!-- Popup -->
   <div class="success-popup">
 
-    <!-- Top Design -->
-    <div class="top-wave"></div>
+    <!-- Top Design Wave (dynamic color based on status) -->
+    <div class="top-wave" [ngClass]="status"></div>
 
-    <!-- Icon -->
-    <div class="icon-box">
-      <i class="ri-check-double-line"></i>
+    <!-- 1. SUCCESS STATE -->
+    <div *ngIf="status === 'success'">
+      <!-- Icon -->
+      <div class="icon-box success">
+        <i class="ri-check-double-line"></i>
+      </div>
+      <!-- Text -->
+      <h1>Survey Submitted 🎉</h1>
+      <p>
+        Thank you for your valuable feedback.
+        Your response has been submitted successfully.
+      </p>
+      <!-- Stars -->
+      <div class="stars">
+        <span>✨</span>
+        <span>🎊</span>
+        <span>✨</span>
+      </div>
     </div>
 
-    <!-- Text -->
-    <h1>Survey Submitted 🎉</h1>
+    <!-- 2. ALREADY SUBMITTED STATE -->
+    <div *ngIf="status === 'already-submitted'">
+      <!-- Icon -->
+      <div class="icon-box already-submitted">
+        <i class="ri-information-line"></i>
+      </div>
+      <!-- Text -->
+      <h1 style="color: #d97706">Already Submitted ⚠️</h1>
+      <p>
+        You have already submitted your response for this survey link.
+        Thank you for your feedback!
+      </p>
+    </div>
 
-    <p>
-      Thank you for your valuable feedback.
-      Your response has been submitted successfully.
-    </p>
-
-    <!-- Stars -->
-    <div class="stars">
-      <span>✨</span>
-      <span>🎊</span>
-      <span>✨</span>
+    <!-- 3. INVALID / BLOCKED STATE -->
+    <div *ngIf="status === 'invalid'">
+      <!-- Icon -->
+      <div class="icon-box invalid">
+        <i class="ri-error-warning-line"></i>
+      </div>
+      <!-- Text -->
+      <h1 style="color: #dc2626">Invalid Link 🚫</h1>
+      <p>
+        This survey link is invalid, expired, or has been tampered with.
+        Please check the URL or contact administration for a new link.
+      </p>
     </div>
 
   </div>
