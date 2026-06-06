@@ -69,4 +69,8 @@ export class ExternalService {
   getCSATSurveyLog(payload: any): Observable<IApiBaseResponse<any>> {
     return this.apiHandlerService.Post(`CSAT/survey-log`, payload);
   }
+
+  resendCSATSurvey(custCode: string): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Post(`CSAT/Resend-survey-mail?custCode=${custCode}`, {});
+  }
 }

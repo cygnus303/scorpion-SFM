@@ -63,7 +63,7 @@
                     </td>
                     <td>
                         <button *ngIf="s.status === 'Pending'" class="btn btn-outline"
-                            style="font-size:10px;padding:2px 7px">Resend</button>
+                            style="font-size:10px;padding:2px 7px" (click)="resendSurvey(s.custCd)">Resend</button>
                         <button *ngIf="s.status === 'Responded'" class="btn btn-outline"
                             style="font-size:10px;padding:2px 7px">View</button>
                     </td>

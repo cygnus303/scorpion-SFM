@@ -7,6 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ExternalService } from '../../../shared/services/external.service';
 import { ExpenseGeneralService } from '../../../shared/services/expense-general.service';
 import { CommonService } from '../../../shared/services/common.service';
+import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
 
 @Component({
   selector: 'app-csat-survey-log',
@@ -28,6 +29,7 @@ export class CsatSurveyLog implements OnInit, OnDestroy {
   private externalService = inject(ExternalService);
   private expenseGeneralService = inject(ExpenseGeneralService);
   public commonService = inject(CommonService);
+  private sweetAlertService = inject(SweetAlertService);
 
   ngOnInit(): void {
     this.loadTriggers();
@@ -80,4 +82,24 @@ export class CsatSurveyLog implements OnInit, OnDestroy {
     this.loadSurveyLogs(event.page);
   }
 
+  resendSurvey(custCode: string) {
+    if (!custCode) {
+      this.sweetAlertService.error('Customer code is missing.');
+      return;
+    }
+
+    this.externalService.resendCSATSurvey(custCode).subscribe({
+      next: (response: any) => {
+        if (response && response.success) {
+          this.sweetAlertService.success(response.data?.message || 'Survey email resent successfully!');
+          this.loadSurveyLogs();
+        } else {
+          this.sweetAlertService.error(response?.error?.message || 'Failed to resend survey.');
+        }
+      },
+      error: (err: any) => {
+        this.sweetAlertService.error(err?.error?.message || 'Error occurred while resending survey.');
+      }
+    });
+  }
 }
