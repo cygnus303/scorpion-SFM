@@ -50,11 +50,11 @@ export class ExternalService {
     return this.apiHandlerService.Get(`User/GetMasterUser?userId=${id}`);
   }
 
-   decisionEmail(custcd: string) {
+  decisionEmail(custcd: string) {
     return this.apiHandlerService.Get(`External/DecisionEmail?custcd=${custcd}`);
   }
 
-   sendCSATSurvey(data: any) {
+  sendCSATSurvey(data: any) {
     return this.apiHandlerService.Post(`CSAT/InsertUpdateCSATSurvey`, data);
   }
 
@@ -71,6 +71,10 @@ export class ExternalService {
   }
 
   resendCSATSurvey(custCode: string): Observable<IApiBaseResponse<any>> {
-    return this.apiHandlerService.Post(`CSAT/Resend-survey-mail?custCode=${custCode}`, {});
+    return this.apiHandlerService.Get(`CSAT/Resend-survey-mail?custCode=${custCode}`);
+  }
+
+  viewCSATSurvey(custCode: string): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Get(`CSAT/View-Survey-LogDetails?custCode=${custCode}`);
   }
 }

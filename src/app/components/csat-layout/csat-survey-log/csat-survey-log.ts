@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -8,14 +8,16 @@ import { ExternalService } from '../../../shared/services/external.service';
 import { ExpenseGeneralService } from '../../../shared/services/expense-general.service';
 import { CommonService } from '../../../shared/services/common.service';
 import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
+import { CsatSurveyView } from '../csat-survey-view/csat-survey-view';
 
 @Component({
   selector: 'app-csat-survey-log',
-  imports: [CommonModule, NgSelectModule, FormsModule, PaginationModule],
+  imports: [CommonModule, NgSelectModule, FormsModule, PaginationModule,CsatSurveyView],
   templateUrl: './csat-survey-log.html',
   styleUrl: './csat-survey-log.scss',
 })
 export class CsatSurveyLog implements OnInit, OnDestroy {
+  @ViewChild('CsatSurveyView') CsatSurveyView!: CsatSurveyView;
   public surveys: any[] = [];
   public totalItems = 0;
 
@@ -100,6 +102,12 @@ export class CsatSurveyLog implements OnInit, OnDestroy {
       error: (err: any) => {
         this.sweetAlertService.error(err?.error?.message || 'Error occurred while resending survey.');
       }
+    });
+  }
+
+  viewSurvey(custCode: string) {
+    this.CsatSurveyView.showPopup(() => {
+      return this.externalService.viewCSATSurvey(custCode);
     });
   }
 }
