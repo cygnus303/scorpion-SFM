@@ -244,11 +244,17 @@ export class CsatDashboard {
       return;
     }
 
+    const email = this.getDecisionEmail?.decision_Email || '';
+    if (!email) {
+      this.sweetAlertService.error('Recipient email is missing for this customer account. Survey cannot be sent.');
+      return;
+    }
+
     const payload = {
       id: 0,
       custCd: this.sendCSATSurveyForm.value.customerCode,
       custNm: this.getDecisionEmail?.custnm || '',
-      email: this.getDecisionEmail?.decision_Email || '',
+      email: email,
       triggerId: this.sendCSATSurveyForm.value.surveyTriggerType || '',
       validFor: Number(this.sendCSATSurveyForm.value.validity || 0),
       subjectLine: this.sendCSATSurveyForm.value.emailsubject || '',

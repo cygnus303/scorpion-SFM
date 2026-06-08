@@ -29,36 +29,57 @@
                 </tr>
             </thead>
             <tbody id="csat-log-tbody">
-                <tr *ngFor="let s of surveys">
-                    <td><strong>{{ s.account }}</strong></td>
-                    <td style="color:var(--text3);font-size:11px">
-                        {{ s.email }}<br>
-                        <span style="font-size:10px">{{ s.custCd }}</span>
-                    </td>
-                    <td><span class="pill pgy" style="font-size:10px">{{ s.triggerName }}</span></td>
-                    <td style="color:var(--text3)">{{ s.entryBy }}</td>
-                    <td style="color:var(--text3)">{{ s.entryDate | date: 'dd MMM yyyy' }}</td>
-                    <td>
-                        <span class="pill" [ngClass]="{
-                            'pg': s.status === 'Responded',
-                            'pa': s.status === 'Pending',
-                            'pr': s.status === 'Expired'
-                        }">{{ s.status }}</span>
-                    </td>
-                    <td>
-                        <span *ngIf="s.scoreLabel; else noScore" style="font-size:13px;font-weight:700;"
-                            [style.color]="s.scoreLabel >= '4' ? 'var(--green)' : s.scoreLabel >= '3' ? 'var(--amber)' : 'var(--red)'">
-                            {{ s.scoreLabel }} ★
-                        </span>
-                        <ng-template #noScore>—</ng-template>
-                    </td>
-                    <td>
-                        <button *ngIf="s.status === 'Pending'" class="btn btn-outline"
-                            style="font-size:10px;padding:2px 7px" (click)="resendSurvey(s.custCd)">Resend</button>
-                        <button *ngIf="s.status === 'Responded'" class="btn btn-outline"
-                            style="font-size:10px;padding:2px 7px" (click)="viewSurvey(s.custCd)">View</button>
+                <!-- Loading State -->
+                <tr *ngIf="loading">
+                    <td colspan="8" class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="mt-2 text-muted small">Fetching data...</div>
                     </td>
                 </tr>
+
+                <!-- No Data State -->
+                <tr *ngIf="surveys.length === 0 && !loading">
+                    <td colspan="8" style="text-align:center; padding:40px;">
+                        <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
+                        <div style="font-size:12px; color:#999; margin-top:12px;">Sorry! No Data Found</div>
+                    </td>
+                </tr>
+
+                <!-- Data Rows -->
+                <ng-container *ngIf="!loading">
+                    <tr *ngFor="let s of surveys">
+                        <td><strong>{{ s.account }}</strong></td>
+                        <td style="color:var(--text3);font-size:11px">
+                            {{ s.email }}<br>
+                            <span style="font-size:10px">{{ s.custCd }}</span>
+                        </td>
+                        <td><span class="pill pgy" style="font-size:10px">{{ s.triggerName }}</span></td>
+                        <td style="color:var(--text3)">{{ s.entryBy }}</td>
+                        <td style="color:var(--text3)">{{ s.entryDate | date: 'dd MMM yyyy' }}</td>
+                        <td>
+                            <span class="pill" [ngClass]="{
+                                'pg': s.status === 'Responded',
+                                'pa': s.status === 'Pending',
+                                'pr': s.status === 'Expired'
+                            }">{{ s.status }}</span>
+                        </td>
+                        <td>
+                            <span *ngIf="s.scoreLabel; else noScore" style="font-size:13px;font-weight:700;"
+                                [style.color]="s.scoreLabel >= '4' ? 'var(--green)' : s.scoreLabel >= '3' ? 'var(--amber)' : 'var(--red)'">
+                                {{ s.scoreLabel }} ★
+                            </span>
+                            <ng-template #noScore>—</ng-template>
+                        </td>
+                        <td>
+                            <button *ngIf="s.status === 'Pending'" class="btn btn-outline"
+                                style="font-size:10px;padding:2px 7px" (click)="resendSurvey(s.custCd)">Resend</button>
+                            <button *ngIf="s.status === 'Responded'" class="btn btn-outline"
+                                style="font-size:10px;padding:2px 7px" (click)="viewSurvey(s.custCd)">View</button>
+                        </td>
+                    </tr>
+                </ng-container>
             </tbody>
         </table>
 

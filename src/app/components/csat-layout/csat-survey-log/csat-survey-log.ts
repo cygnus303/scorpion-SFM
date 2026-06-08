@@ -20,31 +20,32 @@ export class CsatSurveyLog implements OnInit, OnDestroy {
   @ViewChild('CsatSurveyView') CsatSurveyView!: CsatSurveyView;
   public surveys: any[] = [];
   public totalItems = 0;
-
+  public loading = false;
+ 
   // Filter properties
   public statusList = ['Pending', 'Responded', 'Expired'];
   public triggerList: any[] = [];
   public selectedStatus: string | null = null;
   public selectedTrigger: any = null;
-
+ 
   private destroy$ = new Subject<void>();
   private externalService = inject(ExternalService);
   private expenseGeneralService = inject(ExpenseGeneralService);
   public commonService = inject(CommonService);
   private sweetAlertService = inject(SweetAlertService);
-
+ 
   ngOnInit(): void {
     this.loadTriggers();
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.loadSurveyLogs();
     });
   }
-
+ 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
+ 
   loadTriggers() {
     this.expenseGeneralService.getGeneralMaster(null, 'SurveyTrigger').subscribe({
       next: (response: any) => {
@@ -57,8 +58,9 @@ export class CsatSurveyLog implements OnInit, OnDestroy {
       }
     });
   }
-
+ 
   loadSurveyLogs(page: number = this.commonService.globalFilters.Page) {
+    this.loading = true;
     this.commonService.globalFilters.Page = page;
     const payload = {
       pageNumber: this.commonService.globalFilters.Page,
@@ -66,15 +68,17 @@ export class CsatSurveyLog implements OnInit, OnDestroy {
       status: this.selectedStatus || "",
       triggerId: this.selectedTrigger ? String(this.selectedTrigger) : ""
     };
-
+ 
     this.externalService.getCSATSurveyLog(payload).subscribe({
       next: (response: any) => {
+        this.loading = false;
         if (response && response.success && response.data) {
           this.surveys = response.data.data || [];
           this.totalItems = response.data.totalRecords || 0;
         }
       },
       error: (err: any) => {
+        this.loading = false;
         console.error('Error fetching survey logs:', err);
       }
     });

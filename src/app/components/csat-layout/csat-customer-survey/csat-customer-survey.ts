@@ -26,29 +26,40 @@ export class CsatCustomerSurvey implements OnInit {
   public isBlocked: boolean = false;
   public anySuggestions: string = '';
 
-  
+
   ngOnInit() {
     const rawToken = this.route.snapshot.queryParams['token'];
-    const triggerId = this.route.snapshot.queryParams['triggerId'];
-    const custCodeQuery = this.route.snapshot.queryParams['CustCode'];
+    
     if (rawToken) {
+      // 1. Save query parameters to sessionStorage if present in current request query params
+      const triggerIdFromUrl = this.route.snapshot.queryParams['triggerId'];
+      const custCodeFromUrl = this.route.snapshot.queryParams['CustCode'] || this.route.snapshot.queryParams['custCode'];
+      const expiryDateFromUrl = this.route.snapshot.queryParams['expiryDate'];
+
+      if (triggerIdFromUrl) sessionStorage.setItem(`survey_triggerId_${rawToken}`, triggerIdFromUrl);
+      if (custCodeFromUrl) sessionStorage.setItem(`survey_custCode_${rawToken}`, custCodeFromUrl);
+      if (expiryDateFromUrl) sessionStorage.setItem(`survey_expiryDate_${rawToken}`, expiryDateFromUrl);
+
+      // 2. Retrieve parameters (from query params first, fallback to sessionStorage)
+      const triggerId = triggerIdFromUrl || sessionStorage.getItem(`survey_triggerId_${rawToken}`);
+      const custCodeQuery = custCodeFromUrl || sessionStorage.getItem(`survey_custCode_${rawToken}`);
       this.decryptedToken = custCodeQuery || this.decodeSurveyToken(rawToken);
+
       console.log('Decrypted CSAT Token / CustCode:', this.decryptedToken);
 
       const isTriggerValid = !triggerId || /^\d+$/.test(triggerId);
       if (triggerId && isTriggerValid) {
         this.getSurvey(triggerId, this.decryptedToken);
       }
-      // URL Integrity Check using sessionStorage (detects manual URL parameter tampering)
+
+      // URL Integrity Check using sessionStorage (detects manual URL parameter tampering on base URL)
+      const cleanUrl = this.router.url.split('&')[0];
       const storageKey = `valid_survey_url_${rawToken}`;
       const lastValidUrl = sessionStorage.getItem(storageKey);
-      const currentUrl = this.router.url;
       let isUrlIntact = true;
       if (!lastValidUrl) {
-        // First time loading this token, record the URL
-        sessionStorage.setItem(storageKey, currentUrl);
-      } else if (currentUrl !== lastValidUrl) {
-        // The user manually edited/tampered with the URL in the browser
+        sessionStorage.setItem(storageKey, cleanUrl);
+      } else if (cleanUrl !== lastValidUrl) {
         isUrlIntact = false;
       }
 
@@ -58,6 +69,17 @@ export class CsatCustomerSurvey implements OnInit {
       if (!isTokenValid || !isCustCodeValid || !isTriggerValid || !isUrlIntact) {
         this.isBlocked = true;
         this.router.navigate(['/survey-done'], { queryParams: { status: 'invalid' } });
+        return;
+      }
+
+      // Hide extra parameters from url (keeping only token in address bar)
+      const queryParamsKeys = Object.keys(this.route.snapshot.queryParams);
+      if (queryParamsKeys.some(key => key !== 'token')) {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { token: rawToken },
+          replaceUrl: true
+        });
       }
     } else {
       this.isBlocked = true;
@@ -116,7 +138,7 @@ export class CsatCustomerSurvey implements OnInit {
     }
 
     const payload = {
-      custId: this.surveyQuestions[0]?.custId || this.decryptedToken,
+      custId: this.decryptedToken,
       anySuggestions: this.anySuggestions,
       answers: this.surveyQuestions.map(q => ({
         questionCodeId: q.codeId,

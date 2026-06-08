@@ -7,14 +7,28 @@ export class SurveySubmittedGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const token = route.queryParams['token'];
-    const triggerId = route.queryParams['triggerId'];
-    const custCode = route.queryParams['CustCode'] || this.decodeSurveyToken(token);
 
     // 1. Check if token exists
     if (!token) {
       this.router.navigate(['/survey-done'], { queryParams: { status: 'invalid' } });
       return false;
     }
+
+    // Save parameters to sessionStorage if present in query params for page refresh persistence
+    if (route.queryParams['triggerId']) {
+      sessionStorage.setItem(`survey_triggerId_${token}`, route.queryParams['triggerId']);
+    }
+    if (route.queryParams['CustCode'] || route.queryParams['custCode']) {
+      sessionStorage.setItem(`survey_custCode_${token}`, route.queryParams['CustCode'] || route.queryParams['custCode']);
+    }
+    if (route.queryParams['expiryDate']) {
+      sessionStorage.setItem(`survey_expiryDate_${token}`, route.queryParams['expiryDate']);
+    }
+
+    // Retrieve from query params first, fallback to sessionStorage
+    const triggerId = route.queryParams['triggerId'] || sessionStorage.getItem(`survey_triggerId_${token}`);
+    const custCode = route.queryParams['CustCode'] || route.queryParams['custCode'] || sessionStorage.getItem(`survey_custCode_${token}`) || this.decodeSurveyToken(token);
+    const expiryDateStr = route.queryParams['expiryDate'] || sessionStorage.getItem(`survey_expiryDate_${token}`);
 
     // 2. Decode and validate token format / customer code format
     const decryptedToken = this.decodeSurveyToken(token);
@@ -24,16 +38,16 @@ export class SurveySubmittedGuard implements CanActivate {
     // 3. Validate triggerId (must be numeric if present)
     const isTriggerValid = !triggerId || /^\d+$/.test(triggerId);
 
-    // 3.5. URL Integrity Check using sessionStorage (detects manual URL parameter tampering)
+    // 3.5. URL Integrity Check using sessionStorage (detects manual URL parameter tampering on base URL)
+    const cleanUrl = state.url.split('&')[0];
     const storageKey = `valid_survey_url_${token}`;
     const lastValidUrl = sessionStorage.getItem(storageKey);
-    const currentUrl = state.url;
 
     let isUrlIntact = true;
     if (!lastValidUrl) {
       // First time loading this token, record the URL
-      sessionStorage.setItem(storageKey, currentUrl);
-    } else if (currentUrl !== lastValidUrl) {
+      sessionStorage.setItem(storageKey, cleanUrl);
+    } else if (cleanUrl !== lastValidUrl) {
       // The user manually edited/tampered with the URL in the browser
       isUrlIntact = false;
     }
@@ -44,7 +58,6 @@ export class SurveySubmittedGuard implements CanActivate {
     }
 
     // 3.8. Check if survey has expired
-    const expiryDateStr = route.queryParams['expiryDate'];
     if (expiryDateStr) {
       const parts = expiryDateStr.split('-');
       if (parts.length === 3) {
