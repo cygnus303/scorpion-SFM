@@ -127,23 +127,28 @@
           <div class="ci">⭐</div>
           <div class="card-title">CSAT Health Summary</div>
         </div>
-        <div class="sg">
+        <div class="sg" *ngIf="csatHealthSummary">
           <div class="sb">
-            <div class="sbv" style="color:var(--green)">186</div>
+            <div class="sbv" style="color:var(--green)">{{ csatHealthSummary.healthy || 0 }}</div>
             <div class="sbl">Healthy (CSAT ≥4)</div>
           </div>
           <div class="sb">
-            <div class="sbv" style="color:var(--amber)">62</div>
+            <div class="sbv" style="color:var(--amber)">{{ csatHealthSummary.atRisk || 0 }}</div>
             <div class="sbl">At Risk (3–3.9)</div>
           </div>
           <div class="sb">
-            <div class="sbv" style="color:var(--red)">18</div>
+            <div class="sbv" style="color:var(--red)">{{ csatHealthSummary.critical || 0 }}</div>
             <div class="sbl">Critical (&lt;3)</div>
           </div>
           <div class="sb">
-            <div class="sbv">4.1</div>
+            <div class="sbv">
+              {{ csatHealthSummary.avgCSATScore !== null && csatHealthSummary.avgCSATScore !== undefined ? (csatHealthSummary.avgCSATScore | number:'1.1-1') : '—' }}
+            </div>
             <div class="sbl">Avg CSAT Score</div>
           </div>
+        </div>
+        <div *ngIf="!csatHealthSummary" class="text-center py-3 text-muted small">
+          No CSAT health data available
         </div>
       </div>
     </div>

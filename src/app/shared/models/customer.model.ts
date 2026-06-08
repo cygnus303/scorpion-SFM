@@ -82,3 +82,11 @@ export interface CustomerDetailResponse {
   ContactNo: string,
   Email: string
 }
+
+export interface CSATHealthSummary {
+  healthy: number;
+  atRisk: number;
+  critical: number;
+  avgCSATScore: number;
+  totalCustomers: number;
+}

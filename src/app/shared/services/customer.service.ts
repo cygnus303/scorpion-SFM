@@ -10,6 +10,7 @@ import {
   CustomersListResponse,
   LeadCustomerResponse,
   ZoneWiseData,
+  CSATHealthSummary,
 } from '../models/customer.model';
 import { ApiHandlerService } from './api-handler.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -107,5 +108,9 @@ export class CustomerService {
 
   getZoneWiseCustomerCount(userId: number): Observable<IApiBaseResponse<ZoneWiseData[]>> {
     return this.apiHandlerService.Get(`Customer/zone-wise-count?userId=${userId}`);
+  }
+
+  getCSATHealthSummary(userId: string): Observable<IApiBaseResponse<CSATHealthSummary>> {
+    return this.apiHandlerService.Get(`CSAT/GetCSATHealthSummary?userId=${userId}`);
   }
 }

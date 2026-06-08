@@ -3,12 +3,11 @@ import { CustomerService } from '../../shared/services/customer.service';
 import { CommonService } from '../../shared/services/common.service';
 import { ExportService } from '../../shared/services/export.service';
 import { SweetAlertService } from '../../shared/services/sweet-alert.service';
-import { CustomerResponse } from '../../shared/models/customer.model';
+import { CustomerResponse, ZoneWiseData, CSATHealthSummary } from '../../shared/models/customer.model';
 import { CommonModule } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { ZoneWiseData } from '../../shared/models/customer.model';
 
 @Component({
   selector: 'app-customer-list',
@@ -24,6 +23,7 @@ export class CustomerList {
   public getCustomerCount: any;
   public zoneWiseData: ZoneWiseData[] = [];
   public maxCustomerCount: number = 0;
+  public csatHealthSummary: CSATHealthSummary | null = null;
 
   @Output() edit = new EventEmitter<CustomerResponse>()
   private destroy$ = new Subject<void>();
@@ -40,6 +40,7 @@ export class CustomerList {
       this.getCustomers();
       this.getCustomerfilters();
     });
+    this.getCSATHealthSummary();
     this.getZoneWiseCustomerCount();
   }
 
@@ -133,5 +134,20 @@ export class CustomerList {
     if (percentage > 70) return 'var(--red)';
     if (percentage > 40) return 'var(--amber)';
     return 'var(--text3)';
+  }
+
+  getCSATHealthSummary() {
+    const userId = this.commonService.globalFilters.UserID.toString();
+    if (!userId) return;
+    this.customerService.getCSATHealthSummary(userId).subscribe({
+      next: (response) => {
+        if (response && response.success) {
+          this.csatHealthSummary = response.data;
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching CSAT Health Summary:', error);
+      }
+    });
   }
 }
