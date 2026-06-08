@@ -56,8 +56,22 @@
       <!-- Text -->
       <h1 style="color: #dc2626">Invalid Link 🚫</h1>
       <p>
-        This survey link is invalid, expired, or has been tampered with.
+        This survey link is invalid or has been tampered with.
         Please check the URL or contact administration for a new link.
+      </p>
+    </div>
+
+    <!-- 4. EXPIRED STATE -->
+    <div *ngIf="status === 'expired'">
+      <!-- Icon -->
+      <div class="icon-box invalid">
+        <i class="ri-time-line"></i>
+      </div>
+      <!-- Text -->
+      <h1 style="color: #dc2626">Link Expired ⏰</h1>
+      <p>
+        This survey link has expired.
+        Please check the validity period or contact administration for a new link.
       </p>
     </div>
 

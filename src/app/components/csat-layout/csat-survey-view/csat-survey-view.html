@@ -1,168 +1,103 @@
 <ng-template #Templatepod>
-
     <div class="modal-header custom-header border-0">
-
         <div class="d-flex align-items-center gap-3">
-
             <div class="header-icon" style="background:#2563eb;">
                 <i class="ri-file-list-3-line"></i>
             </div>
-
             <div>
                 <h5 class="modal-title fw-bold mb-0">
                     Survey Details
                 </h5>
-
                 <small class="text-muted">
                     View complete survey information
                 </small>
             </div>
-
         </div>
-
-        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()">
-        </button>
-
+        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="modalRef.hide()"></button>
     </div>
 
     <div class="modal-body">
-
         <div class="lead-grid">
-
             <div class="ld3-card">
-
                 <div class="ld3-card-icon" style="--ci:#7c3aed;--cb:#ede9fe;">
-
                     <i class="ri-barcode-box-line"></i>
                 </div>
-
                 <div class="ld3-card-body">
-
                     <span class="ld3-card-label">
-                        custCode
+                        Customer Code & Name
                     </span>
-
                     <span class="ld3-card-val">
-                        {{ surveyResponse?.custCode || '--' }}
-                    </span>
-
+                        {{ (surveyResponse?.custCode || '--') + ' : ' + (surveyResponse?.custNm || '--') }}</span>
                 </div>
-
             </div>
 
             <div class="ld3-card">
-
-                <div class="ld3-card-icon" style="--ci:#ea580c;--cb:#ffedd5;">
-
-                    <i class="ri-user-3-line"></i>
-                </div>
-
-                <div class="ld3-card-body">
-
-                    <span class="ld3-card-label">
-                        Customer Name
-                    </span>
-
-                    <span class="ld3-card-val">
-                        {{ surveyResponse?.custNm || '--' }}
-                    </span>
-
-                </div>
-
-            </div>
-
-            <div class="ld3-card">
-
                 <div class="ld3-card-icon" style="--ci:#16a34a;--cb:#dcfce7;">
-
                     <i class="ri-mail-line"></i>
                 </div>
-
                 <div class="ld3-card-body">
-
                     <span class="ld3-card-label">
                         Email
                     </span>
-
                     <span class="ld3-card-val text-success">
                         {{ surveyResponse?.email || '--' }}
                     </span>
-
                 </div>
-
             </div>
 
             <div class="ld3-card">
-
                 <div class="ld3-card-icon" style="--ci:#2563eb;--cb:#dbeafe;">
-
                     <i class="ri-flashlight-line"></i>
                 </div>
-
                 <div class="ld3-card-body">
-
                     <span class="ld3-card-label">
                         Trigger
                     </span>
-
                     <span class="ld3-card-val">
                         {{ surveyResponse?.triger || '--' }}
                     </span>
-
                 </div>
-
             </div>
 
             <div class="ld3-card">
-
-                <div class="ld3-card-icon" style="--ci:#9333ea;--cb:#f3e8ff;">
-
-                    <i class="ri-calendar-event-line"></i>
-                </div>
-
-                <div class="ld3-card-body">
-
-                    <span class="ld3-card-label">
-                        Survey Added Date
-                    </span>
-
-                    <span class="ld3-card-val">
-                        {{
-                        surveyResponse?.entryBy
-                        ?
-                        surveyResponse?.entryBy + ' : ' + (surveyResponse?.surveyEntryDate | date:'dd/MM/yyyy')
-                        :
-                        '--'
-                        }}
-                    </span>
-
-                </div>
-
-            </div>
-
-            <div class="ld3-card">
-
                 <div class="ld3-card-icon" style="--ci:#dc2626;--cb:#fee2e2;">
-
                     <i class="ri-calendar-check-line"></i>
                 </div>
-
                 <div class="ld3-card-body">
-
                     <span class="ld3-card-label">
                         Survey Submit Date
                     </span>
-
                     <span class="ld3-card-val">
-                        {{ surveyResponse?.surveySubmitDate || '--' }}
+                        {{ (surveyResponse?.surveySubmitDate | date:'dd MMM yyyy') || '--' }}
                     </span>
-
                 </div>
-
             </div>
 
-        </div>
+            <!-- created -->
+            <div class="ld3-card">
+                <div class="ld3-card-icon" style="--ci:#f97316;--cb:#ffedd5;">
+                    <i class="ri-user-star-line"></i>
+                </div>
+                <div class="ld3-card-body">
+                    <span class="ld3-card-label">Added By</span>
+                    <span class="ld3-card-val">{{ surveyResponse?.entryBy || '--' }}</span>
+                </div>
+            </div>
 
+            <div class="ld3-card">
+                <div class="ld3-card-icon" style="--ci:#a855f7;--cb:#f3e8ff;">
+                    <i class="ri-calendar-close-line"></i>
+                </div>
+                <div class="ld3-card-body">
+                    <span class="ld3-card-label">Added Date</span>
+                    <span class="ld3-card-val">
+                        {{ (surveyResponse?.surveyEntryDate | date:'dd MMM yyyy') || '--' }}
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
     </div>
 
     <!-- Footer -->

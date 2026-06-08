@@ -77,4 +77,8 @@ export class ExternalService {
   viewCSATSurvey(custCode: string): Observable<IApiBaseResponse<any>> {
     return this.apiHandlerService.Get(`CSAT/View-Survey-LogDetails?custCode=${custCode}`);
   }
+
+  getCSATDashboard(userId: string): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Get(`CSAT/GetCSATDashboard?userId=${userId}`);
+  }
 }

@@ -43,6 +43,26 @@ export class SurveySubmittedGuard implements CanActivate {
       return false;
     }
 
+    // 3.8. Check if survey has expired
+    const expiryDateStr = route.queryParams['expiryDate'];
+    if (expiryDateStr) {
+      const parts = expiryDateStr.split('-');
+      if (parts.length === 3) {
+        const year = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        
+        const localExpiryDate = new Date(year, month, day, 23, 59, 59, 999);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (!isNaN(localExpiryDate.getTime()) && today.getTime() > localExpiryDate.getTime()) {
+          this.router.navigate(['/survey-done'], { queryParams: { status: 'expired' } });
+          return false;
+        }
+      }
+    }
+
     // 4. Check if already submitted
     const usedTokens: string[] = JSON.parse(localStorage.getItem('usedSurveyTokens') || '[]');
     if (usedTokens.includes(token)) {
