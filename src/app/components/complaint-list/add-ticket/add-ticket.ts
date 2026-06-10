@@ -67,66 +67,66 @@ export class AddTicket {
     this.getUsers();
     this.createEscalationForm();
     this.getLocations();
-    if (apiCall) {
-      // Execute API call for Edit/Close/Escalation
-      apiCall().subscribe({
-        next: (response: any) => {
-          const ComplaintResponse = response?.data;
-          this.getComplaintGetUser();
-          if (ComplaintResponse) {
-            this.isLoading = false;
-            const assignedTo = this.users.filter(d => d.name === ComplaintResponse.assignedTo)
-            if (ComplaintResponse.documentNo) {
-              this.loading = true;
-              this.onDocketNo(ComplaintResponse.documentNo);
-            }
-            let customerEmail = ComplaintResponse.customerEmail ? ComplaintResponse.customerEmail.split(';').map((email: string) => email.trim()) : [];
-            if (this.complaint !== 'Escalation') { this.getAssignTo(ComplaintResponse?.ticketAddressToId) } else { this.getAssignTo('') }
-            this.getTicketSubTypes(ComplaintResponse.type);
-            this.ticketForm.patchValue({
-              userID: ComplaintResponse.userID,
-              docketNo: ComplaintResponse.documentNo,
-              complaintId: ComplaintResponse.complaintID,
-              source: ComplaintResponse.source.toString(),
-              priority: ComplaintResponse.priority.toString(),
-              ticketDate: ComplaintResponse.compalaintDate,
-              description: ComplaintResponse.description,
-              type: ComplaintResponse.type.toString(),
-              // customerEmail:[customerEmail],
-              subType: ComplaintResponse.subType.toString(),
-              complaintDate: ComplaintResponse.compalaintDate ? ComplaintResponse.compalaintDate : this.minDate,
-              updateDate: new Date(),
-              // updateRemarks:ComplaintResponse.updateRemark === '-' ? '':ComplaintResponse.updateRemark,
-              assignedToId: ComplaintResponse?.assignToId,
-              remarks: ComplaintResponse.remarks,
-              ticketAddressTo: ComplaintResponse.ticketAddressToId,
-              customerID: ComplaintResponse.customerID,
-              moduleType: ComplaintResponse.moduleType
-            })
-            if (this.complaint === 'Update') {
-              this.ticketForm.get('updateRemarks')?.setValidators([Validators.required]);
+      if (apiCall) {
+        // Execute API call for Edit/Close/Escalation
+        apiCall().subscribe({
+          next: (response: any) => {
+            const ComplaintResponse = response?.data;
+            this.getComplaintGetUser();
+            if (ComplaintResponse) {
+              this.isLoading = false;
+              const assignedTo = this.users.filter(d => d.name === ComplaintResponse.assignedTo)
+              if (ComplaintResponse.documentNo) {
+                this.loading = true;
+                this.onDocketNo(ComplaintResponse.documentNo);
+              }
+              let customerEmail = ComplaintResponse.customerEmail ? ComplaintResponse.customerEmail.split(';').map((email: string) => email.trim()) : [];
+              if (this.complaint !== 'Escalation') { this.getAssignTo(ComplaintResponse?.ticketAddressToId) } else { this.getAssignTo('') }
+              this.getTicketSubTypes(ComplaintResponse.type);
+              this.ticketForm.patchValue({
+                userID: ComplaintResponse.userID,
+                moduleType: ComplaintResponse.moduleType,
+                docketNo: ComplaintResponse.documentNo,
+                complaintId: ComplaintResponse.complaintID,
+                source: ComplaintResponse.source.toString(),
+                priority: ComplaintResponse.priority.toString(),
+                ticketDate: ComplaintResponse.compalaintDate,
+                description: ComplaintResponse.description,
+                type: ComplaintResponse.type.toString(),
+                // customerEmail:[customerEmail],
+                subType: ComplaintResponse.subType.toString(),
+                complaintDate: ComplaintResponse.compalaintDate ? ComplaintResponse.compalaintDate : this.minDate,
+                updateDate: new Date(),
+                // updateRemarks:ComplaintResponse.updateRemark === '-' ? '':ComplaintResponse.updateRemark,
+                assignedToId: ComplaintResponse?.assignToId,
+                remarks: ComplaintResponse.remarks,
+                ticketAddressTo: ComplaintResponse.ticketAddressToId,
+                customerID: ComplaintResponse.customerID,
+              })
+              if (this.complaint === 'Update') {
+                this.ticketForm.get('updateRemarks')?.setValidators([Validators.required]);
+              } else {
+                this.ticketForm.get('updateRemarks')?.clearValidators();
+              }
+  
+              // Refresh validation status
+              this.ticketForm.get('updateRemarks')?.updateValueAndValidity();
+              this.emails = [...customerEmail];
+              this.createEscalationForm(ComplaintResponse);
             } else {
-              this.ticketForm.get('updateRemarks')?.clearValidators();
+              this.buildForm();
             }
-
-            // Refresh validation status
-            this.ticketForm.get('updateRemarks')?.updateValueAndValidity();
-            this.emails = [...customerEmail];
-            this.createEscalationForm(ComplaintResponse);
-          } else {
-            this.buildForm();
-          }
-        },
-        error: (response: any) => {
-          this.isLoading = false;
-          this.onClose();
-        },
-      });
-    } else {
-      // For New Ticket - no API call needed
-      this.getComplaintGetUser();
-      this.isLoading = false;
-    }
+          },
+          error: (response: any) => {
+            this.isLoading = false;
+            this.onClose();
+          },
+        });
+      } else {
+        // For New Ticket - no API call needed
+        this.getComplaintGetUser();
+        this.isLoading = false;
+      }
   }
 
   constructor(
@@ -221,7 +221,7 @@ export class AddTicket {
 
     this.ticketForm.get('complaintDate')?.valueChanges.subscribe(() => this.checkTicketCategory());
     this.ticketForm.get('EDD')?.valueChanges.subscribe(() => this.checkTicketCategory());
-    this.ticketForm.get('moduleType')?.valueChanges.subscribe(() => this.moduleTypeChanges());
+    // this.ticketForm.get('moduleType')?.valueChanges.subscribe(() => this.moduleTypeChanges());
   }
 
   moduleTypeChanges() {

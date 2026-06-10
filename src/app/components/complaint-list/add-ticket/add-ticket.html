@@ -176,12 +176,12 @@
               <div style="display:flex;gap:16px;margin-top:6px">
                 <label
                   style="display: flex; align-items: center; gap: 6px; font-weight: 400; text-transform: none; font-size: 13px;">
-                  <input type="radio" id="categoryEnquiry" formControlName="moduleType" value="E">
+                  <input type="radio" id="categoryEnquiry" formControlName="moduleType" value="E" (change)="moduleTypeChanges()">
                   <span>Enquiry</span>
                 </label>
                 <label
                   style="display: flex; align-items: center; gap: 6px; font-weight: 400; text-transform: none; font-size: 13px;">
-                  <input type="radio" id="categoryComplaint" formControlName="moduleType" value="C">
+                  <input type="radio" id="categoryComplaint" formControlName="moduleType" value="C" (change)="moduleTypeChanges()">
                   <span>Complaint</span>
                 </label>
               </div>
