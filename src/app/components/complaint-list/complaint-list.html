@@ -165,7 +165,7 @@
           <ng-container *ngIf="!isLoading">
             <tr *ngFor="let complaint of complaints">
               <td><strong>{{ complaint.complaintID }}</strong></td>
-              <td><strong>{{ complaint.documentNo ? complaint.documentNo : '-' }}</strong></td>
+              <td><strong>{{ complaint.documentNo || complaint.document || '-' }}</strong></td>
               <td>{{ complaint.customerName }}</td>
               <td><span class="pill pgy">{{ complaint.ticketType }}</span></td>
               <td>{{ complaint.ticketDate }}</td>

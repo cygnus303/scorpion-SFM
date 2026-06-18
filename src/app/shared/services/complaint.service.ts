@@ -56,7 +56,7 @@ export class ComplaintService {
   addComplaint(
     addComplaintRequest: AddComplaintRequest
   ): Observable<IApiBaseResponse<CommonResponse>> {
-    return this.apiHandlerService.Post('Complaint/Add', addComplaintRequest);
+    return this.apiHandlerService.Post(`Complaint/Add?FlagType=${'A'}`, addComplaintRequest);
   }
 
 
@@ -129,8 +129,8 @@ export class ComplaintService {
     return this.apiHandlerService.DownloadFile(`Complaint/DownloadSampleFileComplaint?userid=${userId}`);
   }
 
-  importComplaint(userId: string, formData: any): Observable<IApiBaseResponse<any>> {
-    return this.apiHandlerService.Post(`Complaint/ImportExcelUplaodComp?userID=${userId}`, formData);
+  importComplaint(params: any, formData: any): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Post(`Complaint/ImportExcelUplaodComp?userID=${params.userID}&FlagType=${params.FlagType}`, formData);
   }
 
   getCompliantCard(params: any): Observable<IApiBaseResponse<any>> {
