@@ -218,13 +218,28 @@ export class CsatDashboard {
   }
 
   onCustomerChange(data: any): void {
+    if (!data) {
+      this.getDecisionEmail = null;
+      this.sendCSATSurveyForm.patchValue({ email: '' });
+      return;
+    }
     this.externalService.decisionEmail(data).subscribe({
       next: (response: any) => {
         if (response) {
           this.getDecisionEmail = response.data;
+          this.sendCSATSurveyForm.patchValue({
+            email: this.getDecisionEmail?.decision_Email || ''
+          });
         }
       }
     });
+  }
+
+  getSelectedCustomerName(): string {
+    const custCd = this.sendCSATSurveyForm.get('customerCode')?.value;
+    if (!custCd) return '';
+    const cust = this.customers.find(c => c.custcd === custCd);
+    return cust ? cust.custnm : (this.getDecisionEmail?.custnm || '');
   }
 
   buildForm(): void {
@@ -234,7 +249,8 @@ export class CsatDashboard {
       surveyTriggerType: new FormControl(null, [Validators.required]),
       emailsubject: new FormControl(),
       validity: new FormControl(null, [Validators.required]),
-      personalisedMessage: new FormControl()
+      personalisedMessage: new FormControl(),
+      email: new FormControl('', [Validators.required, Validators.email])
     });
   }
 
@@ -244,16 +260,20 @@ export class CsatDashboard {
       return;
     }
 
-    const email = this.getDecisionEmail?.decision_Email || '';
+    const email = this.sendCSATSurveyForm.value.email || '';
     if (!email) {
-      this.sweetAlertService.error('Recipient email is missing for this customer account. Survey cannot be sent.');
+      this.sweetAlertService.error('Recipient email is missing. Survey cannot be sent.');
       return;
     }
 
+    const selectedCustCode = this.sendCSATSurveyForm.value.customerCode;
+    const customer = this.customers.find(c => c.custcd === selectedCustCode);
+    const custNm = customer?.custnm || this.getDecisionEmail?.custnm || '';
+
     const payload = {
       id: 0,
-      custCd: this.sendCSATSurveyForm.value.customerCode,
-      custNm: this.getDecisionEmail?.custnm || '',
+      custCd: selectedCustCode,
+      custNm: custNm,
       email: email,
       triggerId: this.sendCSATSurveyForm.value.surveyTriggerType || '',
       validFor: Number(this.sendCSATSurveyForm.value.validity || 0),
@@ -261,7 +281,6 @@ export class CsatDashboard {
       openingMessage: this.sendCSATSurveyForm.value.personalisedMessage || '',
       entryBy: this.identityService.getLoggedUserId()
     };
-
     this.externalService.sendCSATSurvey(payload).subscribe({
       next: (response: any) => {
         if (response && response.success) {
