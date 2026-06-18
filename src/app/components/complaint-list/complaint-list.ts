@@ -16,6 +16,8 @@ import { PrqService } from '../../shared/services/prq-service';
 import { PickupRequestList } from '../pickup-request-list/pickup-request-list';
 import { IdentityService } from '../../shared/services/identity.service';
 import { EnquiryList } from './enquiry-list/enquiry-list';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-complaint-list',
@@ -32,6 +34,8 @@ export class ComplaintList {
   public compliantCard: any;
   public activeTab: string = 'complaint';
   public selectedTab: number = 0;
+  selectedFile: File | null = null;
+
 
   public statusList: any[] = [
     { id: '', name: 'All' },
@@ -247,4 +251,113 @@ export class ComplaintList {
       }
     });
   }
+
+    downloadSampleImport(event: any) {
+    event.preventDefault();
+    this.complaintService.downloadSampleComplaint(this.commonService.globalFilters.UserID.toString()).subscribe({
+      next: (response: Blob) => {
+        const blob = new Blob([response], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+        const url = window.URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = 'ComplaintImport.xlsx';
+        anchor.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (response: any) => {
+        this.sweetAlertService.error(response);
+        this.commonService.updateLoader(false);
+      },
+    });
+  }
+
+    triggerFileInput(event: Event, disappointed: void) {
+    event.preventDefault();
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput.click();
+  }
+
+  onFileChange(event: any) {
+    const fileInput = event.target as HTMLInputElement;
+    const file = fileInput.files?.[0];
+
+
+    if (file) {
+      const validExcelTypes = [
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // XLSX
+        'application/vnd.ms-excel', // XLS
+        'text/csv', // CSV
+        'application/vnd.ms-excel.sheet.binary.macroEnabled.12', // XLSB
+        'application/vnd.ms-excel.sheet.macroEnabled.12', // XLSM
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.template', // XLTX
+        'application/vnd.ms-excel.template.macroEnabled.12', // XLTM
+      ];
+      if (validExcelTypes.includes(file.type)) {
+        this.selectedFile = file;
+        const formData = new FormData();
+        formData.append('file', file);
+        this.importComplaints(formData);
+      } else {
+        this.sweetAlertService.error(
+          'Please upload a valid excel file (XLSX, XLS, or CSV).'
+        );
+        this.selectedFile = null;
+      }
+      fileInput.value = '';
+    }
+  }
+  importComplaints(dataToSubmit: any): void {
+  this.commonService.updateLoader(true);
+
+  this.complaintService.importComplaint(this.commonService.globalFilters.UserID.toString(), dataToSubmit)
+    .subscribe({
+      next: (response) => {
+        this.commonService.updateLoader(false);
+
+        if (response.success) {
+          const statusObj = response.data.find((item: any) => item.type === 'Status');
+          const errorRecordObj = response.data.find((item: any) => item.type === 'ErrorRecords');
+          if (statusObj?.data?.Message) {
+            this.sweetAlertService.success(statusObj.data.Message);
+          }
+          if (errorRecordObj?.errorRecords?.length) {
+
+            this.downloadInvalidComplaintExcel(errorRecordObj.errorRecords);
+          }
+
+          this.getComplaintList();
+        } else {
+          this.sweetAlertService.error(response.error?.message || 'Import failed.');
+        }
+      },
+      error: (error: any) => {
+        this.sweetAlertService.error(error.message || 'An error occurred during import.');
+        this.commonService.updateLoader(false);
+      },
+    });
+}
+
+ downloadInvalidComplaintExcel(invalidLeads: any[]): void {
+  const cleanedData = invalidLeads.map(({ IsValid, ComStatus, ...rest }) => rest);
+  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(cleanedData);
+  worksheet['!cols'] = Object.keys(cleanedData[0]).map(() => ({ wch: 20 }));
+  const workbook: XLSX.WorkBook = {
+    Sheets: { 'Invalid Complaints': worksheet },
+    SheetNames: ['Invalid Complaints'],
+  };
+
+  const excelBuffer: any = XLSX.write(workbook, {
+    bookType: 'xlsx',
+    type: 'array',
+    cellStyles: false,
+  });
+
+  const blob: Blob = new Blob([excelBuffer], {
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  });
+
+  FileSaver.saveAs(blob, `Invalid_Complaints_${new Date().toISOString().slice(0, 10)}.xlsx`);
+} 
 }

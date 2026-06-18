@@ -111,6 +111,29 @@
             <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
             <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
           </button>
+
+          <div class="dropdown ms-2 d-flex">
+            <button class="btn btn-square pull-right rounded-3 h-100" style="background-color: #d50000; color: white; border: 1px solid #d50000;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="ri-more-2-fill"></i>
+            </button>
+            <ul class="dropdown-menu shadow-lg border-0 dropdown-menu-end">
+              <li >
+                <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:void(0)" (click)="downloadSampleImport($event)">
+                  <i class="ri-download-line text-primary"></i> Download Template
+                </a>
+              </li>
+              <li >
+                <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:void(0)" (click)="triggerFileInput($event)">
+                  <i class="ri-upload-line text-success"></i> Import
+                </a>
+                <div class="file-upload">
+              <input type="file" id="fileInput" (change)="onFileChange($event)" class="file" />
+            </div>
+              </li>
+            </ul>
+          </div>
+          
+          
         </div>
       </div>
       <table class="mt">
