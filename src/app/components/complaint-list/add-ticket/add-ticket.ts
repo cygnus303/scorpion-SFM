@@ -182,6 +182,7 @@ export class AddTicket {
     }
   }
   buildForm(): void {
+    this.docketNoSubject.next('');
     this.minDate = new Date();
     let assignedTo = this.identityService.getLoggedUserId();
     this.ticketForm = new FormGroup({
