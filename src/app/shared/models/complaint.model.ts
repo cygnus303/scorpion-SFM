@@ -45,6 +45,7 @@ export interface ComplaintResponse {
   deliveryStatus: any;
   ticketDate: string;
   ticketCategory: string;
+  document: string;
 }
 
 export interface ComplaintDetailResponse extends ComplaintResponse {

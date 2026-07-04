@@ -182,6 +182,7 @@ export class AddTicket {
     }
   }
   buildForm(): void {
+    this.docketNoSubject.next('');
     this.minDate = new Date();
     let assignedTo = this.identityService.getLoggedUserId();
     this.ticketForm = new FormGroup({
@@ -498,6 +499,16 @@ export class AddTicket {
           data.UserID = this.ticketForm.value.userID,
           data.moduleType = this.ticketForm.getRawValue().moduleType;
         // data.complaintDate =  this.datePipe.transform(this.ticketForm.value.complaintDate, 'dd/MM/yyyy') || '';  
+         let tktDate = this.ticketForm.value.complaintDate;
+        let ticketDate: Date | null = null;
+        if (tktDate instanceof Date) {
+          ticketDate = tktDate;
+        } else if (tktDate && typeof tktDate === 'object' && tktDate.year) {
+          ticketDate = new Date(tktDate.year, tktDate.month - 1, tktDate.day);
+        } else if (tktDate) {
+          ticketDate = new Date(tktDate);
+        }
+        data.complaintDate = ticketDate ? this.datePipe.transform(ticketDate, 'yyyy-MM-dd') : null;
         this.addTicket(data);
       } else if (this.complaint === 'Close') {
         const close = {

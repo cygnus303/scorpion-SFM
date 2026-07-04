@@ -310,8 +310,12 @@ export class ComplaintList {
   }
   importComplaints(dataToSubmit: any): void {
   this.commonService.updateLoader(true);
+  const params = {
+    userID: this.commonService.globalFilters.UserID.toString(),
+    FlagType: 'I'
+  }
 
-  this.complaintService.importComplaint(this.commonService.globalFilters.UserID.toString(), dataToSubmit)
+  this.complaintService.importComplaint(params, dataToSubmit)
     .subscribe({
       next: (response) => {
         this.commonService.updateLoader(false);
