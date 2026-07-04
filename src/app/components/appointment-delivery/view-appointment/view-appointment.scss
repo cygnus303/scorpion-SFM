@@ -1,0 +1,47 @@
+/* ══ VIEW POPUP STYLES ══ */
+::ng-deep .modal-content {
+  border: none !important;
+  border-radius: 14px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  overflow: hidden;
+}
+
+.view-modal-container {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;
+}
+
+.section-banner {
+  background: #B30000;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.details-card {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.detail-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #B30000;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.detail-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1E293B;
+  word-break: break-word;
+}

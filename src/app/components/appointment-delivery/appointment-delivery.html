@@ -1,0 +1,91 @@
+<!-- ══ APPOINTMENT & DELIVERY DASHBOARD ══ -->
+<div class="page active">
+  <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 14px;">
+    <div class="kpi" style="--kc: #2563EB">
+      <div class="kpi-label">Total Appointment</div>
+      <div class="kpi-val">{{ totalAppointmentCount }}</div>
+      <div class="kpi-sub up">All records</div>
+    </div>
+    <div class="kpi" style="--kc: #16A34A">
+      <div class="kpi-label">Today's Appointment</div>
+      <div class="kpi-val">{{ todayAppointmentCount }}</div>
+      <div class="kpi-sub up">0 completed</div>
+    </div>
+    <div class="kpi" style="--kc: #D97706">
+      <div class="kpi-label">Rescheduled Appointment</div>
+      <div class="kpi-val">{{ rescheduledAppointmentCount }}</div>
+      <div class="kpi-sub wn">Today</div>
+    </div>
+    <div class="kpi" style="--kc: #CC0000">
+      <div class="kpi-label">Total CSD Delivery</div>
+      <div class="kpi-val">{{ totalCsdCount }}</div>
+      <div class="kpi-sub">All records</div>
+    </div>
+    <div class="kpi" style="--kc: #7C3AED">
+      <div class="kpi-label">Total Mall Delivery</div>
+      <div class="kpi-val">{{ totalMallCount }}</div>
+      <div class="kpi-sub">All records</div>
+    </div>
+  </div>
+
+  <div class="card no-hover">
+    <div class="card-head">
+      <div class="ci" style="background: #F3E8FF; color: #7C3AED;">📦</div>
+      <div class="card-title">Delivery Appointment List</div>
+      <div style="margin-left: auto; display: flex; gap: 8px;">
+        <button
+          style="background: #2563EB; color: #fff; border: none; padding: 5px 14px; font-size: 11px; font-weight: 600; border-radius: 4px; cursor: pointer;">⬇
+          Download XLS</button>
+        <button class="btn btn-red" style="padding: 5px 14px; font-size: 11px; font-weight: 600; border-radius: 4px;"
+          (click)="openAddModal()">＋ Add New</button>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 8px; padding: 0 16px 14px;">
+      <button class="tc" [class.on]="activeTab === 'Appointment'" style="color: var(--text2);"
+        (click)="setTab('Appointment')">Appointment Delivery</button>
+      <button class="tc" [class.on]="activeTab === 'CSD'" style="color: var(--text2);" (click)="setTab('CSD')">CSD
+        Delivery</button>
+      <button class="tc" [class.on]="activeTab === 'Mall'" style="color: var(--text2);" (click)="setTab('Mall')">Mall
+        Delivery</button>
+    </div>
+
+    <table class="mt">
+      <thead>
+        <tr>
+          <th>APPOINTMENT ID</th>
+          <th>CUSTOMER</th>
+          <th>DOCKET NO</th>
+          <th>ORG/DEST</th>
+          <th>APPOINTMENT DATE & TIME</th>
+          <th>STATUS</th>
+          <th style="text-align: center;">ACTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredAppointments"
+          [style.background]="item.status === 'Rescheduled' ? '#FFF8F8' : 'transparent'">
+          <td style="font-weight: 700; color: var(--text1);">{{ item.id }}</td>
+          <td style="font-weight: 600; color: var(--text1);">{{ item.customer }}</td>
+          <td>{{ item.docketNo }}</td>
+          <td>{{ item.orgDest }}</td>
+          <td>{{ item.dateTime }}</td>
+          <td><span class="pill" [ngClass]="item.statusClass">{{ item.status }}</span></td>
+          <td style="text-align: right; white-space: nowrap;">
+            <button
+              style="background: #2563EB; color: #fff; border: none; padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 4px; margin-right: 6px; cursor: pointer;"
+              (click)="openViewModal(item)">View</button>
+            <button
+              style="background: #D97706; color: #fff; border: none; padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 4px; cursor: pointer;">Reschedule</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ ADD NEW DELIVERY APPOINTMENT CHILD COMPONENT ══ -->
+<app-add-appointment #addAppointmentModal></app-add-appointment>
+
+<!-- ══ VIEW APPOINTMENT CHILD COMPONENT ══ -->
+<app-view-appointment #viewAppointmentModal></app-view-appointment>

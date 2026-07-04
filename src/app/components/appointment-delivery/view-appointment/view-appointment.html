@@ -1,0 +1,155 @@
+<!-- ══ VIEW APPOINTMENT MODAL (PROJECT STANDARD + FIXED FOOTER) ══ -->
+<ng-template #viewModal>
+  <div class="view-modal-container bg-white" style="border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; max-height: 88vh;">
+    
+    <!-- 1. FIXED HEADER -->
+    <div class="modal-header border-0 py-3 px-4 d-flex justify-content-between align-items-center" style="background: #B30000; color: #fff; flex-shrink: 0; border-radius: 14px 14px 0 0;">
+      <div class="d-flex align-items-center gap-3">
+        <div style="width: 40px; height: 40px; background: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #B30000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+          📈
+        </div>
+        <div>
+          <div class="fw-bold" style="font-size: 16px; letter-spacing: 0.3px;">View Appointment</div>
+          <div style="font-size: 12px; color: #FFD1D1; font-weight: 500; margin-top: 1px;">{{ item?.id || 'APT-0312' }}</div>
+        </div>
+      </div>
+      <button type="button" class="btn-close btn-close-white shadow-none" (click)="closeModal()" aria-label="Close" style="opacity: 0.8;"></button>
+    </div>
+
+    <!-- 2. SCROLLABLE BODY -->
+    <div class="modal-body py-4 px-4" style="overflow-y: auto; flex: 1 1 auto; background: #fff;">
+      
+      <!-- Section 1: DOCKET DETAILS -->
+      <div class="section-banner mb-3 d-flex align-items-center gap-2">
+        <span style="width: 3.5px; height: 15px; background: #fff; border-radius: 2px; display: inline-block;"></span>
+        <span>DOCKET DETAILS</span>
+      </div>
+      <div class="details-card mb-4">
+        <div class="row g-3">
+          <div class="col-md-6 col-12">
+            <div class="detail-label">DOCKET NO</div>
+            <div class="detail-value">{{ item?.docketNo || 'C49281520' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="detail-label">DOCKET DATE</div>
+            <div class="detail-value">18-Jun-2026</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="detail-label">EDD</div>
+            <div class="detail-value">24-Jun-2026</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="detail-label">CURRENT STATUS</div>
+            <div class="detail-value">{{ item?.status === 'Generated' ? 'In Transit' : 'Rescheduled — In Transit' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: CONSIGNEE DETAILS -->
+      <div class="section-banner mb-3 d-flex align-items-center gap-2">
+        <span style="width: 3.5px; height: 15px; background: #fff; border-radius: 2px; display: inline-block;"></span>
+        <span>CONSIGNEE DETAILS</span>
+      </div>
+      <div class="details-card mb-4">
+        <div class="row g-3">
+          <div class="col-md-6 col-12">
+            <div class="detail-label">CONSIGNEE NAME</div>
+            <div class="detail-value">{{ item?.customer || 'Reliance Freight' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="detail-label">CONTACT NO</div>
+            <div class="detail-value">+91 98200 11234</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="detail-label">ADDRESS</div>
+            <div class="detail-value">Plot 14, MIDC Industrial Area, Mumbai North, Maharashtra 400101</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="detail-label">EMAIL ID</div>
+            <div class="detail-value">logistics&#64;reliancefreight.example.com</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: APPOINTMENT DETAILS (Only visible for Appointment entry type) -->
+      <ng-container *ngIf="item?.type === 'Appointment' || !item?.type">
+        <div class="section-banner mb-3 d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center gap-2">
+            <span style="width: 3.5px; height: 15px; background: #fff; border-radius: 2px; display: inline-block;"></span>
+            <span>APPOINTMENT DETAILS</span>
+          </div>
+          <a href="javascript:void(0)" style="color: #fff; text-decoration: underline; font-size: 11px; font-weight: 600;">Details</a>
+        </div>
+        <div class="details-card mb-4">
+          <div class="row g-3">
+            <div class="col-md-6 col-12">
+              <div class="detail-label">APPOINTMENT ID</div>
+              <div class="detail-value">{{ item?.id || 'APT-0312' }}</div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="detail-label">APPOINTMENT DATE</div>
+              <div class="detail-value">{{ getAppointmentDate(item?.dateTime) }}</div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="detail-label">FROM TIME — TO TIME</div>
+              <div class="detail-value">{{ getAppointmentTime(item?.dateTime) }}</div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="detail-label">PERSON NAME</div>
+              <div class="detail-value">{{ item?.customer || 'Reliance Freight' }}</div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="detail-label">CONTACT NO</div>
+              <div class="detail-value">+91 98200 11234</div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Section 4: REMARKS -->
+      <div class="section-banner mb-3 d-flex align-items-center gap-2">
+        <span style="width: 3.5px; height: 15px; background: #fff; border-radius: 2px; display: inline-block;"></span>
+        <span>REMARKS</span>
+      </div>
+      <div class="details-card mb-4">
+        <div class="detail-label">REMARKS</div>
+        <div class="detail-value" style="font-weight: 500; color: #334155;">Standard delivery appointment.</div>
+      </div>
+
+      <!-- Section 5: AUDIT TRAIL -->
+      <div class="section-banner mb-3 d-flex align-items-center gap-2">
+        <span style="width: 3.5px; height: 15px; background: #fff; border-radius: 2px; display: inline-block;"></span>
+        <span>AUDIT TRAIL</span>
+      </div>
+      <div class="details-card mb-2">
+        <div class="row g-3">
+          <div class="col-md-6 col-12">
+            <div class="detail-label">GENERATED BY</div>
+            <div class="detail-value">3673:Riya CS</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="detail-label">GENERATED DATE</div>
+            <div class="detail-value">20/06/2026 09:15 AM</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="detail-label">RESCHEDULED BY</div>
+            <div class="detail-value">{{ item?.status === 'Rescheduled' ? '4102:Amit Sharma' : '—' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="detail-label">RESCHEDULED ENTRY DATE</div>
+            <div class="detail-value">{{ item?.status === 'Rescheduled' ? '21/06/2026 02:30 PM' : '—' }}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 3. FIXED FOOTER -->
+    <div class="modal-footer border-0 py-3 px-4 bg-white shadow-lg" style="flex-shrink: 0; border-top: 1px solid #e2e8f0 !important; z-index: 10;">
+      <button type="button" class="btn btn-danger w-100 py-2 fw-bold shadow-sm" (click)="closeModal()" style="background: #B30000; border-color: #B30000; border-radius: 8px; font-size: 14px;">
+        Close
+      </button>
+    </div>
+
+  </div>
+</ng-template>
