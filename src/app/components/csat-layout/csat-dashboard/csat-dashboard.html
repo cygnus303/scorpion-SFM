@@ -4,33 +4,72 @@
     <div class="kpi-row">
         <div class="kpi" [style.--kc]="getCSATColor(dashboardData?.cards?.avgScore)">
             <div class="kpi-label">Overall CSAT Score</div>
-            <div class="kpi-val" id="db2-overall">
-                {{ dashboardData?.cards?.avgScore !== null && dashboardData?.cards?.avgScore !== undefined ?
-                (dashboardData.cards.avgScore | number:'1.1-1') : '—' }}<span
-                    style="font-size:14px;font-weight:400;color:var(--text3)">/5</span>
-            </div>
-            <div class="kpi-sub up" id="db2-trend">▲ Active Score</div>
+            <ng-container *ngIf="isLoading; else overallLoaded">
+                <div class="kpi-loader-box">
+                    <div class="csat-shimmer-line" style="width: 75px; height: 26px;"></div>
+                    <div class="csat-shimmer-line" style="width: 50px; height: 12px;"></div>
+                </div>
+            </ng-container>
+            <ng-template #overallLoaded>
+                <div class="kpi-val" id="db2-overall">
+                    {{ dashboardData?.cards?.avgScore !== null && dashboardData?.cards?.avgScore !== undefined ?
+                    (dashboardData.cards.avgScore | number:'1.1-1') : '—' }}<span
+                        style="font-size:14px;font-weight:400;color:var(--text3)">/5</span>
+                </div>
+                <div class="kpi-sub up" id="db2-trend">▲ Active Score</div>
+            </ng-template>
         </div>
         <div class="kpi" style="--kc:var(--blue)">
             <div class="kpi-label">Surveys Sent MTD</div>
-            <div class="kpi-val" id="db2-sent">{{ dashboardData?.cards?.surveySentMTD || 0 }}</div>
-            <div class="kpi-sub up">This month</div>
+            <ng-container *ngIf="isLoading; else sentLoaded">
+                <div class="kpi-loader-box">
+                    <div class="csat-shimmer-line" style="width: 55px; height: 26px;"></div>
+                    <div class="csat-shimmer-line" style="width: 65px; height: 12px;"></div>
+                </div>
+            </ng-container>
+            <ng-template #sentLoaded>
+                <div class="kpi-val" id="db2-sent">{{ dashboardData?.cards?.surveySentMTD || 0 }}</div>
+                <div class="kpi-sub up">This month</div>
+            </ng-template>
         </div>
         <div class="kpi" style="--kc:var(--amber)">
             <div class="kpi-label">Response Rate</div>
-            <div class="kpi-val" id="db2-rr">{{ dashboardData?.cards?.responseRate || 0 }}%</div>
-            <div class="kpi-sub" [ngClass]="(dashboardData?.cards?.responseRate || 0) >= 80 ? 'up' : 'wn'">Target: 80%
-            </div>
+            <ng-container *ngIf="isLoading; else rateLoaded">
+                <div class="kpi-loader-box">
+                    <div class="csat-shimmer-line" style="width: 60px; height: 26px;"></div>
+                    <div class="csat-shimmer-line" style="width: 65px; height: 12px;"></div>
+                </div>
+            </ng-container>
+            <ng-template #rateLoaded>
+                <div class="kpi-val" id="db2-rr">{{ dashboardData?.cards?.responseRate || 0 }}%</div>
+                <div class="kpi-sub" [ngClass]="(dashboardData?.cards?.responseRate || 0) >= 80 ? 'up' : 'wn'">Target: 80%</div>
+            </ng-template>
         </div>
         <div class="kpi" style="--kc:var(--red)">
             <div class="kpi-label">Detractors (≤2 ★)</div>
-            <div class="kpi-val" id="db2-detractors">{{ dashboardData?.cards?.detractors || 0 }}</div>
-            <div class="kpi-sub dn">Action needed</div>
+            <ng-container *ngIf="isLoading; else detLoaded">
+                <div class="kpi-loader-box">
+                    <div class="csat-shimmer-line" style="width: 45px; height: 26px;"></div>
+                    <div class="csat-shimmer-line" style="width: 70px; height: 12px;"></div>
+                </div>
+            </ng-container>
+            <ng-template #detLoaded>
+                <div class="kpi-val" id="db2-detractors">{{ dashboardData?.cards?.detractors || 0 }}</div>
+                <div class="kpi-sub dn">Action needed</div>
+            </ng-template>
         </div>
         <div class="kpi" style="--kc:var(--green)">
             <div class="kpi-label">Promoters (5 ★)</div>
-            <div class="kpi-val" id="db2-promoters">{{ dashboardData?.cards?.promoters || 0 }}</div>
-            <div class="kpi-sub up">5-star reviews</div>
+            <ng-container *ngIf="isLoading; else promLoaded">
+                <div class="kpi-loader-box">
+                    <div class="csat-shimmer-line" style="width: 45px; height: 26px;"></div>
+                    <div class="csat-shimmer-line" style="width: 70px; height: 12px;"></div>
+                </div>
+            </ng-container>
+            <ng-template #promLoaded>
+                <div class="kpi-val" id="db2-promoters">{{ dashboardData?.cards?.promoters || 0 }}</div>
+                <div class="kpi-sub up">5-star reviews</div>
+            </ng-template>
         </div>
     </div>
 
@@ -39,87 +78,97 @@
             <div class="card-head">
                 <div class="ci" style="background:var(--green)">⭐</div>
                 <div class="card-title">Score Distribution</div>
-                <!-- <div class="card-sub">{{ getDistributionTotal() }} response(s)</div> -->
             </div>
-            <div style="display:flex;flex-direction:column;gap:8px" id="db2-bars">
-                <!-- 5 Stars -->
-                <div style="display:flex;align-items:center;gap:10px">
-                    <div style="font-size:12px;width:50px;flex-shrink:0;font-weight:600;color:var(--green)">★★★★★</div>
-                    <div style="flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden">
-                        <div id="b5" [style.width.%]="getScorePercent(5)"
-                            style="height:100%;background:var(--green);border-radius:4px;display:flex;align-items:center;padding-left:6px">
-                            <span id="p5" style="font-size:10px;font-weight:600;color:#fff">{{ getScorePercent(5)
-                                }}%</span>
-                        </div>
+            <ng-container *ngIf="isLoading; else barsLoaded">
+                <div class="shimmer-bars-container">
+                    <div class="shimmer-bar-row" *ngFor="let i of [1,2,3,4,5]">
+                        <div class="csat-shimmer-line" style="width: 45px; height: 16px;"></div>
+                        <div class="csat-shimmer-line" style="flex: 1; height: 20px;"></div>
+                        <div class="csat-shimmer-line" style="width: 45px; height: 16px;"></div>
                     </div>
-                    <div id="n5" style="font-size:11px;color:var(--text3);width:52px;text-align:right">{{
-                        getScoreCount(5) }} resp.</div>
                 </div>
-                <!-- 4 Stars -->
-                <div style="display:flex;align-items:center;gap:10px">
-                    <div style="font-size:12px;width:50px;flex-shrink:0;font-weight:600;color:#65a30d">★★★★☆</div>
-                    <div style="flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden">
-                        <div id="b4" [style.width.%]="getScorePercent(4)"
-                            style="height:100%;background:#65a30d;border-radius:4px;display:flex;align-items:center;padding-left:6px">
-                            <span id="p4" style="font-size:10px;font-weight:600;color:#fff">{{ getScorePercent(4)
-                                }}%</span>
+            </ng-container>
+            <ng-template #barsLoaded>
+                <div style="display:flex;flex-direction:column;gap:8px" id="db2-bars">
+                    <!-- 5 Stars -->
+                    <div style="display:flex;align-items:center;gap:10px">
+                        <div style="font-size:12px;width:50px;flex-shrink:0;font-weight:600;color:var(--green)">★★★★★</div>
+                        <div style="flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden">
+                            <div id="b5" [style.width.%]="getScorePercent(5)"
+                                style="height:100%;background:var(--green);border-radius:4px;display:flex;align-items:center;padding-left:6px">
+                                <span id="p5" style="font-size:10px;font-weight:600;color:#fff">{{ getScorePercent(5)
+                                    }}%</span>
+                            </div>
                         </div>
+                        <div id="n5" style="font-size:11px;color:var(--text3);width:52px;text-align:right">{{
+                            getScoreCount(5) }} resp.</div>
                     </div>
-                    <div id="n4" style="font-size:11px;color:var(--text3);width:52px;text-align:right">{{
-                        getScoreCount(4) }} resp.</div>
-                </div>
-                <!-- 3 Stars -->
-                <div style="display:flex;align-items:center;gap:10px">
-                    <div style="font-size:12px;width:50px;flex-shrink:0;font-weight:600;color:var(--amber)">★★★☆☆</div>
-                    <div style="flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden">
-                        <div id="b3" [style.width.%]="getScorePercent(3)"
-                            style="height:100%;background:var(--amber);border-radius:4px;display:flex;align-items:center;padding-left:6px">
-                            <span id="p3" style="font-size:10px;font-weight:600;color:#fff">{{ getScorePercent(3)
-                                }}%</span>
+                    <!-- 4 Stars -->
+                    <div style="display:flex;align-items:center;gap:10px">
+                        <div style="font-size:12px;width:50px;flex-shrink:0;font-weight:600;color:#65a30d">★★★★☆</div>
+                        <div style="flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden">
+                            <div id="b4" [style.width.%]="getScorePercent(4)"
+                                style="height:100%;background:#65a30d;border-radius:4px;display:flex;align-items:center;padding-left:6px">
+                                <span id="p4" style="font-size:10px;font-weight:600;color:#fff">{{ getScorePercent(4)
+                                    }}%</span>
+                            </div>
                         </div>
+                        <div id="n4" style="font-size:11px;color:var(--text3);width:52px;text-align:right">{{
+                            getScoreCount(4) }} resp.</div>
                     </div>
-                    <div id="n3" style="font-size:11px;color:var(--text3);width:52px;text-align:right">{{
-                        getScoreCount(3) }} resp.</div>
-                </div>
-                <!-- 2 Stars -->
-                <div style="display:flex;align-items:center;gap:10px">
-                    <div style="font-size:12px;width:50px;flex-shrink:0;font-weight:600;color:#ea580c">★★☆☆☆</div>
-                    <div style="flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden">
-                        <div id="b2" [style.width.%]="getScorePercent(2)"
-                            style="height:100%;background:#ea580c;border-radius:4px;display:flex;align-items:center;padding-left:6px">
-                            <span id="p2" style="font-size:10px;font-weight:600;color:#fff">{{ getScorePercent(2)
-                                }}%</span>
+                    <!-- 3 Stars -->
+                    <div style="display:flex;align-items:center;gap:10px">
+                        <div style="font-size:12px;width:50px;flex-shrink:0;font-weight:600;color:var(--amber)">★★★☆☆</div>
+                        <div style="flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden">
+                            <div id="b3" [style.width.%]="getScorePercent(3)"
+                                style="height:100%;background:var(--amber);border-radius:4px;display:flex;align-items:center;padding-left:6px">
+                                <span id="p3" style="font-size:10px;font-weight:600;color:#fff">{{ getScorePercent(3)
+                                    }}%</span>
+                            </div>
                         </div>
+                        <div id="n3" style="font-size:11px;color:var(--text3);width:52px;text-align:right">{{
+                            getScoreCount(3) }} resp.</div>
                     </div>
-                    <div id="n2" style="font-size:11px;color:var(--text3);width:52px;text-align:right">{{
-                        getScoreCount(2) }} resp.</div>
-                </div>
-                <!-- 1 Star -->
-                <div style="display:flex;align-items:center;gap:10px">
-                    <div style="font-size:12px;width:50px;flex-shrink:0;font-weight:600;color:var(--red)">★☆☆☆☆</div>
-                    <div style="flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden">
-                        <div id="b1" [style.width.%]="getScorePercent(1)"
-                            style="height:100%;background:var(--red);border-radius:4px;display:flex;align-items:center;padding-left:6px">
-                            <span id="p1" style="font-size:10px;font-weight:600;color:#fff">{{ getScorePercent(1)
-                                }}%</span>
+                    <!-- 2 Stars -->
+                    <div style="display:flex;align-items:center;gap:10px">
+                        <div style="font-size:12px;width:50px;flex-shrink:0;font-weight:600;color:#ea580c">★★☆☆☆</div>
+                        <div style="flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden">
+                            <div id="b2" [style.width.%]="getScorePercent(2)"
+                                style="height:100%;background:#ea580c;border-radius:4px;display:flex;align-items:center;padding-left:6px">
+                                <span id="p2" style="font-size:10px;font-weight:600;color:#fff">{{ getScorePercent(2)
+                                    }}%</span>
+                            </div>
                         </div>
+                        <div id="n2" style="font-size:11px;color:var(--text3);width:52px;text-align:right">{{
+                            getScoreCount(2) }} resp.</div>
                     </div>
-                    <div id="n1" style="font-size:11px;color:var(--text3);width:52px;text-align:right">{{
-                        getScoreCount(1) }} resp.</div>
+                    <!-- 1 Star -->
+                    <div style="display:flex;align-items:center;gap:10px">
+                        <div style="font-size:12px;width:50px;flex-shrink:0;font-weight:600;color:var(--red)">★☆☆☆☆</div>
+                        <div style="flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden">
+                            <div id="b1" [style.width.%]="getScorePercent(1)"
+                                style="height:100%;background:var(--red);border-radius:4px;display:flex;align-items:center;padding-left:6px">
+                                <span id="p1" style="font-size:10px;font-weight:600;color:#fff">{{ getScorePercent(1)
+                                    }}%</span>
+                            </div>
+                        </div>
+                        <div id="n1" style="font-size:11px;color:var(--text3);width:52px;text-align:right">{{
+                            getScoreCount(1) }} resp.</div>
+                    </div>
                 </div>
-            </div>
-            <div *ngIf="getDistributionTotal() > 0"
-                style="display:flex;gap:0;margin-top:14px;border-radius:6px;overflow:hidden;height:26px">
-                <div *ngIf="getPromoterPercent() > 0" [style.flex]="getPromoterPercent()"
-                    style="background:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:28px">
-                    Prom. {{ getPromoterPercent() }}%</div>
-                <div *ngIf="getPassivePercent() > 0" [style.flex]="getPassivePercent()"
-                    style="background:var(--amber);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:28px">
-                    Pass. {{ getPassivePercent() }}%</div>
-                <div *ngIf="getDetractorPercent() > 0" [style.flex]="getDetractorPercent()"
-                    style="background:var(--red);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:28px">
-                    Det. {{ getDetractorPercent() }}%</div>
-            </div>
+                <div *ngIf="getDistributionTotal() > 0"
+                    style="display:flex;gap:0;margin-top:14px;border-radius:6px;overflow:hidden;height:26px">
+                    <div *ngIf="getPromoterPercent() > 0" [style.flex]="getPromoterPercent()"
+                        style="background:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:28px">
+                        Prom. {{ getPromoterPercent() }}%</div>
+                    <div *ngIf="getPassivePercent() > 0" [style.flex]="getPassivePercent()"
+                        style="background:var(--amber);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:28px">
+                        Pass. {{ getPassivePercent() }}%</div>
+                    <div *ngIf="getDetractorPercent() > 0" [style.flex]="getDetractorPercent()"
+                        style="background:var(--red);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:28px">
+                        Det. {{ getDetractorPercent() }}%</div>
+                </div>
+            </ng-template>
         </div>
 
         <!-- <div class="card">
@@ -153,42 +202,62 @@
                 <div class="ci b">🏢</div>
                 <div class="card-title">Account CSAT Status</div>
             </div>
-            <div style="max-height:350px;overflow-y:auto">
-                <table class="mt"
-                    *ngIf="dashboardData?.accountStatus && dashboardData.accountStatus.length > 0; else noAccountStatus">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Account</th>
-                            <th>Score</th>
-                            <th>Surveys</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let account of dashboardData.accountStatus">
-                            <td>
-                                <div class="hd" [ngClass]="getDotClass(account.status)"
-                                    style="width:9px;height:9px;border-radius:50%;flex-shrink:0"></div>
-                            </td>
-                            <td>
-                                <strong>{{ account.custNm }}</strong><br>
-                                <span style="font-size:10px;color:var(--text3)">{{ account.custCd }}</span>
-                            </td>
-                            <td style="font-size:14px;font-weight:700;" [style.color]="getScoreColor(account.score)">
-                                {{ account.score !== null && account.score !== undefined ? (account.score |
-                                number:'1.1-1') : '—' }}
-                            </td>
-                            <td style="color:var(--text3)">{{ account.surveys || 0 }}</td>
-                            <td><span class="pill" [ngClass]="getStatusClass(account.status)">{{ account.status ||
-                                    'Awaiting' }}</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <ng-template #noAccountStatus>
-                <div style="font-size:12px;color:var(--text3);font-style:italic;padding:20px 0;text-align:center">No
-                    account CSAT statuses available.</div>
+            <ng-container *ngIf="isLoading; else accountsLoaded">
+                <div class="shimmer-table-container">
+                    <div class="shimmer-table-header">
+                        <div class="csat-shimmer-line" style="width: 30%; height: 16px;"></div>
+                        <div class="csat-shimmer-line" style="width: 20%; height: 16px;"></div>
+                        <div class="csat-shimmer-line" style="width: 20%; height: 16px;"></div>
+                    </div>
+                    <div class="shimmer-table-row" *ngFor="let i of [1,2,3,4,5,6]">
+                        <div class="csat-shimmer-line" style="width: 12px; height: 12px; border-radius: 50%;"></div>
+                        <div style="flex: 1; display:flex; flex-direction:column; gap:4px;">
+                            <div class="csat-shimmer-line" style="width: 75%; height: 14px;"></div>
+                            <div class="csat-shimmer-line" style="width: 40%; height: 10px;"></div>
+                        </div>
+                        <div class="csat-shimmer-line" style="width: 30px; height: 16px;"></div>
+                        <div class="csat-shimmer-line" style="width: 50px; height: 20px; border-radius: 12px;"></div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #accountsLoaded>
+                <div style="max-height:350px;overflow-y:auto">
+                    <table class="mt"
+                        *ngIf="dashboardData?.accountStatus && dashboardData.accountStatus.length > 0; else noAccountStatus">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Account</th>
+                                <th>Score</th>
+                                <th>Surveys</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let account of dashboardData.accountStatus">
+                                <td>
+                                    <div class="hd" [ngClass]="getDotClass(account.status)"
+                                        style="width:9px;height:9px;border-radius:50%;flex-shrink:0"></div>
+                                </td>
+                                <td>
+                                    <strong>{{ account.custNm }}</strong><br>
+                                    <span style="font-size:10px;color:var(--text3)">{{ account.custCd }}</span>
+                                </td>
+                                <td style="font-size:14px;font-weight:700;" [style.color]="getScoreColor(account.score)">
+                                    {{ account.score !== null && account.score !== undefined ? (account.score |
+                                    number:'1.1-1') : '—' }}
+                                </td>
+                                <td style="color:var(--text3)">{{ account.surveys || 0 }}</td>
+                                <td><span class="pill" [ngClass]="getStatusClass(account.status)">{{ account.status ||
+                                        'Awaiting' }}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ng-template #noAccountStatus>
+                    <div style="font-size:12px;color:var(--text3);font-style:italic;padding:20px 0;text-align:center">No
+                        account CSAT statuses available.</div>
+                </ng-template>
             </ng-template>
         </div>
     </div>
@@ -200,25 +269,39 @@
                 <div class="ci p">💬</div>
                 <div class="card-title">Live Response Feed</div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:8px;max-height:350px;overflow-y:auto"
-                *ngIf="dashboardData?.liveFeed && dashboardData.liveFeed.length > 0; else noLiveFeed">
-                <div *ngFor="let feed of dashboardData.liveFeed" [ngStyle]="getFeedStyle(feed.ans)">
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
-                        <span style="font-size:12px;font-weight:600;color:var(--text1)">{{ feed.custNm }}</span>
-                        <span>{{ getStars(feed.ans) }}</span>
-                    </div>
-                    <div *ngIf="feed.anySuggestions" [style.color]="getFeedCommentColor(feed.ans)"
-                        style="font-size:12px;font-style:italic;margin-bottom:3px">
-                        "{{ feed.anySuggestions }}"
-                    </div>
-                    <div style="font-size:10px;color:var(--text3)">
-                        Code: {{ feed.custCd }} · Date: {{ feed.entryDate | date:'dd MMM yyyy' }}
+            <ng-container *ngIf="isLoading; else feedLoaded">
+                <div class="shimmer-feed-container">
+                    <div class="shimmer-feed-card" *ngFor="let i of [1,2,3,4]">
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 6px;">
+                            <div class="csat-shimmer-line" style="width: 40%; height: 15px;"></div>
+                            <div class="csat-shimmer-line" style="width: 70px; height: 15px;"></div>
+                        </div>
+                        <div class="csat-shimmer-line" style="width: 85%; height: 12px; margin-bottom: 6px;"></div>
+                        <div class="csat-shimmer-line" style="width: 35%; height: 10px;"></div>
                     </div>
                 </div>
-            </div>
-            <ng-template #noLiveFeed>
-                <div style="font-size:12px;color:var(--text3);font-style:italic;padding:20px 0;text-align:center">No
-                    survey responses received yet.</div>
+            </ng-container>
+            <ng-template #feedLoaded>
+                <div style="display:flex;flex-direction:column;gap:8px;max-height:350px;overflow-y:auto"
+                    *ngIf="dashboardData?.liveFeed && dashboardData.liveFeed.length > 0; else noLiveFeed">
+                    <div *ngFor="let feed of dashboardData.liveFeed" [ngStyle]="getFeedStyle(feed.ans)">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+                            <span style="font-size:12px;font-weight:600;color:var(--text1)">{{ feed.custNm }}</span>
+                            <span>{{ getStars(feed.ans) }}</span>
+                        </div>
+                        <div *ngIf="feed.anySuggestions" [style.color]="getFeedCommentColor(feed.ans)"
+                            style="font-size:12px;font-style:italic;margin-bottom:3px">
+                            "{{ feed.anySuggestions }}"
+                        </div>
+                        <div style="font-size:10px;color:var(--text3)">
+                            Code: {{ feed.custCd }} · Date: {{ feed.entryDate | date:'dd MMM yyyy' }}
+                        </div>
+                    </div>
+                </div>
+                <ng-template #noLiveFeed>
+                    <div style="font-size:12px;color:var(--text3);font-style:italic;padding:20px 0;text-align:center">No
+                        survey responses received yet.</div>
+                </ng-template>
             </ng-template>
         </div>
     </div>

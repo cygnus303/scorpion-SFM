@@ -22,6 +22,8 @@ interface AppointmentItem {
   styleUrl: './appointment-delivery.scss',
 })
 export class AppointmentDelivery implements OnInit {
+  @ViewChild('addAppointmentModal') addAppointmentModal!: AddAppointment;
+  @ViewChild('viewAppointmentModal') viewAppointmentModal!: ViewAppointment;
   activeTab: 'Appointment' | 'CSD' | 'Mall' = 'Appointment';
 
   appointments: AppointmentItem[] = [
@@ -160,15 +162,35 @@ export class AppointmentDelivery implements OnInit {
     return this.appointments.filter(i => i.type === 'Mall').length;
   }
 
-  // --- Modal UI Component Reference ---
-  @ViewChild('addAppointmentModal') addAppointmentModal!: AddAppointment;
-  @ViewChild('viewAppointmentModal') viewAppointmentModal!: ViewAppointment;
-
   openAddModal() {
     this.addAppointmentModal.openModal(this.activeTab);
   }
 
   openViewModal(item: AppointmentItem) {
     this.viewAppointmentModal.openModal(item);
+  }
+
+  formatDate(dateTimeStr: string): string {
+    if (!dateTimeStr) return '';
+    const parts = dateTimeStr.split(' ');
+    return parts[0] || '';
+  }
+
+  formatTime(dateTimeStr: string): string {
+    if (!dateTimeStr) return '';
+    const parts = dateTimeStr.split(' ');
+    if (parts.length >= 2) {
+      return parts.slice(1).join(' ').replace(/\s*[–—-]\s*/g, ' — ');
+    }
+    return '';
+  }
+
+  splitOrgDest(orgDest: string): { org: string; dest: string } {
+    if (!orgDest) return { org: '', dest: '' };
+    const parts = orgDest.split(/\s*→\s*|\s*->\s*/);
+    return {
+      org: parts[0] || orgDest,
+      dest: parts[1] || ''
+    };
   }
 }

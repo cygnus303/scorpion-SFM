@@ -1,86 +1,170 @@
-<!-- ══ APPOINTMENT & DELIVERY DASHBOARD ══ -->
+<!-- ══ APPOINTMENT & DELIVERY DASHBOARD (COMPACT HIGH-DENSITY UI) ══ -->
 <div class="page active">
-  <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 14px;">
-    <div class="kpi" style="--kc: #2563EB">
-      <div class="kpi-label">Total Appointment</div>
-      <div class="kpi-val">{{ totalAppointmentCount }}</div>
-      <div class="kpi-sub up">All records</div>
+  <!-- Top KPI Grid (Compact) -->
+  <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 14px;">
+    <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #2563EB !important;">
+      <div class="text-muted small fw-semibold mb-0" style="font-size: 11px;">Total Appointment</div>
+      <div class="fw-bold text-dark my-0" style="font-size: 18px;">{{ totalAppointmentCount }}</div>
+      <div class="text-success mb-0" style="font-size: 10px;">▲ All records</div>
     </div>
-    <div class="kpi" style="--kc: #16A34A">
-      <div class="kpi-label">Today's Appointment</div>
-      <div class="kpi-val">{{ todayAppointmentCount }}</div>
-      <div class="kpi-sub up">0 completed</div>
+    <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #16A34A !important;">
+      <div class="text-muted small fw-semibold mb-0" style="font-size: 11px;">Today's Appointment</div>
+      <div class="fw-bold text-dark my-0" style="font-size: 18px;">{{ todayAppointmentCount }}</div>
+      <div class="text-success mb-0" style="font-size: 10px;">▲ 0 completed</div>
     </div>
-    <div class="kpi" style="--kc: #D97706">
-      <div class="kpi-label">Rescheduled Appointment</div>
-      <div class="kpi-val">{{ rescheduledAppointmentCount }}</div>
-      <div class="kpi-sub wn">Today</div>
+    <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #D97706 !important;">
+      <div class="text-muted small fw-semibold mb-0" style="font-size: 11px;">Rescheduled Appointment</div>
+      <div class="fw-bold text-dark my-0" style="font-size: 18px;">{{ rescheduledAppointmentCount }}</div>
+      <div class="text-warning mb-0" style="font-size: 10px;">⚠️ Today</div>
     </div>
-    <div class="kpi" style="--kc: #CC0000">
-      <div class="kpi-label">Total CSD Delivery</div>
-      <div class="kpi-val">{{ totalCsdCount }}</div>
-      <div class="kpi-sub">All records</div>
+    <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #CC0000 !important;">
+      <div class="text-muted small fw-semibold mb-0" style="font-size: 11px;">Total CSD Delivery</div>
+      <div class="fw-bold text-dark my-0" style="font-size: 18px;">{{ totalCsdCount }}</div>
+      <div class="text-muted mb-0" style="font-size: 10px;">All records</div>
     </div>
-    <div class="kpi" style="--kc: #7C3AED">
-      <div class="kpi-label">Total Mall Delivery</div>
-      <div class="kpi-val">{{ totalMallCount }}</div>
-      <div class="kpi-sub">All records</div>
+    <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #7C3AED !important;">
+      <div class="text-muted small fw-semibold mb-0" style="font-size: 11px;">Total Mall Delivery</div>
+      <div class="fw-bold text-dark my-0" style="font-size: 18px;">{{ totalMallCount }}</div>
+      <div class="text-muted mb-0" style="font-size: 10px;">All records</div>
     </div>
   </div>
 
-  <div class="card no-hover">
-    <div class="card-head">
-      <div class="ci" style="background: #F3E8FF; color: #7C3AED;">📦</div>
-      <div class="card-title">Delivery Appointment List</div>
-      <div style="margin-left: auto; display: flex; gap: 8px;">
-        <button
-          style="background: #2563EB; color: #fff; border: none; padding: 5px 14px; font-size: 11px; font-weight: 600; border-radius: 4px; cursor: pointer;">⬇
-          Download XLS</button>
-        <button class="btn btn-red" style="padding: 5px 14px; font-size: 11px; font-weight: 600; border-radius: 4px;"
-          (click)="openAddModal()">＋ Add New</button>
+  <!-- Main Card (Compact) -->
+  <div class="card border-0 shadow-sm rounded-3 bg-white overflow-hidden mb-3">
+    <!-- 1. COMPACT BOOTSTRAP CARD HEADER -->
+    <div class="card-header bg-white border-bottom py-2 px-3 d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center justify-content-center rounded-2 flex-shrink-0" style="width: 32px; height: 32px; font-size: 16px; background: #F3E8FF; color: #7C3AED;">
+          📦
+        </div>
+        <div>
+          <h6 class="mb-0 fw-bold text-dark" style="font-size: 14.5px;">Delivery Appointment List</h6>
+          <p class="mb-0 text-muted" style="font-size: 11px;">Manage and monitor all shipment delivery schedules</p>
+        </div>
+      </div>
+      <div class="d-flex gap-2 align-items-center">
+        <button type="button" class="btn btn-primary btn-sm px-3 py-1 fw-semibold d-flex align-items-center gap-1 rounded-2 shadow-sm text-white" style="font-size: 12px; background-color: #2563EB; border-color: #2563EB;">
+          <span>⬇</span> Download XLS
+        </button>
+        <button type="button" class="btn btn-danger btn-sm px-3 py-1 fw-semibold d-flex align-items-center gap-1 rounded-2 shadow-sm text-white" style="font-size: 12px; background-color: #CC0000; border-color: #CC0000;" (click)="openAddModal()">
+          <span>+</span> Add New
+        </button>
       </div>
     </div>
 
-    <div style="display: flex; gap: 8px; padding: 0 16px 14px;">
-      <button class="tc" [class.on]="activeTab === 'Appointment'" style="color: var(--text2);"
-        (click)="setTab('Appointment')">Appointment Delivery</button>
-      <button class="tc" [class.on]="activeTab === 'CSD'" style="color: var(--text2);" (click)="setTab('CSD')">CSD
-        Delivery</button>
-      <button class="tc" [class.on]="activeTab === 'Mall'" style="color: var(--text2);" (click)="setTab('Mall')">Mall
-        Delivery</button>
+    <!-- 2. COMPACT BOOTSTRAP TABS -->
+    <div class="py-2 px-3 bg-white border-bottom">
+      <ul class="nav nav-pills gap-1 m-0 p-1 bg-light rounded-2 d-inline-flex border" style="background: #F8FAFC !important;">
+        <li class="nav-item">
+          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-semibold d-flex align-items-center gap-2 border-0 rounded-2"
+            [ngClass]="activeTab === 'Appointment' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
+            [style.background]="activeTab === 'Appointment' ? '#CC0000' : 'transparent'"
+            style="font-size: 12px;"
+            (click)="setTab('Appointment')">
+            <span>📋 Appointment Delivery</span>
+            <span class="badge rounded-pill" [ngClass]="activeTab === 'Appointment' ? 'bg-white text-danger' : 'bg-secondary bg-opacity-25 text-dark'" style="font-size: 10px;">{{ totalAppointmentCount }}</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-semibold d-flex align-items-center gap-2 border-0 rounded-2"
+            [ngClass]="activeTab === 'CSD' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
+            [style.background]="activeTab === 'CSD' ? '#CC0000' : 'transparent'"
+            style="font-size: 12px;"
+            (click)="setTab('CSD')">
+            <span>🛡️ CSD Delivery</span>
+            <span class="badge rounded-pill" [ngClass]="activeTab === 'CSD' ? 'bg-white text-danger' : 'bg-secondary bg-opacity-25 text-dark'" style="font-size: 10px;">{{ totalCsdCount }}</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-semibold d-flex align-items-center gap-2 border-0 rounded-2"
+            [ngClass]="activeTab === 'Mall' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
+            [style.background]="activeTab === 'Mall' ? '#CC0000' : 'transparent'"
+            style="font-size: 12px;"
+            (click)="setTab('Mall')">
+            <span>🏬 Mall Delivery</span>
+            <span class="badge rounded-pill" [ngClass]="activeTab === 'Mall' ? 'bg-white text-danger' : 'bg-secondary bg-opacity-25 text-dark'" style="font-size: 10px;">{{ totalMallCount }}</span>
+          </button>
+        </li>
+      </ul>
     </div>
 
-    <table class="mt">
-      <thead>
-        <tr>
-          <th>APPOINTMENT ID</th>
-          <th>CUSTOMER</th>
-          <th>DOCKET NO</th>
-          <th>ORG/DEST</th>
-          <th>APPOINTMENT DATE & TIME</th>
-          <th>STATUS</th>
-          <th style="text-align: center;">ACTION</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of filteredAppointments"
-          [style.background]="item.status === 'Rescheduled' ? '#FFF8F8' : 'transparent'">
-          <td style="font-weight: 700; color: var(--text1);">{{ item.id }}</td>
-          <td style="font-weight: 600; color: var(--text1);">{{ item.customer }}</td>
-          <td>{{ item.docketNo }}</td>
-          <td>{{ item.orgDest }}</td>
-          <td>{{ item.dateTime }}</td>
-          <td><span class="pill" [ngClass]="item.statusClass">{{ item.status }}</span></td>
-          <td style="text-align: right; white-space: nowrap;">
-            <button
-              style="background: #2563EB; color: #fff; border: none; padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 4px; margin-right: 6px; cursor: pointer;"
-              (click)="openViewModal(item)">View</button>
-            <button
-              style="background: #D97706; color: #fff; border: none; padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 4px; cursor: pointer;">Reschedule</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- 3. COMPACT BOOTSTRAP TABLE (table-sm + py-1 px-2) -->
+    <div class="table-responsive p-2 bg-white">
+      <table class="table table-sm table-hover align-middle mb-0 border rounded-2 overflow-hidden">
+        <thead class="table-light text-secondary text-uppercase" style="font-size: 10.5px; letter-spacing: 0.5px;">
+          <tr>
+            <th class="py-2 px-2 border-bottom" style="width: 120px;">APPOINTMENT ID</th>
+            <th class="py-2 px-2 border-bottom">CUSTOMER</th>
+            <th class="py-2 px-2 border-bottom" style="width: 110px;">DOCKET NO</th>
+            <th class="py-2 px-2 border-bottom">ORG / DESTINATION</th>
+            <th class="py-2 px-2 border-bottom">DATE & TIME</th>
+            <th class="py-2 px-2 border-bottom" style="width: 120px;">STATUS</th>
+            <th class="py-2 px-2 border-bottom text-center" style="width: 170px;">ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredAppointments">
+            <!-- ID -->
+            <td class="px-2 py-2 border-bottom">
+              <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 py-1 px-2 rounded-1 fw-bold font-monospace" style="font-size: 11px;">
+                {{ item.id }}
+              </span>
+            </td>
+            <!-- Customer -->
+            <td class="px-2 py-2 border-bottom">
+              <span class="fw-bold text-dark" style="font-size: 12.5px;">{{ item.customer }}</span>
+            </td>
+            <!-- Docket No -->
+            <td class="px-2 py-2 border-bottom">
+              <span class="badge bg-light text-dark border py-1 px-2 font-monospace fw-semibold" style="font-size: 11px;">
+                {{ item.docketNo }}
+              </span>
+            </td>
+            <!-- Route -->
+            <td class="px-2 py-2 border-bottom">
+              <div class="d-flex align-items-center gap-1">
+                <span class="fw-semibold text-secondary" style="font-size: 12px;">{{ splitOrgDest(item.orgDest).org }}</span>
+                <span class="badge bg-primary bg-opacity-10 text-primary px-1 py-0 rounded-1" style="font-size: 9px;">➔</span>
+                <span class="fw-bold text-dark" style="font-size: 12px;">{{ splitOrgDest(item.orgDest).dest }}</span>
+              </div>
+            </td>
+            <!-- Date & Time -->
+            <td class="px-2 py-2 border-bottom">
+              <div class="d-flex flex-column" style="gap: 3px;">
+                <span class="fw-bold text-dark lh-1" style="font-size: 12px;">{{ formatDate(item.dateTime) }}</span>
+                <span class="text-muted lh-1" style="font-size: 11px;">{{ formatTime(item.dateTime) }}</span>
+              </div>
+            </td>
+            <!-- Status -->
+            <td class="px-2 py-2 border-bottom">
+              <span class="badge rounded-pill px-2 py-1 d-inline-flex align-items-center gap-1 fw-semibold border"
+                [ngClass]="item.status === 'Generated' 
+                  ? 'bg-success bg-opacity-10 text-success border-success border-opacity-25' 
+                  : 'bg-secondary bg-opacity-10 text-secondary border-secondary border-opacity-25'"
+                style="font-size: 11px;">
+                <span class="rounded-circle d-inline-block"
+                  [ngClass]="item.status === 'Generated' ? 'bg-success' : 'bg-secondary'"
+                  style="width: 6px; height: 6px;"></span>
+                {{ item.status }}
+              </span>
+            </td>
+            <!-- Action Buttons -->
+            <td class="px-2 py-2 border-bottom text-center">
+              <div class="d-flex justify-content-center gap-2">
+                <button type="button" class="btn btn-solid-view"
+                  (click)="openViewModal(item)" title="View Appointment Details">
+                  View
+                </button>
+                <button type="button" class="btn btn-solid-reschedule"
+                  title="Reschedule Appointment">
+                  Reschedule
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

@@ -4,3 +4,61 @@
 ::ng-deep ng-select.border-danger .ng-select-container {
     border-color: #dc3545 !important;
 }
+
+/* ── PURE SKELETON CARD & SHIMMER EFFECTS (NO SPINNER / NO TEXT) ── */
+@keyframes csatShimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+/* Shimmer Line / Box */
+.csat-shimmer-line {
+  background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+  background-size: 800px 100%;
+  animation: csatShimmer 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+/* KPI Shimmer Box */
+.kpi-loader-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 0 4px 0;
+}
+
+/* Shimmer Containers inside Cards */
+.shimmer-bars-container,
+.shimmer-table-container,
+.shimmer-feed-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 10px 0;
+}
+
+.shimmer-bar-row,
+.shimmer-table-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.shimmer-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.shimmer-feed-card {
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 8px;
+  padding: 14px 16px;
+}

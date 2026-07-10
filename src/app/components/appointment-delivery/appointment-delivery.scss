@@ -1,10 +1,96 @@
-/* Pure clean UI styles matching global theme */
+/* ══ APPOINTMENT & DELIVERY - BOOTSTRAP 5 STYLES ══ */
 .page {
-  animation: fadeIn 0.2s ease-in-out;
+  animation: fadeIn 0.25s ease-in-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(2px); }
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* KPI Cards hover transition */
+.kpi {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+  cursor: default;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+/* Bootstrap Table customization */
+.table {
+  thead th {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #64748B;
+    background-color: #F8FAFC !important;
+  }
+
+  tbody tr {
+    transition: background-color 0.15s ease-in-out;
+
+    &:hover {
+      background-color: #F8FAFC !important;
+    }
+  }
+}
+
+/* Bootstrap Nav Pills active tab custom glow */
+.nav-pills .nav-link.active {
+  box-shadow: 0 4px 12px rgba(204, 0, 0, 0.25) !important;
+}
+
+/* Bootstrap Button smooth transitions */
+.btn {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* Solid Action Buttons matching exact UI screenshot */
+.btn-solid-view {
+  background-color: #2563EB !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 0 14px;
+  height: 26px;
+  border-radius: 6px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+
+  &:hover {
+    background-color: #1D4ED8 !important;
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.35);
+  }
+}
+
+.btn-solid-reschedule {
+  background-color: #D97706 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 0 14px;
+  height: 26px;
+  border-radius: 6px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(217, 119, 6, 0.2);
+
+  &:hover {
+    background-color: #B45309 !important;
+    box-shadow: 0 4px 8px rgba(217, 119, 6, 0.35);
+  }
+}
+
 

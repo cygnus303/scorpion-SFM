@@ -41,7 +41,7 @@ export class ViewAppointment {
     if (!dateTimeStr) return '10:00 AM — 11:00 AM';
     const parts = dateTimeStr.split(' ');
     if (parts.length >= 2) {
-      return parts.slice(1).join(' ').replace('–', ' — ') || '10:00 AM — 11:00 AM';
+      return parts.slice(1).join(' ').replace(/\s*[–—-]\s*/g, ' — ') || '10:00 AM — 11:00 AM';
     }
     return '10:00 AM — 11:00 AM';
   }
