@@ -23,7 +23,16 @@ import { SweetAlertService } from '../../../shared/services/sweet-alert.service'
 export class AddPrqPopup {
   public modalRef!: BsModalRef;
   public PRQType: string = '';
-  public transportModes: GeneralMaster[] = [];
+  public transportModes: any[] = [
+    { name: 'Road', value: 'Road' },
+    { name: 'Rail', value: 'Rail' },
+    { name: 'Air', value: 'Air' },
+    { name: 'Cold Chain', value: 'Cold Chain' }
+  ];
+  public coldChainCategories: any[] = [
+    { name: 'Chiller', value: 'Chiller' },
+    { name: 'Refer', value: 'Refer' }
+  ];
   
   public emailData: any[] = [];
   public customerData: any[] = [];
@@ -125,12 +134,12 @@ export class AddPrqPopup {
 
   showPopup(type?: string) {
     this.initForm();
-      this.getTransportModes();
-      this.getFleetType()
-  this.modalRef = this.modalService.show(this.Templatepod, { 
-    backdrop: 'static', 
-    class: 'modal-lg modal-dialog-centered' 
-  });
+    // this.getTransportModes();
+    this.getFleetType()
+    this.modalRef = this.modalService.show(this.Templatepod, {
+      backdrop: 'static',
+      class: 'modal-lg modal-dialog-centered'
+    });
   }
 
   initForm() {
@@ -154,7 +163,7 @@ export class AddPrqPopup {
       fromCity: new FormControl(''),
       fromCityCode: new FormControl(''),
       transportMode: new FormControl(null, Validators.required),
-      coldChainCategory: new FormControl(''),
+      coldChainCategory: new FormControl(null),
       tempRange: new FormControl(''),
       ewayBillNo: new FormControl(''),
       ewayBillDate: new FormControl(''),
@@ -210,6 +219,17 @@ export class AddPrqPopup {
         });
       }
     });
+  }
+
+  onColdChainCategoryChange(event?: any) {
+    const category = event?.value || event?.target?.value || (typeof event === 'string' ? event : null) || this.prqForm.get('coldChainCategory')?.value;
+    if (category === 'Chiller') {
+      this.prqForm.patchValue({ tempRange: '0°C to 25°C' });
+    } else if (category === 'Refer') {
+      this.prqForm.patchValue({ tempRange: '-0°C to -18°C' });
+    } else {
+      this.prqForm.patchValue({ tempRange: '' });
+    }
   }
 
     getTransportModes(searchText: string | null = null) {

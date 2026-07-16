@@ -1,6 +1,6 @@
 <ng-template #Templatepod>
     <div class="custom-modal">
-        <div style="background:#d0021b;padding:16px 22px;display:flex;align-items:center;justify-content:space-between">
+        <div style="background:#d0021b;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
             <span style="color:#fff;font-size:15px;font-weight:700">
                 <i class="ti ti-plus-circle" style="margin-right:8px"></i>
                 <span>Add Pickup Request (PRQ)</span>
@@ -9,37 +9,46 @@
             </button>
         </div>
 
-        <form [formGroup]="prqForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="prqForm" (ngSubmit)="onSubmit()" class="modal-form">
             <div class="scrollable-content">
 
-                <!-- Eway Bill Toggle -->
-                <div style="margin-bottom:16px">
-                    <div
-                        style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">
-                        Eway Bill</div>
-                    <div style="display:flex;gap:20px;align-items:center;">
-                        <label style="display:flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer;margin:0;padding:0;font-weight:500;text-transform:none;white-space:nowrap;width:auto;">
-                            <input type="radio" formControlName="ewayBill" value="with" style="margin:0;"> With Eway Bill
+                <!-- Soft-Outline Chip / Tag Selection (Stacked Vertically / Upar-Niche) -->
+                <!-- Eway Bill Tag Selector (Top Row) -->
+                <div style="margin-bottom: 16px;">
+                    <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">
+                        Eway Bill <span style="color:#D0021B">*</span>
+                    </label>
+                    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+                        <label class="tag-radio-chip" [class.selected]="prqForm.get('ewayBill')?.value === 'with'">
+                            <input type="radio" formControlName="ewayBill" value="with" class="hidden-radio">
+                            <span class="tag-circle"></span>
+                            <span class="tag-label">With Eway Bill</span>
                         </label>
-                        <label style="display:flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer;margin:0;padding:0;font-weight:500;text-transform:none;white-space:nowrap;width:auto;">
-                            <input type="radio" formControlName="ewayBill" value="without" style="margin:0;"> Without Eway Bill
+
+                        <label class="tag-radio-chip" [class.selected]="prqForm.get('ewayBill')?.value === 'without'">
+                            <input type="radio" formControlName="ewayBill" value="without" class="hidden-radio">
+                            <span class="tag-circle"></span>
+                            <span class="tag-label">Without Eway Bill</span>
                         </label>
                     </div>
                 </div>
 
-                <!-- Service Type -->
-                <div style="margin-bottom:18px">
-                    <div
-                        style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">
-                        Service Type</div>
-                    <div style="display:flex;gap:20px;align-items:center;">
-                        <label style="display:flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer;margin:0;padding:0;font-weight:500;text-transform:none;white-space:nowrap;width:auto;">
-                            <input type="radio" formControlName="service_Type" value="LTL"
-                                 style="margin:0;"> LTL
+                <!-- Service Type Tag Selector (Bottom Row) -->
+                <div style="margin-bottom: 18px;">
+                    <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">
+                        Service Type <span style="color:#D0021B">*</span>
+                    </label>
+                    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+                        <label class="tag-radio-chip" [class.selected]="prqForm.get('service_Type')?.value === 'LTL'">
+                            <input type="radio" formControlName="service_Type" value="LTL" class="hidden-radio">
+                            <span class="tag-circle"></span>
+                            <span class="tag-label">LTL</span>
                         </label>
-                        <label style="display:flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer;margin:0;padding:0;font-weight:500;text-transform:none;white-space:nowrap;width:auto;">
-                            <input type="radio" formControlName="service_Type" value="FTL"
-                                style="margin:0;"> FTL
+
+                        <label class="tag-radio-chip" [class.selected]="prqForm.get('service_Type')?.value === 'FTL'">
+                            <input type="radio" formControlName="service_Type" value="FTL" class="hidden-radio">
+                            <span class="tag-circle"></span>
+                            <span class="tag-label">FTL</span>
                         </label>
                     </div>
                 </div>
@@ -104,12 +113,10 @@
                             <label
                                 style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Transport
                                 Mode <span style="color:#D0021B">*</span></label>
-                           <ng-select [items]="transportModes" bindLabel="codeDesc" bindValue="codeId"
-                            formControlName="transportMode" placeholder="Select Transport Mode" [searchable]="true"
-                            [clearable]="true" 
-                            class="custom-ng-select" 
-                           >
-                        </ng-select>
+                            <ng-select [items]="transportModes" bindLabel="name" bindValue="value"
+                                formControlName="transportMode" placeholder="Select Transport Mode" [searchable]="true"
+                                [clearable]="true" class="custom-ng-select">
+                            </ng-select>
                         </div>
                         <div>
                             <div *ngIf="prqForm.get('service_Type')?.value === 'FTL'">
@@ -177,15 +184,12 @@
                         *ngIf="prqForm.get('transportMode')?.value === 'Cold Chain' && prqForm.get('service_Type')?.value === 'FTL'">
                         <div class="form-row">
                             <div>
-                                <label
-                                    style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Cold
-                                    Chain Category</label>
-                                <select formControlName="coldChainCategory"
-                                    style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none;background:#fff">
-                                    <option value="">-- Select Category --</option>
-                                    <option value="Chiller">Chiller</option>
-                                    <option value="Refer">Refer</option>
-                                </select>
+                                <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">
+                                    Cold Chain Category</label>
+                                <ng-select [items]="coldChainCategories" bindLabel="name" bindValue="value"
+                                    formControlName="coldChainCategory" placeholder="Select Category" [searchable]="true"
+                                    [clearable]="true" class="custom-ng-select" (change)="onColdChainCategoryChange($event)">
+                                </ng-select>
                             </div>
                             <div>
                                 <label
@@ -341,12 +345,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div style="display:flex;gap:10px;margin-top:20px;justify-content:flex-end">
-                    <button type="button" class="btn-secondary" (click)="onClose()">Cancel</button>
-                    <button type="submit" class="btn-primary" [disabled]="prqForm.invalid"><i class="ti ti-send"
-                            style="margin-right:5px"></i>Submit PRQ</button>
-                </div>
                 </div>
 
                 <ng-template #pleaseSelect>
@@ -355,6 +353,13 @@
                         Please select Eway Bill and Service Type options above to proceed.
                     </div>
                 </ng-template>
+            </div>
+
+            <!-- Fixed Footer Buttons (Always visible at bottom without scrolling) -->
+            <div class="fixed-modal-footer">
+                <button type="button" class="btn-secondary" (click)="onClose()">Cancel</button>
+                <button type="submit" class="btn-primary" [disabled]="prqForm.invalid"><i class="ti ti-send"
+                        style="margin-right:5px"></i>Submit PRQ</button>
             </div>
         </form>
     </div>
