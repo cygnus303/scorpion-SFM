@@ -1,0 +1,42 @@
+  /* ── MODAL ── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 500; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .custom-modal { background: var(--surface, #ffffff);padding: 0; width: 800px; max-width: 96vw; box-shadow: 0 24px 64px rgba(0,0,0,0.22); border-top: 5px solid var(--scorpion-red, #D0021B); overflow: hidden; }
+  .custom-modal h3 { font-size: 17px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; color: var(--text, #1a1a1a); }
+//   .custom-modal-close { float: right; cursor: pointer; color: var(--text-muted, #6b7280); font-size: 20px; }
+  .custom-modal .form-group { margin-bottom: 14px; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+  .btn-secondary { padding: 9px 18px; background: var(--bg, #f7f7f7); border: 1.5px solid var(--border, #e5e7eb); border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 500; }
+  .btn-primary { padding: 9px 18px; background: var(--scorpion-red, #D0021B); color: #fff; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 600; }
+  .btn-primary:hover { background: var(--scorpion-red-dark, #A80016); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .form-row > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Custom Thin Scrollbar */
+  .scrollable-content {
+    padding: 22px;
+    max-height: 78vh;
+    overflow-y: auto;
+  }
+  .scrollable-content::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scrollable-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollable-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+  }
+  .scrollable-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }

@@ -50,4 +50,12 @@ export class PrqService {
    GetPRQDetails(indentNo: string): Observable<IApiBaseResponse<any[]>> {
     return this.apiHandlerService.Get(`PRQ/GetPRQDetails?indentNo=${indentNo}`);
   }
+
+  checkEwaybill(ewaybillNo:string){
+    return this.apiHandlerService.Get(`PRQ/CheckEWBD?ewbNo=${ewaybillNo}`);
+  }
+
+  eWayBillData(ewaybillNo:string){
+     return this.apiHandlerService.Get(`PRQ/GetEwaybillDetail?ewaybillNo=${ewaybillNo}`)
+  }
 }

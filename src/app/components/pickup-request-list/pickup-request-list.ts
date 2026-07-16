@@ -10,10 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { IdentityService } from '../../shared/services/identity.service';
 import { PrqDetail } from './prq-detail/prq-detail';
+import { AddPrqPopup } from './add-prq-popup/add-prq-popup';
 
 @Component({
   selector: 'app-pickup-request-list',
-  imports: [CommonModule, AddPrq, PaginationModule, FormsModule, PrqDetail],
+  imports: [CommonModule, AddPrq, PaginationModule, FormsModule, PrqDetail,AddPrqPopup],
   templateUrl: './pickup-request-list.html',
   styleUrl: './pickup-request-list.scss',
 })
@@ -23,6 +24,7 @@ export class PickupRequestList {
   public totalItems: number = 0;
   private destroy$ = new Subject<void>();
   @ViewChild('addPRQ') addPRQ!: AddPrq;
+  @ViewChild('addPrqPopup') addPrqPopup!: AddPrqPopup;
   @ViewChild('PrqDetail') PrqDetail!: PrqDetail;
   public isExportLoading: boolean = false;
   public isLoading: boolean = false;
@@ -42,7 +44,8 @@ export class PickupRequestList {
   }
 
   selectPrqType() {
-    this.addPRQ.showPopup();
+    // this.addPRQ.showPopup();
+    this.addPrqPopup.showPopup();
   }
 
   openPRQDetailModal(indentNo?: any) {
