@@ -55,6 +55,9 @@ export class HeaderService {
       case 'complaint':
         title = 'Complaint (CCM)';
         break;
+      case 'appointment-delivery':
+        title = 'Delivery Charges';
+        break;
       case 'CSAT':
         title = 'CSAT';
         break;

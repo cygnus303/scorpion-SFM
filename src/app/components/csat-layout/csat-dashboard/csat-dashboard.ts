@@ -19,6 +19,7 @@ import { SweetAlertService } from '../../../shared/services/sweet-alert.service'
   styleUrl: './csat-dashboard.scss',
 })
 export class CsatDashboard {
+  public isLoading: boolean = false;
   public customers: CustResponse[] = [];
   public surveyTriggerTypeData: GeneralMaster[] = [];
   public getDecisionEmail: any;
@@ -46,14 +47,17 @@ export class CsatDashboard {
   }
 
   getCSATDashboard() {
+    this.isLoading = true;
     const userId = this.identityService.getLoggedUserId();
     this.externalService.getCSATDashboard(userId).subscribe({
       next: (response: any) => {
+        this.isLoading = false;
         if (response && response.success) {
           this.dashboardData = response.data;
         }
       },
       error: (err: any) => {
+        this.isLoading = false;
         console.error('Error fetching CSAT dashboard:', err);
       }
     });

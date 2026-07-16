@@ -1,0 +1,150 @@
+<!-- ══ ADD NEW DELIVERY APPOINTMENT MODAL (PROJECT STANDARD + FIXED FOOTER) ══ -->
+<ng-template #addModal>
+  <div class="appointment-modal-container bg-white" style="border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; max-height: 88vh;">
+    
+    <!-- 1. FIXED HEADER (matching add-prq & add-meeting) -->
+    <div class="modal-header border-0 pb-2 pt-3 px-4" style="background: #fff; flex-shrink: 0; border-bottom: 1px solid #f1f5f9 !important;">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:36px;height:36px;background:var(--red, #CC0000);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px" class="text-light shadow-sm">
+          📦
+        </div>
+        <div>
+          <div class="modal-title fw-bold text-dark" style="font-size: 16px;">Add New — Delivery Charges</div>
+          <div style="font-size:11px;color:var(--text3, #64748B);margin-top:1px">Schedule or record delivery charges — docket details auto-captured</div>
+        </div>
+      </div>
+      <button type="button" class="btn-close shadow-none" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+
+    <!-- 2. SCROLLABLE BODY -->
+    <div class="modal-body py-3 px-4" style="overflow-y: auto; flex: 1 1 auto;">
+      
+      <!-- Entry Type Card (matching add-prq) -->
+      <div class="card no-hover border shadow-sm mb-4" style="border-radius: 10px; padding: 12px 16px; background: #f8fafc;">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="font-size:13px;font-weight:700;color:var(--text1, #1E293B);min-width:110px">Entry Type:</div>
+          <div style="display:flex;gap:32px;flex:1;align-items:center">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;">
+              <input type="radio" name="entryType" value="Appointment" [(ngModel)]="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
+              Appointment
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;">
+              <input type="radio" name="entryType" value="CSD" [(ngModel)]="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
+              CSD
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;">
+              <input type="radio" name="entryType" value="Mall" [(ngModel)]="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
+              Mall
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 1: Docket & Shipment Details -->
+      <div style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--text3, #64748B);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px;margin-top:6px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:var(--red, #CC0000);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;">1</div>
+        Docket & Shipment Details
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-lg-6 col-md-6 col-12">
+          <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Docket No <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="e.g., C49281520" [(ngModel)]="docketNo" name="docketNo" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Origin / Destination</label>
+          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Current Status</label>
+          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Docket Date</label>
+          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">EDD</label>
+          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+        </div>
+      </div>
+
+      <!-- Section 2: Consignee Details -->
+      <div style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--text3, #64748B);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px;margin-top:18px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:var(--red, #CC0000);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;">2</div>
+        Consignee Details
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-lg-6 col-md-6 col-12">
+          <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Name</label>
+          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Contact No</label>
+          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+        </div>
+        <div class="col-12">
+          <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Address</label>
+          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+        </div>
+        <div class="col-12">
+          <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Email ID</label>
+          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+        </div>
+      </div>
+
+      <!-- Section 3: Appointment Details (ONLY for Appointment Entry Type) -->
+      <ng-container *ngIf="entryType === 'Appointment'">
+        <div style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--text3, #64748B);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px;margin-top:18px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--red, #CC0000);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;">3</div>
+          Appointment Details
+        </div>
+        <div class="row g-3 pb-2">
+          <div class="col-lg-6 col-md-6 col-12">
+            <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Appointment Date <span class="text-danger">*</span></label>
+            <div class="position-relative d-flex align-items-center">
+              <input type="text" class="form-control pe-5" placeholder="dd--mm--yyyy" [(ngModel)]="appointmentDate" name="appointmentDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD--MM--YYYY', containerClass: 'theme-red', showWeekNumbers: false }" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
+              <i class="ri-calendar-line position-absolute end-0 me-3 text-secondary" style="pointer-events: none; font-size: 16px;"></i>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-12">
+            <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Person Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Name of person to meet" [(ngModel)]="personName" name="personName" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
+          </div>
+          <div class="col-lg-6 col-md-6 col-12">
+            <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Contact No. <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="10-digit contact number" [(ngModel)]="contactNo" name="contactNo" maxlength="10" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
+          </div>
+          <div class="col-lg-6 col-md-6 col-12">
+            <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Appointment Time — From <span class="text-danger">*</span></label>
+            <div class="position-relative d-flex align-items-center">
+              <input type="text" class="form-control pe-5" placeholder="--:--" [(ngModel)]="timeFrom" name="timeFrom" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
+              <i class="ri-time-line position-absolute end-0 me-3 text-secondary" style="pointer-events: none; font-size: 16px;"></i>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-12">
+            <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Appointment Time — To <span class="text-danger">*</span></label>
+            <div class="position-relative d-flex align-items-center">
+              <input type="text" class="form-control pe-5" placeholder="--:--" [(ngModel)]="timeTo" name="timeTo" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
+              <i class="ri-time-line position-absolute end-0 me-3 text-secondary" style="pointer-events: none; font-size: 16px;"></i>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-12"></div>
+          <div class="col-12">
+            <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Appointment Remarks <span class="text-danger">*</span></label>
+            <textarea class="form-control" placeholder="Notes for the appointment" [(ngModel)]="remarks" name="remarks" rows="3" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500; resize: vertical;"></textarea>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+
+    <!-- 3. FIXED FOOTER (matching add-prq & add-meeting, always visible at bottom!) -->
+    <div class="modal-footer border-0 py-3 px-4 bg-white shadow-lg" style="flex-shrink: 0; border-top: 1px solid #e2e8f0 !important; z-index: 10;">
+      <div style="display:flex;gap:12px;justify-content:flex-end;width:100%;">
+        <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" (click)="closeModal()" style="font-size: 13px; background: #64748B; border: none; min-width: 100px;">Cancel</button>
+        <button type="button" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none" (click)="closeModal()" style="background: var(--red, #CC0000); border-color: var(--red, #CC0000); font-size: 13px; min-width: 120px;">Submit</button>
+      </div>
+    </div>
+
+  </div>
+</ng-template>

@@ -1,0 +1,21 @@
+/* ══ POPUP STYLES MATCHING PROJECT STANDARDS ══ */
+::ng-deep .modal-content {
+  border: none !important;
+  border-radius: 14px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  overflow: hidden;
+}
+
+.appointment-modal-container {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;
+}
+
+.form-control {
+  &:focus {
+    border-color: #3182eb;
+    box-shadow: none !important;
+  }
+}

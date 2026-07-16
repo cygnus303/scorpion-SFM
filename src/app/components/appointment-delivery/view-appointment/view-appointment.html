@@ -1,0 +1,157 @@
+<!-- ══ VIEW APPOINTMENT MODAL (EXACT UI MATCH - PURE BOOTSTRAP UTILITIES) ══ -->
+<ng-template #viewModal>
+  <div class="bg-white d-flex flex-column" style="border-radius: 14px; overflow: hidden; max-height: 88vh;">
+
+    <!-- 1. FIXED HEADER -->
+    <div class="modal-header border-0 py-3 px-4 d-flex justify-content-between align-items-center flex-shrink-0" style="background: #CC0000; color: #fff; border-radius: 14px 14px 0 0;">
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center justify-content-center rounded-3 bg-white shadow-sm" style="width: 40px; height: 40px; font-size: 20px; color: #CC0000;">
+          📈
+        </div>
+        <div>
+          <div class="fw-bold" style="font-size: 16px; letter-spacing: 0.3px;">View Appointment</div>
+          <div style="font-size: 12px; color: #FFD1D1; font-weight: 500; margin-top: 1px;">{{ item?.id || 'APT-0312' }}</div>
+        </div>
+      </div>
+      <button type="button" (click)="closeModal()" aria-label="Close" class="btn btn-sm d-flex align-items-center justify-content-center border-0 text-white" style="width: 32px; height: 32px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; transition: 0.2s;">
+        ✕
+      </button>
+    </div>
+
+    <!-- 2. SCROLLABLE BODY -->
+    <div class="modal-body py-4 px-4 bg-white" style="overflow-y: auto; flex: 1 1 auto;">
+
+      <!-- Section 1: DOCKET DETAILS -->
+      <div class="py-2 px-3 mb-3 rounded-2 fw-bold text-white d-flex align-items-center gap-2" style="background: #CC0000; font-size: 13px; letter-spacing: 0.5px;">
+        <span class="bg-white d-inline-block rounded-1" style="width: 3.5px; height: 14px;"></span>
+        <span>DOCKET DETAILS</span>
+      </div>
+      <div class="p-3 px-4 mb-4 rounded-3 border" style="background: #F8FAFC; border-color: #E2E8F0 !important;">
+        <div class="row g-3">
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">DOCKET NO</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.docketNo || 'C49281520' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">DOCKET DATE</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.docketDate || '18-Jun-2026' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">EDD</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.edd || '24-Jun-2026' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">CURRENT STATUS</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.status === 'Rescheduled' ? 'Rescheduled — In Transit' : (item?.status || 'In Transit') }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: CONSIGNEE DETAILS -->
+      <div class="py-2 px-3 mb-3 rounded-2 fw-bold text-white d-flex align-items-center gap-2" style="background: #CC0000; font-size: 13px; letter-spacing: 0.5px;">
+        <span class="bg-white d-inline-block rounded-1" style="width: 3.5px; height: 14px;"></span>
+        <span>CONSIGNEE DETAILS</span>
+      </div>
+      <div class="p-3 px-4 mb-4 rounded-3 border" style="background: #F8FAFC; border-color: #E2E8F0 !important;">
+        <div class="row g-3">
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">CONSIGNEE NAME</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.customer || 'Reliance Freight' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">CONTACT NO</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.contactNo || '+91 98200 11234' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">ADDRESS</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.address || 'Plot 14, MIDC Industrial Area, Mumbai North, Maharashtra 400101' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">EMAIL ID</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.email || 'logistics@reliancefreight.example.com' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: APPOINTMENT DETAILS (Only visible for Appointment entry type) -->
+      <ng-container *ngIf="item?.type === 'Appointment' || !item?.type">
+        <div class="py-2 px-3 mb-3 rounded-2 fw-bold text-white d-flex justify-content-between align-items-center" style="background: #CC0000; font-size: 13px; letter-spacing: 0.5px;">
+          <div class="d-flex align-items-center gap-2">
+            <span class="bg-white d-inline-block rounded-1" style="width: 3.5px; height: 14px;"></span>
+            <span>APPOINTMENT DETAILS</span>
+          </div>
+          <a href="javascript:void(0)" class="text-white text-decoration-underline fw-semibold" style="font-size: 11px;">Details</a>
+        </div>
+        <div class="p-3 px-4 mb-4 rounded-3 border" style="background: #F8FAFC; border-color: #E2E8F0 !important;">
+          <div class="row g-3">
+            <div class="col-md-6 col-12">
+              <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">APPOINTMENT ID</div>
+              <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.id || 'APT-0312' }}</div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">APPOINTMENT DATE</div>
+              <div class="fw-semibold text-dark" style="font-size: 13px;">{{ getAppointmentDate(item?.dateTime) }}</div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">FROM TIME — TO TIME</div>
+              <div class="fw-semibold text-dark" style="font-size: 13px;">{{ getAppointmentTime(item?.dateTime) }}</div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">PERSON NAME</div>
+              <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.personName || item?.customer || 'Reliance Freight' }}</div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">CONTACT NO</div>
+              <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.contactNo || '+91 98200 11234' }}</div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Section 4: REMARKS -->
+      <div class="py-2 px-3 mb-3 rounded-2 fw-bold text-white d-flex align-items-center gap-2" style="background: #CC0000; font-size: 13px; letter-spacing: 0.5px;">
+        <span class="bg-white d-inline-block rounded-1" style="width: 3.5px; height: 14px;"></span>
+        <span>REMARKS</span>
+      </div>
+      <div class="p-3 px-4 mb-4 rounded-3 border" style="background: #F8FAFC; border-color: #E2E8F0 !important;">
+        <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">REMARKS</div>
+        <div class="fw-semibold text-dark" style="font-size: 13px; line-height: 1.5;">{{ item?.remarks || 'Standard delivery appointment.' }}</div>
+      </div>
+
+      <!-- Section 5: AUDIT TRAIL -->
+      <div class="py-2 px-3 mb-3 rounded-2 fw-bold text-white d-flex align-items-center gap-2" style="background: #CC0000; font-size: 13px; letter-spacing: 0.5px;">
+        <span class="bg-white d-inline-block rounded-1" style="width: 3.5px; height: 14px;"></span>
+        <span>AUDIT TRAIL</span>
+      </div>
+      <div class="p-3 px-4 mb-2 rounded-3 border" style="background: #F8FAFC; border-color: #E2E8F0 !important;">
+        <div class="row g-3">
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">GENERATED BY</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.generatedBy || '3673:Riya CS' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">GENERATED DATE</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.generatedDate || '20/06/2026 09:15 AM' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">RESCHEDULED BY</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.status === 'Rescheduled' ? (item?.rescheduledBy || '4102:Amit Sharma') : '—' }}</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">RESCHEDULED ENTRY DATE</div>
+            <div class="fw-semibold text-dark" style="font-size: 13px;">{{ item?.status === 'Rescheduled' ? (item?.rescheduledDate || '21/06/2026 02:30 PM') : '—' }}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 3. FIXED FOOTER -->
+    <div class="modal-footer border-0 py-3 px-4 bg-white shadow-lg flex-shrink-0" style="border-top: 1px solid #e2e8f0 !important; z-index: 10;">
+      <button type="button" class="btn w-100 py-2 fw-bold text-white shadow-sm" (click)="closeModal()" style="background: #CC0000; border: 1px solid #CC0000; border-radius: 8px; font-size: 14px; transition: 0.2s;">
+        Close
+      </button>
+    </div>
+
+  </div>
+</ng-template>
