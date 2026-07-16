@@ -265,15 +265,12 @@ export class AddPrqPopup {
               this.prqService.eWayBillData(search).subscribe({
                 next: (response: any) => {
                   if (response.status === 1) {
-                    // always keep Date object for bsDatepicker
                     const invoiceDate = response.eWayBillInvoiceDate ? new Date(response.eWayBillInvoiceDate) : null;
                     const expiryDate =
                       response.eWayBillExpiredDate && response.eWayBillExpiredDate !== '1900-01-01T00:00:00'
                         ? new Date(response.eWayBillExpiredDate)
                         : null;
-                    const invDate = response.invdt ? new Date(response.invdt) : null;
 
-                    // check age of eWayBill
                     if (invoiceDate) {
                       const today = new Date();
                       const diffTime = Math.abs(today.getTime() - invoiceDate.getTime());
@@ -289,17 +286,12 @@ export class AddPrqPopup {
                           declaredvalue: null,
                           transportation_distance: null
                         });
-                        // this.updateAllEwayBillValidations();
                         return;
                       }
                     }
 
-                    // check expiry date
                     if (expiryDate && expiryDate < new Date()) {
                       this.sweetAlertService.warning("Please Check EWayBill Expired Date !!!!");
-                      // if (!isInvoice) {
-                      //   this.prqForm.patchValue({ ewayBillNo: null });
-                      // }
                       this.prqForm.patchValue({
                         ewayinvoiceDate: null,
                         ewayBillExpiry: null,
@@ -311,44 +303,26 @@ export class AddPrqPopup {
                       });
                       return;
                     }
+                    const fmtDate = (dStr: any) => {
+                      if (!dStr || dStr === '1900-01-01T00:00:00') return null;
+                      const d = new Date(dStr);
+                      return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`;
+                    };
+
                     this.prqForm.patchValue({
-                      ewayinvoiceDate: invDate,
-                      ewayBillExpiry: expiryDate,
-                      // invoicedate: invoiceDate,
+                      ewayinvoiceDate: fmtDate(response.eWayBillInvoiceDate),
+                      ewayExpDate: fmtDate(response.eWayBillExpiredDate),
+                      invoiceDate: fmtDate(response.invdt),
                       ewayBillNo: search,
                       invoiceNo: response.invno,
-                      declaredvalue: response.decval,
-                      transportation_distance: response.transportation_distance
+                      invoiceValue: response.decval,
+                      consignorName: response.csgnm,
+                      consigneeName: response.csgenm,
+                      consignorAddress: response.csgnAdd,
+                      consigneeAddress: response.csgeAdd,
+                      consigneePin: response.toPincode.toString(),
+                      consignorPin: response.pincode.toString(),
                     })
-                    // this.calculateSummary(index)
-                    // if (!isInvoice) {
-                    //   // this.getpincodeData(response.pincode.toString())
-                    //   this.prqForm.patchValue({
-                    //     consignorName: response.csgncd,
-                    //     consigneeName: response.csgecd,
-                    //     consigneeMasterName: response.csgenm,
-                    //     consignorMasterName: response.csgnm,
-                    //     consignorAddress: response.csgnAdd,
-                    //     consigneeAddress: response.csgeAdd,
-                    //     consigneePincode: response.toPincode.toString(),
-                    //     consignorCity: response.fromCity,
-                    //     consigneeCity: response.toCity,
-                    //     consignorGSTNo: response.consignor,
-                    //     consigneeGSTNo: response.consignee,
-                    //     consignorPincode: response.pincode.toString(),
-                    //   });
-                    //   // this.getpincodeData(response.toPincode.toString())
-                    //   this.getTransportModes(response.transMode.toString())
-                    //   this.prqForm.patchValue({
-                    //     billingName: response.partyName,
-                    //     // mode: response.transMode.toString(),
-                    //     pincode: response.toPincode.toString(),
-                    //     // fromCity: response.fromCity,
-                    //     toCity: null,
-                    //     destination: response.destcd,
-                    //   });
-                    //   // this.GetPincodeOrigin('Origin');
-                    // }
                   } 
                 },
                 error: () => {
@@ -357,17 +331,13 @@ export class AddPrqPopup {
               });
             } else {
               this.sweetAlertService.warning("This EWay Bill Already Exist in ERP !!!");
-              // if (!isInvoice) {
-              //   this.prqForm.patchValue({ ewayBillNo: null });
-              // }
               this.prqForm.patchValue({
                 ewayinvoiceDate: null,
-                ewayBillExpiry: null,
+                ewayExpDate: null,
                 invoicedate: null,
                 ewayBillNo: null,
                 invoiceNo: null,
-                declaredvalue: null,
-                transportation_distance: null
+                invoiceValue: null
               });
             }
           },
