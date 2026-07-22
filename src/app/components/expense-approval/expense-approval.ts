@@ -65,9 +65,10 @@ export class ExpenseApproval {
       Page: this.commonService.globalFilters.Page.toString(),
       PageSize: this.commonService.globalFilters.PageSize.toString(),
       SearchFilter: this.commonService.globalFilters.searchText,
+      FilterUserId:this.selectedUser || '',
       startDate: this.commonService.globalFilters.startDate,
       endDate: this.commonService.globalFilters.endDate,
-      userId: this.selectedUser || this.commonService.globalFilters.UserID.toString(),
+      userId: this.commonService.globalFilters.UserID.toString(),
     }
     this.loading = true;
     this.expenseService.getExpenseApprovalList(data).subscribe({
