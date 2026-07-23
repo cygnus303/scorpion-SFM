@@ -113,7 +113,7 @@ export class AddExpenseGeneralMaster {
         ratePerKM: parseInt(this.expenseMasterForm.value.ratePerKM),
         createdBy: this.identityService.getLoggedUserId(),
       }
-      !this.type ? this.addGeneral(data) : this.updateGeneral(data);
+      this.type === 'Add Expense' ? this.addGeneral(data) : this.updateGeneral(data);
     } else {
       this.expenseMasterForm.markAllAsTouched();
     }

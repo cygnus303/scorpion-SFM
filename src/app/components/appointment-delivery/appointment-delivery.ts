@@ -1,173 +1,157 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Subject, takeUntil, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AddAppointment } from './add-appointment/add-appointment';
 import { ViewAppointment } from './view-appointment/view-appointment';
+import { RescheduleAppointment } from './reschedule-appointment/reschedule-appointment';
+import { UpdateAppointment } from './update-appointment/update-appointment';
+import { AppointmentDeliveryService } from '../../shared/services/appointment-delivery.service';
+import { CommonService } from '../../shared/services/common.service';
+import { ExportService } from '../../shared/services/export.service';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { FormsModule } from '@angular/forms';
 
-interface AppointmentItem {
-  id: string;
-  customer: string;
-  docketNo: string;
-  orgDest: string;
-  dateTime: string;
-  status: 'Generated' | 'Rescheduled';
-  statusClass: string;
-  type: 'Appointment' | 'CSD' | 'Mall';
-}
+
 
 @Component({
   selector: 'app-appointment-delivery',
   standalone: true,
-  imports: [CommonModule, AddAppointment, ViewAppointment],
+  imports: [CommonModule, AddAppointment, ViewAppointment, RescheduleAppointment, UpdateAppointment, PaginationModule, FormsModule],
   templateUrl: './appointment-delivery.html',
   styleUrl: './appointment-delivery.scss',
 })
-export class AppointmentDelivery implements OnInit {
+export class AppointmentDelivery implements OnInit, OnDestroy {
+  public activeTab: 'APMT' | 'CSD' | 'MSD' = 'APMT';
+  public appointments: any[] = [];
+  public summaryCounts: any = {};
+  public totalItems: number = 0;
+  public isLoading: boolean = false;
+  public isExportLoading: boolean = false;
+
+  private appointmentDeliveryService = inject(AppointmentDeliveryService);
+  public commonService = inject(CommonService);
+  private exportService = inject(ExportService);
+
+  private destroy$ = new Subject<void>();
+  private appointmentSubscription?: Subscription;
+
   @ViewChild('addAppointmentModal') addAppointmentModal!: AddAppointment;
   @ViewChild('viewAppointmentModal') viewAppointmentModal!: ViewAppointment;
-  activeTab: 'Appointment' | 'CSD' | 'Mall' = 'Appointment';
+  @ViewChild('rescheduleModal') rescheduleModal!: RescheduleAppointment;
+  @ViewChild('updateModal') updateModal!: UpdateAppointment;
+  
+  ngOnInit(): void {
+    this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.fetchData();
+    });
+  }
 
-  appointments: AppointmentItem[] = [
-    // Appointment Delivery
-    {
-      id: 'APT-0312',
-      customer: 'Reliance Freight',
-      docketNo: 'C49281520',
-      orgDest: 'Mumbai North → Pune',
-      dateTime: '22/06/2026 10:00 AM–11:00 AM',
-      status: 'Generated',
-      statusClass: 'pg',
-      type: 'Appointment'
-    },
-    {
-      id: 'APT-0311',
-      customer: 'Sunrise Traders',
-      docketNo: 'C49281519',
-      orgDest: 'Pune → Mumbai South',
-      dateTime: '22/06/2026 11:30 AM–12:30 PM',
-      status: 'Rescheduled',
-      statusClass: 'pa',
-      type: 'Appointment'
-    },
-    {
-      id: 'APT-0310',
-      customer: 'Nexus Logistics',
-      docketNo: 'C49281518',
-      orgDest: 'Thane → Mumbai North',
-      dateTime: '22/06/2026 02:00 PM–03:00 PM',
-      status: 'Generated',
-      statusClass: 'pg',
-      type: 'Appointment'
-    },
-    {
-      id: 'APT-0309',
-      customer: 'BlueDart Corp',
-      docketNo: 'C49281517',
-      orgDest: 'Mumbai South → Nashik',
-      dateTime: '21/06/2026 04:00 PM–05:00 PM',
-      status: 'Generated',
-      statusClass: 'pg',
-      type: 'Appointment'
-    },
-    // CSD Delivery
-    {
-      id: 'CSD-0210',
-      customer: 'Army Canteen Stores',
-      docketNo: 'C49281601',
-      orgDest: 'Mumbai North → Deolali CSD',
-      dateTime: '23/06/2026 09:00 AM–10:30 AM',
-      status: 'Generated',
-      statusClass: 'pg',
-      type: 'CSD'
-    },
-    {
-      id: 'CSD-0209',
-      customer: 'Naval Depot Supply',
-      docketNo: 'C49281602',
-      orgDest: 'Thane → Colaba Depot',
-      dateTime: '23/06/2026 11:00 AM–12:00 PM',
-      status: 'Generated',
-      statusClass: 'pg',
-      type: 'CSD'
-    },
-    {
-      id: 'CSD-0208',
-      customer: 'Air Force Canteen',
-      docketNo: 'C49281603',
-      orgDest: 'Pune → Lohegaon CSD',
-      dateTime: '22/06/2026 03:00 PM–04:00 PM',
-      status: 'Rescheduled',
-      statusClass: 'pa',
-      type: 'CSD'
-    },
-    // Mall Delivery
-    {
-      id: 'MALL-0115',
-      customer: 'Phoenix Palladium',
-      docketNo: 'C49281701',
-      orgDest: 'Bhiwandi → Lower Parel',
-      dateTime: '23/06/2026 06:00 AM–08:00 AM',
-      status: 'Generated',
-      statusClass: 'pg',
-      type: 'Mall'
-    },
-    {
-      id: 'MALL-0114',
-      customer: 'Inorbit Mall Retail',
-      docketNo: 'C49281702',
-      orgDest: 'Mumbai North → Malad West',
-      dateTime: '23/06/2026 07:00 AM–09:00 AM',
-      status: 'Generated',
-      statusClass: 'pg',
-      type: 'Mall'
-    },
-    {
-      id: 'MALL-0113',
-      customer: 'Viviana Mall Supply',
-      docketNo: 'C49281703',
-      orgDest: 'Thane → Thane West',
-      dateTime: '22/06/2026 08:30 AM–10:00 AM',
-      status: 'Generated',
-      statusClass: 'pg',
-      type: 'Mall'
-    }
-  ];
-
-  ngOnInit(): void { }
-
-  setTab(tab: 'Appointment' | 'CSD' | 'Mall') {
+  setTab(tab: 'APMT' | 'CSD' | 'MSD') {
     this.activeTab = tab;
+    this.fetchData();
   }
 
-  get filteredAppointments(): AppointmentItem[] {
-    return this.appointments.filter(item => item.type === this.activeTab);
+  ngOnDestroy(): void {
+    if (this.appointmentSubscription) { this.appointmentSubscription.unsubscribe(); }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  get totalAppointmentCount(): number {
-    return this.appointments.filter(i => i.type === 'Appointment').length;
+  formatToISODate(dateStr: string): string {
+    if (!dateStr) return new Date().toISOString();
+    const parts = dateStr.split('/');
+    if (parts.length === 3) {
+      const date = new Date(Date.UTC(+parts[2], +parts[1] - 1, +parts[0]));
+      return date.toISOString();
+    }
+    return new Date(dateStr).toISOString();
   }
 
-  get todayAppointmentCount(): number {
-    return 0;
+  fetchData(page: number = this.commonService.globalFilters.Page) {
+    if (this.appointmentSubscription) {
+      this.appointmentSubscription.unsubscribe();
+    }
+    
+    this.commonService.globalFilters.Page = page;
+    const payload = {
+      type: this.activeTab,
+      formDate: this.formatToISODate(this.commonService.globalFilters.startDate),
+      toDate: this.formatToISODate(this.commonService.globalFilters.endDate),
+      searchText: this.commonService.globalFilters.searchText,
+      userId: this.commonService.globalFilters.UserID.toString(),
+      pageno: this.commonService.globalFilters.Page,
+      pageSize: this.commonService.globalFilters.PageSize
+    };
+
+    this.isLoading = true;
+
+    this.appointmentSubscription = this.appointmentDeliveryService.getDeliveryAppointmentData(payload).subscribe({
+      next: (response: any) => {
+        this.isLoading = false;
+        if (response && response.success && response.data) {
+          if (response.data.summary) {
+            this.summaryCounts = response.data.summary;
+          }
+          if (response.data.pagination) {
+            this.totalItems = response.data.pagination.totalRecords || 0;
+          }
+          if (response.data.data && Array.isArray(response.data.data)) {
+            this.appointments = response.data.data || [];
+          } else {
+            this.appointments = [];
+          }
+        }
+      },
+      error: (err: any) => {
+        this.isLoading = false;
+        this.appointments = [];
+        this.totalItems = 0;
+        this.summaryCounts = {};
+        console.error('Error fetching delivery appointment data:', err);
+      }
+    });
   }
 
-  get rescheduledAppointmentCount(): number {
-    return this.appointments.filter(i => i.type === 'Appointment' && i.status === 'Rescheduled').length;
-  }
+  exportToExcel() {
+    const payload = {
+      type: this.activeTab,
+      formDate: this.formatToISODate(this.commonService.globalFilters.startDate),
+      toDate: this.formatToISODate(this.commonService.globalFilters.endDate),
+      searchText: this.commonService.globalFilters.searchText,
+      userId: this.commonService.globalFilters.UserID.toString(),
+      pageno: this.commonService.globalFilters.Page,
+      pageSize: this.commonService.globalFilters.PageSize
+    };
 
-  get totalCsdCount(): number {
-    return this.appointments.filter(i => i.type === 'CSD').length;
-  }
-
-  get totalMallCount(): number {
-    return this.appointments.filter(i => i.type === 'Mall').length;
+    this.isExportLoading = true;
+    this.appointmentDeliveryService.getDeliveryAppointmentDataExcel(payload).subscribe({
+      next: (response: any) => {
+        this.isExportLoading = false;
+        if (response && response.success && response.data) {
+          this.exportService.exportToExcel(response.data);
+        }
+      },
+      error: (err: any) => {
+        this.isExportLoading = false;
+        console.error('Error exporting delivery appointment data:', err);
+      }
+    });
   }
 
   openAddModal() {
     this.addAppointmentModal.openModal(this.activeTab);
   }
 
-  openViewModal(item: AppointmentItem) {
-    this.viewAppointmentModal.openModal(item);
+  openViewModal(data: any) {
+    this.viewAppointmentModal.openModal(this.activeTab);
+  }
+
+  openRescheduleModal(data: any) {
+    this.rescheduleModal.openModal(this.activeTab, data);
+  }
+
+  openUpdateModal(data: any) {
+    this.updateModal.openModal(this.activeTab, data);
   }
 
   formatDate(dateTimeStr: string): string {

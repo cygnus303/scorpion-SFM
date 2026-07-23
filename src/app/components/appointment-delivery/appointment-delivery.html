@@ -3,28 +3,28 @@
   <!-- Top KPI Grid (Compact) -->
   <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 14px;">
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #2563EB !important;">
-      <div class="text-muted small fw-semibold mb-0" style="font-size: 11px;">Total Appointment</div>
-      <div class="fw-bold text-dark my-0" style="font-size: 18px;">{{ totalAppointmentCount }}</div>
+      <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Total Appointment</div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.totalAppointment || 0 }}</div>
       <div class="text-success mb-0" style="font-size: 10px;">▲ All records</div>
     </div>
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #16A34A !important;">
-      <div class="text-muted small fw-semibold mb-0" style="font-size: 11px;">Today's Appointment</div>
-      <div class="fw-bold text-dark my-0" style="font-size: 18px;">{{ todayAppointmentCount }}</div>
+      <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Today's Appointment</div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.todayAppointment || 0 }}</div>
       <div class="text-success mb-0" style="font-size: 10px;">▲ 0 completed</div>
     </div>
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #D97706 !important;">
-      <div class="text-muted small fw-semibold mb-0" style="font-size: 11px;">Rescheduled Appointment</div>
-      <div class="fw-bold text-dark my-0" style="font-size: 18px;">{{ rescheduledAppointmentCount }}</div>
+      <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Rescheduled Appointment</div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.rescheduledAppointment || 0 }}</div>
       <div class="text-warning mb-0" style="font-size: 10px;">⚠️ Today</div>
     </div>
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #CC0000 !important;">
-      <div class="text-muted small fw-semibold mb-0" style="font-size: 11px;">Total CSD Delivery</div>
-      <div class="fw-bold text-dark my-0" style="font-size: 18px;">{{ totalCsdCount }}</div>
+      <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Total CSD Delivery</div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.totalCSD || 0 }}</div>
       <div class="text-muted mb-0" style="font-size: 10px;">All records</div>
     </div>
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #7C3AED !important;">
-      <div class="text-muted small fw-semibold mb-0" style="font-size: 11px;">Total Mall Delivery</div>
-      <div class="fw-bold text-dark my-0" style="font-size: 18px;">{{ totalMallCount }}</div>
+      <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Total Mall Delivery</div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.totalMall || 0 }}</div>
       <div class="text-muted mb-0" style="font-size: 10px;">All records</div>
     </div>
   </div>
@@ -38,15 +38,17 @@
           📦
         </div>
         <div>
-          <h6 class="mb-0 fw-bold text-dark" style="font-size: 14.5px;">Delivery Appointment List</h6>
+          <h6 class="mb-0 fw-semibold text-dark" style="font-size: 14.5px;">Delivery Appointment List</h6>
           <p class="mb-0 text-muted" style="font-size: 11px;">Manage and monitor all shipment delivery schedules</p>
         </div>
       </div>
       <div class="d-flex gap-2 align-items-center">
-        <button type="button" class="btn btn-primary btn-sm px-3 py-1 fw-semibold d-flex align-items-center gap-1 rounded-2 shadow-sm text-white" style="font-size: 12px; background-color: #2563EB; border-color: #2563EB;">
-          <span>⬇</span> Download XLS
+        <button type="button" class="btn btn-primary btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-1 rounded-2 shadow-sm text-white" style="font-size: 12px; background-color: #2563EB; border-color: #2563EB;" (click)="exportToExcel()" [disabled]="isExportLoading">
+          <span *ngIf="!isExportLoading">⬇</span>
+          <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Download XLS
         </button>
-        <button type="button" class="btn btn-danger btn-sm px-3 py-1 fw-semibold d-flex align-items-center gap-1 rounded-2 shadow-sm text-white" style="font-size: 12px; background-color: #CC0000; border-color: #CC0000;" (click)="openAddModal()">
+        <button type="button" class="btn btn-danger btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-1 rounded-2 shadow-sm text-white" style="font-size: 12px; background-color: #CC0000; border-color: #CC0000;" (click)="openAddModal()">
           <span>+</span> Add New
         </button>
       </div>
@@ -56,33 +58,30 @@
     <div class="py-2 px-3 bg-white border-bottom">
       <ul class="nav nav-pills gap-1 m-0 p-1 bg-light rounded-2 d-inline-flex border" style="background: #F8FAFC !important;">
         <li class="nav-item">
-          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-semibold d-flex align-items-center gap-2 border-0 rounded-2"
-            [ngClass]="activeTab === 'Appointment' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
-            [style.background]="activeTab === 'Appointment' ? '#CC0000' : 'transparent'"
+          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-2 border-0 rounded-2"
+            [ngClass]="activeTab === 'APMT' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
+            [style.background]="activeTab === 'APMT' ? '#CC0000' : 'transparent'"
             style="font-size: 12px;"
-            (click)="setTab('Appointment')">
-            <span>📋 Appointment Delivery</span>
-            <span class="badge rounded-pill" [ngClass]="activeTab === 'Appointment' ? 'bg-white text-danger' : 'bg-secondary bg-opacity-25 text-dark'" style="font-size: 10px;">{{ totalAppointmentCount }}</span>
+            (click)="setTab('APMT')">
+            <span>📋 APMT Delivery</span>
           </button>
         </li>
         <li class="nav-item">
-          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-semibold d-flex align-items-center gap-2 border-0 rounded-2"
+          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-2 border-0 rounded-2"
             [ngClass]="activeTab === 'CSD' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
             [style.background]="activeTab === 'CSD' ? '#CC0000' : 'transparent'"
             style="font-size: 12px;"
             (click)="setTab('CSD')">
             <span>🛡️ CSD Delivery</span>
-            <span class="badge rounded-pill" [ngClass]="activeTab === 'CSD' ? 'bg-white text-danger' : 'bg-secondary bg-opacity-25 text-dark'" style="font-size: 10px;">{{ totalCsdCount }}</span>
           </button>
         </li>
         <li class="nav-item">
-          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-semibold d-flex align-items-center gap-2 border-0 rounded-2"
-            [ngClass]="activeTab === 'Mall' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
-            [style.background]="activeTab === 'Mall' ? '#CC0000' : 'transparent'"
+          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-2 border-0 rounded-2"
+            [ngClass]="activeTab === 'MSD' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
+            [style.background]="activeTab === 'MSD' ? '#CC0000' : 'transparent'"
             style="font-size: 12px;"
-            (click)="setTab('Mall')">
-            <span>🏬 Mall Delivery</span>
-            <span class="badge rounded-pill" [ngClass]="activeTab === 'Mall' ? 'bg-white text-danger' : 'bg-secondary bg-opacity-25 text-dark'" style="font-size: 10px;">{{ totalMallCount }}</span>
+            (click)="setTab('MSD')">
+            <span>🏬 MSD Delivery</span>
           </button>
         </li>
       </ul>
@@ -93,59 +92,67 @@
       <table class="table table-sm table-hover align-middle mb-0 border rounded-2 overflow-hidden">
         <thead class="table-light text-secondary text-uppercase" style="font-size: 10.5px; letter-spacing: 0.5px;">
           <tr>
-            <th class="py-2 px-2 border-bottom" style="width: 120px;">APPOINTMENT ID</th>
-            <th class="py-2 px-2 border-bottom">CUSTOMER</th>
-            <th class="py-2 px-2 border-bottom" style="width: 110px;">DOCKET NO</th>
-            <th class="py-2 px-2 border-bottom">ORG / DESTINATION</th>
-            <th class="py-2 px-2 border-bottom">DATE & TIME</th>
-            <th class="py-2 px-2 border-bottom" style="width: 120px;">STATUS</th>
-            <th class="py-2 px-2 border-bottom text-center" style="width: 170px;">ACTION</th>
+            <th class="py-2 px-2 border-bottom" style="width: 12%; min-width: 120px;">APPOINTMENT ID</th>
+            <th class="py-2 px-2 border-bottom" style="width: 18%; min-width: 150px;">CUSTOMER</th>
+            <th class="py-2 px-2 border-bottom" style="width: 13%; min-width: 110px;">DOCKET NO</th>
+            <th class="py-2 px-2 border-bottom" style="width: 22%; min-width: 180px;">ORG / DESTINATION</th>
+            <th class="py-2 px-2 border-bottom" style="width: 15%; min-width: 140px;">DATE & TIME</th>
+            <th class="py-2 px-2 border-bottom" style="width: 10%; min-width: 110px;">STATUS</th>
+            <th class="py-2 px-2 border-bottom text-center" style="width: 10%; min-width: 150px;">ACTION</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of filteredAppointments">
+          <!-- Loader Row -->
+          <tr *ngIf="isLoading">
+            <td colspan="7" class="py-5 text-center">
+              <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; color: #CC0000 !important;">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="mt-2 text-muted small">Fetching data...</div>
+            </td>
+          </tr>
+
+          <!-- Data Rows -->
+          <ng-container *ngIf="!isLoading">
+            <tr *ngFor="let item of appointments">
             <!-- ID -->
             <td class="px-2 py-2 border-bottom">
-              <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 py-1 px-2 rounded-1 fw-bold font-monospace" style="font-size: 11px;">
-                {{ item.id }}
+              <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 py-1 px-2 rounded-1 fw-semibold font-monospace" style="font-size: 11px;">
+                {{ item.appointmentNo || item.csdNo || item.msdNo || '-' }}
               </span>
             </td>
             <!-- Customer -->
             <td class="px-2 py-2 border-bottom">
-              <span class="fw-bold text-dark" style="font-size: 12.5px;">{{ item.customer }}</span>
+              <span class="fw-semibold text-dark" style="font-size: 12.5px;">{{ item.custnm || '-' }}</span>
             </td>
             <!-- Docket No -->
             <td class="px-2 py-2 border-bottom">
-              <span class="badge bg-light text-dark border py-1 px-2 font-monospace fw-semibold" style="font-size: 11px;">
-                {{ item.docketNo }}
+              <span class="badge bg-light text-dark border py-1 px-2 font-monospace fw-medium" style="font-size: 11px;">
+                {{ item.dockno || '-' }}
               </span>
             </td>
             <!-- Route -->
             <td class="px-2 py-2 border-bottom">
               <div class="d-flex align-items-center gap-1">
-                <span class="fw-semibold text-secondary" style="font-size: 12px;">{{ splitOrgDest(item.orgDest).org }}</span>
+                <span class="fw-medium text-secondary" style="font-size: 12px;">{{ item.orgncd || '-' }}</span>
                 <span class="badge bg-primary bg-opacity-10 text-primary px-1 py-0 rounded-1" style="font-size: 9px;">➔</span>
-                <span class="fw-bold text-dark" style="font-size: 12px;">{{ splitOrgDest(item.orgDest).dest }}</span>
+                <span class="fw-semibold text-dark" style="font-size: 12px;">{{ item.destcd || '-' }}</span>
               </div>
             </td>
             <!-- Date & Time -->
             <td class="px-2 py-2 border-bottom">
               <div class="d-flex flex-column" style="gap: 3px;">
-                <span class="fw-bold text-dark lh-1" style="font-size: 12px;">{{ formatDate(item.dateTime) }}</span>
-                <span class="text-muted lh-1" style="font-size: 11px;">{{ formatTime(item.dateTime) }}</span>
+                <span class="fw-semibold text-dark lh-1" style="font-size: 12px;">{{ item.appointmentDT || item.csdDate || item.msdDate || '-' }}</span>
+                <span class="text-muted lh-1" style="font-size: 11px;" *ngIf="item.appointmentTime">{{ item.appointmentTime }}</span>
               </div>
             </td>
             <!-- Status -->
             <td class="px-2 py-2 border-bottom">
-              <span class="badge rounded-pill px-2 py-1 d-inline-flex align-items-center gap-1 fw-semibold border"
-                [ngClass]="item.status === 'Generated' 
-                  ? 'bg-success bg-opacity-10 text-success border-success border-opacity-25' 
-                  : 'bg-secondary bg-opacity-10 text-secondary border-secondary border-opacity-25'"
+              <span class="badge rounded-pill px-2 py-1 d-inline-flex align-items-center gap-1 fw-medium border bg-success bg-opacity-10 text-success border-success border-opacity-25"
                 style="font-size: 11px;">
-                <span class="rounded-circle d-inline-block"
-                  [ngClass]="item.status === 'Generated' ? 'bg-success' : 'bg-secondary'"
+                <span class="rounded-circle d-inline-block bg-success"
                   style="width: 6px; height: 6px;"></span>
-                {{ item.status }}
+                Generated
               </span>
             </td>
             <!-- Action Buttons -->
@@ -156,14 +163,44 @@
                   View
                 </button>
                 <button type="button" class="btn btn-solid-reschedule"
-                  title="Reschedule Appointment">
+                  title="Reschedule Appointment"
+                  *ngIf="activeTab === 'APMT'"
+                  (click)="openRescheduleModal(item)">
                   Reschedule
+                </button>
+                <button type="button" class="btn btn-solid-reschedule"
+                  title="Update Appointment"
+                  *ngIf="activeTab === 'CSD' || activeTab === 'MSD'"
+                  (click)="openUpdateModal(item)">
+                  Update
                 </button>
               </div>
             </td>
           </tr>
+            <!-- Empty State -->
+            <tr *ngIf="!appointments || appointments.length === 0">
+              <td colspan="7" class="text-center py-5">
+                <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
+                <div class="mt-2 text-muted small" style="font-size: 12px;">Sorry! No Data Found</div>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mb-3 pt-3" *ngIf="totalItems > commonService.globalFilters.PageSize">
+        <div class="small text-muted">
+          Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to 
+          {{ commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ? totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+          of {{ totalItems }} entries
+        </div>
+        <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
+          [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="fetchData($event.page)"
+          [maxSize]="5" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+        </pagination>
+      </div>
+
     </div>
   </div>
 </div>
@@ -173,3 +210,5 @@
 
 <!-- ══ VIEW APPOINTMENT CHILD COMPONENT ══ -->
 <app-view-appointment #viewAppointmentModal></app-view-appointment>
+<app-reschedule-appointment #rescheduleModal></app-reschedule-appointment>
+<app-update-appointment #updateModal></app-update-appointment>

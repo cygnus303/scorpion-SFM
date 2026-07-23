@@ -1,0 +1,92 @@
+<div bsModal #updateModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static'}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 650px;">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; overflow: hidden; max-height: 90vh;">
+      
+      <!-- Modal Header -->
+      <div class="modal-header border-bottom pb-3 pt-3 flex-shrink-0">
+        <h5 class="modal-title fw-bold text-dark d-flex align-items-center gap-2 mb-0" style="font-size: 18px;">
+          <span>✏️</span> Update {{ activeType }} Delivery
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+
+      <!-- Form wraps Body and Footer -->
+      <form [formGroup]="updateForm" (ngSubmit)="onSubmit()" class="d-flex flex-column overflow-hidden" style="flex: 1; min-height: 0;">
+        
+        <!-- Modal Body (Scrollable) -->
+        <div class="modal-body p-4 bg-white overflow-auto flex-grow-1">
+          
+          <!-- Section: Docket Details (Read-only) -->
+          <div class="mb-4">
+            <h6 class="fw-bold text-dark mb-3 d-flex align-items-center gap-2" style="font-size: 14px;">
+              <div style="width: 4px; height: 16px; background-color: #CC0000; border-radius: 2px;"></div>
+              📋 Docket Details (Read-only)
+            </h6>
+            
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label text-secondary fw-bold mb-1" style="font-size: 11px;">DOCKET NO</label>
+                <input type="text" class="form-control form-control-sm bg-light text-muted border-0 py-2 px-3" formControlName="docketNo">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-secondary fw-bold mb-1" style="font-size: 11px;">DOCKET DATE</label>
+                <input type="text" class="form-control form-control-sm bg-light text-muted border-0 py-2 px-3" formControlName="docketDate">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-secondary fw-bold mb-1" style="font-size: 11px;">EDD</label>
+                <input type="text" class="form-control form-control-sm bg-light text-muted border-0 py-2 px-3" formControlName="edd">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-secondary fw-bold mb-1" style="font-size: 11px;">DOCKET STATUS</label>
+                <input type="text" class="form-control form-control-sm bg-light text-muted border-0 py-2 px-3" formControlName="docketStatus">
+              </div>
+            </div>
+          </div>
+
+          <hr class="border-secondary opacity-10 my-4">
+
+          <!-- Section: Delivery Details (Editable) -->
+          <div>
+            <h6 class="fw-bold text-dark mb-3 d-flex align-items-center gap-2" style="font-size: 14px;">
+              <div style="width: 4px; height: 16px; background-color: #CC0000; border-radius: 2px;"></div>
+              📅 {{ activeType }} Delivery Details (Editable)
+            </h6>
+
+            <div class="row g-3">
+              <div class="col-md-12">
+                <label class="form-label text-secondary fw-bold mb-1" style="font-size: 11px;">
+                  {{ activeType }} DELIVERY DATE <span class="text-danger">*</span>
+                </label>
+                <input type="date" class="form-control form-control-sm py-2 px-3" formControlName="deliveryDate" style="border-radius: 6px; border-color: #dee2e6;"
+                       [class.is-invalid]="updateForm.get('deliveryDate')?.invalid && updateForm.get('deliveryDate')?.touched">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label text-secondary fw-bold mb-1" style="font-size: 11px;">
+                  TIME — FROM <span class="text-danger">*</span>
+                </label>
+                <input type="time" class="form-control form-control-sm py-2 px-3" formControlName="timeFrom" style="border-radius: 6px; border-color: #dee2e6;"
+                       [class.is-invalid]="updateForm.get('timeFrom')?.invalid && updateForm.get('timeFrom')?.touched">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label text-secondary fw-bold mb-1" style="font-size: 11px;">
+                  TIME — TO <span class="text-danger">*</span>
+                </label>
+                <input type="time" class="form-control form-control-sm py-2 px-3" formControlName="timeTo" style="border-radius: 6px; border-color: #dee2e6;"
+                       [class.is-invalid]="updateForm.get('timeTo')?.invalid && updateForm.get('timeTo')?.touched">
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer (Fixed at bottom) -->
+        <div class="flex-shrink-0 bg-white border-top p-4 m-0 d-flex justify-content-between gap-3" style="box-shadow: 0 -4px 10px rgba(0,0,0,0.03);">
+          <button type="button" class="btn btn-light w-50 py-2 fw-bold text-secondary" style="background-color: #F8F9FA; border: 1px solid #E2E8F0; border-radius: 8px;" (click)="closeModal()">Cancel</button>
+          <button type="submit" class="btn w-50 py-2 fw-bold text-white shadow-sm" style="background-color: #CC0000; border: none; border-radius: 8px;">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -16,25 +16,27 @@
       <button type="button" class="btn-close shadow-none" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
+    <!-- WRAP BODY AND FOOTER IN FORM -->
+    <form [formGroup]="appointmentForm">
     <!-- 2. SCROLLABLE BODY -->
     <div class="modal-body py-3 px-4" style="overflow-y: auto; flex: 1 1 auto;">
       
       <!-- Entry Type Card (matching add-prq) -->
-      <div class="card no-hover border shadow-sm mb-4" style="border-radius: 10px; padding: 12px 16px; background: #f8fafc;">
+      <div class="card no-hover border shadow-sm mb-4" style="border-radius: 10px; padding: 12px 16px; background: #fff;">
         <div style="display:flex;align-items:center;gap:16px;">
           <div style="font-size:13px;font-weight:700;color:var(--text1, #1E293B);min-width:110px">Entry Type:</div>
           <div style="display:flex;gap:32px;flex:1;align-items:center">
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;">
-              <input type="radio" name="entryType" value="Appointment" [(ngModel)]="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
-              Appointment
+              <input type="radio" value="APMT" formControlName="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
+              APMT
             </label>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;">
-              <input type="radio" name="entryType" value="CSD" [(ngModel)]="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
+              <input type="radio" value="CSD" formControlName="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
               CSD
             </label>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;">
-              <input type="radio" name="entryType" value="Mall" [(ngModel)]="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
-              Mall
+              <input type="radio" value="MSD" formControlName="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
+              MSD
             </label>
           </div>
         </div>
@@ -48,23 +50,27 @@
       <div class="row g-3 mb-4">
         <div class="col-lg-6 col-md-6 col-12">
           <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Docket No <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" placeholder="e.g., C49281520" [(ngModel)]="docketNo" name="docketNo" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
+          <input type="text" class="form-control" placeholder="Enter Docket No" formControlName="docketNo" (change)="fetchDocketDetails()" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
+            [ngClass]="{'is-invalid': appointmentForm.get('docketNo')?.invalid && appointmentForm.get('docketNo')?.touched}">
+          <div *ngIf="appointmentForm.get('docketNo')?.invalid && appointmentForm.get('docketNo')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+            Docket No is required.
+          </div>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
           <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Origin / Destination</label>
-          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+          <input type="text" class="form-control bg-light text-dark fw-medium" readonly formControlName="orgDest" placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
         </div>
-        <div class="col-lg-6 col-md-6 col-12">
+        <div class="col-12">
           <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Current Status</label>
-          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+          <textarea class="form-control bg-light text-dark fw-medium" readonly formControlName="currentStatus" placeholder="Auto-captured from docket" rows="3" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0; resize: vertical;"></textarea>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
           <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Docket Date</label>
-          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+          <input type="text" class="form-control bg-light text-dark fw-medium" readonly formControlName="docketDate" placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
         </div>
         <div class="col-lg-6 col-md-6 col-12">
           <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">EDD</label>
-          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+          <input type="text" class="form-control bg-light text-dark fw-medium" readonly formControlName="edd" placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
         </div>
       </div>
 
@@ -76,24 +82,24 @@
       <div class="row g-3 mb-4">
         <div class="col-lg-6 col-md-6 col-12">
           <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Name</label>
-          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+          <input type="text" class="form-control bg-light text-dark fw-medium" readonly formControlName="consigneeName" placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
         </div>
         <div class="col-lg-6 col-md-6 col-12">
           <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Contact No</label>
-          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+          <input type="text" class="form-control bg-light text-dark fw-medium" readonly formControlName="consigneeContact" placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
         </div>
         <div class="col-12">
           <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Address</label>
-          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+          <input type="text" class="form-control bg-light text-dark fw-medium" readonly formControlName="consigneeAddress" placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
         </div>
         <div class="col-12">
           <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Email ID</label>
-          <input type="text" class="form-control bg-light text-secondary" readonly placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
+          <input type="text" class="form-control bg-light text-dark fw-medium" readonly formControlName="consigneeEmail" placeholder="Auto-captured from docket" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; border-color: #e2e8f0;">
         </div>
       </div>
 
-      <!-- Section 3: Appointment Details (ONLY for Appointment Entry Type) -->
-      <ng-container *ngIf="entryType === 'Appointment'">
+      <!-- Section 3: Appointment Details (ONLY for APMT Entry Type) -->
+      <ng-container *ngIf="entryType === 'APMT'">
         <div style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--text3, #64748B);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px;margin-top:18px;">
           <div style="width:22px;height:22px;border-radius:50%;background:var(--red, #CC0000);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;">3</div>
           Appointment Details
@@ -102,36 +108,54 @@
           <div class="col-lg-6 col-md-6 col-12">
             <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Appointment Date <span class="text-danger">*</span></label>
             <div class="position-relative d-flex align-items-center">
-              <input type="text" class="form-control pe-5" placeholder="dd--mm--yyyy" [(ngModel)]="appointmentDate" name="appointmentDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD--MM--YYYY', containerClass: 'theme-red', showWeekNumbers: false }" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
+              <input type="text" class="form-control pe-5" placeholder="dd-mm-yyyy" formControlName="appointmentDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-red', showWeekNumbers: false }" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
+                [ngClass]="{'is-invalid': appointmentForm.get('appointmentDate')?.invalid && appointmentForm.get('appointmentDate')?.touched}">
               <i class="ri-calendar-line position-absolute end-0 me-3 text-secondary" style="pointer-events: none; font-size: 16px;"></i>
+            </div>
+            <div *ngIf="appointmentForm.get('appointmentDate')?.invalid && appointmentForm.get('appointmentDate')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+              Appointment Date is required.
             </div>
           </div>
           <div class="col-lg-6 col-md-6 col-12">
             <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Person Name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" placeholder="Name of person to meet" [(ngModel)]="personName" name="personName" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
+            <input type="text" class="form-control" placeholder="Name of person to meet" formControlName="personName" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
+              [ngClass]="{'is-invalid': appointmentForm.get('personName')?.invalid && appointmentForm.get('personName')?.touched}">
+            <div *ngIf="appointmentForm.get('personName')?.invalid && appointmentForm.get('personName')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+              Person Name is required.
+            </div>
           </div>
           <div class="col-lg-6 col-md-6 col-12">
             <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Contact No. <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" placeholder="10-digit contact number" [(ngModel)]="contactNo" name="contactNo" maxlength="10" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
+            <input type="text" class="form-control" placeholder="10-digit contact number" formControlName="contactNo" maxlength="10" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
+              [ngClass]="{'is-invalid': appointmentForm.get('contactNo')?.invalid && appointmentForm.get('contactNo')?.touched}">
+            <div *ngIf="appointmentForm.get('contactNo')?.invalid && appointmentForm.get('contactNo')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+              Contact No. is required.
+            </div>
           </div>
           <div class="col-lg-6 col-md-6 col-12">
             <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Appointment Time — From <span class="text-danger">*</span></label>
-            <div class="position-relative d-flex align-items-center">
-              <input type="text" class="form-control pe-5" placeholder="--:--" [(ngModel)]="timeFrom" name="timeFrom" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
-              <i class="ri-time-line position-absolute end-0 me-3 text-secondary" style="pointer-events: none; font-size: 16px;"></i>
+            <input type="time" class="form-control" formControlName="timeFrom" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
+              [ngClass]="{'is-invalid': appointmentForm.get('timeFrom')?.invalid && appointmentForm.get('timeFrom')?.touched}">
+            <div *ngIf="appointmentForm.get('timeFrom')?.invalid && appointmentForm.get('timeFrom')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+              From Time is required.
             </div>
           </div>
           <div class="col-lg-6 col-md-6 col-12">
             <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Appointment Time — To <span class="text-danger">*</span></label>
-            <div class="position-relative d-flex align-items-center">
-              <input type="text" class="form-control pe-5" placeholder="--:--" [(ngModel)]="timeTo" name="timeTo" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;">
-              <i class="ri-time-line position-absolute end-0 me-3 text-secondary" style="pointer-events: none; font-size: 16px;"></i>
+            <input type="time" class="form-control" formControlName="timeTo" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
+              [ngClass]="{'is-invalid': appointmentForm.get('timeTo')?.invalid && appointmentForm.get('timeTo')?.touched}">
+            <div *ngIf="appointmentForm.get('timeTo')?.invalid && appointmentForm.get('timeTo')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+              To Time is required.
             </div>
           </div>
           <div class="col-lg-6 col-md-6 col-12"></div>
           <div class="col-12">
             <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Appointment Remarks <span class="text-danger">*</span></label>
-            <textarea class="form-control" placeholder="Notes for the appointment" [(ngModel)]="remarks" name="remarks" rows="3" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500; resize: vertical;"></textarea>
+            <textarea class="form-control" placeholder="Notes for the appointment" formControlName="remarks" rows="3" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500; resize: vertical;"
+              [ngClass]="{'is-invalid': appointmentForm.get('remarks')?.invalid && appointmentForm.get('remarks')?.touched}"></textarea>
+            <div *ngIf="appointmentForm.get('remarks')?.invalid && appointmentForm.get('remarks')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+              Remarks are required.
+            </div>
           </div>
         </div>
       </ng-container>
@@ -142,9 +166,9 @@
     <div class="modal-footer border-0 py-3 px-4 bg-white shadow-lg" style="flex-shrink: 0; border-top: 1px solid #e2e8f0 !important; z-index: 10;">
       <div style="display:flex;gap:12px;justify-content:flex-end;width:100%;">
         <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" (click)="closeModal()" style="font-size: 13px; background: #64748B; border: none; min-width: 100px;">Cancel</button>
-        <button type="button" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none" (click)="closeModal()" style="background: var(--red, #CC0000); border-color: var(--red, #CC0000); font-size: 13px; min-width: 120px;">Submit</button>
+        <button type="button" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none" (click)="submitForm()" style="background: var(--red, #CC0000); border-color: var(--red, #CC0000); font-size: 13px; min-width: 120px;">Submit</button>
       </div>
     </div>
-
+    </form>
   </div>
 </ng-template>
