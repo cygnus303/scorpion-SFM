@@ -38,7 +38,7 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label text-secondary fw-bold mb-1" style="font-size: 11px;">DOCKET STATUS</label>
-                <input type="text" class="form-control form-control-sm bg-light text-muted border-0 py-2 px-3" formControlName="docketStatus">
+                <textarea class="form-control form-control-sm bg-light text-muted border-0 py-2 px-3" formControlName="docketStatus" rows="2" style="resize: none;"></textarea>
               </div>
             </div>
           </div>
@@ -57,8 +57,14 @@
                 <label class="form-label text-secondary fw-bold mb-1" style="font-size: 11px;">
                   APPOINTMENT DATE <span class="text-danger">*</span>
                 </label>
-                <input type="date" class="form-control form-control-sm py-2 px-3" formControlName="appointmentDate" style="border-radius: 6px; border-color: #dee2e6;"
-                       [class.is-invalid]="rescheduleForm.get('appointmentDate')?.invalid && rescheduleForm.get('appointmentDate')?.touched">
+                <div class="position-relative d-flex align-items-center">
+                  <input type="text" class="form-control form-control-sm pe-5 py-2 px-3" placeholder="dd mmm yyyy" formControlName="appointmentDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD MMM YYYY', containerClass: 'theme-red', showWeekNumbers: false }" style="border-radius: 6px; border-color: #dee2e6;"
+                         [class.is-invalid]="rescheduleForm.get('appointmentDate')?.invalid && rescheduleForm.get('appointmentDate')?.touched">
+                  <i class="ri-calendar-line position-absolute end-0 me-3 text-secondary" style="pointer-events: none; font-size: 16px;"></i>
+                </div>
+                <div *ngIf="rescheduleForm.get('appointmentDate')?.invalid && rescheduleForm.get('appointmentDate')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+                  Appointment Date is required.
+                </div>
               </div>
 
               <div class="col-md-6">
@@ -67,6 +73,9 @@
                 </label>
                 <input type="time" class="form-control form-control-sm py-2 px-3" formControlName="timeFrom" style="border-radius: 6px; border-color: #dee2e6;"
                        [class.is-invalid]="rescheduleForm.get('timeFrom')?.invalid && rescheduleForm.get('timeFrom')?.touched">
+                <div *ngIf="rescheduleForm.get('timeFrom')?.invalid && rescheduleForm.get('timeFrom')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+                  From Time is required.
+                </div>
               </div>
 
               <div class="col-md-6">
@@ -75,6 +84,9 @@
                 </label>
                 <input type="time" class="form-control form-control-sm py-2 px-3" formControlName="timeTo" style="border-radius: 6px; border-color: #dee2e6;"
                        [class.is-invalid]="rescheduleForm.get('timeTo')?.invalid && rescheduleForm.get('timeTo')?.touched">
+                <div *ngIf="rescheduleForm.get('timeTo')?.invalid && rescheduleForm.get('timeTo')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+                  To Time is required.
+                </div>
               </div>
 
               <div class="col-md-6">
@@ -83,14 +95,21 @@
                 </label>
                 <input type="text" class="form-control form-control-sm py-2 px-3" formControlName="personName" style="border-radius: 6px; border-color: #dee2e6;"
                        [class.is-invalid]="rescheduleForm.get('personName')?.invalid && rescheduleForm.get('personName')?.touched">
+                <div *ngIf="rescheduleForm.get('personName')?.invalid && rescheduleForm.get('personName')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+                  Person Name is required.
+                </div>
               </div>
 
               <div class="col-md-6">
                 <label class="form-label text-secondary fw-bold mb-1" style="font-size: 11px;">
                   CONTACT NO. <span class="text-danger">*</span>
                 </label>
-                <input type="text" class="form-control form-control-sm py-2 px-3" formControlName="contactNo" style="border-radius: 6px; border-color: #dee2e6;"
+                <input type="text" class="form-control form-control-sm py-2 px-3" formControlName="contactNo" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" style="border-radius: 6px; border-color: #dee2e6;"
                        [class.is-invalid]="rescheduleForm.get('contactNo')?.invalid && rescheduleForm.get('contactNo')?.touched">
+                <div *ngIf="rescheduleForm.get('contactNo')?.invalid && rescheduleForm.get('contactNo')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+                  <span *ngIf="rescheduleForm.get('contactNo')?.errors?.['required']">Contact No is required.</span>
+                  <span *ngIf="rescheduleForm.get('contactNo')?.errors?.['pattern']">Please enter a valid 10-digit number.</span>
+                </div>
               </div>
 
               <div class="col-12">

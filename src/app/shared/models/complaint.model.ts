@@ -121,6 +121,10 @@ export interface DocDataDetail {
   destination: string;
   currentStatus: string;
   currentLocation: string;
+  csAddress: string;
+  contactno: string;
+  desitnationCode: string;
+  originCode: string;
 }
 export interface ComplaintCountDayWise {
   id: string,

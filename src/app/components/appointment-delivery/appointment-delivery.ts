@@ -40,6 +40,12 @@ export class AppointmentDelivery implements OnInit, OnDestroy {
   @ViewChild('rescheduleModal') rescheduleModal!: RescheduleAppointment;
   @ViewChild('updateModal') updateModal!: UpdateAppointment;
   
+  formatListDate(d: string): string {
+    if (!d || !d.includes('-')) return d || '-';
+    const m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${d.substring(0, 2)} ${m[+d.substring(3, 5) - 1]} ${d.substring(6, 10)}`;
+  }
+
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.fetchData();
@@ -100,6 +106,12 @@ export class AppointmentDelivery implements OnInit, OnDestroy {
           } else {
             this.appointments = [];
           }
+        } else {
+          this.appointments = [];
+          this.totalItems = 0;
+          if (response && Array.isArray(response.data)) {
+            this.appointments = response.data;
+          }
         }
       },
       error: (err: any) => {
@@ -143,7 +155,7 @@ export class AppointmentDelivery implements OnInit, OnDestroy {
   }
 
   openViewModal(data: any) {
-    this.viewAppointmentModal.openModal(this.activeTab);
+    this.viewAppointmentModal.openModal(this.activeTab, data);
   }
 
   openRescheduleModal(data: any) {

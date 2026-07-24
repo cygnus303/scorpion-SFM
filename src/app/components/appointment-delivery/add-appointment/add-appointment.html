@@ -28,7 +28,7 @@
           <div style="display:flex;gap:32px;flex:1;align-items:center">
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;">
               <input type="radio" value="APMT" formControlName="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
-              APMT
+              Appointment
             </label>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;">
               <input type="radio" value="CSD" formControlName="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
@@ -36,7 +36,7 @@
             </label>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;">
               <input type="radio" value="MSD" formControlName="entryType" style="width:16px;height:16px;cursor:pointer;accent-color:var(--red, #CC0000)">
-              MSD
+              Mall
             </label>
           </div>
         </div>
@@ -50,10 +50,18 @@
       <div class="row g-3 mb-4">
         <div class="col-lg-6 col-md-6 col-12">
           <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Docket No <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" placeholder="Enter Docket No" formControlName="docketNo" (change)="fetchDocketDetails()" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
-            [ngClass]="{'is-invalid': appointmentForm.get('docketNo')?.invalid && appointmentForm.get('docketNo')?.touched}">
+          <div class="position-relative">
+            <input type="text" class="form-control" placeholder="Enter Docket No" formControlName="docketNo" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
+              [ngClass]="{'is-invalid': appointmentForm.get('docketNo')?.invalid && appointmentForm.get('docketNo')?.touched}">
+            <div *ngIf="isDocketLoading" class="position-absolute end-0 top-50 translate-middle-y me-3">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color: #CC0000;"></span>
+            </div>
+          </div>
           <div *ngIf="appointmentForm.get('docketNo')?.invalid && appointmentForm.get('docketNo')?.touched" class="text-danger mt-1" style="font-size: 11px;">
             Docket No is required.
+          </div>
+          <div *ngIf="docketEligibilityError" class="text-danger mt-1 fw-bold" style="font-size: 11px;">
+            {{ docketEligibilityError }}
           </div>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
@@ -108,7 +116,7 @@
           <div class="col-lg-6 col-md-6 col-12">
             <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Appointment Date <span class="text-danger">*</span></label>
             <div class="position-relative d-flex align-items-center">
-              <input type="text" class="form-control pe-5" placeholder="dd-mm-yyyy" formControlName="appointmentDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-red', showWeekNumbers: false }" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
+              <input type="text" class="form-control pe-5" placeholder="dd-mm-yyyy" formControlName="appointmentDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD MMM YYYY', containerClass: 'theme-red', showWeekNumbers: false }" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
                 [ngClass]="{'is-invalid': appointmentForm.get('appointmentDate')?.invalid && appointmentForm.get('appointmentDate')?.touched}">
               <i class="ri-calendar-line position-absolute end-0 me-3 text-secondary" style="pointer-events: none; font-size: 16px;"></i>
             </div>
@@ -126,10 +134,11 @@
           </div>
           <div class="col-lg-6 col-md-6 col-12">
             <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Contact No. <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" placeholder="10-digit contact number" formControlName="contactNo" maxlength="10" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
+            <input type="text" class="form-control" placeholder="10-digit contact number" formControlName="contactNo" maxlength="10" (keypress)="numberOnly($event)" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
               [ngClass]="{'is-invalid': appointmentForm.get('contactNo')?.invalid && appointmentForm.get('contactNo')?.touched}">
             <div *ngIf="appointmentForm.get('contactNo')?.invalid && appointmentForm.get('contactNo')?.touched" class="text-danger mt-1" style="font-size: 11px;">
-              Contact No. is required.
+              <span *ngIf="appointmentForm.get('contactNo')?.errors?.['required']">Contact No. is required.</span>
+              <span *ngIf="appointmentForm.get('contactNo')?.errors?.['pattern']">Please enter a valid 10-digit number.</span>
             </div>
           </div>
           <div class="col-lg-6 col-md-6 col-12">

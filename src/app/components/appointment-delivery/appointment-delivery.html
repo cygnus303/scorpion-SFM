@@ -14,7 +14,8 @@
     </div>
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #D97706 !important;">
       <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Rescheduled Appointment</div>
-      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.rescheduledAppointment || 0 }}</div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.rescheduledAppointment || 0 }}
+      </div>
       <div class="text-warning mb-0" style="font-size: 10px;">⚠️ Today</div>
     </div>
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #CC0000 !important;">
@@ -34,7 +35,8 @@
     <!-- 1. COMPACT BOOTSTRAP CARD HEADER -->
     <div class="card-header bg-white border-bottom py-2 px-3 d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center gap-2">
-        <div class="d-flex align-items-center justify-content-center rounded-2 flex-shrink-0" style="width: 32px; height: 32px; font-size: 16px; background: #F3E8FF; color: #7C3AED;">
+        <div class="d-flex align-items-center justify-content-center rounded-2 flex-shrink-0"
+          style="width: 32px; height: 32px; font-size: 16px; background: #F3E8FF; color: #7C3AED;">
           📦
         </div>
         <div>
@@ -43,12 +45,18 @@
         </div>
       </div>
       <div class="d-flex gap-2 align-items-center">
-        <button type="button" class="btn btn-primary btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-1 rounded-2 shadow-sm text-white" style="font-size: 12px; background-color: #2563EB; border-color: #2563EB;" (click)="exportToExcel()" [disabled]="isExportLoading">
+        <button type="button"
+          class="btn btn-primary btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-1 rounded-2 shadow-sm text-white"
+          style="font-size: 12px; background-color: #2563EB; border-color: #2563EB;" (click)="exportToExcel()"
+          [disabled]="isExportLoading">
           <span *ngIf="!isExportLoading">⬇</span>
-          <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm" role="status"
+            aria-hidden="true"></span>
           Download XLS
         </button>
-        <button type="button" class="btn btn-danger btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-1 rounded-2 shadow-sm text-white" style="font-size: 12px; background-color: #CC0000; border-color: #CC0000;" (click)="openAddModal()">
+        <button type="button"
+          class="btn btn-danger btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-1 rounded-2 shadow-sm text-white"
+          style="font-size: 12px; background-color: #CC0000; border-color: #CC0000;" (click)="openAddModal()">
           <span>+</span> Add New
         </button>
       </div>
@@ -56,32 +64,33 @@
 
     <!-- 2. COMPACT BOOTSTRAP TABS -->
     <div class="py-2 px-3 bg-white border-bottom">
-      <ul class="nav nav-pills gap-1 m-0 p-1 bg-light rounded-2 d-inline-flex border" style="background: #F8FAFC !important;">
+      <ul class="nav nav-pills gap-1 m-0 p-1 bg-light rounded-2 d-inline-flex border"
+        style="background: #F8FAFC !important;">
         <li class="nav-item">
-          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-2 border-0 rounded-2"
+          <button type="button"
+            class="nav-link btn btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-2 border-0 rounded-2"
             [ngClass]="activeTab === 'APMT' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
-            [style.background]="activeTab === 'APMT' ? '#CC0000' : 'transparent'"
-            style="font-size: 12px;"
+            [style.background]="activeTab === 'APMT' ? '#CC0000' : 'transparent'" style="font-size: 12px;"
             (click)="setTab('APMT')">
-            <span>📋 APMT Delivery</span>
+            <span>📋 Appointment Delivery</span>
           </button>
         </li>
         <li class="nav-item">
-          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-2 border-0 rounded-2"
+          <button type="button"
+            class="nav-link btn btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-2 border-0 rounded-2"
             [ngClass]="activeTab === 'CSD' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
-            [style.background]="activeTab === 'CSD' ? '#CC0000' : 'transparent'"
-            style="font-size: 12px;"
+            [style.background]="activeTab === 'CSD' ? '#CC0000' : 'transparent'" style="font-size: 12px;"
             (click)="setTab('CSD')">
             <span>🛡️ CSD Delivery</span>
           </button>
         </li>
         <li class="nav-item">
-          <button type="button" class="nav-link btn btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-2 border-0 rounded-2"
+          <button type="button"
+            class="nav-link btn btn-sm px-3 py-1 fw-medium d-flex align-items-center gap-2 border-0 rounded-2"
             [ngClass]="activeTab === 'MSD' ? 'active bg-danger text-white shadow-sm' : 'text-secondary bg-transparent'"
-            [style.background]="activeTab === 'MSD' ? '#CC0000' : 'transparent'"
-            style="font-size: 12px;"
+            [style.background]="activeTab === 'MSD' ? '#CC0000' : 'transparent'" style="font-size: 12px;"
             (click)="setTab('MSD')">
-            <span>🏬 MSD Delivery</span>
+            <span>🏬 Mall Delivery</span>
           </button>
         </li>
       </ul>
@@ -105,7 +114,8 @@
           <!-- Loader Row -->
           <tr *ngIf="isLoading">
             <td colspan="7" class="py-5 text-center">
-              <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; color: #CC0000 !important;">
+              <div class="spinner-border text-primary" role="status"
+                style="width: 2rem; height: 2rem; color: #CC0000 !important;">
                 <span class="visually-hidden">Loading...</span>
               </div>
               <div class="mt-2 text-muted small">Fetching data...</div>
@@ -115,68 +125,71 @@
           <!-- Data Rows -->
           <ng-container *ngIf="!isLoading">
             <tr *ngFor="let item of appointments">
-            <!-- ID -->
-            <td class="px-2 py-2 border-bottom">
-              <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 py-1 px-2 rounded-1 fw-semibold font-monospace" style="font-size: 11px;">
-                {{ item.appointmentNo || item.csdNo || item.msdNo || '-' }}
-              </span>
-            </td>
-            <!-- Customer -->
-            <td class="px-2 py-2 border-bottom">
-              <span class="fw-semibold text-dark" style="font-size: 12.5px;">{{ item.custnm || '-' }}</span>
-            </td>
-            <!-- Docket No -->
-            <td class="px-2 py-2 border-bottom">
-              <span class="badge bg-light text-dark border py-1 px-2 font-monospace fw-medium" style="font-size: 11px;">
-                {{ item.dockno || '-' }}
-              </span>
-            </td>
-            <!-- Route -->
-            <td class="px-2 py-2 border-bottom">
-              <div class="d-flex align-items-center gap-1">
-                <span class="fw-medium text-secondary" style="font-size: 12px;">{{ item.orgncd || '-' }}</span>
-                <span class="badge bg-primary bg-opacity-10 text-primary px-1 py-0 rounded-1" style="font-size: 9px;">➔</span>
-                <span class="fw-semibold text-dark" style="font-size: 12px;">{{ item.destcd || '-' }}</span>
-              </div>
-            </td>
-            <!-- Date & Time -->
-            <td class="px-2 py-2 border-bottom">
-              <div class="d-flex flex-column" style="gap: 3px;">
-                <span class="fw-semibold text-dark lh-1" style="font-size: 12px;">{{ item.appointmentDT || item.csdDate || item.msdDate || '-' }}</span>
-                <span class="text-muted lh-1" style="font-size: 11px;" *ngIf="item.appointmentTime">{{ item.appointmentTime }}</span>
-              </div>
-            </td>
-            <!-- Status -->
-            <td class="px-2 py-2 border-bottom">
-              <span class="badge rounded-pill px-2 py-1 d-inline-flex align-items-center gap-1 fw-medium border bg-success bg-opacity-10 text-success border-success border-opacity-25"
-                style="font-size: 11px;">
-                <span class="rounded-circle d-inline-block bg-success"
-                  style="width: 6px; height: 6px;"></span>
-                Generated
-              </span>
-            </td>
-            <!-- Action Buttons -->
-            <td class="px-2 py-2 border-bottom text-center">
-              <div class="d-flex justify-content-center gap-2">
-                <button type="button" class="btn btn-solid-view"
-                  (click)="openViewModal(item)" title="View Appointment Details">
-                  View
-                </button>
-                <button type="button" class="btn btn-solid-reschedule"
-                  title="Reschedule Appointment"
-                  *ngIf="activeTab === 'APMT'"
-                  (click)="openRescheduleModal(item)">
-                  Reschedule
-                </button>
-                <button type="button" class="btn btn-solid-reschedule"
-                  title="Update Appointment"
-                  *ngIf="activeTab === 'CSD' || activeTab === 'MSD'"
-                  (click)="openUpdateModal(item)">
-                  Update
-                </button>
-              </div>
-            </td>
-          </tr>
+              <!-- ID -->
+              <td class="px-2 py-2 border-bottom">
+                <span
+                  class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 py-1 px-2 rounded-1 fw-semibold font-monospace"
+                  style="font-size: 11px;">
+                  {{ item.appointmentNo || item.csdNo || item.msdNo || '-' }}
+                </span>
+              </td>
+              <!-- Customer -->
+              <td class="px-2 py-2 border-bottom">
+                <span class="fw-semibold text-dark" style="font-size: 12.5px;">{{ item.custnm || '-' }}</span>
+              </td>
+              <!-- Docket No -->
+              <td class="px-2 py-2 border-bottom">
+                <span class="badge bg-light text-dark border py-1 px-2 font-monospace fw-medium"
+                  style="font-size: 11px;">
+                  {{ item.dockno || '-' }}
+                </span>
+              </td>
+              <!-- Route -->
+              <td class="px-2 py-2 border-bottom">
+                <div class="d-flex align-items-center gap-1">
+                  <span class="fw-medium text-secondary" style="font-size: 12px;">{{ item.orgncd || '-' }}</span>
+                  <span class="badge bg-primary bg-opacity-10 text-primary px-1 py-0 rounded-1"
+                    style="font-size: 9px;">➔</span>
+                  <span class="fw-semibold text-dark" style="font-size: 12px;">{{ item.destcd || '-' }}</span>
+                </div>
+              </td>
+              <!-- Date & Time -->
+              <td class="px-2 py-2 border-bottom">
+                <div class="d-flex flex-column" style="gap: 3px;">
+                  <span class="fw-semibold text-dark lh-1" style="font-size: 12px;">
+                    {{ formatListDate(item.appointmentDT || item.csdDate || item.msdDate) }}
+                  </span>
+                  <span class="text-muted lh-1" style="font-size: 11px;" *ngIf="item.appointmentTime">{{
+                    item.appointmentTime }}</span>
+                </div>
+              </td>
+              <!-- Status -->
+              <td class="px-2 py-2 border-bottom">
+                <span
+                  class="badge rounded-pill px-2 py-1 d-inline-flex align-items-center gap-1 fw-medium border bg-success bg-opacity-10 text-success border-success border-opacity-25"
+                  style="font-size: 11px;">
+                  <span class="rounded-circle d-inline-block bg-success" style="width: 6px; height: 6px;"></span>
+                  {{item.apmtstatus || item.msDstatus || item.msDstatus || '--' }}
+                </span>
+              </td>
+              <!-- Action Buttons -->
+              <td class="px-2 py-2 border-bottom text-center">
+                <div class="d-flex justify-content-center gap-2">
+                  <button type="button" class="btn btn-solid-view" (click)="openViewModal(item)"
+                    title="View Appointment Details">
+                    View
+                  </button>
+                  <button type="button" class="btn btn-solid-reschedule" title="Reschedule Appointment"
+                    *ngIf="activeTab === 'APMT'" (click)="openRescheduleModal(item)">
+                    Reschedule
+                  </button>
+                  <!-- <button type="button" class="btn btn-solid-reschedule" title="Update Appointment"
+                    *ngIf="activeTab === 'CSD' || activeTab === 'MSD'" (click)="openUpdateModal(item)">
+                    Update
+                  </button> -->
+                </div>
+              </td>
+            </tr>
             <!-- Empty State -->
             <tr *ngIf="!appointments || appointments.length === 0">
               <td colspan="7" class="text-center py-5">
@@ -189,15 +202,17 @@
       </table>
 
       <!-- Pagination -->
-      <div class="d-flex justify-content-between align-items-center mb-3 pt-3" *ngIf="totalItems > commonService.globalFilters.PageSize">
+      <div class="d-flex justify-content-between align-items-center mb-3 pt-3"
+        *ngIf="totalItems > commonService.globalFilters.PageSize">
         <div class="small text-muted">
-          Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to 
-          {{ commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ? totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+          Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to
+          {{ commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ? totalItems :
+          commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
           of {{ totalItems }} entries
         </div>
         <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
-          [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="fetchData($event.page)"
-          [maxSize]="5" [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+          [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="fetchData($event.page)" [maxSize]="5"
+          [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
         </pagination>
       </div>
 
@@ -206,9 +221,9 @@
 </div>
 
 <!-- ══ ADD NEW DELIVERY APPOINTMENT CHILD COMPONENT ══ -->
-<app-add-appointment #addAppointmentModal></app-add-appointment>
+<app-add-appointment #addAppointmentModal (onSaved)="fetchData()"></app-add-appointment>
 
 <!-- ══ VIEW APPOINTMENT CHILD COMPONENT ══ -->
 <app-view-appointment #viewAppointmentModal></app-view-appointment>
-<app-reschedule-appointment #rescheduleModal></app-reschedule-appointment>
+<app-reschedule-appointment #rescheduleModal (onUpdate)="fetchData()"></app-reschedule-appointment>
 <app-update-appointment #updateModal></app-update-appointment>

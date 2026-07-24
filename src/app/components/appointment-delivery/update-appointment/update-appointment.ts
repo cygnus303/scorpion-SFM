@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalDirective, ModalModule } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -13,39 +13,47 @@ import { ModalDirective, ModalModule } from 'ngx-bootstrap/modal';
 export class UpdateAppointment {
   @ViewChild('updateModal') updateModal!: ModalDirective;
   @Output() onUpdate = new EventEmitter<any>();
-
-  updateForm: FormGroup;
-  activeType: string = 'APMT';
+  activeType: string = '';
   appointmentData: any = null;
 
-  constructor(private fb: FormBuilder) {
-    this.updateForm = this.fb.group({
-      docketNo: [{ value: '', disabled: true }],
-      docketDate: [{ value: '', disabled: true }],
-      edd: [{ value: '', disabled: true }],
-      docketStatus: [{ value: '', disabled: true }],
-
-      deliveryDate: ['', Validators.required],
-      timeFrom: ['', Validators.required],
-      timeTo: ['', Validators.required]
-    });
-  }
+  updateForm = new FormGroup({
+    docketNo: new FormControl(''),
+    docketDate: new FormControl(''),
+    edd: new FormControl(''),
+    docketStatus: new FormControl(''),
+    deliveryDate: new FormControl<any>('', Validators.required),
+    timeFrom: new FormControl('', Validators.required),
+    timeTo: new FormControl('', Validators.required)
+  });
 
   openModal(type: string, data: any) {
     this.activeType = type;
     this.appointmentData = data;
     this.updateForm.reset();
 
+    let timeFrom = '';
+    let timeTo = '';
+    if (data?.appointmentTime) {
+      const timeParts = data.appointmentTime.split(' To ');
+      if (timeParts.length === 2) {
+        timeFrom = timeParts[0].trim();
+        timeTo = timeParts[1].trim();
+      }
+    }
+
+    let rawDeliveryDate = data?.appointmentDT || data?.csdDate || data?.msdDate || '';
+    let parsedDeliveryDate = rawDeliveryDate ? new Date(rawDeliveryDate.split('-').reverse().join('-')) : '';
+
     // Map existing data to form
     this.updateForm.patchValue({
       docketNo: data?.dockno || '',
-      docketDate: data?.docketDate || '-',
+      docketDate: data?.cNoteDate || '-',
       edd: data?.edd || '-',
-      docketStatus: data?.docketStatus || '-',
+      docketStatus: data?.currentStatus || '-',
       
-      deliveryDate: data?.csdDate || data?.msdDate || '',
-      timeFrom: data?.timeFrom || '',
-      timeTo: data?.timeTo || ''
+      deliveryDate: parsedDeliveryDate,
+      timeFrom: timeFrom,
+      timeTo: timeTo
     });
 
     this.updateModal.show();
