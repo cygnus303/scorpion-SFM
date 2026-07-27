@@ -22,6 +22,7 @@ export class ViewAppointment {
   item: any = null;
   activeType: string = 'APMT';
   isLoading: boolean = false;
+  listData:any;
 
   formatDate(d: string): string {
     if (!d || (d.charAt(2) !== '-' && d.charAt(2) !== '/')) return d || '-';
@@ -33,6 +34,7 @@ export class ViewAppointment {
     this.activeType = type;
     this.item = null;
     this.isLoading = true;
+    this.listData=data
 
     this.modalRef = this.modalService.show(this.viewModal, {
       class: 'modal-lg modal-dialog-centered',
