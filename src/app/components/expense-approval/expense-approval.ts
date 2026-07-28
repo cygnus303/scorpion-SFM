@@ -138,7 +138,7 @@ export class ExpenseApproval {
       }));
 
     const payload = {
-      approvedBy: this.selectedUser || this.commonService.globalFilters.UserID.toString(),
+      approvedBy:this.commonService.globalFilters.UserID.toString(),
       isApproved: isApproved,
       reasonRemark: this.isDefaultComment,
       isSelectAll: false,
@@ -172,7 +172,7 @@ export class ExpenseApproval {
       meetingId: this.expenseList.meetingId,
       attendeeCode: this.expenseList.attendeeCode,
       isApproved: isApproved,
-      approvedBy: this.selectedUser || this.commonService.globalFilters.UserID.toString(),
+      approvedBy: this.commonService.globalFilters.UserID.toString(),
       reasonRemark: reasonRemark,
     };
 
