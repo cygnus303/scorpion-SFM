@@ -87,7 +87,7 @@
                                 Date</label>
                             <input type="text" formControlName="prqDate" readonly
                                 style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;background:#f8fafc;font-size:13px;cursor:not-allowed"
-                                bsDatepicker [ngClass]="{'is-invalid-field': prqForm.get('prqDate')?.invalid && prqForm.get('prqDate')?.touched}">
+                                bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid-field': prqForm.get('prqDate')?.invalid && prqForm.get('prqDate')?.touched}">
                             <div *ngIf="prqForm.get('prqDate')?.invalid && prqForm.get('prqDate')?.touched" class="error-msg">This field is required</div>
                         </div>
                         <div></div>

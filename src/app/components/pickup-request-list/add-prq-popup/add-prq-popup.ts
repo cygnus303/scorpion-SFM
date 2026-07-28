@@ -487,6 +487,7 @@ export class AddPrqPopup {
         consigneeAddress: formData.consigneeAddress || '',
         consignorPincode: formData.consignorPin?.toString() || '',
         consigneePincode: formData.consigneePin?.toString() || '',
+        prqDate: formData.prqDate ||'',
         baseLocationCode: branchCode || '',
         baseUserName: this.commonService.globalFilters?.UserID?.toString() || '',
         baseFinYear: finyear,
