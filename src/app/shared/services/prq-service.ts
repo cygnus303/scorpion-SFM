@@ -58,4 +58,12 @@ export class PrqService {
   eWayBillData(ewaybillNo:string){
      return this.apiHandlerService.Get(`PRQ/GetEwaybillDetail?ewaybillNo=${ewaybillNo}`)
   }
+
+  getContractDetail(custCode:string){
+     return this.apiHandlerService.Get(`PRQ/GetContractForPRQ?custCode=${custCode}`)
+  }
+
+  submitPRQ(payload:any){
+     return this.apiHandlerService.Post(`PRQ/SubmitPRQRequest`,payload)
+  }
 }

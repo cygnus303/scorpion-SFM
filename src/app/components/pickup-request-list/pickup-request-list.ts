@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, TemplateRef } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { CommonModule } from '@angular/common';
 import { AddPrq } from './add-prq/add-prq';
@@ -11,6 +11,9 @@ import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { IdentityService } from '../../shared/services/identity.service';
 import { PrqDetail } from './prq-detail/prq-detail';
 import { AddPrqPopup } from './add-prq-popup/add-prq-popup';
+import { ExpenseGeneralService } from '../../shared/services/expense-general.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-pickup-request-list',
@@ -22,17 +25,29 @@ export class PickupRequestList {
   public PRQCard: any[] = [];
   public PRQList: any[] = [];
   public totalItems: number = 0;
+  public isShaking: boolean = false;
   private destroy$ = new Subject<void>();
   @ViewChild('addPRQ') addPRQ!: AddPrq;
   @ViewChild('addPrqPopup') addPrqPopup!: AddPrqPopup;
   @ViewChild('PrqDetail') PrqDetail!: PrqDetail;
   public isExportLoading: boolean = false;
   public isLoading: boolean = false;
+  
+  // Cancel Modal properties
+  public cancelModalRef?: BsModalRef;
+  public cancelPrqNo: string = '';
+  public cancelReason: string = '';
+  public isCancelSubmitted: boolean = false;
+  @ViewChild('cancelPrqModal') cancelPrqModalTemplate!: TemplateRef<any>;
+
   private sweetAlertService = inject(SweetAlertService);
   private identityService = inject(IdentityService);
+  private modalService = inject(BsModalService);
+  
   constructor(
     private PRQService: PrqService,
-    public commonService: CommonService
+    public commonService: CommonService,
+    public expenseGeneralService:ExpenseGeneralService
   ) { }
 
   ngOnInit() {
@@ -43,9 +58,9 @@ export class PickupRequestList {
 
   }
 
-  selectPrqType() {
+  selectPrqType(prqNo?:string) {
     // this.addPRQ.showPopup();
-    this.addPrqPopup.showPopup();
+    this.addPrqPopup.showPopup(prqNo);
   }
 
   openPRQDetailModal(indentNo?: any) {
@@ -58,19 +73,6 @@ export class PickupRequestList {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
-  // getPRQCardList() {
-  //   const payload = {
-  //     "fromDate": this.formatDate(this.commonService.globalFilters.startDate),
-  //     "toDate": this.formatDate(this.commonService.globalFilters.endDate),
-  //     "updateBy": this.commonService.globalFilters.UserID.toString(),
-  //     "location": null,
-  //     "type": "N"
-  //   }
-  //   this.PRQService.getPRQCard(payload).subscribe((response: any) => {
-  //     this.PRQCard = response.data;
-  //   });
-  // }
 
   formatDate = (dateStr: string) => {
     const [day, month, year] = dateStr.split('/');
@@ -86,19 +88,22 @@ export class PickupRequestList {
     this.isLoading = true;
     this.commonService.globalFilters.Page = page;
     const payload = {
-      startDate: this.formatDate(this.commonService.globalFilters.startDate),
-      endDate: this.formatDate(this.commonService.globalFilters.endDate),
-      Page: this.commonService.globalFilters.Page.toString(),
-      pageSize: this.commonService.globalFilters.PageSize.toString(),
-      updateBy: this.commonService.globalFilters.UserID.toString(),
-      baseLoc: this.identityService.getBranchCode(),
-      type: "N",
-      status: ""
+       "FilterJson": {
+      ReportId:'222',
+      FromDate: this.formatDate(this.commonService.globalFilters.startDate),
+      ToDate: this.formatDate(this.commonService.globalFilters.endDate),
+      BaseLocation: this.identityService.getBranchCode(),
+      UserName:this.identityService.getUserName(),
+      Status:"",
+      PageNo:this.commonService.globalFilters.Page.toString(),
+      PageSize:this.commonService.globalFilters.PageSize.toString(),
+      IsDownload:"0"
+       }
     }
-    this.PRQService.getPRQList(payload).subscribe((response: any) => {
+    this.expenseGeneralService.getDynamicData(payload).subscribe((response: any) => {
       this.isLoading = false;
-      this.PRQList = response.data;
-      this.totalItems = response.totalCount
+      this.PRQList = response.Table2;
+      this.totalItems = response.Table1[0].TotalRecords;
     });
   }
 
@@ -138,22 +143,97 @@ export class PickupRequestList {
   }
 
   downloadPRQ() {
-    const params = {
-      updateBy: this.commonService.globalFilters.UserID.toString(),
-      baseLoc: this.identityService.getBranchCode(),
-    };
+    const payload = {
+       "FilterJson": {
+      ReportId:'222',
+      FromDate: this.formatDate(this.commonService.globalFilters.startDate),
+      ToDate: this.formatDate(this.commonService.globalFilters.endDate),
+      BaseLocation: this.identityService.getBranchCode(),
+      UserName:this.identityService.getUserName(),
+      Status:"",
+      PageNo:this.commonService.globalFilters.Page.toString(),
+      PageSize:this.commonService.globalFilters.PageSize.toString(),
+      IsDownload:"1"
+       }
+    }
     this.isExportLoading = true;
-    this.PRQService.DownloadPRQ(params).subscribe({
-      next: (blob: Blob) => {
-        saveAs(blob, `PRQ_Report_${new Date().getTime()}.xlsx`);
+    this.expenseGeneralService.getDynamicData(payload).subscribe({
+      next: (response: any) => {
+        if (response && response.Table2 && response.Table2.length > 0) {
+          const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(response.Table2);
+          const workbook: XLSX.WorkBook = {
+            Sheets: { 'PRQ Report': worksheet },
+            SheetNames: ['PRQ Report'],
+          };
+          
+          const excelBuffer: any = XLSX.write(workbook, {
+            bookType: 'xlsx',
+            type: 'array',
+            cellStyles: false,
+          });
+
+          const blob: Blob = new Blob([excelBuffer], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
+          
+          saveAs(blob, `PRQ_Report_${new Date().getTime()}.xlsx`);
+        } else {
+          this.sweetAlertService.error('No data available to download');
+        }
         this.isExportLoading = false;
       },
-      error: (response: any) => {
-        this.sweetAlertService.error(response.error?.message || 'Download failed');
+      error: (error: any) => {
+        this.sweetAlertService.error(error?.error?.message || 'Download failed');
         this.isExportLoading = false;
       },
     });
   }
 
+  onCancel(prqNo: string) {
+    this.cancelPrqNo = prqNo;
+    this.cancelReason = '';
+    this.isCancelSubmitted = false;
+    this.cancelModalRef = this.modalService.show(this.cancelPrqModalTemplate, { class: 'modal-dialog-centered cancel-prq-modal', backdrop: 'static' });
+  }
+
+  closeCancelModal() {
+    this.cancelModalRef?.hide();
+    this.cancelPrqNo = '';
+    this.cancelReason = '';
+    this.isCancelSubmitted = false;
+  }
+
+  confirmCancel() {
+    this.isCancelSubmitted = true;
+    if (!this.cancelReason || !this.cancelReason.trim()) {
+      this.isShaking = false;
+      setTimeout(() => this.isShaking = true, 10);
+      setTimeout(() => this.isShaking = false, 400);
+      return;
+    }
+
+    const payload = {
+      "FilterJson": {
+        "ReportId": "221",
+        "PRQNo": this.cancelPrqNo,
+        "UserName": this.identityService.getUserName(),
+        "CancelReason": this.cancelReason.trim()
+      }
+    };
+    
+    this.isLoading = true;
+    this.expenseGeneralService.getDynamicData(payload).subscribe({
+      next: (response: any) => {
+        this.isLoading = false;
+        this.sweetAlertService.success("PRQ Cancelled Successfully");
+        this.closeCancelModal();
+        this.getPRQList();
+      },
+      error: (response: any) => {
+        this.isLoading = false;
+        this.sweetAlertService.error(response?.error?.message || "Failed to cancel PRQ");
+      }
+    });
+  }
 
 }

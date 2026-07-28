@@ -3,7 +3,7 @@
         <div style="background:#d0021b;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
             <span style="color:#fff;font-size:15px;font-weight:700">
                 <i class="ti ti-plus-circle" style="margin-right:8px"></i>
-                <span>Add Pickup Request (PRQ)</span>
+                <span>{{PRQNo == null ? 'Add' : 'Edit'}} Pickup Request (PRQ)</span>
             </span>
             <button type="button" class="btn-close" style="color:rgba(255,255,255,0.8);cursor:pointer;font-size:18px"  (click)="onClose()">
             </button>
@@ -12,26 +12,25 @@
         <form [formGroup]="prqForm" (ngSubmit)="onSubmit()" class="modal-form">
             <div class="scrollable-content">
 
-                <!-- Soft-Outline Chip / Tag Selection (Stacked Vertically / Upar-Niche) -->
                 <!-- Eway Bill Tag Selector (Top Row) -->
-                <div style="margin-bottom: 16px;">
+                <!-- <div style="margin-bottom: 16px;">
                     <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">
                         Eway Bill <span style="color:#D0021B">*</span>
                     </label>
                     <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
                         <label class="tag-radio-chip" [class.selected]="prqForm.get('ewayBill')?.value === 'with'">
-                            <input type="radio" formControlName="ewayBill" value="with" class="hidden-radio">
+                            <input type="radio" formControlName="ewayBill" value="with" class="hidden-radio" (change)="rebuildForm()">
                             <span class="tag-circle"></span>
                             <span class="tag-label">With Eway Bill</span>
                         </label>
 
                         <label class="tag-radio-chip" [class.selected]="prqForm.get('ewayBill')?.value === 'without'">
-                            <input type="radio" formControlName="ewayBill" value="without" class="hidden-radio">
+                            <input type="radio" formControlName="ewayBill" value="without" class="hidden-radio" (change)="rebuildForm()">
                             <span class="tag-circle"></span>
                             <span class="tag-label">Without Eway Bill</span>
                         </label>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Service Type Tag Selector (Bottom Row) -->
                 <div style="margin-bottom: 18px;">
@@ -39,21 +38,15 @@
                         Service Type <span style="color:#D0021B">*</span>
                     </label>
                     <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
-                        <label class="tag-radio-chip" [class.selected]="prqForm.get('service_Type')?.value === 'LTL'">
-                            <input type="radio" formControlName="service_Type" value="LTL" class="hidden-radio">
+                        <label *ngFor="let s of serviceData" class="tag-radio-chip" [class.selected]="prqForm.get('service_Type')?.value === s.value">
+                            <input type="radio" formControlName="service_Type" [value]="s.value" class="hidden-radio" (change)="rebuildForm()">
                             <span class="tag-circle"></span>
-                            <span class="tag-label">LTL</span>
-                        </label>
-
-                        <label class="tag-radio-chip" [class.selected]="prqForm.get('service_Type')?.value === 'FTL'">
-                            <input type="radio" formControlName="service_Type" value="FTL" class="hidden-radio">
-                            <span class="tag-circle"></span>
-                            <span class="tag-label">FTL</span>
+                            <span class="tag-label">{{ s.name }}</span>
                         </label>
                     </div>
                 </div>
 
-                <div *ngIf="prqForm.get('ewayBill')?.value && prqForm.get('service_Type')?.value">
+                <div *ngIf="prqForm.get('service_Type')?.value">
                     <div id="add-main-fields">
                     <hr style="border:none;border-top:1px solid var(--border);margin-bottom:16px">
 
@@ -72,9 +65,17 @@
                                 Name <span style="color:#D0021B">*</span></label>
                             <ng-select [items]="customerData" bindLabel="text" bindValue="id"
                                 formControlName="customerCode" placeholder="-- Select Customer --"
-                                [typeahead]="customerSearchSubject" 
-                                [loading]="isCustomerLoading" [notFoundText]="customerNotFoundText">
+                                [typeahead]="customerSearchSubject" (change)="onCustomerSelect($event)"
+                                [loading]="isCustomerLoading" [notFoundText]="customerNotFoundText"
+                                [ngClass]="{'is-invalid-ng-select': prqForm.get('customerCode')?.invalid && prqForm.get('customerCode')?.touched}">
+                                <ng-template ng-label-tmp let-item="item">
+                                    {{ item.id }} : {{ item.text }}
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item">
+                                    {{ item.id }} : {{ item.text }}
+                                </ng-template>
                             </ng-select>
+                            <div *ngIf="prqForm.get('customerCode')?.invalid && prqForm.get('customerCode')?.touched" class="error-msg">This field is required</div>
                         </div>
                     </div>
 
@@ -85,7 +86,8 @@
                                 Date</label>
                             <input type="text" formControlName="prqDate" readonly
                                 style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;background:#f8fafc;font-size:13px;cursor:not-allowed"
-                                bsDatepicker>
+                                bsDatepicker [ngClass]="{'is-invalid-field': prqForm.get('prqDate')?.invalid && prqForm.get('prqDate')?.touched}">
+                            <div *ngIf="prqForm.get('prqDate')?.invalid && prqForm.get('prqDate')?.touched" class="error-msg">This field is required</div>
                         </div>
                         <div></div>
                     </div>
@@ -96,7 +98,9 @@
                                 style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">No.
                                 of Pkgs <span style="color:#D0021B">*</span></label>
                             <input type="text" formControlName="pkgs" oninput="this.value = this.value.replace(/[^0-9.]/g,'');" placeholder="Enter Pkgs"
-                                style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none">
+                                style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none"
+                                [ngClass]="{'is-invalid-field': prqForm.get('pkgs')?.invalid && prqForm.get('pkgs')?.touched}">
+                            <div *ngIf="prqForm.get('pkgs')?.invalid && prqForm.get('pkgs')?.touched" class="error-msg">This field is required</div>
                         </div>
                         <div>
                             <label
@@ -104,7 +108,9 @@
                                 (KG) <span style="color:#D0021B">*</span></label>
                             <input type="text" formControlName="weight" oninput="this.value = this.value.replace(/[^0-9.]/g,'');"
                                 placeholder="Enter weight"
-                                style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none">
+                                style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none"
+                                [ngClass]="{'is-invalid-field': prqForm.get('weight')?.invalid && prqForm.get('weight')?.touched}">
+                            <div *ngIf="prqForm.get('weight')?.invalid && prqForm.get('weight')?.touched" class="error-msg">This field is required</div>
                         </div>
                     </div>
                 
@@ -113,22 +119,25 @@
                             <label
                                 style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Transport
                                 Mode <span style="color:#D0021B">*</span></label>
-                            <ng-select [items]="transportModes" bindLabel="name" bindValue="value"
+                            <ng-select [items]="transportModes" bindLabel="codeDesc" bindValue="codeId"
                                 formControlName="transportMode" placeholder="Select Transport Mode" [searchable]="true"
-                                [clearable]="true" class="custom-ng-select">
+                                [clearable]="true" class="custom-ng-select"
+                                [ngClass]="{'is-invalid-ng-select': prqForm.get('transportMode')?.invalid && prqForm.get('transportMode')?.touched}">
                             </ng-select>
+                            <div *ngIf="prqForm.get('transportMode')?.invalid && prqForm.get('transportMode')?.touched" class="error-msg">This field is required</div>
                         </div>
                         <div>
                             <div *ngIf="prqForm.get('service_Type')?.value === 'FTL'">
                                 <label
                                     style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">FTL
-                                    Type *</label>
+                                    Type <span style="color:#D0021B">*</span></label>
                                 <ng-select [items]="fleetTypeData" bindLabel="codeDesc" bindValue="codeId"
-                            formControlName="ftlType" placeholder="Select Transport Mode" [searchable]="true"
+                            formControlName="ftlType" placeholder="Select FTL Type" [searchable]="true"
                             [clearable]="true" 
                             class="custom-ng-select" 
-                           >
+                            [ngClass]="{'is-invalid-ng-select': prqForm.get('ftlType')?.invalid && prqForm.get('ftlType')?.touched}">
                         </ng-select>
+                        <div *ngIf="prqForm.get('ftlType')?.invalid && prqForm.get('ftlType')?.touched" class="error-msg">This field is required</div>
                             </div>
                         </div>
                     </div>
@@ -138,11 +147,13 @@
                             <label
                                 style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Pickup
                                 Pin Code <span style="color:#D0021B">*</span></label>
-                            <ng-select [items]="pincodeData" bindLabel="text" bindValue="id"
+                            <ng-select [items]="pincodeData" bindLabel="Text" bindValue="Value"
                                 formControlName="pinCode" placeholder="Enter 6-digit pincode"
-                                [typeahead]="pincodeSearchSubject" (change)="onChangePincode($event?.id)"
-                                [loading]="isPincodeLoading" [notFoundText]="pincodeNotFoundText">
+                                [typeahead]="pincodeSearchSubject" (change)="onChangePincode($event)"
+                                [loading]="isPincodeLoading" [notFoundText]="pincodeNotFoundText"
+                                [ngClass]="{'is-invalid-ng-select': prqForm.get('pinCode')?.invalid && prqForm.get('pinCode')?.touched}">
                             </ng-select>
+                            <div *ngIf="prqForm.get('pinCode')?.invalid && prqForm.get('pinCode')?.touched" class="error-msg">This field is required</div>
                             <div style="font-size:11px;color:var(--text-muted);margin-top:3px">From City auto-fills from
                                 Pincode master</div>
                         </div>
@@ -152,7 +163,9 @@
                                 City <span style="color:#D0021B">*</span></label>
                             <input type="text" formControlName="fromCity" readonly
                                 placeholder="Auto-filled from pincode"
-                                style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none;background:#f8fafc;cursor:not-allowed">
+                                style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none;background:#f8fafc;cursor:not-allowed"
+                                [ngClass]="{'is-invalid-field': prqForm.get('fromCity')?.invalid && prqForm.get('fromCity')?.touched}">
+                            <div *ngIf="prqForm.get('fromCity')?.invalid && prqForm.get('fromCity')?.touched" class="error-msg">This field is required</div>
                         </div>
                     </div>
 
@@ -161,11 +174,13 @@
                             <label
                                 style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Delivery
                                 Pincode <span style="color:#D0021B">*</span></label>
-                            <ng-select [items]="destPincodeData" bindLabel="text" bindValue="id"
+                            <ng-select [items]="destPincodeData" bindLabel="Text" bindValue="Value"
                                 formControlName="desPincode" placeholder="Type pincode or city name..."
-                                [typeahead]="destPincodeSearchSubject" (change)="onChangeDestPincode($event?.id)"
-                                [loading]="isDestPincodeLoading" [notFoundText]="destPincodeNotFoundText">
+                                [typeahead]="destPincodeSearchSubject" (change)="onChangeDestPincode($event)"
+                                [loading]="isDestPincodeLoading" [notFoundText]="destPincodeNotFoundText"
+                                [ngClass]="{'is-invalid-ng-select': prqForm.get('desPincode')?.invalid && prqForm.get('desPincode')?.touched}">
                             </ng-select>
+                            <div *ngIf="prqForm.get('desPincode')?.invalid && prqForm.get('desPincode')?.touched" class="error-msg">This field is required</div>
                             <div style="font-size:11px;color:var(--text-muted);margin-top:3px">To City auto-fills from
                                 Pincode master</div>
                         </div>
@@ -205,11 +220,10 @@
                     <hr style="border:none;border-top:1px solid var(--border);margin:14px 0">
 
                     <!-- Eway Bill Details -->
-                    <div
+                    <!-- <div
                         style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--scorpion-red);display:inline-block">
                         Eway Bill Details</div>
 
-                    <!-- Eway-specific fields -->
                     <div *ngIf="prqForm.get('ewayBill')?.value === 'with'" style="margin-top:10px">
                         <div class="form-row">
                             <div>
@@ -241,7 +255,6 @@
                         </div>
                     </div>
 
-                    <!-- Invoice fields -->
                     <div class="form-row" style="margin-top:6px">
                         <div>
                             <label
@@ -270,7 +283,7 @@
                                 [readonly]="prqForm.get('ewayBill')?.value === 'with'">
                         </div>
                         <div></div>
-                    </div>
+                    </div> -->
 
                     <hr style="border:none;border-top:1px solid var(--border);margin:14px 0">
 
@@ -328,19 +341,23 @@
                                 <label
                                     style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Consignor
                                     Pincode</label>
-                                <input type="text" formControlName="consignorPin" placeholder="6-digit pincode"
-                                    maxlength="6"
-                                    style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none"
+                                <ng-select [items]="consignorPincodeData" bindLabel="Text" bindValue="Value"
+                                    formControlName="consignorPin" placeholder="6-digit pincode"
+                                    [typeahead]="consignorPincodeSearchSubject"
+                                    [loading]="isConsignorPincodeLoading" [notFoundText]="consignorPincodeNotFoundText"
                                     [readonly]="prqForm.get('ewayBill')?.value === 'with'">
+                                </ng-select>
                             </div>
                             <div>
                                 <label
                                     style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Consignee
                                     Pincode</label>
-                                <input type="text" formControlName="consigneePin" placeholder="6-digit pincode"
-                                    maxlength="6"
-                                    style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none"
+                                <ng-select [items]="consigneePincodeData" bindLabel="Text" bindValue="Value"
+                                    formControlName="consigneePin" placeholder="6-digit pincode"
+                                    [typeahead]="consigneePincodeSearchSubject"
+                                    [loading]="isConsigneePincodeLoading" [notFoundText]="consigneePincodeNotFoundText"
                                     [readonly]="prqForm.get('ewayBill')?.value === 'with'">
+                                </ng-select>
                             </div>
                         </div>
                     </div>
@@ -358,7 +375,7 @@
             <!-- Fixed Footer Buttons (Always visible at bottom without scrolling) -->
             <div class="fixed-modal-footer">
                 <button type="button" class="btn-secondary" (click)="onClose()">Cancel</button>
-                <button type="submit" class="btn-primary" [disabled]="prqForm.invalid"><i class="ti ti-send"
+                <button type="submit" class="btn-primary"><i class="ti ti-send"
                         style="margin-right:5px"></i>Submit PRQ</button>
             </div>
         </form>

@@ -144,3 +144,20 @@
       }
     }
   }
+
+  /* ── Validation Styles ── */
+  .is-invalid-field {
+    border-color: #D0021B !important;
+  }
+  
+  .is-invalid-ng-select {
+    ::ng-deep .ng-select-container {
+      border-color: #D0021B !important;
+    }
+  }
+  
+  .error-msg {
+    color: #D0021B;
+    font-size: 10.5px;
+    margin-top: 4px;
+  }

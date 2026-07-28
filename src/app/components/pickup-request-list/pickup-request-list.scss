@@ -61,3 +61,27 @@
   --Newblue4:#2563eb;
   --Newblue6:#6b7280;
 }
+
+::ng-deep .cancel-prq-modal {
+  max-width: 500px !important;
+  .modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #dc2626;
+  }
+}
+
+@keyframes shakeError {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake-animation {
+  animation: shakeError 0.3s ease-in-out;
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 0.15rem rgba(220, 38, 38, 0.25) !important;
+}

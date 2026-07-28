@@ -29,4 +29,8 @@ getGeneralmasterList(filters:any): Observable<IApiBaseResponse<GeneralMasterResp
    updateGeneralMaster( generalmaster: GeneralMasterResponseList): Observable<IApiBaseResponse<CommonResponse>> {
     return this.apiHandlerService.Post(`Expense/generalmaster/edit?id=${generalmaster.id}`, generalmaster);
   }
+
+  getDynamicData(payload:any): Observable<IApiBaseResponse<any>> {
+     return this.apiHandlerService.Post(`GeneralMaster/GetDynamicData`,payload)
+  }
 }

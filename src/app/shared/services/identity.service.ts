@@ -6,6 +6,7 @@ import {
   ApiBranchCode,
   ApiBranchName,
   ApiDesignation,
+  ApiFinYear,
   ApiLocation,
   ApiRefreshTokenName,
   ApiRegion,
@@ -92,6 +93,10 @@ export class IdentityService {
     this.localStorage()?.setItem(ApiUserName, userName);
   }
 
+    setFinyear(finYear: string): void {
+    this.localStorage()?.setItem(ApiFinYear, finYear);
+  }
+
   setUserType(): void {
     const UserType = this.getLoggedUserType()
     this.localStorage()?.setItem(ApiUserType, UserType);
@@ -173,6 +178,14 @@ export class IdentityService {
       location = this.localStorage()?.getItem(ApiLocation);
     }
     return location;
+  }
+
+  getFinYear(): any {
+    let FinYear = null;
+    if (this.localStorage()) {
+      FinYear = this.localStorage()?.getItem(ApiFinYear);
+    }
+    return FinYear;
   }
 
   getRegion(): any {
