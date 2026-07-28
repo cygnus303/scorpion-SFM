@@ -11,7 +11,9 @@
     overflow: hidden; 
     display: flex;
     flex-direction: column;
-    max-height: 88vh;
+    // max-height: 88vh;
+     height: 90vh;       /* આનાથી મોડલ હંમેશા મોટું જ ખુલશે */
+    max-height: 95vh;
   }
   .custom-modal h3 { font-size: 17px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; color: var(--text, #1a1a1a); }
 //   .custom-modal-close { float: right; cursor: pointer; color: var(--text-muted, #6b7280); font-size: 20px; }
@@ -160,4 +162,11 @@
     color: #D0021B;
     font-size: 10.5px;
     margin-top: 4px;
+  }
+
+  
+  ::ng-deep.modal-dialog-centered{
+    .modal-content{
+          max-height: 650px !important;
+    }
   }

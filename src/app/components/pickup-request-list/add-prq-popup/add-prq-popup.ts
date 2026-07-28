@@ -209,7 +209,6 @@ export class AddPrqPopup {
     this.PRQNo = prqNo;
     this.initForm();
     // this.getTransportModes();
-    this.getContract();
     this.getFleetType()
     this.modalRef = this.modalService.show(this.Templatepod, {
       backdrop: 'static',
@@ -335,6 +334,7 @@ export class AddPrqPopup {
         customer_Name: ''
       });
     }
+    this.getContract(event?.id);
   }
 
   onColdChainCategoryChange(event?: any) {
@@ -361,9 +361,9 @@ export class AddPrqPopup {
     });
   }
 
-  getContract() {
-    const custCode = 'C00120010';
-    this.prqService.getContractDetail(custCode).subscribe({
+  getContract(customerId?:any) {
+    // const custCode = 'C00120010';
+    this.prqService.getContractDetail(customerId).subscribe({
       next: (response: any) => {
         if (response && response.data && response.data.length > 0) {
           const serviceTypesStr = response.data[0].serviceTypes || '';

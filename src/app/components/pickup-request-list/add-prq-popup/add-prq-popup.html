@@ -33,38 +33,12 @@
                 </div> -->
 
                 <!-- Service Type Tag Selector (Bottom Row) -->
-                <div style="margin-bottom: 18px;">
-                    <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">
-                        Service Type <span style="color:#D0021B">*</span>
-                    </label>
-                    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
-                        <label *ngFor="let s of serviceData" class="tag-radio-chip" [class.selected]="prqForm.get('service_Type')?.value === s.value">
-                            <input type="radio" formControlName="service_Type" [value]="s.value" class="hidden-radio" (change)="rebuildForm()">
-                            <span class="tag-circle"></span>
-                            <span class="tag-label">{{ s.name }}</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div *ngIf="prqForm.get('service_Type')?.value">
-                    <div id="add-main-fields">
-                    <hr style="border:none;border-top:1px solid var(--border);margin-bottom:16px">
-
-                    <!-- Common -->
-                    <div class="form-row">
-                        <div>
-                            <label
-                                style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Group
-                                Code</label>
-                            <input type="text" formControlName="groupCode" readonly
-                                style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;background:#f8fafc;font-size:13px;cursor:not-allowed;color:#374151">
-                        </div>
-                        <div>
+              <div>
                             <label
                                 style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Customer
                                 Name <span style="color:#D0021B">*</span></label>
                             <ng-select [items]="customerData" bindLabel="text" bindValue="id"
-                                formControlName="customerCode" placeholder="-- Select Customer --"
+                                formControlName="customerCode" placeholder="-- Select Customer --" [readonly]="PRQNo"
                                 [typeahead]="customerSearchSubject" (change)="onCustomerSelect($event)"
                                 [loading]="isCustomerLoading" [notFoundText]="customerNotFoundText"
                                 [ngClass]="{'is-invalid-ng-select': prqForm.get('customerCode')?.invalid && prqForm.get('customerCode')?.touched}">
@@ -77,6 +51,33 @@
                             </ng-select>
                             <div *ngIf="prqForm.get('customerCode')?.invalid && prqForm.get('customerCode')?.touched" class="error-msg">This field is required</div>
                         </div>
+
+                <div *ngIf="prqForm.get('customerCode')?.value">
+                    <div id="add-main-fields">
+                    <hr style="border:none;border-top:1px solid var(--border);margin-bottom:16px">
+
+                    <!-- Common -->
+                    <div class="form-row">
+                        <div>
+                            <label
+                                style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Group
+                                Code</label>
+                            <input type="text" formControlName="groupCode" readonly
+                                style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;background:#f8fafc;font-size:13px;cursor:not-allowed;color:#374151">
+                        </div>
+                       
+                           <div style="margin-bottom: 18px;">
+                    <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">
+                        Service Type <span style="color:#D0021B">*</span>
+                    </label>
+                    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+                        <label *ngFor="let s of serviceData" class="tag-radio-chip" [class.selected]="prqForm.get('service_Type')?.value === s.value">
+                            <input type="radio" formControlName="service_Type" [value]="s.value" class="hidden-radio" >
+                            <span class="tag-circle"></span>
+                            <span class="tag-label">{{ s.name }}</span>
+                        </label>
+                    </div>
+                </div>
                     </div>
 
                     <div class="form-row">
