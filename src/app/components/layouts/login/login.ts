@@ -142,6 +142,7 @@ export class Login implements OnInit, OnDestroy {
           this.identityService.setDesignation(response.data.designation);
           this.identityService.setRegion(response.data.reportLocName);
           this.identityService.setUserName(response.data.name);
+          this.identityService.setFinyear(response.data.finYear);
           this.identityService.setRegionCode(response.data.reportingLoc);
           localStorage.setItem('loginUser', JSON.stringify(response.data));
           this.commonService.updateUserId(); // Update user ID after login

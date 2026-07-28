@@ -44,12 +44,12 @@
 
   </div>
   <div class="kpi-row">
-    <div class="kpi" *ngFor="let card of PRQCard" [style.border-top]="'3px solid ' + getCardColor(card.color)">
+    <div class="kpi" *ngFor="let card of PRQCard" [style.border-top]="'3px solid ' + getCardColor(card.Color)">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
-        <div class="kpi-label" style="font-size:11px;">{{ card.codeDesc }}</div>
-        <div class="kpi-icon" style="font-size:16px;">{{ getIconEmoji(card.icon) }}</div>
+        <div class="kpi-label" style="font-size:11px;">{{ card.CodeDesc }}</div>
+        <div class="kpi-icon" style="font-size:16px;">{{ getIconEmoji(card.Icon) }}</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{ card.cnt }}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{ card.CNT || 0}}</div>
     </div>
   </div>
   <div class="kpi-row">

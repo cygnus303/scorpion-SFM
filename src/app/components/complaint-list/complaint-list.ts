@@ -18,6 +18,7 @@ import { IdentityService } from '../../shared/services/identity.service';
 import { EnquiryList } from './enquiry-list/enquiry-list';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
+import { ExpenseGeneralService } from '../../shared/services/expense-general.service';
 
 @Component({
   selector: 'app-complaint-list',
@@ -56,6 +57,7 @@ export class ComplaintList {
   private PRQService = inject(PrqService);
   private identityService = inject(IdentityService);
   private destroy$ = new Subject<void>();
+  private expenseGeneralService = inject(ExpenseGeneralService);
   private complaintSubscription?: Subscription;
 
   constructor() { }
@@ -77,19 +79,27 @@ export class ComplaintList {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
-  getPRQCardList() {
+  
+    getPRQCardList() {
     const payload = {
-      "fromDate": this.formatDate(this.commonService.globalFilters.startDate),
-      "toDate": this.formatDate(this.commonService.globalFilters.endDate),
-      "updateBy": this.commonService.globalFilters.UserID.toString(),
-      "location": this.identityService.getBranchCode(),
-      "type": "N"
-    }
-    this.PRQService.getPRQCard(payload).subscribe({
-      next: (response: any) => {
-        this.PRQCard = response.data.sort((a: any, b: any) => a.ord - b.ord);
+      "FilterJson": {
+        "ReportId": "224",
+        "FromDate": this.formatDate(this.commonService.globalFilters.startDate),
+        "ToDate": this.formatDate(this.commonService.globalFilters.endDate),
+        "BaseLocation":this.identityService.getBranchCode(),
+        "UserName": this.identityService.getUserName(),
       }
+    };
+    this.expenseGeneralService.getDynamicData(payload).subscribe({
+      next: (response: any) => {
+        if (response && response.Table1 && response.Table1.length > 0) {
+          const data = response.Table1;
+          this.PRQCard = data.sort((a: any, b: any) => a.ord - b.ord);
+         }
+      },
+      error: (response: any) => {
+        this.sweetAlertService.error(response);
+      },
     });
   }
 
@@ -117,19 +127,19 @@ export class ComplaintList {
   getCardColor(color: string): string {
     switch (color) {
       case 'Newblue':
-        return 'red';
+        return '#f50bc2ff';
 
       case 'Newblue1':
         return '#f59e0b';
 
       case 'Newblue3':
-        return '#dc2626';
+        return '#096411ff';
 
       case 'Newblue4':
         return '#2563eb';
 
       case 'Newblue6':
-        return '#6b7280';
+        return '#dc2626';
 
       default:
         return '#ccc';

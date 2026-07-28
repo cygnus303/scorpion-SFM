@@ -8,6 +8,7 @@ export const ApiDesignation = 'Designation';
 export const ApiRegion = 'Region';
 export const ApiUserName = 'UserName';
 export const ApiLocation = 'Location';
+export const ApiFinYear = 'FinYear';
 export const ApiUserType = 'UserType';
 export const EmailRegex =
   /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
