@@ -45,7 +45,7 @@
           </ng-container>
 
           <!-- No Data (Exactly matching screenshot) -->
-          <tr *ngIf="PRQList?.length === 0 && !isLoading">
+          <tr *ngIf="PRQList.length === 0 && !isLoading">
             <td colspan="10" class="text-muted small py-3 px-3 text-center" style="font-size: 12px;">
               No record Found
             </td>
@@ -176,7 +176,7 @@
       
       <div class="text-start mb-4">
           <label style="font-size: 13px; font-weight: 700; color: #4b5563; margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px;">Cancellation Reason <span class="text-danger">*</span></label>
-          <textarea [(ngModel)]="cancelReason" class="form-control" rows="3" placeholder="Please enter reason for cancellation..." style="font-size: 13px; border-radius: 8px; border: 1px solid #d1d5db; resize: none; box-shadow: none;" [ngClass]="{'is-invalid': isCancelSubmitted && !cancelReason?.trim(), 'shake-animation': isShaking}"></textarea>
+          <textarea [(ngModel)]="cancelReason" class="form-control" rows="3" placeholder="Please enter reason for cancellation..." style="font-size: 13px; border-radius: 8px; border: 1px solid #d1d5db; resize: none; box-shadow: none;" [ngClass]="{'is-invalid': isCancelSubmitted && !cancelReason.trim(), 'shake-animation': isShaking}"></textarea>
       </div>
 
       <div class="d-flex justify-content-center gap-3">

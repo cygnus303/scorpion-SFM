@@ -68,6 +68,12 @@
                                 [typeahead]="customerSearchSubject" (change)="onCustomerSelect($event)"
                                 [loading]="isCustomerLoading" [notFoundText]="customerNotFoundText"
                                 [ngClass]="{'is-invalid-ng-select': prqForm.get('customerCode')?.invalid && prqForm.get('customerCode')?.touched}">
+                                <ng-template ng-label-tmp let-item="item">
+                                    {{ item.id }} : {{ item.text }}
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item">
+                                    {{ item.id }} : {{ item.text }}
+                                </ng-template>
                             </ng-select>
                             <div *ngIf="prqForm.get('customerCode')?.invalid && prqForm.get('customerCode')?.touched" class="error-msg">This field is required</div>
                         </div>
