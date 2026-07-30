@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild, TemplateRef } from '@angular/core';
+import { Component, inject, ViewChild, TemplateRef, viewChild } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { CommonModule } from '@angular/common';
 import { AddPrq } from './add-prq/add-prq';
@@ -14,10 +14,11 @@ import { AddPrqPopup } from './add-prq-popup/add-prq-popup';
 import { ExpenseGeneralService } from '../../shared/services/expense-general.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import * as XLSX from 'xlsx';
+import { PrqView } from './prq-view/prq-view';
 
 @Component({
   selector: 'app-pickup-request-list',
-  imports: [CommonModule, AddPrq, PaginationModule, FormsModule, PrqDetail,AddPrqPopup],
+  imports: [CommonModule, AddPrq, PaginationModule, FormsModule, PrqDetail,AddPrqPopup,PrqView],
   templateUrl: './pickup-request-list.html',
   styleUrl: './pickup-request-list.scss',
 })
@@ -30,6 +31,7 @@ export class PickupRequestList {
   @ViewChild('addPRQ') addPRQ!: AddPrq;
   @ViewChild('addPrqPopup') addPrqPopup!: AddPrqPopup;
   @ViewChild('PrqDetail') PrqDetail!: PrqDetail;
+  @ViewChild('PrqView') PrqView!: PrqView;
   public isExportLoading: boolean = false;
   public isLoading: boolean = false;
   
@@ -63,10 +65,8 @@ export class PickupRequestList {
     this.addPrqPopup.showPopup(prqNo);
   }
 
-  openPRQDetailModal(indentNo?: any) {
-    this.PrqDetail.showPopup(() => {
-      return this.PRQService.GetPRQDetails(indentNo);
-    });
+  openPRQDetailModal(PRQNo?: any) {
+    this.PrqView.showPopup(PRQNo);
   }
 
   ngOnDestroy(): void {
@@ -94,7 +94,7 @@ export class PickupRequestList {
       ToDate: this.formatDate(this.commonService.globalFilters.endDate),
       BaseLocation: this.identityService.getBranchCode(),
       UserName:this.identityService.getUserName(),
-      Status:"",
+      Status:"All",
       PageNo:this.commonService.globalFilters.Page.toString(),
       PageSize:this.commonService.globalFilters.PageSize.toString(),
       IsDownload:"0"

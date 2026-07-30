@@ -55,7 +55,7 @@
           <tr *ngFor="let data of PRQList" class="border-bottom">
             <!-- PRQ NO. -->
             <td class="px-3 py-2">
-              <span class="badge bg-light text-dark border py-1 px-2 font-monospace fw-semibold" style="font-size: 11px;">
+              <span class="badge bg-light text-dark border py-1 px-2 font-monospace fw-semibold" style="font-size: 11px;cursor: pointer;" (click)="openPRQDetailModal(data.PRQNo)">
                 {{ data.PRQNo || '--' }}
               </span>
             </td>
@@ -122,11 +122,11 @@
             <!-- ACTION -->
             <td class="px-3 py-2 text-center">
               <div style="display: flex;gap:5px;">
-                <!-- <button type="button" class="btn btn-danger px-2 py-1 fw-semibold rounded-1"
+                <button type="button" class="btn btn-danger px-2 py-1 fw-semibold rounded-1"
                   style="font-size: 11px; background-color: #0369a1; border-color: #0369a1;"
-                  (click)="openPRQDetailModal(data.indentNo)">
+                  (click)="openPRQDetailModal(data.PRQNo)">
                   View
-                </button> -->
+                </button>
                 <button type="button" class="btn btn-danger px-2 py-1 fw-semibold rounded-1"
                  style="font-size: 11px; background-color: #F59E0B; border-color: #fff;" [disabled]="data.PRQStatus === 'Cancelled'"
                  (click)="selectPrqType(data.PRQNo)">
@@ -162,6 +162,7 @@
 <app-add-prq #addPRQ (dataEmitter)="onDataEmitter()"></app-add-prq>
 <app-add-prq-popup #addPrqPopup (dataEmitter)="onDataEmitter()"></app-add-prq-popup>
 <app-prq-detail #PrqDetail></app-prq-detail>
+<app-prq-view #PrqView></app-prq-view>
 
 <!-- Cancel PRQ Modal -->
 <ng-template #cancelPrqModal>
