@@ -85,9 +85,9 @@
                             <label
                                 style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">PRQ
                                 Date</label>
-                            <input type="text" formControlName="prqDate" readonly
-                                style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;background:#f8fafc;font-size:13px;cursor:not-allowed"
-                                bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid-field': prqForm.get('prqDate')?.invalid && prqForm.get('prqDate')?.touched}">
+                            <input type="text" formControlName="prqDate" [class.disabled-input]="true"
+                                style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;background:#f8fafc;font-size:13px;cursor:not-allowed;pointer-events:none;"
+                                bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [isDisabled]="true" [ngClass]="{'is-invalid-field': prqForm.get('prqDate')?.invalid && prqForm.get('prqDate')?.touched}">
                             <div *ngIf="prqForm.get('prqDate')?.invalid && prqForm.get('prqDate')?.touched" class="error-msg">This field is required</div>
                         </div>
                         <div></div>
