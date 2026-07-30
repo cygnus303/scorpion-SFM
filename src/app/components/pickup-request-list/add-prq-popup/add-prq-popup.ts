@@ -371,6 +371,10 @@ export class AddPrqPopup {
           this.getTransportModes('', transportTypesStr)
 
           this.serviceData = serviceTypesStr.split(',').map((s: string) => ({ name: s.trim(), value: s.trim() })).filter((s: any) => s.value !== '');
+
+          if (this.serviceData.length === 1) {
+            this.prqForm.patchValue({ service_Type: this.serviceData[0].value });
+          }
         }
       },
       error: (response: any) => {

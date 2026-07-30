@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild, TemplateRef, viewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Output, ViewChild, TemplateRef, viewChild } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { CommonModule } from '@angular/common';
 import { AddPrq } from './add-prq/add-prq';
@@ -34,6 +34,7 @@ export class PickupRequestList {
   @ViewChild('PrqView') PrqView!: PrqView;
   public isExportLoading: boolean = false;
   public isLoading: boolean = false;
+  @Output() prqSubmitted = new EventEmitter<void>();
   
   // Cancel Modal properties
   public cancelModalRef?: BsModalRef;
@@ -140,6 +141,7 @@ export class PickupRequestList {
   onDataEmitter() {
     // this.getPRQCardList();
     this.getPRQList();
+    this.prqSubmitted.emit();
   }
 
   downloadPRQ() {

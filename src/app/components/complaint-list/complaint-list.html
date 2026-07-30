@@ -262,7 +262,7 @@
   </div>
 
   <div *ngIf="activeTab === 'prq'">
-    <app-pickup-request-list></app-pickup-request-list>
+    <app-pickup-request-list (prqSubmitted)="getPRQCardList()"></app-pickup-request-list>
   </div>
 
   <!-- Enquiry Section (future) -->
