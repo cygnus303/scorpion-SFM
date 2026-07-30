@@ -35,6 +35,14 @@ export class ExpenseApproval {
   public selectAll: boolean = false;
   public selectedAny: boolean = false;
   public approvalCard: any;
+  public selectedCardFilter: string = 'PENDING';
+    public recordOptions = [
+    { label: '5', value: 5 },
+    { label: '10', value: 10 },
+    { label: '15', value: 15 },
+    { label: '20', value: 20 },
+    { label: 'All', value: 100000 }
+  ];
   @ViewChild('expenseDetail') expenseDetail!: ExpenseDetail;
   @ViewChild('Templatepod') Templatepod!: TemplateRef<any>;
   @ViewChild('TemplateMultipleApproval') TemplateMultipleApproval!: TemplateRef<any>;
@@ -49,7 +57,7 @@ export class ExpenseApproval {
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getExpenses();
-      this.getapprovalCard();
+      // this.getapprovalCard();
     });
     this.commonService.getUsers()
   }
@@ -59,23 +67,29 @@ export class ExpenseApproval {
     this.destroy$.complete();
   }
 
-  getExpenses(page: number = this.commonService.globalFilters.Page) {
+    getExpenses(page: number = this.commonService.globalFilters.Page) {
     this.commonService.globalFilters.Page = page;
+    const filterJson={
+      "Page":this.commonService.globalFilters.Page.toString(),
+      "PageSize":this.commonService.globalFilters.PageSize.toString(),
+      "SearchFilter":this.commonService.globalFilters.searchText,
+      "FilterUserId":this.selectedUser || '',
+      "CardFilter": this.selectedCardFilter
+    }
+
     const data = {
-      Page: this.commonService.globalFilters.Page.toString(),
-      PageSize: this.commonService.globalFilters.PageSize.toString(),
-      SearchFilter: this.commonService.globalFilters.searchText,
-      FilterUserId:this.selectedUser || '',
+      filterJson:JSON.stringify(filterJson),
       startDate: this.commonService.globalFilters.startDate,
       endDate: this.commonService.globalFilters.endDate,
       userId: this.commonService.globalFilters.UserID.toString(),
     }
     this.loading = true;
-    this.expenseService.getExpenseApprovalList(data).subscribe({
-      next: (response) => {
+    this.expenseService.expenseApprovalList(data).subscribe({
+      next: (response:any) => {
         if (response) {
-          this.expenses = response.data;
-          this.totalItems = response.totalCount;
+          this.expenses = response.data.data;
+          this.approvalCard = response.data.cardSummary;
+          this.totalItems = response.data.pagination.totalRecords;
         }
         this.loading = false;
       },
@@ -84,6 +98,11 @@ export class ExpenseApproval {
         this.loading = false;
       },
     });
+  }
+
+  setCardFilter(filter: string) {
+    this.selectedCardFilter = filter;
+    this.getExpenses(1);
   }
 
   onPageChange(event: any): void {
@@ -153,7 +172,7 @@ export class ExpenseApproval {
           this.sweetAlertService.success(response.data.message);
           this.onCancel();
           this.getExpenses()
-          this.getapprovalCard();
+          // this.getapprovalCard();
         } else {
           this.sweetAlertService.error(response?.error?.message || 'Something went wrong');
         }
@@ -184,7 +203,7 @@ export class ExpenseApproval {
           this.modalRef.hide();
           // Refresh expense list
           this.getExpenses();
-          this.getapprovalCard();
+          // this.getapprovalCard();
         } else {
           this.sweetAlertService.error(response.error?.message);
         }
@@ -308,5 +327,10 @@ export class ExpenseApproval {
     this.expenseDetail.showPopup(() => {
       return this.expenseService.getExpenseDetails(data.attendeeCode, this.selectedUser || this.commonService.globalFilters.UserID.toString());
     });
+  }
+
+    onPageSizeChange() {
+      this.commonService.globalFilters.Page=1;
+      this.getExpenses()
   }
 }
