@@ -87,4 +87,9 @@ export class ExpenseService {
     return this.apiHandlerService.Post('Expense/AddTravelExpense', formData);
   }
 
+  expenseApprovalList(params:any){
+    return this.apiHandlerService.Get(`Expense/NewGetExpenseApprovalList?userId=${params.userId}&filterJson=${params.filterJson}&startdate=${params.startDate}&endDate=${params.endDate}`);
+
+  }
+
 }
