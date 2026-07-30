@@ -2,7 +2,7 @@ import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
 import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { CommonService } from '../../shared/services/common.service';
 import { ExpenseResponse } from '../../shared/models/expense.model';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { ExpenseService } from '../../shared/services/expense.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -34,6 +34,8 @@ export class ExpenseApproval {
   public selectedIds: Set<any> = new Set();
   public selectAll: boolean = false;
   public selectedAny: boolean = false;
+  public listSubscription?: Subscription;
+
   public approvalCard: any;
   public selectedCardFilter: string = 'PENDING';
     public recordOptions = [
@@ -68,6 +70,7 @@ export class ExpenseApproval {
   }
 
     getExpenses(page: number = this.commonService.globalFilters.Page) {
+       if (this.listSubscription) { this.listSubscription.unsubscribe(); }
     this.commonService.globalFilters.Page = page;
     const filterJson={
       "Page":this.commonService.globalFilters.Page.toString(),
@@ -84,7 +87,7 @@ export class ExpenseApproval {
       userId: this.commonService.globalFilters.UserID.toString(),
     }
     this.loading = true;
-    this.expenseService.expenseApprovalList(data).subscribe({
+    this.listSubscription =this.expenseService.expenseApprovalList(data).subscribe({
       next: (response:any) => {
         if (response) {
           this.expenses = response.data.data;
