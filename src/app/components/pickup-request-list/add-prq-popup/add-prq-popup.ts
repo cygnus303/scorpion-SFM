@@ -62,6 +62,7 @@ export class AddPrqPopup {
   public serviceData: any[] = [];
   public PRQNo: any;
   public vehicleCountList = Array.from({ length: 10 }, (_, i) => ({ id: i + 1, text: (i + 1).toString() }));
+  public minDate = new Date();
   public serviceTypes = [
     { name: 'LTL', value: 'LTL' },
     { name: 'FTL', value: 'FTL' }
@@ -236,11 +237,15 @@ export class AddPrqPopup {
   }
 
   initForm() {
+    const now = new Date();
+    const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
     this.prqForm = new FormGroup({
       indentNo: new FormControl(null),
       groupCode: new FormControl(null),
       customerCode: new FormControl(null, Validators.required),
       prqDate: new FormControl(new Date(), Validators.required),
+      prqTime: new FormControl(currentTime, Validators.required),
       pkgs: new FormControl(null, Validators.required),
       fleetType: new FormControl(null),
       weight: new FormControl('', Validators.required),
@@ -262,7 +267,7 @@ export class AddPrqPopup {
       ewayBillDate: new FormControl(''),
       ewayExpDate: new FormControl(''),
       invoiceNo: new FormControl(''),
-      invoiceDate: new FormControl(''),
+      invoiceDate: new FormControl(null),
       invoiceValue: new FormControl(''),
       consignorName: new FormControl(''),
       consigneeName: new FormControl(''),
@@ -352,7 +357,7 @@ export class AddPrqPopup {
     this.expenseGeneralService.getGeneralMaster(searchText, 'TRN').subscribe({
       next: (response: any) => {
         if (response) {
-          this.transportModes = response.data.filter((item: any) => mode.includes(item.codeDesc));
+          this.transportModes = response.data.filter((item: any) => mode?.includes(item.codeDesc) || mode?.includes(item.codeId));
         }
       },
       error: (response: any) => {
@@ -361,13 +366,20 @@ export class AddPrqPopup {
     });
   }
 
-  getContract(customerId?:any) {
+  getContract(customerId?: any) {
     // const custCode = 'C00120010';
     this.prqService.getContractDetail(customerId).subscribe({
       next: (response: any) => {
         if (response && response.data && response.data.length > 0) {
           const serviceTypesStr = response.data[0].serviceTypes || '';
           const transportTypesStr = response.data[0].transportTypes || '';
+          if (serviceTypesStr.trim() === '' && transportTypesStr.trim() === '') {
+            this.sweetAlertService.info('Contract details are not available for this customer. Cannot proceed with PRQ generation.');
+            this.prqForm.patchValue({
+              customerCode: null,
+            });
+            return;
+          }
           this.getTransportModes('', transportTypesStr)
 
           this.serviceData = serviceTypesStr.split(',').map((s: string) => ({ name: s.trim(), value: s.trim() })).filter((s: any) => s.value !== '');
@@ -414,22 +426,33 @@ export class AddPrqPopup {
       next: (response: any) => {
         if (response && response.Table1 && response.Table1.length > 0) {
           const data = response.Table1[0];
+          this.getTransportModes('', data.TransitMode)
           if (data.CustomerCode) this.customerData = [{ id: data.CustomerCode, text: data.CustomerName }];
-          if (data.TransitMode) this.transportModes = [{ codeId: data.TransitMode, codeDesc: data.TransitMode }];
+          // if (data.TransitMode) this.transportModes = [{ codeId: data.TransitMode, codeDesc: data.TransitMode }];
           if (data.FTLType) this.fleetTypeData = [{ codeId: data.FTLType, codeDesc: data.FTLType }];
           if (data.PickupPincode) this.pincodeData = [{ Value: data.PickupPincode, Text: data.PickupPincode }];
           if (data.DeliveryPincode) this.destPincodeData = [{ Value: data.DeliveryPincode, Text: data.DeliveryPincode }];
           if (data.ConsignorPincode) this.consignorPincodeData = [{ Value: data.ConsignorPincode, Text: data.ConsignorPincode }];
           if (data.ConsigneePincode) this.consigneePincodeData = [{ Value: data.ConsigneePincode, Text: data.ConsigneePincode }];
 
+          let parsedDate = new Date();
+          let parsedTime = `${parsedDate.getHours().toString().padStart(2, '0')}:${parsedDate.getMinutes().toString().padStart(2, '0')}`;
+          if (data.PRQDate) {
+            parsedDate = new Date(data.PRQDate);
+            parsedTime = `${parsedDate.getHours().toString().padStart(2, '0')}:${parsedDate.getMinutes().toString().padStart(2, '0')}`;
+          }
           setTimeout(() => {
             // Map the available fields from ReportId 222
             this.prqForm.patchValue({
               groupCode: data.PRQNo,
-              prqDate: data.PRQDate ? new Date(data.PRQDate) : new Date(),
+              prqDate: parsedDate,
+              prqTime: parsedTime,
               service_Type: data.ServiceType,
               customerCode: data.CustomerCode,
               fromCity: data.FromCity,
+              invoiceNo: data.InvoiceNo,
+              invoiceDate: data.InvoiceDate ? new Date(data.InvoiceDate) : null,
+              invoiceValue: data.InvoiceValue,
               customer_Name: data.CustomerName,
               pkgs: data.PKGS,
               weight: data.ApproxWeight,
@@ -458,12 +481,21 @@ export class AddPrqPopup {
   }
 
 
-
   onSubmit() {
     if (this.prqForm.valid) {
       const formData = this.prqForm.getRawValue();
       let branchCode = this.identityService.getBranchCode();
       let finyear = this.identityService.getFinYear();
+      let prqDateStr = '';
+      if (formData.prqDate) {
+        const d = new Date(formData.prqDate);
+        if (formData.prqTime) {
+          const [hours, minutes] = formData.prqTime.split(':');
+          d.setHours(Number(hours), Number(minutes), 0, 0);
+        }
+        prqDateStr = this.datePipe.transform(d, 'yyyy-MM-dd HH:mm:ss.000') || '';
+      }
+
       const payload = {
         customerCode: formData.customerCode || '',
         customerName: formData.customer_Name || '',
@@ -483,7 +515,7 @@ export class AddPrqPopup {
         eWayBillDateStr: formData.ewayBillDate || '',
         eWayBillExpiryDateStr: formData.ewayExpDate || '',
         invoiceNo: formData.invoiceNo || '',
-        invoiceDateStr: formData.invoiceDate || '',
+        invoiceDateStr: formData.invoiceDate ? (this.datePipe.transform(formData.invoiceDate, 'dd/MM/yyyy') || '') : '',
         invoiceValue: Number(formData.invoiceValue) || 0,
         consignorName: formData.consignorName || '',
         consigneeName: formData.consigneeName || '',
@@ -491,12 +523,12 @@ export class AddPrqPopup {
         consigneeAddress: formData.consigneeAddress || '',
         consignorPincode: formData.consignorPin?.toString() || '',
         consigneePincode: formData.consigneePin?.toString() || '',
-        prqDate: formData.prqDate ||'',
+        prqDate: prqDateStr,
         baseLocationCode: branchCode || '',
         baseUserName: this.commonService.globalFilters?.UserID?.toString() || '',
         baseFinYear: finyear,
         type: formData.groupCode ? 'E' : '',
-        prqNo: formData.groupCode ||''
+        prqNo: formData.groupCode || '',
       };
 
       this.prqService.submitPRQ(payload).subscribe({
@@ -505,6 +537,14 @@ export class AddPrqPopup {
             this.sweetAlertService.success(`${res.data.message} : <b style="color:#0d6efd">${res.data.id}</b>`);
             this.dataEmitter.emit();
             this.onClose();
+            const payload = {
+              "FilterJson": {
+                "ReportId": "226",
+                "PRQNo": res.data.id,
+                "PRQDt": prqDateStr
+              }
+            };
+            this.expenseGeneralService.getDynamicData(payload).subscribe({ next: (response: any) => { } });
           } else {
             this.sweetAlertService.error(res.message);
           }

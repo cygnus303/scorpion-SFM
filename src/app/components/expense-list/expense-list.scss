@@ -1,0 +1,13 @@
+.kpi {
+  transition: all 0.2s ease-in-out;
+  opacity: 0.6;
+}
+
+.kpi:hover {
+  opacity: 0.8;
+}
+
+.kpi.active {
+  opacity: 1;
+  box-shadow: inset 0 0 0 2px var(--kc), 0 2px 4px rgba(0,0,0,0.05);
+}

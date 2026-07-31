@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Output, ViewChild, TemplateRef, viewChild } from '@angular/core';
 import { saveAs } from 'file-saver';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AddPrq } from './add-prq/add-prq';
 import { PrqService } from '../../shared/services/prq-service';
 import { CommonService } from '../../shared/services/common.service';
@@ -94,7 +94,7 @@ export class PickupRequestList {
       FromDate: this.formatDate(this.commonService.globalFilters.startDate),
       ToDate: this.formatDate(this.commonService.globalFilters.endDate),
       BaseLocation: this.identityService.getBranchCode(),
-      UserName:this.identityService.getUserName(),
+      UserName:this.commonService.globalFilters.UserID.toString(),
       Status:"All",
       PageNo:this.commonService.globalFilters.Page.toString(),
       PageSize:this.commonService.globalFilters.PageSize.toString(),
@@ -151,8 +151,8 @@ export class PickupRequestList {
       FromDate: this.formatDate(this.commonService.globalFilters.startDate),
       ToDate: this.formatDate(this.commonService.globalFilters.endDate),
       BaseLocation: this.identityService.getBranchCode(),
-      UserName:this.identityService.getUserName(),
-      Status:"",
+      UserName:this.commonService.globalFilters.UserID.toString(),
+      Status:"All",
       PageNo:this.commonService.globalFilters.Page.toString(),
       PageSize:this.commonService.globalFilters.PageSize.toString(),
       IsDownload:"1"
@@ -162,7 +162,13 @@ export class PickupRequestList {
     this.expenseGeneralService.getDynamicData(payload).subscribe({
       next: (response: any) => {
         if (response && response.Table2 && response.Table2.length > 0) {
-          const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(response.Table2);
+          const datePipe = new DatePipe('en-US');
+          const formattedData = response.Table2.map((item: any) => ({
+            ...item,
+            PRQDate: item.PRQDate ? datePipe.transform(item.PRQDate, 'dd/MM/yyyy') : item.PRQDate,
+            PlacementDate: item.PlacementDate ? datePipe.transform(item.PlacementDate, 'dd/MM/yyyy') : item.PlacementDate
+          }));
+          const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(formattedData);
           const workbook: XLSX.WorkBook = {
             Sheets: { 'PRQ Report': worksheet },
             SheetNames: ['PRQ Report'],

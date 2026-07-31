@@ -170,3 +170,10 @@
           max-height: 650px !important;
     }
   }
+
+.disabled-input {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.8;
+  background-color: #e9ecef !important;
+}

@@ -12,8 +12,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ExpenseDetail } from './expense-detail/expense-detail';
 import { AddExpense } from './add-expense/add-expense';
 import { SweetAlertService } from '../../shared/services/sweet-alert.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, Subscription } from 'rxjs';
 import { ExpenseClaim } from './expense-claim/expense-claim';
+import { ExpenseGeneralService } from '../../shared/services/expense-general.service';
 
 @Component({
   selector: 'app-expense-list',
@@ -39,6 +40,15 @@ export class ExpenseList implements OnInit {
   public isExportLoading = false;
   public expenseCard: any;
   private destroy$ = new Subject<void>();
+    public recordOptions = [
+    { label: '5', value: 5 },
+    { label: '10', value: 10 },
+    { label: '15', value: 15 },
+    { label: '20', value: 20 },
+    { label: 'All', value: 100000 }
+  ];
+  public selectedCardStatus: string = 'Total';
+  private expenseSubscription?: Subscription;
 
   @ViewChild('expenseDetail') expenseDetail!: ExpenseDetail;
   @ViewChild('addExpense') addExpense!: AddExpense;
@@ -47,12 +57,13 @@ export class ExpenseList implements OnInit {
   constructor(private sweetAlertService: SweetAlertService, private expenseService: ExpenseService,
     private exportService: ExportService,
     public commonService: CommonService,
+    private expenseGeneralService: ExpenseGeneralService
   ) { }
 
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getExpenses();
-      this.onExpenseCard();
+      // this.onExpenseCard();
     });
   }
 
@@ -63,47 +74,81 @@ export class ExpenseList implements OnInit {
 
   getExpenses(page: number = this.commonService.globalFilters.Page) {
     this.commonService.globalFilters.Page = page;
-    const data = {
-      Page: this.commonService.globalFilters.Page.toString(),
-      PageSize: this.commonService.globalFilters.PageSize.toString(),
-      SearchFilter: this.commonService.globalFilters.searchText,
-      // startDate: this.commonService.globalFilters.startDate,
-      // endDate: this.commonService.globalFilters.endDate,
-      userId: this.commonService.globalFilters.UserID.toString(),
+    const payload = {
+    "FilterJson": {
+       ReportId:'9',
+       UserId: this.commonService.globalFilters.UserID.toString(),
+       PageNo:this.commonService.globalFilters.Page.toString(),
+       PageSize:this.commonService.globalFilters.PageSize.toString(),
+       SearchFilter: this.commonService.globalFilters.searchText,
+       CardStatus: this.selectedCardStatus,
+       Export: 0,
+       }
     }
+    
+    if (this.expenseSubscription) {
+      this.expenseSubscription.unsubscribe();
+    }
+
     this.loading = true;
-    this.expenseService.getExpenseList(data).subscribe({
-      next: (response) => {
-        if (response) {
-          this.expenses = response.data;
-          this.totalItems = response.totalCount;
-        }
+    this.expenseSubscription = this.expenseGeneralService.getDynamicData(payload).subscribe({
+      next: (response: any) => {
         this.loading = false;
+        this.expenseCard = response.Table1[0];
+        this.expenses = response.Table3;
+        this.totalItems = response.Table2[0].TotalRecords;
       },
-      error: (response: any) => {
-        this.sweetAlertService.error(response);
+      error: () => {
         this.loading = false;
-      },
+      }
     });
+
+     // const data = {
+    //   Page: this.commonService.globalFilters.Page.toString(),
+    //   PageSize: this.commonService.globalFilters.PageSize.toString(),
+    //   SearchFilter: this.commonService.globalFilters.searchText,
+    //   // startDate: this.commonService.globalFilters.startDate,
+    //   // endDate: this.commonService.globalFilters.endDate,
+    //   userId: this.commonService.globalFilters.UserID.toString(),
+    // }
+    // this.expenseService.getExpenseList(data).subscribe({
+    //   next: (response) => {
+    //     if (response) {
+    //       this.expenses = response.data;
+    //       this.totalItems = response.totalCount;
+    //     }
+    //     this.loading = false;
+    //   },
+    //   error: (response: any) => {
+    //     this.sweetAlertService.error(response);
+    //     this.loading = false;
+    //   },
+    // });
   }
 
-  onExpenseCard() {
-    const params = {
-      // startDate: this.commonService.globalFilters.startDate,
-      // endDate: this.commonService.globalFilters.endDate,
-      userId: this.commonService.globalFilters.UserID.toString(),
-    }
-    this.expenseService.expenseCard(params).subscribe({
-      next: (response: any) => {
-        if (response) {
-          this.expenseCard = response.data;
-        }
-      },
-      error: (response: any) => {
-        this.sweetAlertService.error(response);
-      },
-    });
+  onCardClick(status: string) {
+    this.selectedCardStatus = status;
+    this.commonService.globalFilters.Page = 1;
+    this.getExpenses();
   }
+
+  // onExpenseCard() {
+  //   const params = {
+  //     // startDate: this.commonService.globalFilters.startDate,
+  //     // endDate: this.commonService.globalFilters.endDate,
+  //     userId: this.commonService.globalFilters.UserID.toString(),
+  //   }
+  //   this.expenseService.expenseCard(params).subscribe({
+  //     next: (response: any) => {
+  //       if (response) {
+  //         this.expenseCard = response.data;
+  //       }
+  //     },
+  //     error: (response: any) => {
+  //       this.sweetAlertService.error(response);
+  //     },
+  //   });
+  // }
 
   onPageChange(event: any): void {
     this.getExpenses(event.page);
@@ -111,7 +156,12 @@ export class ExpenseList implements OnInit {
 
   onDataEmitter() {
     this.getExpenses();
-    this.onExpenseCard();
+    // this.onExpenseCard();
+  }
+
+   onPageSizeChange() {
+      this.commonService.globalFilters.Page=1;
+      this.getExpenses()
   }
 
   exportExpenses() {
