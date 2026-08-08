@@ -88,6 +88,7 @@ export class ComplaintList {
         "ToDate": this.formatDate(this.commonService.globalFilters.endDate),
         "BaseLocation":this.identityService.getBranchCode(),
         "UserName": this.identityService.getUserName(),
+        "SearchText":this.commonService.globalFilters.searchText || "",
       }
     };
     this.expenseGeneralService.getDynamicData(payload).subscribe({

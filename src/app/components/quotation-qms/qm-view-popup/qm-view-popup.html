@@ -1,0 +1,486 @@
+<ng-template #qmViewTemplate>
+  <div class="qm-report-modal">
+    <!-- Header -->
+    <div class="modal-header">
+      <h2 class="modal-title">Quotation Agreement Report — Kelvin Auto Parts</h2>
+      <div class="header-actions">
+        <button class="btn-print">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Print / PDF
+        </button>
+        <button class="btn-close" (click)="closePopup()">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 1L1 13M1 1L13 13" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Close
+        </button>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+      <!-- Report Header -->
+      <div class="report-header">
+        <div class="logo">
+          <i>Scorpion</i>
+        </div>
+        <div class="company-info">
+          <h3>SCORPION EXPRESS PVT LTD</h3>
+          WORLI MUMBAI<br>
+          U51109BR2006PTC012270<br>
+          8264508385<br>
+          info@scorpiongroup.in
+        </div>
+      </div>
+
+      <!-- Basic Info Table -->
+      <table class="basic-info-table">
+        <tr>
+          <td class="label-cell">Quot. No:</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="label-cell">Quot Date:</td>
+          <td>6 Aug 2026</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Contract Signing Location:</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="label-cell">Prospect Code:</td>
+          <td>PR000000695</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Prospect Name:</td>
+          <td>KELVIN AUTO PARTS</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Address:</td>
+          <td>Plot 21, Industrial Area, Mumbai, Mumbai, Maharashtra, 400001</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Email ID:</td>
+          <td>kelvinautoparts@example.com</td>
+        </tr>
+      </table>
+
+      <!-- Report Intro -->
+      <div class="report-content">
+        <div class="subject">Subject : Comprehensive Express Cargo Service Proposal from Scorpion Express Pvt Ltd</div>
+        <div class="salutation">Dear Mr: KELVIN AUTO PARTS</div>
+        <p>Thank you for considering Scorpion Express Pvt Ltd for your logistics needs. As a key division of the Scorpion Group, which specializes in Logistics and Pharma Packaging, we are pleased to submit our competitive quote for your express cargo requirements across the specified transport modes.</p>
+        <p>Our Door-To-Door service effectively links numerous destinations across more than 35 states and union territories. We are backed by a robust network, cutting edge IT infrastructure, and extensive warehousing facilities throughout India. To guarantee the safe and efficient transport of your goods, we utilize all-weather, containerized vehicles on over 200 routes.</p>
+        <p>Our advanced IT systems enhance shipment management by offering:<br>
+        1) Real-time consignment tracking for up-to-the-minute shipment updates.<br>
+        2) Automated management information systems (MIS) for streamlined data processing.<br>
+        3) Immediate access to proof of delivery (POD) via our mobile and web applications.<br>
+        4) Easy online pickup request capabilities to facilitate your logistics planning.</p>
+        <p>We are confident that our proposal aligns with your high standards for service excellence. Should you require any additional information or have questions, please feel free to reach out. We eagerly await your confirmation and are committed to providing the exceptional service that Scorpion Express is known for.</p>
+        <p>Warm regards,<br>Scorpion Express Pvt Ltd</p>
+      </div>
+
+      <!-- COMPANY / KYC INFORMATION -->
+      <div class="section-title">COMPANY / KYC INFORMATION</div>
+      <table class="data-table">
+        <tr><td class="label-col">Legal Business Name:</td><td>KELVIN AUTO PARTS</td></tr>
+        <tr><td class="label-col">GSTIN No.:</td><td>27KELVI1629F1ZX</td></tr>
+        <tr><td class="label-col">Address:</td><td>Plot 21, Industrial Area, Mumbai, Mumbai, Maharashtra, 400001</td></tr>
+        <tr><td class="label-col">State:</td><td>MAHARASHTRA</td></tr>
+        <tr><td class="label-col">City:</td><td>MUMBAI</td></tr>
+        <tr><td class="label-col">Pin:</td><td>400001</td></tr>
+        <tr><td class="label-col">E-Mail ID:</td><td>kelvinautoparts@example.com</td></tr>
+        <tr><td class="label-col">Phone:</td><td></td></tr>
+        <tr><td class="label-col">Business Type:</td><td></td></tr>
+        <tr><td class="label-col">Designation:</td><td></td></tr>
+        <tr><td class="label-col">Estimated Monthly Business Volume Rs:</td><td></td></tr>
+        <tr><td class="label-col">Industry Type:</td><td></td></tr>
+      </table>
+
+      <!-- COMMERCIAL INFORMATION — ANNEXURE -->
+      <div class="section-title">COMMERCIAL INFORMATION — ANNEXURE</div>
+      <table class="data-table">
+        <tr><td class="label-col">Service Type:</td><td>LTL</td></tr>
+        <tr><td class="label-col">Transit Mode:</td><td>AIR</td></tr>
+        <tr><td class="label-col">Minimum Chargeable Weight</td><td>0.00</td></tr>
+        <tr><td class="label-col">Minimum Basis Freight</td><td>500.00</td></tr>
+        <tr><td class="label-col">GST on Transit Mode</td><td>GST @ 18%</td></tr>
+        <tr><td class="label-col">Rate Type:</td><td>Flat(in RS), Per Piece, Per PKG, Per TON, Per KG, % of Invoice</td></tr>
+        <tr><td class="label-col">Zone Type:</td><td>Old Zone</td></tr>
+        <tr><td class="label-col">Charge Type:</td><td>City - City</td></tr>
+        <tr><td class="label-col">Pick Up & Delivery Type:</td><td>DOOR PICKUP TO DOOR DELIVERY</td></tr>
+        <tr><td class="label-col">Payment Information</td><td>Owner Risk</td></tr>
+        <tr><td class="label-col">Free Storage Days</td><td>7</td></tr>
+        <tr><td class="label-col">Credit Days</td><td>15</td></tr>
+        <tr><td class="label-col">Maximum Deduction</td><td>10000</td></tr>
+        <tr><td class="label-col">GST Billing Preference</td><td>Origin</td></tr>
+        <tr><td class="label-col">Bill Generation Cycle</td><td>7 Days</td></tr>
+        <tr><td class="label-col">POD Type</td><td>Without POD</td></tr>
+        <tr><td class="label-col">Bill Submission Type</td><td>Physical Copy</td></tr>
+      </table>
+
+      <!-- FREIGHT CHARGES -->
+      <div class="section-title">FREIGHT CHARGES</div>
+      <table class="data-table">
+        <tr>
+          <th>From</th>
+          <th>To</th>
+          <th>Rate</th>
+          <th>TAT</th>
+        </tr>
+        <tr>
+          <td>ABHANPUR</td>
+          <td>ABHAYPUR</td>
+          <td>70.00 / Per KG</td>
+          <td>4</td>
+        </tr>
+      </table>
+
+      <!-- DPH BILLING CHARGES -->
+      <div class="section-title">DPH BILLING CHARGES</div>
+      <table class="data-table">
+        <tr><td class="label-col">Current Diesel Rate</td><td>0.00</td></tr>
+        <tr><td class="label-col">Diesel Component in Basic Freight</td><td>50.00</td></tr>
+        <tr><td class="label-col">Increase Applicable / Decrease Applicable — Range</td><td>3.00 / 1.50%</td></tr>
+      </table>
+
+      <!-- OTHER CHARGES -->
+      <div class="section-title">OTHER CHARGES</div>
+      <table class="data-table">
+        <tr>
+          <th>Charge Name</th>
+          <th>Applicable Y/N</th>
+          <th>Rate Type</th>
+          <th>Rate</th>
+          <th>Minimum</th>
+        </tr>
+        <tr>
+          <td>CFT Ratio</td>
+          <td>Yes</td>
+          <td>INCHES</td>
+          <td>7.25</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Demmurage Charge</td>
+          <td>Yes</td>
+          <td>% of Invoice</td>
+          <td>0.5</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>FSC Charge</td>
+          <td>Yes</td>
+          <td></td>
+          <td>16</td>
+          <td>0</td>
+        </tr>
+      </table>
+
+      <!-- ODA CHARGES -->
+      <div class="section-title">ODA CHARGES</div>
+      <table class="data-table">
+        <tr>
+          <th>ODA Category</th>
+          <th>Transit Days</th>
+          <th>Min. Charge</th>
+          <th>Slab 1</th>
+          <th>Slab 2</th>
+          <th>Slab 3</th>
+          <th>Slab 4</th>
+          <th>Slab 5</th>
+          <th>Slab 6</th>
+        </tr>
+        <tr>
+          <td>Category A</td>
+          <td>1</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+        </tr>
+        <tr>
+          <td>Category B</td>
+          <td>2</td>
+          <td>1500.00</td>
+          <td>4.00</td>
+          <td>3.75</td>
+          <td>3.50</td>
+          <td>3.50</td>
+          <td>3.00</td>
+          <td>2.50</td>
+        </tr>
+        <tr>
+          <td>Category C</td>
+          <td>3</td>
+          <td>2000.00</td>
+          <td>4.75</td>
+          <td>4.50</td>
+          <td>4.00</td>
+          <td>4.00</td>
+          <td>3.75</td>
+          <td>3.25</td>
+        </tr>
+        <tr>
+          <td>Category D</td>
+          <td>4</td>
+          <td>3000.00</td>
+          <td>5.00</td>
+          <td>5.00</td>
+          <td>5.00</td>
+          <td>5.00</td>
+          <td>5.00</td>
+          <td>5.00</td>
+        </tr>
+        <tr>
+          <td>Category E</td>
+          <td>5</td>
+          <td>3000.00</td>
+          <td>5.00</td>
+          <td>5.00</td>
+          <td>5.00</td>
+          <td>5.00</td>
+          <td>5.00</td>
+          <td>5.00</td>
+        </tr>
+      </table>
+
+      <!-- NEW ZONES — STATES / CITIES -->
+      <div class="section-title">NEW ZONES — STATES / CITIES</div>
+      <table class="data-table">
+        <tr><td class="label-col">CENTRAL</td><td>BHOPAL, MANDIDEEP, PITHAMPUR, DEWAS, INDORE, RAIPUR, NAGPUR</td></tr>
+        <tr><td class="label-col">CENTRAL2</td><td>CHHATTISGARH, MADHYA PRADESH</td></tr>
+        <tr><td class="label-col">EAST 1</td><td>KOLKATA, PATNA, RANCHI, BHUBANESWAR, CUTTACK</td></tr>
+        <tr><td class="label-col">EAST 2</td><td>SILIGURI, BIHAR, ODISHA, JHARKHAND, WEST BENGAL</td></tr>
+        <tr><td class="label-col">EAST 3</td><td>GUWAHATI, SIKKIM</td></tr>
+        <tr><td class="label-col">NORTH EAST</td><td>ARUNACHAL PRADESH, ASSAM, MANIPUR, MEGHALAYA, MIZORAM, NAGALAND, TRIPURA</td></tr>
+        <tr><td class="label-col">NORTH 1</td><td>LUCKNOW, SONIPAT, DELHI, FARIDABAD, GURGAON, GHAZIABAD, NOIDA, SAHIBABAD, JAIPUR</td></tr>
+        <tr><td class="label-col">NORTH 2</td><td>CHANDIGARH, LUDHIANA, AMBALA, ZIRAKPUR, YAMUNANAGAR, RAJPURA, PANIPAT, DEHRADUN, HARIDWAR, ROORKEE</td></tr>
+        <tr><td class="label-col">NORTH 3</td><td>HARYANA, PUNJAB, HIMACHAL PRADESH</td></tr>
+        <tr><td class="label-col">NORTH 4</td><td>RAJASTHAN, UTTAR PRADESH, UTTARAKHAND</td></tr>
+        <tr><td class="label-col">NORTH 5</td><td>JAMMU & KASHMIR</td></tr>
+        <tr><td class="label-col">SOUTH 1</td><td>BENGALURU, HOSUR, BUMASUNDRA, HYDERABAD, CHENNAI</td></tr>
+        <tr><td class="label-col">SOUTH 2</td><td>ANDHRA PRADESH, TELANGANA, KARNATAKA, TAMIL NADU, PUDUCHERRY</td></tr>
+        <tr><td class="label-col">SOUTH 3</td><td>KERALA</td></tr>
+        <tr><td class="label-col">WEST 1</td><td>MUMBAI, PUNE, THANE</td></tr>
+        <tr><td class="label-col">WEST 2</td><td>AHMEDABAD, SURAT, DAMAN & DIU, BARODA, VAPI, DADRA AND NAGAR HAVELI</td></tr>
+        <tr><td class="label-col">WEST 3</td><td>MAHARASHTRA, GUJARAT, GOA</td></tr>
+      </table>
+
+      <!-- AIR RATE MATRIX -->
+      <div class="section-title">AIR RATE MATRIX</div>
+      <div style="overflow-x: auto;">
+        <table class="matrix-table">
+          <tr>
+            <th class="zone-col">Zone</th>
+            <th>CENTRAL</th>
+            <th>SOUTH 2</th>
+            <th>NORTH 1</th>
+            <th>NORTH 2</th>
+            <th>NORTH 3</th>
+            <th>NORTH 4</th>
+            <th>NORTH EAST</th>
+            <th>SOUTH 3</th>
+            <th>NORTH 5</th>
+            <th>CENTRAL 2</th>
+            <th>EAST 1</th>
+            <th>EAST 2</th>
+            <th>EAST 3</th>
+            <th>WEST 1</th>
+            <th>WEST 2</th>
+          </tr>
+          <tr>
+            <td class="zone-col">CENTRAL</td>
+            <td>50</td><td>85</td><td>80</td><td>85</td><td>100</td><td>100</td><td>120</td><td>85</td><td>100</td><td>50</td><td>85</td><td>120</td><td>120</td><td>75</td><td>70</td>
+          </tr>
+          <tr>
+            <td class="zone-col">SOUTH 2</td>
+            <td>75</td><td>50</td><td>50</td><td>65</td><td>100</td><td>100</td><td>120</td><td>50</td><td>100</td><td>75</td><td>90</td><td>120</td><td>120</td><td>60</td><td>85</td>
+          </tr>
+          <tr>
+            <td class="zone-col">NORTH 1</td>
+            <td>80</td><td>90</td><td>50</td><td>65</td><td>75</td><td>75</td><td>120</td><td>90</td><td>75</td><td>80</td><td>85</td><td>120</td><td>120</td><td>85</td><td>60</td>
+          </tr>
+          <tr>
+            <td class="zone-col">NORTH 2</td>
+            <td>85</td><td>85</td><td>65</td><td>50</td><td>60</td><td>60</td><td>120</td><td>85</td><td>60</td><td>90</td><td>120</td><td>120</td><td>120</td><td>80</td><td>85</td>
+          </tr>
+          <tr>
+            <td class="zone-col">NORTH 3</td>
+            <td>110</td><td>100</td><td>70</td><td>60</td><td>50</td><td>50</td><td>120</td><td>100</td><td>50</td><td>110</td><td>100</td><td>100</td><td>120</td><td>85</td><td>80</td>
+          </tr>
+          <tr>
+            <td class="zone-col">NORTH 4</td>
+            <td>110</td><td>110</td><td>70</td><td>60</td><td>50</td><td>50</td><td>120</td><td>110</td><td>50</td><td>110</td><td>100</td><td>100</td><td>120</td><td>85</td><td>80</td>
+          </tr>
+          <tr>
+            <td class="zone-col">NORTH EAST</td>
+            <td>85</td><td>110</td><td>100</td><td>110</td><td>110</td><td>120</td><td>75</td><td>120</td><td>120</td><td>85</td><td>60</td><td>75</td><td>75</td><td>80</td><td>80</td>
+          </tr>
+          <tr>
+            <td class="zone-col">SOUTH 3</td>
+            <td>75</td><td>50</td><td>80</td><td>80</td><td>100</td><td>100</td><td>120</td><td>50</td><td>100</td><td>75</td><td>90</td><td>85</td><td>85</td><td>85</td><td>85</td>
+          </tr>
+          <tr>
+            <td class="zone-col">NORTH 5</td>
+            <td>110</td><td>100</td><td>70</td><td>60</td><td>50</td><td>50</td><td>120</td><td>100</td><td>50</td><td>110</td><td>100</td><td>100</td><td>120</td><td>85</td><td>80</td>
+          </tr>
+          <tr>
+            <td class="zone-col">CENTRAL 2</td>
+            <td>50</td><td>85</td><td>80</td><td>85</td><td>100</td><td>100</td><td>120</td><td>85</td><td>100</td><td>50</td><td>85</td><td>120</td><td>120</td><td>65</td><td>70</td>
+          </tr>
+          <tr>
+            <td class="zone-col">EAST 1</td>
+            <td>85</td><td>90</td><td>80</td><td>85</td><td>120</td><td>120</td><td>75</td><td>90</td><td>120</td><td>85</td><td>60</td><td>75</td><td>75</td><td>80</td><td>80</td>
+          </tr>
+          <tr>
+            <td class="zone-col">EAST 2</td>
+            <td>85</td><td>90</td><td>80</td><td>85</td><td>120</td><td>120</td><td>75</td><td>90</td><td>120</td><td>85</td><td>60</td><td>75</td><td>75</td><td>80</td><td>80</td>
+          </tr>
+          <tr>
+            <td class="zone-col">EAST 3</td>
+            <td>85</td><td>110</td><td>100</td><td>110</td><td>110</td><td>120</td><td>75</td><td>110</td><td>120</td><td>85</td><td>60</td><td>75</td><td>75</td><td>80</td><td>80</td>
+          </tr>
+          <tr>
+            <td class="zone-col">WEST 1</td>
+            <td>70</td><td>80</td><td>75</td><td>100</td><td>100</td><td>100</td><td>120</td><td>80</td><td>100</td><td>70</td><td>100</td><td>100</td><td>100</td><td>60</td><td>60</td>
+          </tr>
+          <tr>
+            <td class="zone-col">WEST 2</td>
+            <td>70</td><td>85</td><td>70</td><td>100</td><td>100</td><td>100</td><td>85</td><td>100</td><td>100</td><td>80</td><td>100</td><td>100</td><td>100</td><td>60</td><td>50</td>
+          </tr>
+          <tr>
+            <td class="zone-col">WEST 3</td>
+            <td>70</td><td>85</td><td>70</td><td>100</td><td>100</td><td>100</td><td>85</td><td>100</td><td>100</td><td>80</td><td>100</td><td>100</td><td>100</td><td>60</td><td>50</td>
+          </tr>
+          <tr>
+            <td class="zone-col">SOUTH 1</td>
+            <td>90</td><td>60</td><td>80</td><td>85</td><td>100</td><td>100</td><td>120</td><td>65</td><td>100</td><td>90</td><td>120</td><td>120</td><td>120</td><td>80</td><td>75</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Report Footer / Signatures -->
+      <div class="report-content" style="margin-top: 40px;">
+        <p>We value the opportunity to get associated with your esteemed organisation and looking forward for strengthen our business relations in the year to come.</p>
+        <p>We hereby accept and acknowledge the above stated Terms and Conditions</p>
+      </div>
+
+      <div class="signatory-section">
+        <div class="signatory-block">
+          <span>For Scorpion Express Pvt Ltd.</span>
+          <span>Authorised Signatory</span>
+          <span style="font-weight: normal;">Signature & Stamp</span>
+        </div>
+        <div class="signatory-block">
+          <span>For KELVIN AUTO PARTS</span>
+          <span>Authorised Signatory</span>
+          <span style="font-weight: normal;">Signature & Stamp</span>
+        </div>
+      </div>
+
+      <!-- CUSTOMER CONTRACT -->
+      <div class="section-title" style="margin-top: 40px;">CUSTOMER CONTRACT</div>
+      <div class="contract-section">
+        <p>This contract is made on this <b>6 Aug 2026 BY and BETWEEN KELVIN AUTO PARTS</b>, a company registered under the Companies Act, 1956 and having its registered office at <b>Plot 21, Industrial Area, Mumbai, Mumbai, Maharashtra, 400001</b> and represented by its authorized signatory (hereinafter referred to as the 'the Company', which expression shall, unless repugnant to the meaning or context thereof, mean and include its successors in interest and permitted assigns) of the one part;</p>
+        <p style="text-align: center; font-weight: bold; margin: 16px 0;">AND</p>
+        <p><b>M/s. Scorpion Express Pvt. Ltd.,</b> a company registered under the Companies Act, 1956 and having its registered office at <b>WORLI MUMBAI</b> and also having its corporate office at 610, Shah and Nahar Industrial Estate, Dr. E. Moses Road, and represented by its authorized signatory <b>2807 : PRIYANKA HANDORE</b> (hereinafter referred to as ' the Transporter', which expression shall, unless repugnant to the meaning or context thereof, mean and include its successors in interest and assigns) of the other part;</p>
+        <p>Whereas the Company is desirous of engaging the Transporter to carry out the Company's transportation work on the terms and conditions appearing hereinafter and the Transporter has agreed to carry out the said work on these terms and conditions to the destination as stated in airway bill/goods consignment notes, also as per the terms and conditions set out in the airway bill/goods consignment notes which shall be deemed to form and be read and construed as an integral part of this contract.</p>
+        
+        <h4>NOW THIS CONTRACT WITNESSETH AND IT IS HEREBY AGREED AS FOLLOWS:</h4>
+        
+        <h4>1. COMMENCEMENT:</h4>
+        <p>This contract shall commence from <b>6 Aug 2026</b> and will continue unless terminated by either party in writing.</p>
+        
+        <h4>2. SCOPE OF CONTRACT:</h4>
+        <p>By entering into any contract with the Transporter involving the carriage of goods, the Company agrees that:</p>
+        <p>A. the contract is a contract of carriage of goods by road if the carriage of the consignment actually takes place by road.</p>
+        
+        <h4>3. PROHIBITED GOODS & SECURITY:</h4>
+        <p>3.1. The Transporter will not accept consignments that contain prohibited items.</p>
+        <p>3.2. The Company must ensure and certify by completing the Transporter's goods consignment note, or tendering the consignment to the Transporter, that the Company's consignment does not contain any articles prohibited by ICAO (International Civil Aviation Organization) and IATA (International Air Transport Association), or by other national or international regulations that govern aviation security. The Company must give a full description of the contents of the consignment in the consignment note, or other accompanying document. Further, the Company's responsibilities and liabilities are not extinguished by providing this information.</p>
+        <p>3.3. In case of carriage of goods by road, the Transporter will book the consignment on 'said to contain basis' and upon receipt of the goods, will issue the goods consignment note to the Company as per the information provided by the Company. The Transporter will not be liable to check the weight and other modalities.</p>
+        <p>3.4. In case of carriage of goods by air, consignments carried, or handled by the Transporter may be subject to security screening which could include the use of x-ray, explosive trace detection and other security screening methods; the Company must accept that its consignment may be opened and the contents of its consignment may be examined in transit.</p>
+        <p>3.5. The Transporter may be required to share information, including the Company's personal data for the consignment booked with the destination authorities for reason of legal compliances with statutory regulations of respective states.</p>
+
+        <h4>4. RIGHT OF INSPECTION:</h4>
+        <p>The Company agrees that the Transporter, or any government authorities, may, for security purposes, open and inspect the consignment booked by the Company at any time. In such cases, the Transporter shall intimate the Company about the situation in advance, or as soon as it comes to the knowledge of the Transporter. Further, the Transporter shall fully cooperate with the Company in providing any supporting documents or relevant information required by government authorities from time to time.</p>
+
+        <h4>5. CALCULATION OF TRANSIT TIMES AND ROUTING OF CONSIGNMENTS:</h4>
+        <p>Weekends, public holidays, bank holidays, or delays attributable to compliance with mandatory local statutory regulations, or security requirements, or other events beyond the Transporter's control are excluded when the Transporter quotes door-to-door delivery times in the Transporter's published literature. The route and the method by which the Transporter transports the Company's Consignment shall be at the sole discretion of the Transporter.</p>
+
+        <h4>6. INCORRECT ADDRESS AND P.O. BOX NUMBERS:</h4>
+        <p>If the Transporter is unable to deliver a consignment because an incorrect address has been supplied by the Company, the Transporter's staff/personnel will make all reasonable efforts to find the correct address. The Transporter will notify the Company of the correction and deliver or attempt to deliver the consignment to the correct address, although additional charges may apply, which shall be reimbursed by the Company. Deliveries to Post Office Box numbers are not accepted.</p>
+
+        <h4>7. INABILITY TO DELIVER THE CONSIGNMENT:</h4>
+        <p>7.1 Whenever the staff/personnel of the Transporter are unable to complete delivery of a consignment for whatever reason, the staff/personnel of the Transporter will try to leave a notice at the receiver's address stating that delivery has been attempted and informing the receiver of the whereabouts of the consignment. Further, whenever a receiver refuses to accept delivery, the staff/personnel of the Transporter will try to contact the Company and agree on the next appropriate action. In such cases, the Company agrees to reimburse the Transporter for any costs that may be incurred in forwarding, disposing of, or returning the consignment and charges (if any) paid by the Transporter for making a second or further delivery attempts, and for the agreed-on next appropriate action.</p>
+
+        <h4>10. EXCLUSIONS OF LIABILITY:</h4>
+        <p>10.1. The Transporter will not be liable for any loss of income, loss of profits, loss of markets, loss of reputation, loss of customers, loss of use, loss of an opportunity if the Transporter had no knowledge that such damages or loss might arise, or for any indirect, incidental, special or consequential damages or loss. However, if the Company claims compensation for any such loss, contending that the Transporter had prior knowledge that such a loss would occur, then the same shall be subject to proof by the Company.</p>
+        <p>10.2. The Transporter will not be liable for non-fulfillment of any obligation to the company as a result of:</p>
+        <p>10.2.1. Circumstances beyond the Transporter's control such as (but not limited to):</p>
+        <p>i) Acts of god including earthquakes, cyclones, storms, flooding, fire, disease, fog, snow, or frost;<br>
+        ii) Force majeure including (but not limited to) war, accidents, acts of public enemies, strikes, embargoes, perils of the air, local disputes, or civil commotions;<br>
+        iii) National or local disruptions in air or ground transportation networks and mechanical problems to modes of transport or machinery;<br>
+        iv) Latent defects or inherent vice in the contents of the consignment;<br>
+        v) Criminal acts of third parties such as theft and arson.</p>
+
+        <h4>14. CLAIMS PROCEDURE:</h4>
+        <p>If the Company wishes to make a claim for a lost, damaged or delayed consignment, or for any other damages, the Company must comply with any applicable convention and with the following procedure, otherwise the Transporter reserves the right to reject the Company's claim:</p>
+        <p>14.1. The Company must notify the Transporter in writing about the loss, damage or delay within 48 Hours:<br>
+        (i) after delivery of the consignment,<br>
+        (ii) from the date the Consignment should have been delivered or<br>
+        (iii) from the date the Company reasonably should have become aware of the loss, damage or delay in the event the claim relates to other services.</p>
+
+        <h4>20. SETTLEMENT OF DISPUTES:</h4>
+        <p>The parties shall endeavour to settle by mutual consultation any claim, dispute, or controversy ('dispute') arising out of, or in relation to the agreement, including any dispute with respect to the existence or validity thereof, the interpretation thereof, the activities performed under the agreement, or the breach of the agreement. Any dispute which cannot be settled within thirty (30) days of consultation as provided above shall be submitted to arbitration at the request of the 'affected party' upon written notice to that effect to the other party and such arbitration shall be conducted at Mumbai (Maharashtra) in accordance with the provisions of the Arbitration & Conciliation Act, 1996 (as amended from time to time). If the parties cannot agree on appointing a single arbitrator, then an arbitration panel comprising of three arbitrators shall be appointed. Each party shall select one arbitrator and the two arbitrators so appointed shall jointly appoint the third arbitrator. The parties agree that the award passed by the arbitration panel shall be binding upon the parties, and that the parties shall not be entitled to commence or maintain any action in any court of law in respect of any matter in dispute arising from or in relation to the agreement, except for the enforcement of an arbitral award, or for seeking injunctive relief, or in case of appeal against arbitral awards passed by the arbitration panel pursuant to this clause. Courts in Mumbai (Maharashtra) shall have exclusive jurisdiction in this regard.</p>
+
+        <h4>21. CONFIDENTIALITY</h4>
+        <p>The Transporter acknowledges that if, during the tenure of this agreement, the Transporter and its employees are privy to information of a confidential or proprietary nature they shall ensure that such information is not disclosed or divulged to third parties and shall obtain suitable undertakings from its employees for this purpose. This obligation and restriction on the Transporter shall continue to apply without limit on point of time and is not restricted to the period of this agreement.</p>
+
+        <h4>22. INTELLECTUAL PROPERTY RIGHTS</h4>
+        <p>The ownership and all other rights in respect of the trademark(s), goodwill, trade name, copyright(s) and/or any other intellectual property right/s of the Company shall, at all times, belong exclusively to the Company, whether during the term of this agreement or after its termination.</p>
+
+        <h4>23. JURISDICTION:</h4>
+        <p>Any dispute, controversy, or claims arising out of, or relating to the agreement shall be subject to the jurisdiction of the courts of Mumbai.</p>
+
+        <h4>24. ENTIRE AGREEMENT:</h4>
+        <p>This contract constitutes the entire agreement between the Transporter and the Company with respect to the aforesaid clauses including</p>
+        
+        <p><b>IN WITNESS WHEREOF</b> the parties have put their hand this <b>6 Aug 2026</b> first hereinabove written.</p>
+        
+        <p><b>Signed for and on behalf of</b></p>
+        
+        <table class="data-table" style="margin-top: 16px;">
+          <tr>
+            <td style="width: 50%;"><b>KELVIN AUTO PARTS<br>By its' Authorized Representative:</b></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>By<br>AUTHORIZED REPRESENTATIVE</b></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>For, M/s. Scorpion Express Pvt Ltd.</b></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>By its' Authorized Representative:</b></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>2807 : PRIYANKA HANDORE<br><br><u>Authorized Signatory</u></b></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>In Presence of Witnesses:<br>1.<br><br>2.</b></td>
+            <td></td>
+          </tr>
+        </table>
+    </div>
+  </div>
+</div>
+</ng-template>

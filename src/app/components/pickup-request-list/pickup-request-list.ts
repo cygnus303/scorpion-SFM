@@ -96,6 +96,7 @@ export class PickupRequestList {
       BaseLocation: this.identityService.getBranchCode(),
       UserName:this.identityService.getUserName(),
       Status:"All",
+      SearchText:this.commonService.globalFilters.searchText || "",
       PageNo:this.commonService.globalFilters.Page.toString(),
       PageSize:this.commonService.globalFilters.PageSize.toString(),
       IsDownload:"0"
@@ -153,6 +154,7 @@ export class PickupRequestList {
       BaseLocation: this.identityService.getBranchCode(),
       UserName:this.identityService.getUserName(),
       Status:"",
+      SearchText:this.commonService.globalFilters.searchText || "",
       PageNo:this.commonService.globalFilters.Page.toString(),
       PageSize:this.commonService.globalFilters.PageSize.toString(),
       IsDownload:"1"
