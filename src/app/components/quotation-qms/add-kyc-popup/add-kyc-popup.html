@@ -1,0 +1,170 @@
+<ng-template #kycTemplate>
+  <div class="modal-content kyc-custom-modal" style="border: none;">
+    <div class="modal-header">
+      <h2 class="modal-title">Add KYC Details — <span>Falcon Industries</span></h2>
+      <button class="close-btn" (click)="closePopup()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 1L1 13M1 1L13 13" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Prospect Information Section -->
+      <div class="section-container">
+        <div class="section-header">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 6px;">
+            <path d="M8 8C10.2091 8 12 6.20914 12 4C12 1.79086 10.2091 0 8 0C5.79086 0 4 1.79086 4 4C4 6.20914 5.79086 8 8 8ZM8 10C5.33333 10 0 11.3333 0 14V16H16V14C16 11.3333 10.6667 10 8 10Z" fill="white"/>
+          </svg>
+          Prospect Information
+        </div>
+        <div class="section-body">
+          <div class="form-grid">
+            <div class="fg">
+              <label>Prospect Id/Name</label>
+              <input type="text" value="PR000000690:FALCON INDUSTRIES" readonly class="bg-light">
+            </div>
+            <div class="fg">
+              <label>GSTIN No <span class="req">*</span></label>
+              <input type="text" placeholder="GSTIN NO">
+              <span class="hint">Enter 15-digit GSTIN - details will be auto captured</span>
+            </div>
+            <div class="fg">
+              <label>Company Legal Name <span class="req">*</span></label>
+              <input type="text" placeholder="Company Legal Name">
+            </div>
+            <div class="fg">
+              <label>Trade Name <span class="req">*</span></label>
+              <input type="text" placeholder="Trade Name">
+            </div>
+
+            <div class="fg">
+              <label>Decision Maker Name <span class="req">*</span></label>
+              <input type="text" placeholder="Decision Maker Name">
+            </div>
+            <div class="fg">
+              <label>Designation <span class="req">*</span></label>
+              <input type="text" placeholder="Designation">
+            </div>
+            <div class="fg">
+              <label>Address <span class="req">*</span></label>
+              <input type="text" placeholder="Address">
+            </div>
+            <div class="fg">
+              <label>State <span class="req">*</span></label>
+              <select>
+                <option>Select State</option>
+              </select>
+            </div>
+
+            <div class="fg">
+              <label>City <span class="req">*</span></label>
+              <input type="text" placeholder="Prospect City">
+            </div>
+            <div class="fg">
+              <label>Pincode <span class="req">*</span></label>
+              <input type="text" placeholder="Prospect Pincode">
+            </div>
+            <div class="fg">
+              <label>Email <span class="req">*</span></label>
+              <input type="email" placeholder="Email">
+            </div>
+            <div class="fg">
+              <label>Phone No <span class="req">*</span></label>
+              <input type="text" placeholder="Phone No">
+            </div>
+
+            <div class="fg">
+              <label>Business Type <span class="req">*</span></label>
+              <ng-select [items]="businessData" bindLabel="codeDesc" bindValue="codeId" placeholder="Search businessType..."
+                class="custom-ng-select" appendTo="body" [dropdownPosition]="'bottom'">
+              </ng-select>
+            </div>
+            <div class="fg">
+              <label>If Branch, Office Name and Address</label>
+              <input type="text" placeholder="Office Name and Address">
+            </div>
+            <div class="fg">
+              <label>Type of Ownership <span class="req">*</span></label>
+              <ng-select [items]="ownerData" bindLabel="codeDesc" bindValue="codeId" placeholder="Select Ownership"
+                class="custom-ng-select" appendTo="body" [dropdownPosition]="'bottom'">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prospect Billing Information Section -->
+      <div class="section-container">
+        <div class="section-header">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 6px;">
+            <path d="M2 2H14C15.1 2 16 2.9 16 4V12C16 13.1 15.1 14 14 14H2C0.9 14 0 13.1 0 12V4C0 2.9 0.9 2 2 2ZM2 4V12H14V4H2ZM4 6H12V8H4V6ZM4 9H9V11H4V9Z" fill="white"/>
+          </svg>
+          Prospect Billing Information
+        </div>
+        <div class="section-body">
+          <div class="checkbox-row">
+            <label class="custom-checkbox">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Billing Address Same As Prospect Address ?
+            </label>
+          </div>
+          
+          <div class="form-grid">
+            <div class="fg">
+              <label>Name <span class="req">*</span></label>
+              <input type="text" placeholder="Business name">
+            </div>
+            <div class="fg">
+              <label>Account Payable Contact <span class="req">*</span></label>
+              <input type="text" placeholder="MOBILE NO">
+            </div>
+            <div class="fg">
+              <label>Address <span class="req">*</span></label>
+              <input type="text" placeholder="Prospect Address">
+            </div>
+            <div class="fg">
+              <label>State <span class="req">*</span></label>
+              <select>
+                <option>Select State</option>
+              </select>
+            </div>
+
+            <div class="fg">
+              <label>City <span class="req">*</span></label>
+              <input type="text" placeholder="Billing City">
+            </div>
+            <div class="fg">
+              <label>Pincode <span class="req">*</span></label>
+              <input type="text" placeholder="Billing Pincode">
+            </div>
+            <div class="fg">
+              <label>Industry Type <span class="req">*</span></label>
+              <ng-select [items]="industryData" bindLabel="codeDesc" bindValue="codeId" placeholder="Select Industry"
+                class="custom-ng-select" appendTo="body" [dropdownPosition]="'bottom'">
+              </ng-select>
+            </div>
+            <div class="fg">
+              <label>Estimated Monthly Business Volume Rs. <span class="req">*</span></label>
+              <input type="text" placeholder="0">
+              <span class="hint">Minimum 5 digits (₹10,000 or more)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-ghost" (click)="closePopup()">
+        <span>- Back to List</span>
+      </button>
+      <button class="btn-submit">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 6px;">
+          <path d="M5.5 11.0858L2.20711 7.79289L0.792893 9.20711L5.5 13.9142L15.2071 4.20711L13.7929 2.79289L5.5 11.0858Z" fill="white"/>
+        </svg>
+        Submit
+      </button>
+    </div>
+  </div>
+</ng-template>

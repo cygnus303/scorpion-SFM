@@ -96,6 +96,7 @@ export class PickupRequestList {
       BaseLocation: this.identityService.getBranchCode(),
       UserName:this.commonService.globalFilters.UserID.toString(),
       Status:"All",
+      SearchText:this.commonService.globalFilters.searchText || "",
       PageNo:this.commonService.globalFilters.Page.toString(),
       PageSize:this.commonService.globalFilters.PageSize.toString(),
       IsDownload:"0"
@@ -152,7 +153,8 @@ export class PickupRequestList {
       ToDate: this.formatDate(this.commonService.globalFilters.endDate),
       BaseLocation: this.identityService.getBranchCode(),
       UserName:this.commonService.globalFilters.UserID.toString(),
-      Status:"All",
+      Status:"",
+      SearchText:this.commonService.globalFilters.searchText || "",
       PageNo:this.commonService.globalFilters.Page.toString(),
       PageSize:this.commonService.globalFilters.PageSize.toString(),
       IsDownload:"1"
@@ -224,7 +226,7 @@ export class PickupRequestList {
       "FilterJson": {
         "ReportId": "221",
         "PRQNo": this.cancelPrqNo,
-        "UserName": this.identityService.getUserName(),
+        "UserName": this.commonService.globalFilters.UserID.toString(),
         "CancelReason": this.cancelReason.trim()
       }
     };

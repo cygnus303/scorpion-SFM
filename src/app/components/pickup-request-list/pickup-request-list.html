@@ -97,22 +97,22 @@
             <!-- STATUS -->
             <td class="px-3 py-2">
               <span class="pill" [ngClass]="{
-                'pg': (data.PRQStatus || '') === 'PRQ Generated' || (data.PRQStatus || '') === 'Accept' || (data.PRQStatus || '') === 'Confirmed' || (data.PRQStatus || '') === 'Placed',
-                'pa': (data.PRQStatus || '') === 'Pending',
-                'pb': (data.PRQStatus || '') === 'In Transit' || (data.PRQStatus || '') === 'Assigned',
-                'pgy': !(data.PRQStatus)
+                'pg': (data.PRQStatus || '') === 'ARRANGED',
+                'pgy': (data.PRQStatus || '') === 'Cancelled',
+                'pb':  (data.PRQStatus || '') === 'Assigned',
+                'pa':  (data.PRQStatus || '') === 'Generated'
               }" style="font-size: 11px; padding: 3px 10px;">
                 {{ data.PRQStatus || '--' }}
               </span>
             </td>
             <!-- PRQ ARRANGED BY / DATE -->
             <td class="px-3 py-2">
-              <div class="d-flex flex-column" style="gap: 2px;" *ngIf="data.arrangedBy || data.prqArrangedBy || data.arrangedDate || data.prqArrangedDate || data.requiredPlacementDateTime || data.planReceivedDateTime; else noArranged">
+              <div class="d-flex flex-column" style="gap: 2px;" *ngIf="data.ArrangedBy1 || data.ArrangedDate1; else noArranged">
                 <span class="fw-semibold text-dark lh-1" style="font-size: 12px;">
-                  {{ data.arrangedBy || data.prqArrangedBy || '--' }}
+                  {{ data.ArrangedBy1 || '--' }}
                 </span>
                 <span class="text-muted lh-1" style="font-size: 11px;">
-                  {{ data.arrangedDate || data.prqArrangedDate || data.requiredPlacementDateTime || data.planReceivedDateTime || '' }}
+                  {{ data.ArrangedDate1 }}
                 </span>
               </div>
               <ng-template #noArranged>
