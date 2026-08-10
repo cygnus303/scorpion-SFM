@@ -3,6 +3,7 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
 import { ExpenseGeneralService } from '../../../shared/services/expense-general.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-prq-view',
@@ -15,6 +16,7 @@ export class PrqView {
     @ViewChild('Templatepod', { static: true }) Templatepod!: TemplateRef<any>;
    public modalRef!: BsModalRef;
   public prqData: any = null;
+  public listSubscription?:Subscription;
   public isLoading: boolean = false;
 
   constructor(
@@ -33,6 +35,7 @@ export class PrqView {
   }
 
   getPRQDetail(prqNo: string){
+      if (this.listSubscription) { this.listSubscription.unsubscribe(); }
     this.isLoading = true;
     const payload = {
       "FilterJson": {
@@ -41,7 +44,7 @@ export class PrqView {
       }
     };
     
-    this.expenseGeneralService.getDynamicData(payload).subscribe({
+    this.listSubscription=this.expenseGeneralService.getDynamicData(payload).subscribe({
       next: (response: any) => {
         this.isLoading = false;
         if (response && response.Table1 && response.Table1.length > 0) {

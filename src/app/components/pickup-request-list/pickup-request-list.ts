@@ -13,12 +13,13 @@ import { PrqDetail } from './prq-detail/prq-detail';
 import { AddPrqPopup } from './add-prq-popup/add-prq-popup';
 import { ExpenseGeneralService } from '../../shared/services/expense-general.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import * as XLSX from 'xlsx';
 import { PrqView } from './prq-view/prq-view';
 
 @Component({
   selector: 'app-pickup-request-list',
-  imports: [CommonModule, AddPrq, PaginationModule, FormsModule, PrqDetail,AddPrqPopup,PrqView],
+  imports: [CommonModule, AddPrq, PaginationModule, FormsModule, PrqDetail,AddPrqPopup,PrqView, PopoverModule],
   templateUrl: './pickup-request-list.html',
   styleUrl: './pickup-request-list.scss',
 })
