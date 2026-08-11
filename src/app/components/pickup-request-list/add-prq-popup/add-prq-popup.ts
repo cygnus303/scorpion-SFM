@@ -252,7 +252,7 @@ export class AddPrqPopup {
       ftlType: new FormControl(null),
       service_Type: new FormControl(null),
       pinCode: new FormControl(null, Validators.required), // Pickup Pin Code
-      desPincode: new FormControl(null, Validators.required),
+      desPincode: new FormControl(null),
       // consigneeNameAdd: new FormControl('', Validators.required), // Delivery Address
       branchCode: new FormControl(''), // Pickup Branch
       customer_Name: new FormControl(''),

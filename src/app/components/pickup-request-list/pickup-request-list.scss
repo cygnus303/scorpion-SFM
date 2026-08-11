@@ -85,3 +85,100 @@
   border-color: #dc2626 !important;
   box-shadow: 0 0 0 0.15rem rgba(220, 38, 38, 0.25) !important;
 }
+
+::ng-deep .upload-prq-modal {
+  max-width: 500px !important;
+  .modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+  }
+}
+
+.upload-drop-zone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  background-color: #ffffff;
+  position: relative;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #9b5de5;
+    background-color: #f9f5ff;
+
+    .upload-icon-wrapper {
+      transform: scale(1.1);
+      background: #f3e8ff;
+      
+      i {
+        color: #9b5de5 !important;
+      }
+    }
+  }
+}
+
+.upload-icon-wrapper {
+  width: 72px;
+  height: 72px;
+  background: #f1f5f9;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+  
+  i {
+    transition: color 0.3s ease;
+  }
+}
+
+.btn-upload-parse {
+  background: linear-gradient(135deg, #9b5de5, #b87df8) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 6px -1px rgba(155, 93, 229, 0.3);
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px -1px rgba(155, 93, 229, 0.4);
+    opacity: 1;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.selected-file-badge {
+  margin-top: 20px;
+  padding: 12px 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #e2e8f0;
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

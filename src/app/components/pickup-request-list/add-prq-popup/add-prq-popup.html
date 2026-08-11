@@ -192,7 +192,7 @@
                         <div>
                             <label
                                 style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Delivery
-                                Pincode <span style="color:#D0021B">*</span></label>
+                                Pincode </label>
                             <ng-select [items]="destPincodeData" bindLabel="Text" bindValue="Value"
                                 formControlName="desPincode" class="clear-icon" placeholder="Type pincode or city name..."
                                 [typeahead]="destPincodeSearchSubject" (change)="onChangeDestPincode($event)"
@@ -206,7 +206,7 @@
                         <div>
                             <label
                                 style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">To
-                                City <span style="color:#D0021B">*</span></label>
+                                City</label>
                             <input type="text" formControlName="desBranchCode" readonly
                                 placeholder="Auto-filled from Delivery Pincode"
                                 style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none;background:#f8fafc;cursor:not-allowed">

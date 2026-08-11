@@ -9,7 +9,15 @@
           <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
           <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
         </button>
-        <button class="tbtn" style="margin-left:auto;padding:9px 12px;font-size:11px" (click)="selectPrqType()">
+        <button class="btn btn-primary" style="padding:9px 12px;font-size:11px; border-radius: 6px; display: flex; align-items: center; gap: 4px; white-space: nowrap;" (click)="downloadTemplate()">
+          <i class="ri-download-fill" style="font-size: 13px;"></i>
+          <span>Download Template</span>
+        </button>
+        <button class="btn" style="padding:9px 12px;font-size:11px; border-radius: 6px; display: flex; align-items: center; gap: 4px; background-color: #9b5de5; color: white; border: none; white-space: nowrap;" (click)="openUploadModal()">
+          <i class="ri-upload-fill" style="font-size: 13px;"></i>
+          <span>Upload File</span>
+        </button>
+        <button class="tbtn" style="padding:9px 12px;font-size:11px" (click)="selectPrqType()">
           <span>＋ Raise PRQ</span>
         </button>
       </div>
@@ -219,5 +227,52 @@
   <div class="p-1" style="font-size: 12px;">
     <div class="mb-1"><i class="ri-mail-line me-2 text-muted"></i>Email: {{ data.GeneratedByEmailId || '-' }}</div>
     <div><i class="ri-phone-line me-2 text-muted"></i>ContactNo: {{ data.GeneratedByContctNo || '-' }}</div>
+  </div>
+</ng-template>
+
+<!-- Upload PRQ Modal -->
+<ng-template #uploadPrqModal>
+  <div class="modal-header" style="background: linear-gradient(135deg, #9b5de5, #b87df8); color: white; border-bottom: none; padding: 16px 24px;">
+    <h5 class="modal-title" style="font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; letter-spacing: 0.5px;">
+      <i class="ri-upload-cloud-2-fill" style="font-size: 22px;"></i>
+      Bulk Upload Pickup Requests (PRQ)
+    </h5>
+    <button type="button" class="btn-close btn-close-white" style="font-size: 12px; opacity: 0.8; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'" (click)="closeUploadModal()" aria-label="Close"></button>
+  </div>
+  
+  <div class="modal-body p-4" style="background-color: #fcfcfd;">
+    <div class="upload-drop-zone" [class.drag-over]="isDragOver" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" (click)="modalFileInput.click()">
+      <div class="upload-icon-wrapper">
+        <i class="ri-file-excel-2-fill" style="font-size: 40px; color: #10b981;"></i>
+      </div>
+      
+      <h6 style="font-size: 16px; font-weight: 600; color: #1e293b; margin-bottom: 8px;">Drag & Drop Excel File Here</h6>
+      <p style="font-size: 13px; color: #64748b; margin-bottom: 24px;">or click to browse your files. Only <span style="font-weight: 600; color: #9b5de5;">.xls</span> and <span style="font-weight: 600; color: #9b5de5;">.xlsx</span> are supported.</p>
+      
+      <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+        <input type="file" #modalFileInput style="display: none;" (change)="onFileSelected($event)" accept=".xls, .xlsx" (click)="$event.stopPropagation()">
+        <button type="button" class="btn" style="background: white; border: 1px solid #e2e8f0; color: #334155; font-size: 14px; padding: 8px 20px; font-weight: 500; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s;" 
+                onmouseover="this.style.borderColor='#9b5de5'; this.style.color='#9b5de5'" 
+                onmouseout="this.style.borderColor='#e2e8f0'; this.style.color='#334155'">
+          Choose File
+        </button>
+      </div>
+      
+      <div *ngIf="selectedFile" class="selected-file-badge">
+        <i class="ri-file-excel-2-fill text-success" style="font-size: 20px;"></i>
+        <span style="font-size: 13px; color: #334155; font-weight: 500;">{{ selectedFileName }}</span>
+        <i class="ri-close-circle-fill text-muted" style="cursor: pointer; font-size: 18px; transition: color 0.2s;" onmouseover="this.classList.replace('text-muted', 'text-danger')" onmouseout="this.classList.replace('text-danger', 'text-muted')" (click)="selectedFile = null; selectedFileName = ''; modalFileInput.value = ''; $event.stopPropagation();"></i>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-footer" style="border-top: 1px solid #f1f5f9; padding: 16px 24px; background-color: #ffffff; justify-content: flex-end; border-radius: 0 0 12px 12px;">
+    <button type="button" class="btn" style="font-size: 14px; font-weight: 500; border: 1px solid #e2e8f0; background: white; color: #64748b; padding: 8px 20px; border-radius: 8px; transition: all 0.2s;" 
+            onmouseover="this.style.backgroundColor='#f8fafc'; this.style.color='#0f172a'"
+            onmouseout="this.style.backgroundColor='white'; this.style.color='#64748b'"
+            (click)="closeUploadModal()">Cancel</button>
+    <button type="button" class="btn btn-upload-parse" style="font-size: 14px; font-weight: 500; padding: 8px 20px; border-radius: 8px;" [disabled]="!selectedFile" (click)="uploadAndParse()">
+      <i class="ri-magic-line"></i> Upload & Parse
+    </button>
   </div>
 </ng-template>

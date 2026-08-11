@@ -44,6 +44,12 @@ export class PickupRequestList {
   public isCancelSubmitted: boolean = false;
   @ViewChild('cancelPrqModal') cancelPrqModalTemplate!: TemplateRef<any>;
 
+  // Upload Modal properties
+  public uploadModalRef?: BsModalRef;
+  public selectedFile: File | null = null;
+  public selectedFileName: string = '';
+  @ViewChild('uploadPrqModal') uploadPrqModalTemplate!: TemplateRef<any>;
+
   private sweetAlertService = inject(SweetAlertService);
   private identityService = inject(IdentityService);
   private modalService = inject(BsModalService);
@@ -198,6 +204,69 @@ export class PickupRequestList {
         this.isExportLoading = false;
       },
     });
+  }
+
+  downloadTemplate() {
+    this.sweetAlertService.info('Template download coming soon');
+  }
+
+  public isDragOver = false;
+
+  openUploadModal() {
+    this.selectedFile = null;
+    this.selectedFileName = '';
+    this.isDragOver = false;
+    this.uploadModalRef = this.modalService.show(this.uploadPrqModalTemplate, { class: 'modal-dialog-centered upload-prq-modal', backdrop: 'static' });
+  }
+
+  closeUploadModal() {
+    this.uploadModalRef?.hide();
+    this.selectedFile = null;
+    this.selectedFileName = '';
+    this.isDragOver = false;
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      this.selectedFileName = file.name;
+    }
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = true;
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false;
+    
+    if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      if (file.name.endsWith('.xls') || file.name.endsWith('.xlsx')) {
+        this.selectedFile = file;
+        this.selectedFileName = file.name;
+      } else {
+        this.sweetAlertService.error("Only .xls and .xlsx file types are supported.");
+      }
+    }
+  }
+
+  uploadAndParse() {
+    if (this.selectedFile) {
+      this.sweetAlertService.info(`File ${this.selectedFileName} ready to be parsed. Backend logic coming soon.`);
+      this.closeUploadModal();
+    }
   }
 
   onCancel(prqNo: string) {
