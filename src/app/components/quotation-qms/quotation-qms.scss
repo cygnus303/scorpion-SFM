@@ -373,3 +373,7 @@
   .qbtn-amber { background: #F5A600; }
   .qbtn-teal { background: #1EBAB4; }
 }
+
+::ng-deep .ng-dropdown-panel {
+  z-index: 9999 !important;
+}

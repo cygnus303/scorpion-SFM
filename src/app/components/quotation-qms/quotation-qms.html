@@ -13,54 +13,15 @@
 
     <!-- Stats row -->
     <div class="stat-row">
-      <div class="stat-card stat-teal">
+      <div class="stat-card" [ngClass]="getCardClass(card.StatusName)" *ngFor="let card of cardList" 
+           (click)="onCardClick(card.StatusName)" 
+           [style.cursor]="'pointer'"
+           [style.opacity]="config.Status === card.StatusName ? '1' : '0.65'">
         <div class="stat-top">
-          <div class="stat-label">TOTAL PROSPECT</div>
-          <div class="stat-icon"><i class="fa fa-users"></i></div>
+          <div class="stat-label">{{ card.StatusName | uppercase }}</div>
+          <div class="stat-icon"><i [ngClass]="getCardIcon(card.StatusName)"></i></div>
         </div>
-        <div class="stat-num">11</div>
-      </div>
-      <div class="stat-card stat-blue">
-        <div class="stat-top">
-          <div class="stat-label">PROSPECT GENERATED</div>
-          <div class="stat-icon"><i class="fa fa-minus-circle"></i></div>
-        </div>
-        <div class="stat-num">2</div>
-      </div>
-      <div class="stat-card stat-amber">
-        <div class="stat-top">
-          <div class="stat-label">KYC GENERATED</div>
-          <div class="stat-icon"><i class="fa fa-file-text-o"></i></div>
-        </div>
-        <div class="stat-num">1</div>
-      </div>
-      <div class="stat-card stat-green">
-        <div class="stat-top">
-          <div class="stat-label">CUSTOMER CREATED</div>
-          <div class="stat-icon"><i class="fa fa-check-circle"></i></div>
-        </div>
-        <div class="stat-num">4</div>
-      </div>
-      <div class="stat-card stat-purple">
-        <div class="stat-top">
-          <div class="stat-label">PENDING FOR SEND FOR APPROVAL</div>
-          <div class="stat-icon"><i class="fa fa-clock-o"></i></div>
-        </div>
-        <div class="stat-num">0</div>
-      </div>
-      <div class="stat-card stat-red">
-        <div class="stat-top">
-          <div class="stat-label">REJECTED</div>
-          <div class="stat-icon"><i class="fa fa-exclamation-triangle"></i></div>
-        </div>
-        <div class="stat-num">1</div>
-      </div>
-      <div class="stat-card stat-teal">
-        <div class="stat-top">
-          <div class="stat-label">PENDING FOR CUSTOMER CODE CREATION</div>
-          <div class="stat-icon"><i class="fa fa-clock-o"></i></div>
-        </div>
-        <div class="stat-num">1</div>
+        <div class="stat-num">{{ card.CardCount || 0 }}</div>
       </div>
     </div>
 
@@ -70,19 +31,35 @@
       <div class="filter-form">
         <div class="fg" style="flex: 1; max-width: 300px;">
           <span class="fl">Customer / Prospect Name</span>
-          <input type="text" placeholder="Search by name..." class="search-input">
+          <ng-select [items]="customerData" bindLabel="custnm" bindValue="custcd" placeholder="Search Customer..." [(ngModel)]="config.SearchCustCd"
+                class="custom-ng-select" appendTo="body" [dropdownPosition]="'bottom'" (change)="fetchData()">
+          </ng-select>
         </div>
         
         <div class="fg">
           <span class="fl">Quotation Type</span>
           <div class="radio-row">
             <label class="radio-opt">
-              <input type="radio" name="qType" value="customer"> 
+              <input type="radio" name="qType" value="Customer Wise" [(ngModel)]="config.QuotationType" (ngModelChange)="onQuotationTypeChange()"> 
               <span class="radio-text">Customer Wise</span>
             </label>
             <label class="radio-opt">
-              <input type="radio" name="qType" value="prospect" checked> 
+              <input type="radio" name="qType" value="Prospect Wise" [(ngModel)]="config.QuotationType" (ngModelChange)="onQuotationTypeChange()"> 
               <span class="radio-text">Prospect Wise</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="fg" *ngIf="config.QuotationType === 'Customer Wise'">
+          <span class="fl">Customer Wise Listing</span>
+          <div class="radio-row">
+            <label class="radio-opt">
+              <input type="radio" name="isActive" value="Active" [(ngModel)]="config.IsActive" (ngModelChange)="onSearchChange()"> 
+              <span class="radio-text">Active</span>
+            </label>
+            <label class="radio-opt">
+              <input type="radio" name="isActive" value="In Active" [(ngModel)]="config.IsActive" (ngModelChange)="onSearchChange()"> 
+              <span class="radio-text">InActive</span>
             </label>
           </div>
         </div>
@@ -95,9 +72,10 @@
     </div>
 
     <div class="card table-card">
-      <div class="sec-title">PROSPECT WISE LISTING</div>
+      <div class="sec-title">{{ config.QuotationType === 'Customer Wise' ? 'CUSTOMER WISE LISTING' : 'PROSPECT WISE LISTING' }}</div>
       <div class="table-responsive">
-        <table class="rm-table">
+        <!-- PROSPECT WISE TABLE -->
+        <table class="rm-table" *ngIf="config.QuotationType !== 'Customer Wise'">
           <thead>
             <tr>
               <th>Lead ID</th>
@@ -109,81 +87,79 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>LD0000101</td>
-              <td>02/05/2026</td>
-              <td>Falcon Industries</td>
-              <td>06/05/2026</td>
-              <td><span class="status-badge bg-grey">Prospect Generated</span></td>
+            <tr *ngFor="let item of quotationList">
+              <td>{{ item.LeadId || item.LeadID || item.LeadNo || '--' }}</td>
+              <td>{{ item.LeadDate || '--' }}</td>
+              <td>{{ item.ProspectName || item.CustomerName || '--' }}</td>
+              <td>{{ item.ProspectDate || '--' }}</td>
+              <td><span class="status-badge bg-grey">{{ item.ProspectStatus || item.StatusName || item.Status || '--' }}</span></td>
               <td>
                 <button class="qbtn qbtn-red" (click)="openKycPopup()">Add KYC</button>
-              </td>
-            </tr>
-            <tr>
-              <td>LD0000102</td>
-              <td>09/05/2026</td>
-              <td>Grand Motors</td>
-              <td>14/05/2026</td>
-              <td><span class="status-badge bg-grey">Prospect Generated</span></td>
-              <td>
-                <button class="qbtn qbtn-red" (click)="openKycPopup()">Add KYC</button>
-              </td>
-            </tr>
-            <tr>
-              <td>LD0000103</td>
-              <td>15/05/2026</td>
-              <td>Horizon Chemicals</td>
-              <td>22/05/2026</td>
-              <td><span class="status-badge text-red">KYC Generated</span></td>
-              <td>
-                <button class="qbtn qbtn-green">Add QM</button>
+                <button class="qbtn qbtn-teal" (click)="openQmViewPopup()">QM View</button>
+                 <button class="qbtn qbtn-green">Add QM</button>
                 <button class="qbtn qbtn-red">Edit KYC</button>
               </td>
             </tr>
-            <tr>
-              <td>LD0000104</td>
-              <td>27/05/2026</td>
-              <td>Indus Retail</td>
-              <td>01/06/2026</td>
-              <td><span class="status-badge text-amber">Sent for Approval</span></td>
-              <td>
-                <button class="qbtn qbtn-teal" (click)="openQmViewPopup()">QM View</button>
+            <tr *ngIf="!quotationList || quotationList.length === 0">
+              <td colspan="6" class="text-center py-4 text-muted">
+                No data available
               </td>
             </tr>
+          </tbody>
+        </table>
+
+        <!-- CUSTOMER WISE TABLE -->
+        <table class="rm-table" *ngIf="config.QuotationType === 'Customer Wise'">
+          <thead>
             <tr>
-              <td>LD0000105</td>
-              <td>04/06/2026</td>
-              <td>Jupiter Pharma</td>
-              <td>09/06/2026</td>
-              <td><span class="status-badge text-amber">Sent for Approval</span></td>
+              <th>Cust Name</th>
+              <th>Contract ID</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of quotationList">
+              <td>{{ item.CustomerName || item.CustName || item.ProspectName || '--' }}</td>
+              <td>{{ item.ContractId || item.ContractID || item.ContractNo || '--' }}</td>
+              <td>{{ item.StartDate || item.ContractStartDate || '--' }}</td>
+              <td>{{ item.EndDate || item.ContractEndDate || '--' }}</td>
               <td>
-                <button class="qbtn qbtn-teal" (click)="openQmViewPopup()">QM View</button>
+                <span class="status-badge" [ngClass]="(item.Status || item.IsActive || 'Active').toLowerCase() === 'active' ? 'text-green' : 'bg-grey'">
+                  {{ item.Status || item.IsActive || 'Active' }}
+                </span>
+              </td>
+              <td>
+                <button class="qbtn qbtn-teal" (click)="openQmViewPopup()">QM View/Print</button>
+                <button class="qbtn qbtn-red" (click)="openKycPopup()">Edit KYC</button>
+                <button class="qbtn qbtn-amber" style="background-color: #e5d5c5; color: #fff; border-color: #e5d5c5;">Edit QM</button>
+                <button class="qbtn" style="background-color: #6a0000; color: #fff; border-color: #6a0000;">Renew QM</button>
               </td>
             </tr>
-            <tr>
-              <td>LD0000106</td>
-              <td>12/06/2026</td>
-              <td>Kelvin Auto Parts</td>
-              <td>16/06/2026</td>
-              <td><span class="status-badge text-green">Approved</span></td>
-              <td>
-                <button class="qbtn qbtn-teal" (click)="openQmViewPopup()">QM View</button>
-              </td>
-            </tr>
-            <tr>
-              <td>LD0000107</td>
-              <td>20/06/2026</td>
-              <td>Lumen Electronics</td>
-              <td>25/06/2026</td>
-              <td><span class="status-badge text-red">Rejected</span></td>
-              <td>
-                <button class="qbtn qbtn-amber">Edit QM</button>
-                <button class="qbtn qbtn-teal">QM View</button>
+            <tr *ngIf="!quotationList || quotationList.length === 0">
+              <td colspan="6" class="text-center py-4 text-muted">
+                No data available
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+          <!-- Pagination Footer exactly inside original card -->
+    <div class="d-flex justify-content-between align-items-center mt-3 px-3 pb-3"
+      *ngIf="totalItems > commonService.globalFilters.PageSize">
+      <div class="small text-muted" style="font-size: 12px;">
+        Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
+        commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
+        totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+        of {{ totalItems }} entries
+      </div>
+      <pagination [totalItems]="totalItems" [(ngModel)]="commonService.globalFilters.Page"
+        [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="onPageChange($event)" [maxSize]="5"
+        [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+      </pagination>
+    </div>
     </div>
   </div>
 

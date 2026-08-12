@@ -58,7 +58,7 @@
 .section-container {
   background: #FFFFFF;
   border-radius: 6px;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid #E5E8EC;
   flex-shrink: 0;
 }
@@ -71,6 +71,8 @@
   font-weight: 600;
   display: flex;
   align-items: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .section-body {
@@ -188,4 +190,8 @@
       background: #0E9F5C;
     }
   }
+}
+
+::ng-deep .ng-dropdown-panel {
+  z-index: 9999 !important;
 }

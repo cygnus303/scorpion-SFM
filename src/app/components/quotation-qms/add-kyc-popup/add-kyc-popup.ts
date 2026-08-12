@@ -17,6 +17,8 @@ export class AddKycPopupComponent {
   public businessData: any;
   public ownerData: any;
   public industryData: any;
+  public stateData: any;
+  public cityData: any;
 
   private modalService = inject(BsModalService);
 
@@ -29,6 +31,8 @@ export class AddKycPopupComponent {
     this.getBusinessData();
     this.getOwnershipData();
     this.getIndustryData();
+    this.getStateDetail();
+    this.getCityDetail();
   }
 
   getBusinessData() {
@@ -51,5 +55,17 @@ export class AddKycPopupComponent {
 
   closePopup() {
     this.modalRef?.hide();
+  }
+
+  getStateDetail(){
+     this.quotationService.getState().subscribe((res: any) => {
+      this.stateData = res.data;
+    });
+  }
+
+  getCityDetail(){
+    this.quotationService.getCity().subscribe((res:any) => {
+      this.cityData = res.data;
+    })
   }
 }
