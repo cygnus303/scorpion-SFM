@@ -23,7 +23,7 @@ export class QuotationQMS {
   public listSubscription ?:Subscription;
     private destroy$ = new Subject<void>();
   private fetchSubject = new Subject<void>();
-  
+  public isLoading : boolean =false;
   public totalItems: number = 0;
   public quotationList: any[] = [];
   public cardList: any[] = [];
@@ -76,9 +76,9 @@ export class QuotationQMS {
     }
   }
 
-  openQmViewPopup() {
+  openQmViewPopup(custCode:string) {
     if (this.qmViewPopup) {
-      this.qmViewPopup.show();
+      this.qmViewPopup.show(custCode);
     }
   }
   
@@ -93,7 +93,8 @@ export class QuotationQMS {
   };
 
    getQuatationList() {
-      if (this.listSubscription) { this.listSubscription.unsubscribe(); }
+     this.isLoading=true;
+     if (this.listSubscription) { this.listSubscription.unsubscribe(); }
     const payload = {
       "FilterJson": {
       "ReportId":'376',
@@ -111,6 +112,7 @@ export class QuotationQMS {
     };
     this.listSubscription= this.expenseGeneralService.getDynamicData(payload).subscribe({
       next: (response: any) => {
+        this.isLoading=false;
         if (response) {
           if (response.Table1) {
             this.cardList = response.Table1;
@@ -124,6 +126,7 @@ export class QuotationQMS {
         }
       },
       error: (response: any) => {
+        this.isLoading=false;
         this.sweetAlertService.error(response);
       },
     });
@@ -137,6 +140,12 @@ export class QuotationQMS {
   onQuotationTypeChange() {
     if (this.config.QuotationType === 'Prospect Wise') {
       this.config.IsActive = '';
+    }else{
+       this.config.Status = 'Customer Created';
+       this.config.IsActive = 'Active';
+    }
+    if(this.config.QuotationType === 'Prospect Wise' && this.config.Status === 'Customer Created'){
+      this.config.Status = 'Total Prospect';
     }
     this.onSearchChange();
   }
@@ -151,6 +160,15 @@ export class QuotationQMS {
     if (s.includes('rejected')) return 'stat-red';
     if (s.includes('customer code creation')) return 'stat-teal';
     return 'stat-blue';
+  }
+
+  getProspectStatusClass(status: string): string {
+    const s = (status || '').toLowerCase();
+    if (s.includes('prospect generated')) return 'bg-blue';
+    if (s.includes('kyc generated') || s.includes('quotation generated') || s.includes('rejected')) return 'bg-red';
+    if (s.includes('approval')) return 'bg-amber';
+    if (s.includes('Pending for Customer Code Creation') || s.includes('customer created')) return 'bg-green';
+    return 'bg-grey';
   }
 
   getCardIcon(status: string): string {
@@ -172,7 +190,7 @@ export class QuotationQMS {
       if (status.toLowerCase() === 'customer created') {
         this.config.QuotationType = 'Customer Wise';
         if (!this.config.IsActive) {
-          this.config.IsActive = '';
+          this.config.IsActive = 'Active';
         }
       }
 

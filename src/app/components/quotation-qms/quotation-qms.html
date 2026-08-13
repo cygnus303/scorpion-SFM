@@ -87,24 +87,37 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of quotationList">
-              <td>{{ item.LeadId || item.LeadID || item.LeadNo || '--' }}</td>
-              <td>{{ item.LeadDate || '--' }}</td>
-              <td>{{ item.ProspectName || item.CustomerName || '--' }}</td>
-              <td>{{ item.ProspectDate || '--' }}</td>
-              <td><span class="status-badge bg-grey">{{ item.ProspectStatus || item.StatusName || item.Status || '--' }}</span></td>
-              <td>
-                <button class="qbtn qbtn-red" (click)="openKycPopup()">Add KYC</button>
-                <button class="qbtn qbtn-teal" (click)="openQmViewPopup()">QM View</button>
-                 <button class="qbtn qbtn-green">Add QM</button>
-                <button class="qbtn qbtn-red">Edit KYC</button>
+            <tr *ngIf="isLoading">
+              <td colspan="6" class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="mt-2 text-muted small">Fetching data...</div>
               </td>
             </tr>
-            <tr *ngIf="!quotationList || quotationList.length === 0">
-              <td colspan="6" class="text-center py-4 text-muted">
-                No data available
-              </td>
-            </tr>
+            <ng-container *ngIf="!isLoading">
+              <tr *ngFor="let item of quotationList">
+                <td>{{ item.LeadId || '--' }}</td>
+                <td>{{ (item.LeadDate | date :'dd/MM/yyyy')||'--' }}</td>
+                <td>{{ item.ProspectName  || '--' }}</td>
+                <td>{{ (item.ProspectDate| date :'dd/MM/yyyy')||'--' }}</td>
+                <td><span class="status-badge" [ngClass]="getProspectStatusClass(item.ProspectStatus)">{{ item.ProspectStatus  || '--' }}</span></td>
+                <td>
+                  <button class="qbtn qbtn-red" (click)="openKycPopup()">Add KYC</button>
+                  <button class="qbtn qbtn-teal" (click)="openQmViewPopup(item.CUSTCD)">QM View</button>
+                   <button class="qbtn qbtn-green">Add QM</button>
+                   <button class="qbtn qbtn-amber">Edit QM</button>
+                   <button class="qbtn qbtn-purple">Send For Approval</button>
+                   <button class="qbtn qbtn-brown">Renew QM</button>
+                  <button class="qbtn qbtn-red">Edit KYC</button>
+                </td>
+              </tr>
+              <tr *ngIf="!quotationList || quotationList.length === 0">
+                <td colspan="6" class="text-center py-4 text-muted">
+                  No data found
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
 
@@ -121,28 +134,38 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of quotationList">
-              <td>{{ item.CustomerName || item.CustName || item.ProspectName || '--' }}</td>
-              <td>{{ item.ContractId || item.ContractID || item.ContractNo || '--' }}</td>
-              <td>{{ item.StartDate || item.ContractStartDate || '--' }}</td>
-              <td>{{ item.EndDate || item.ContractEndDate || '--' }}</td>
-              <td>
-                <span class="status-badge" [ngClass]="(item.Status || item.IsActive || 'Active').toLowerCase() === 'active' ? 'text-green' : 'bg-grey'">
-                  {{ item.Status || item.IsActive || 'Active' }}
-                </span>
-              </td>
-              <td>
-                <button class="qbtn qbtn-teal" (click)="openQmViewPopup()">QM View/Print</button>
-                <button class="qbtn qbtn-red" (click)="openKycPopup()">Edit KYC</button>
-                <button class="qbtn qbtn-amber" style="background-color: #e5d5c5; color: #fff; border-color: #e5d5c5;">Edit QM</button>
-                <button class="qbtn" style="background-color: #6a0000; color: #fff; border-color: #6a0000;">Renew QM</button>
+            <tr *ngIf="isLoading">
+              <td colspan="6" class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="mt-2 text-muted small">Fetching data...</div>
               </td>
             </tr>
-            <tr *ngIf="!quotationList || quotationList.length === 0">
-              <td colspan="6" class="text-center py-4 text-muted">
-                No data available
-              </td>
-            </tr>
+            <ng-container *ngIf="!isLoading">
+              <tr *ngFor="let item of quotationList">
+                <td>{{  item.CustName || '--' }}</td>
+                <td>{{  item.ContractID || '--' }}</td>
+                <td>{{ (item.StartDate | date :'dd/MM/yyyy')||'--' }}</td>
+                <td>{{ (item.EndDate  | date :'dd/MM/yyyy')||'--' }}</td>
+                <td>
+                  <span class="status-badge" [ngClass]="item.Status === 'In Active' ? 'bg-red' : 'bg-green'">
+                    {{ item.Status || '--' }}
+                  </span>
+                </td>
+                <td>
+                  <button class="qbtn qbtn-teal" (click)="openQmViewPopup(item.CUSTCD)">QM View/Print</button>
+                  <button class="qbtn qbtn-red" (click)="openKycPopup()">Edit KYC</button>
+                  <button class="qbtn qbtn-amber" style="background-color: #e5d5c5; color: #fff; border-color: #e5d5c5;">Edit QM</button>
+                  <button class="qbtn" style="background-color: #6a0000; color: #fff; border-color: #6a0000;">Renew QM</button>
+                </td>
+              </tr>
+              <tr *ngIf="!quotationList || quotationList.length === 0">
+                <td colspan="6" class="text-center py-4 text-muted">
+                  No data found
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>

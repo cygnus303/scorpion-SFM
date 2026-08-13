@@ -37,31 +37,31 @@
       <table class="basic-info-table">
         <tr>
           <td class="label-cell">Quot. No:</td>
-          <td></td>
+          <td>{{QMData.quate_no||'--'}}</td>
         </tr>
         <tr>
           <td class="label-cell">Quot Date:</td>
-          <td>6 Aug 2026</td>
+          <td>{{(QMData.quate_dt | date :'dd/MM/yyyy')||'--'}}</td>
         </tr>
         <tr>
           <td class="label-cell">Contract Signing Location:</td>
-          <td></td>
+          <td>{{QMData.contract_Sign_Loc||'--'}}</td>
         </tr>
         <tr>
           <td class="label-cell">Prospect Code:</td>
-          <td>PR000000695</td>
+          <td>{{QMData.prosepect_code||'--'}}</td>
         </tr>
         <tr>
           <td class="label-cell">Prospect Name:</td>
-          <td>KELVIN AUTO PARTS</td>
+          <td>{{QMData.prospect_name || '--'}}</td>
         </tr>
         <tr>
           <td class="label-cell">Address:</td>
-          <td>Plot 21, Industrial Area, Mumbai, Mumbai, Maharashtra, 400001</td>
+          <td>{{QMData.pros_address||'--'}}</td>
         </tr>
         <tr>
           <td class="label-cell">Email ID:</td>
-          <td>kelvinautoparts@example.com</td>
+          <td>{{QMData.email_id || '--'}}</td>
         </tr>
       </table>
 
@@ -83,40 +83,40 @@
       <!-- COMPANY / KYC INFORMATION -->
       <div class="section-title">COMPANY / KYC INFORMATION</div>
       <table class="data-table">
-        <tr><td class="label-col">Legal Business Name:</td><td>KELVIN AUTO PARTS</td></tr>
-        <tr><td class="label-col">GSTIN No.:</td><td>27KELVI1629F1ZX</td></tr>
-        <tr><td class="label-col">Address:</td><td>Plot 21, Industrial Area, Mumbai, Mumbai, Maharashtra, 400001</td></tr>
-        <tr><td class="label-col">State:</td><td>MAHARASHTRA</td></tr>
-        <tr><td class="label-col">City:</td><td>MUMBAI</td></tr>
-        <tr><td class="label-col">Pin:</td><td>400001</td></tr>
-        <tr><td class="label-col">E-Mail ID:</td><td>kelvinautoparts@example.com</td></tr>
-        <tr><td class="label-col">Phone:</td><td></td></tr>
-        <tr><td class="label-col">Business Type:</td><td></td></tr>
-        <tr><td class="label-col">Designation:</td><td></td></tr>
-        <tr><td class="label-col">Estimated Monthly Business Volume Rs:</td><td></td></tr>
-        <tr><td class="label-col">Industry Type:</td><td></td></tr>
+        <tr><td class="label-col">Legal Business Name:</td><td>{{QMData.legal_bussiness_name || '--'}}</td></tr>
+        <tr><td class="label-col">GSTIN No.:</td><td>{{QMData.gstin || '--'}}</td></tr>
+        <!-- <tr><td class="label-col">Address:</td><td>{{QMData.address || '--'}}</td></tr> -->
+        <tr><td class="label-col">State:</td><td>{{QMData.cust_state || '--'}}</td></tr>
+        <tr><td class="label-col">City:</td><td>{{QMData.cust_city || '--'}}</td></tr>
+        <tr><td class="label-col">Pin:</td><td>{{QMData.pincode || '--'}}</td></tr>
+        <!-- <tr><td class="label-col">E-Mail ID:</td><td>{{QMData.email_id || '--'}}</td></tr> -->
+        <tr><td class="label-col">Phone:</td><td>{{QMData.cust_phone || '--'}}</td></tr>
+        <tr><td class="label-col">Business Type:</td><td>{{QMData.bussines_typ || '--'}}</td></tr>
+        <tr><td class="label-col">Designation:</td><td>{{QMData.designation || '--'}}</td></tr>
+        <tr><td class="label-col">Estimated Monthly Business Volume Rs:</td><td>{{QMData.estimated_monthly_value || '--'}}</td></tr>
+        <tr><td class="label-col">Industry Type:</td><td>{{QMData.industry_type || '--'}}</td></tr>
       </table>
 
       <!-- COMMERCIAL INFORMATION — ANNEXURE -->
       <div class="section-title">COMMERCIAL INFORMATION — ANNEXURE</div>
       <table class="data-table">
-        <tr><td class="label-col">Service Type:</td><td>LTL</td></tr>
-        <tr><td class="label-col">Transit Mode:</td><td>AIR</td></tr>
-        <tr><td class="label-col">Minimum Chargeable Weight</td><td>0.00</td></tr>
-        <tr><td class="label-col">Minimum Basis Freight</td><td>500.00</td></tr>
-        <tr><td class="label-col">GST on Transit Mode</td><td>GST @ 18%</td></tr>
-        <tr><td class="label-col">Rate Type:</td><td>Flat(in RS), Per Piece, Per PKG, Per TON, Per KG, % of Invoice</td></tr>
-        <tr><td class="label-col">Zone Type:</td><td>Old Zone</td></tr>
-        <tr><td class="label-col">Charge Type:</td><td>City - City</td></tr>
-        <tr><td class="label-col">Pick Up & Delivery Type:</td><td>DOOR PICKUP TO DOOR DELIVERY</td></tr>
-        <tr><td class="label-col">Payment Information</td><td>Owner Risk</td></tr>
-        <tr><td class="label-col">Free Storage Days</td><td>7</td></tr>
-        <tr><td class="label-col">Credit Days</td><td>15</td></tr>
-        <tr><td class="label-col">Maximum Deduction</td><td>10000</td></tr>
-        <tr><td class="label-col">GST Billing Preference</td><td>Origin</td></tr>
-        <tr><td class="label-col">Bill Generation Cycle</td><td>7 Days</td></tr>
-        <tr><td class="label-col">POD Type</td><td>Without POD</td></tr>
-        <tr><td class="label-col">Bill Submission Type</td><td>Physical Copy</td></tr>
+        <tr><td class="label-col">Service Type:</td><td>{{QMData.service_typ || '--'}}</td></tr>
+        <tr><td class="label-col">Transit Mode:</td><td>{{QMData.transit_mode || '--'}}</td></tr>
+        <tr><td class="label-col">Minimum Chargeable Weight</td><td>{{QMData.minimum_charge_wt || '--'}}</td></tr>
+        <tr><td class="label-col">Minimum Basis Freight</td><td>{{QMData.minimum_basis_freight || '--'}}</td></tr>
+        <tr><td class="label-col">GST on Transit Mode</td><td>{{QMData.gsT_on_transit_mode || '--'}}</td></tr>
+        <tr><td class="label-col">Rate Type:</td><td>{{QMData.rate_typ || '--'}}</td></tr>
+        <tr><td class="label-col">Zone Type:</td><td>{{QMData.zone_Type || '--'}}</td></tr>
+        <tr><td class="label-col">Charge Type:</td><td>{{QMData.charge_type || '--'}}</td></tr>
+        <tr><td class="label-col">Pick Up & Delivery Type:</td><td>{{QMData.pD_delivery_ty || '--'}}</td></tr>
+        <tr><td class="label-col">Payment Information</td><td>{{QMData.pay_info || '--'}}</td></tr>
+        <tr><td class="label-col">Free Storage Days</td><td>{{QMData.free_storage_days || '--'}}</td></tr>
+        <tr><td class="label-col">Credit Days</td><td>{{QMData.credit_days || '--'}}</td></tr>
+        <tr><td class="label-col">Maximum Deduction</td><td>{{QMData.max_dedusction || '--'}}</td></tr>
+        <tr><td class="label-col">GST Billing Preference</td><td>{{QMData.gsT_Pref_typ || '--'}}</td></tr>
+        <tr><td class="label-col">Bill Generation Cycle</td><td>{{QMData.billing_gen_cycle || '--'}}</td></tr>
+        <tr><td class="label-col">POD Type</td><td>{{QMData.pod_type || '--'}}</td></tr>
+        <tr><td class="label-col">Bill Submission Type</td><td>{{QMData.bill_sub_typ || '--'}}</td></tr>
       </table>
 
       <!-- FREIGHT CHARGES -->
@@ -129,19 +129,19 @@
           <th>TAT</th>
         </tr>
         <tr>
-          <td>ABHANPUR</td>
-          <td>ABHAYPUR</td>
-          <td>70.00 / Per KG</td>
-          <td>4</td>
+          <td>{{QMData.frt_from_Location || '--'}}</td>
+          <td>{{QMData.frt_to_location || '--'}}</td>
+          <td>{{QMData.frt_rate || '--'}}</td>
+          <td>{{QMData.frt_tat || '--'}}</td>
         </tr>
       </table>
 
       <!-- DPH BILLING CHARGES -->
       <div class="section-title">DPH BILLING CHARGES</div>
       <table class="data-table">
-        <tr><td class="label-col">Current Diesel Rate</td><td>0.00</td></tr>
-        <tr><td class="label-col">Diesel Component in Basic Freight</td><td>50.00</td></tr>
-        <tr><td class="label-col">Increase Applicable / Decrease Applicable — Range</td><td>3.00 / 1.50%</td></tr>
+        <tr><td class="label-col">Current Diesel Rate</td><td>{{QMData.current_diesel_rate || '--'}}</td></tr>
+        <tr><td class="label-col">Diesel Component in Basic Freight</td><td>{{QMData.diesel_com_basic_frt || '--'}}</td></tr>
+        <tr><td class="label-col">Increase Applicable / Decrease Applicable — Range</td><td>{{QMData.inc_Dec_applicable_rng || '--'}}</td></tr>
       </table>
 
       <!-- OTHER CHARGES -->
@@ -154,26 +154,12 @@
           <th>Rate</th>
           <th>Minimum</th>
         </tr>
-        <tr>
-          <td>CFT Ratio</td>
-          <td>Yes</td>
-          <td>INCHES</td>
-          <td>7.25</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Demmurage Charge</td>
-          <td>Yes</td>
-          <td>% of Invoice</td>
-          <td>0.5</td>
-          <td>0</td>
-        </tr>
-        <tr>
-          <td>FSC Charge</td>
-          <td>Yes</td>
-          <td></td>
-          <td>16</td>
-          <td>0</td>
+        <tr *ngFor="let item of QMCharges">
+          <td>{{item.chargeName || '--'}}</td>
+          <td>{{item.applicableYN || '--'}}</td>
+          <td>{{item.rateType || '--'}}</td>
+          <td>{{item.rate || '--'}}</td>
+          <td>{{item.minimum || '--'}}</td>
         </tr>
       </table>
 
@@ -201,50 +187,6 @@
           <td>0.00</td>
           <td>0.00</td>
           <td>0.00</td>
-        </tr>
-        <tr>
-          <td>Category B</td>
-          <td>2</td>
-          <td>1500.00</td>
-          <td>4.00</td>
-          <td>3.75</td>
-          <td>3.50</td>
-          <td>3.50</td>
-          <td>3.00</td>
-          <td>2.50</td>
-        </tr>
-        <tr>
-          <td>Category C</td>
-          <td>3</td>
-          <td>2000.00</td>
-          <td>4.75</td>
-          <td>4.50</td>
-          <td>4.00</td>
-          <td>4.00</td>
-          <td>3.75</td>
-          <td>3.25</td>
-        </tr>
-        <tr>
-          <td>Category D</td>
-          <td>4</td>
-          <td>3000.00</td>
-          <td>5.00</td>
-          <td>5.00</td>
-          <td>5.00</td>
-          <td>5.00</td>
-          <td>5.00</td>
-          <td>5.00</td>
-        </tr>
-        <tr>
-          <td>Category E</td>
-          <td>5</td>
-          <td>3000.00</td>
-          <td>5.00</td>
-          <td>5.00</td>
-          <td>5.00</td>
-          <td>5.00</td>
-          <td>5.00</td>
-          <td>5.00</td>
         </tr>
       </table>
 

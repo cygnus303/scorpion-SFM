@@ -26,4 +26,8 @@ export class Quotation {
   getCustomer(){
     return this.apiHandlerService.Get(`QuotationManage/GetProspectCustList`);
   }
+
+  getView(custCode:string){
+    return this.apiHandlerService.Get(`QuotationManage/QuotationViewPrint?custCode=${custCode}`);
+  }
 }
