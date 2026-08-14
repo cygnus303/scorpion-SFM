@@ -274,7 +274,9 @@ export class AddPrqPopup {
       consignorAddress: new FormControl(''),
       consigneeAddress: new FormControl(''),
       consignorPin: new FormControl(null),
-      consigneePin: new FormControl(null)
+      consigneePin: new FormControl(null),
+      consigneeContactNo:new FormControl(null),
+      consignorContactNo:new FormControl(null,[Validators.required, Validators.pattern('^[0-9]{10}$')])
     });
 
     this.prqForm.get('service_Type')?.valueChanges.subscribe((val) => {
@@ -468,7 +470,9 @@ export class AddPrqPopup {
               consignorAddress: data.ConsignorAddress,
               consigneeAddress: data.ConsigneeAddress,
               consignorPin: data.ConsignorPincode,
-              consigneePin: data.ConsigneePincode
+              consigneePin: data.ConsigneePincode,
+              consignorContactNo:data.ConsignorContactno,
+              consigneeContactNo:data.ConsigneeContactno,
             });
           }, 500);
         }
@@ -529,6 +533,8 @@ export class AddPrqPopup {
         baseFinYear: finyear,
         type: formData.groupCode ? 'E' : '',
         prqNo: formData.groupCode || '',
+        consignorContactno:formData.consignorContactNo,
+        consigneeContactno:formData.consigneeContactNo,
       };
 
       this.prqService.submitPRQ(payload).subscribe({

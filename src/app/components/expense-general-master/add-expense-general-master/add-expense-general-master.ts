@@ -110,7 +110,7 @@ export class AddExpenseGeneralMaster {
         ...this.expenseMasterForm.value,
         transportModeId: parseInt(this.expenseMasterForm.value.transportModeId),
         designationId: parseInt(this.expenseMasterForm.value.designationId),
-        ratePerKM: parseInt(this.expenseMasterForm.value.ratePerKM),
+        ratePerKM: Number(this.expenseMasterForm.value.ratePerKM),
         createdBy: this.identityService.getLoggedUserId(),
       }
       this.type === 'Add Expense' ? this.addGeneral(data) : this.updateGeneral(data);
