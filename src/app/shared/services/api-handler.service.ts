@@ -96,4 +96,11 @@ export class ApiHandlerService implements IApiBaseActions {
       responseType: 'blob'
     });
   }
+
+  PostBlob(url: string, data: any, params?: ParamsType): Observable<Blob> {
+    return this.httpClient.post(environment.apiUrl + url, data, {
+      params: this.createParams(params),
+      responseType: 'blob'
+    });
+  }
 }

@@ -28,6 +28,12 @@ export class PickupRequestList {
   public PRQList: any[] = [];
   public totalItems: number = 0;
   public isShaking: boolean = false;
+  public isDragOver = false;
+  parsedPrqList: any[] = [];
+  parsedTotalRows: number = 0;
+  parsedValidRows: number = 0;
+  parsedInvalidRows: number = 0;
+  isParsingDone: boolean = false;
   private destroy$ = new Subject<void>();
   @ViewChild('addPRQ') addPRQ!: AddPrq;
   @ViewChild('addPrqPopup') addPrqPopup!: AddPrqPopup;
@@ -207,16 +213,31 @@ export class PickupRequestList {
   }
 
   downloadTemplate() {
-    this.sweetAlertService.info('Template download coming soon');
+    this.PRQService.downloadTemplate().subscribe({
+      next: (response: any) => {
+        const blob: Blob = new Blob([response], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        saveAs(blob, `PRQ_Template.xlsx`);
+        this.isExportLoading = false;
+      },
+      error: (error: any) => {
+        this.sweetAlertService.error(error?.error?.message || 'Download failed');
+        this.isExportLoading = false;
+      },
+    });
   }
 
-  public isDragOver = false;
 
   openUploadModal() {
     this.selectedFile = null;
     this.selectedFileName = '';
     this.isDragOver = false;
-    this.uploadModalRef = this.modalService.show(this.uploadPrqModalTemplate, { class: 'modal-dialog-centered upload-prq-modal', backdrop: 'static' });
+    this.parsedTotalRows = 0;
+    this.parsedValidRows = 0;
+    this.parsedInvalidRows = 0;
+    this.isParsingDone = false;
+    this.uploadModalRef = this.modalService.show(this.uploadPrqModalTemplate, { class: 'modal-dialog-centered upload-prq-modal modal-lg', backdrop: 'static' });
   }
 
   closeUploadModal() {
@@ -224,6 +245,11 @@ export class PickupRequestList {
     this.selectedFile = null;
     this.selectedFileName = '';
     this.isDragOver = false;
+    this.parsedPrqList = [];
+    this.parsedTotalRows = 0;
+    this.parsedValidRows = 0;
+    this.parsedInvalidRows = 0;
+    this.isParsingDone = false;
   }
 
   onFileSelected(event: any) {
@@ -262,10 +288,41 @@ export class PickupRequestList {
     }
   }
 
-  uploadAndParse() {
+  uploadAndParse(fileInput?: HTMLInputElement) {
     if (this.selectedFile) {
-      this.sweetAlertService.info(`File ${this.selectedFileName} ready to be parsed. Backend logic coming soon.`);
-      this.closeUploadModal();
+      const fileName = this.selectedFile.name.toLowerCase();
+      if (!fileName.endsWith('.xls') && !fileName.endsWith('.xlsx')) {
+        this.sweetAlertService.info("Only .xls and .xlsx file types are supported.");
+        this.selectedFile = null;
+        this.selectedFileName = '';
+        if (fileInput) {
+          fileInput.value = '';
+        }
+        return;
+      }
+
+      const payload = new FormData();
+      payload.append('excelFile', this.selectedFile);
+
+      this.isLoading = true;
+      this.PRQService.validateData(payload).subscribe({
+        next: (response: any) => {
+          this.isLoading = false;
+          if (response?.success) {
+            this.parsedPrqList = response.items || [];
+            this.parsedTotalRows = this.parsedPrqList.length;
+            this.parsedValidRows = this.parsedPrqList.filter((x: any) => x.isValid).length;
+            this.parsedInvalidRows = this.parsedPrqList.filter((x: any) => !x.isValid).length;
+            this.isParsingDone = true;
+          } else {
+            this.sweetAlertService.error(response?.message || "Failed to parse file");
+          }
+        },
+        error: (error: any) => {
+          this.isLoading = false;
+          this.sweetAlertService.error(error?.error?.message || "Failed to parse file");
+        }
+      });
     }
   }
 
@@ -312,6 +369,42 @@ export class PickupRequestList {
       error: (response: any) => {
         this.isLoading = false;
         this.sweetAlertService.error(response?.error?.message || "Failed to cancel PRQ");
+      }
+    });
+  }
+
+  onSubmitBulkUpload() {
+    const now = new Date();
+    const pad = (n: number) => n < 10 ? '0' + n : n;
+    const formattedDate = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+    const payload = {
+      items: this.parsedPrqList.map(item => ({
+        ...item,
+        prqDate: item.requiredPlacementDateTime
+      })),
+      baseLocation: this.identityService.getBranchCode() || '',
+      baseUserName: this.commonService.globalFilters.UserID?.toString() || '',
+      baseFinYear: this.identityService.getFinYear() || ''
+    };
+
+    this.isLoading = true;
+    this.PRQService.uploadExcel(payload).subscribe({
+      next: (response: Blob) => {
+        this.isLoading = false;
+        
+        const blob: Blob = new Blob([response], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        saveAs(blob, `Bulk_PRQ_Upload_Result.xlsx`);
+        
+        this.sweetAlertService.success("Bulk PRQ Submitted Successfully");
+        this.closeUploadModal();
+        this.getPRQList();
+      },
+      error: (error: any) => {
+        this.isLoading = false;
+        this.sweetAlertService.error("Failed to submit bulk PRQ");
       }
     });
   }

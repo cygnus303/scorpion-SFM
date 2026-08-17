@@ -58,19 +58,26 @@
 .section-container {
   background: #FFFFFF;
   border-radius: 6px;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid #E5E8EC;
   flex-shrink: 0;
 }
 
 .section-header {
-  background: #1A2240; // Dark navy color from screenshot
-  color: #FFFFFF;
-  padding: 10px 16px;
+  background: #F4F6F8;
+  color: #22262B;
+  padding: 12px 16px;
   font-size: 13px;
   font-weight: 600;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #E5E8EC;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  
+  svg path {
+    fill: #E90913;
+  }
 }
 
 .section-body {
@@ -91,7 +98,7 @@
   label {
     font-size: 11px;
     color: #6B7280;
-    font-weight: 500;
+    font-weight: 600;
     
     .req {
       color: #E90913;
@@ -172,7 +179,7 @@
   }
   
   .btn-submit {
-    background: #12B76A;
+    background: #E90913;
     border: none;
     color: #FFFFFF;
     padding: 8px 24px;
@@ -185,7 +192,11 @@
     transition: all 0.2s;
     
     &:hover {
-      background: #0E9F5C;
+      background: #c80811;
     }
   }
+}
+
+::ng-deep .ng-dropdown-panel {
+  z-index: 9999 !important;
 }

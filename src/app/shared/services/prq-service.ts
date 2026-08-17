@@ -66,4 +66,17 @@ export class PrqService {
   submitPRQ(payload:any){
      return this.apiHandlerService.Post(`PRQ/SubmitPRQRequest`,payload)
   }
+
+   downloadTemplate(): Observable<Blob> {
+    return this.apiHandlerService.DownloadFile(`PRQ/DownloadPRQTemplate`);
+  }
+
+  validateData(payload:any){
+    return this.apiHandlerService.Post(`PRQ/UploadPRQExcel`,payload)
+  }
+
+  uploadExcel(payload:any): Observable<Blob> {
+    return this.apiHandlerService.PostBlob(`PRQ/SubmitBulkPRQ`, payload);
+  }
+
 }

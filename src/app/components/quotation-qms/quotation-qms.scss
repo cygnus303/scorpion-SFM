@@ -325,7 +325,35 @@
       background: #F0F1F3;
       color: #5B6B7E;
       padding: 4px 10px;
-      border-radius: 4px;
+      border-radius: 12px;
+    }
+    
+    &.bg-green {
+      background: $green-bg;
+      color: $green-text;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    &.bg-red {
+      background: $red-bg;
+      color: $red-text;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    &.bg-amber {
+      background: $amber-bg;
+      color: $amber-text;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    &.bg-blue {
+      background: #EEF2F6;
+      color: #5B6B7E;
+      padding: 4px 10px;
+      border-radius: 12px;
     }
     
     &.text-red {
@@ -347,29 +375,28 @@
   .qbtn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 4px;
     font-size: 11px;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 20px;
+    font-weight: 500;
+    padding: 5px 11px;
+    border-radius: 6px;
     border: none;
     cursor: pointer;
     color: #FFFFFF;
-    margin-right: 6px;
-    transition: opacity .15s;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &:hover {
-      opacity: 0.9;
-    }
+    margin: 2px 5px 2px 0;
+    box-shadow: 0 1px 2px rgba(20, 25, 30, .12);
+    transition: opacity .15s, transform .1s;
+    &:hover { transform: translateY(-1px); }
   }
 
   .qbtn-red { background: #E90913; }
   .qbtn-green { background: #12B76A; }
   .qbtn-amber { background: #F5A600; }
+  .qbtn-purple { background: #6c4fc9c7; }
+  .qbtn-brown { background: #5681f9; }
   .qbtn-teal { background: #1EBAB4; }
+}
+
+::ng-deep .ng-dropdown-panel {
+  z-index: 9999 !important;
 }

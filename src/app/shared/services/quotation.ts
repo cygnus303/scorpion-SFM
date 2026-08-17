@@ -14,4 +14,20 @@ export class Quotation {
   getGeneralMasterData(codeType: string) {
     return this.apiHandlerService.Get(`QuotationManage/GetGeneralMasterData?CodeType=${codeType}`);
   }
+
+  getState() {
+    return this.apiHandlerService.Get(`QuotationManage/GetStateMasterList`);
+  }
+
+  getCity() {
+    return this.apiHandlerService.Get(`QuotationManage/GetCityMasterList`);
+  }
+
+  getCustomer(){
+    return this.apiHandlerService.Get(`QuotationManage/GetProspectCustList`);
+  }
+
+  getView(custCode:string){
+    return this.apiHandlerService.Get(`QuotationManage/QuotationViewPrint?custCode=${custCode}`);
+  }
 }
