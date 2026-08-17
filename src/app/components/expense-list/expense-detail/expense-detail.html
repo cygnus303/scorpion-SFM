@@ -76,7 +76,7 @@
                     </div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Meeting Date</span>
-                        <span class="ld3-card-val">{{expenseResponse?.expenseDate ? commonService.convertToDisplayDate(expenseResponse?.expenseDate) : '--' }}</span>
+                        <span class="ld3-card-val">{{expenseResponse?.expenseDate ? expenseResponse?.expenseDate : '--' }}</span>
                     </div>
                 </div>
 
@@ -100,7 +100,7 @@
                     <div class="ld3-card-icon" style="--ci:#4f46e5;--cb:#e0e7ff;"><i class="ri-calendar-line"></i></div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Expense Date</span>
-                        <span class="ld3-card-val">{{ expenseResponse?.expenseDate ? commonService.convertToDisplayDate(expenseResponse?.expenseDate) : '--' }}</span>
+                        <span class="ld3-card-val">{{ expenseResponse?.expenseDate ? expenseResponse?.expenseDate : '--' }}</span>
                     </div>
                 </div>
 
@@ -188,7 +188,7 @@
                     </div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Expense Added Date</span>
-                        <span class="ld3-card-val">{{ expenseResponse?.expenseAddedDate ? commonService.convertToDisplayDate(expenseResponse?.expenseAddedDate) : '--' }}</span>
+                        <span class="ld3-card-val">{{ expenseResponse?.expenseAddedDate ? expenseResponse?.expenseAddedDate : '--' }}</span>
                     </div>
                 </div>
 
@@ -241,7 +241,7 @@
                     </div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Manager Approved Date</span>
-                        <span class="ld3-card-val">{{ expenseResponse?.approvedManagerDate ? commonService.convertToDisplayDate(expenseResponse?.approvedManagerDate) : '--' }}</span>
+                        <span class="ld3-card-val">{{ expenseResponse?.approvedManagerDate ? expenseResponse?.approvedManagerDate : '--' }}</span>
                     </div>
                 </div>
 

@@ -159,7 +159,7 @@
               <td class="px-2 py-2 border-bottom">
                 <div class="d-flex flex-column" style="gap: 3px;">
                   <span class="fw-semibold text-dark lh-1" style="font-size: 12px;">
-                    {{ formatListDate(item.appointmentDT || item.csdDate || item.msdDate) }}
+                    {{ item.appointmentDT || item.csdDate || item.msdDate}}
                   </span>
                   <span class="text-muted lh-1" style="font-size: 11px;" *ngIf="item.appointmentTime">{{
                     item.appointmentTime }}</span>

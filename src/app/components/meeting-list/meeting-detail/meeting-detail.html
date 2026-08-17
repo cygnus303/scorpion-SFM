@@ -126,7 +126,7 @@
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Meeting Date</span>
                         <span class="ld3-card-val">
-                            {{ meetingResponse?.meetingDate ? commonService.convertToDisplayDate(meetingResponse?.meetingDate) : '--' }}
+                            {{ meetingResponse?.meetingDate ? meetingResponse?.meetingDate : '--' }}
                         </span>
                     </div>
                 </div>

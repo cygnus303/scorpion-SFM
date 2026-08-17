@@ -68,7 +68,7 @@
                         Survey Submit Date
                     </span>
                     <span class="ld3-card-val">
-                        {{ (surveyResponse?.surveySubmitDate | date:'dd MMM yyyy') || '--' }}
+                        {{ (surveyResponse?.surveySubmitDate | date:'dd/MM/yyyy') || '--' }}
                     </span>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                 <div class="ld3-card-body">
                     <span class="ld3-card-label">Added Date</span>
                     <span class="ld3-card-val">
-                        {{ (surveyResponse?.surveyEntryDate | date:'dd MMM yyyy') || '--' }}
+                        {{ (surveyResponse?.surveyEntryDate | date:'dd/MM/yyyy') || '--' }}
                     </span>
                 </div>
             </div>

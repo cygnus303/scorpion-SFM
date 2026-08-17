@@ -26,8 +26,7 @@ export class ViewAppointment {
 
   formatDate(d: string): string {
     if (!d || (d.charAt(2) !== '-' && d.charAt(2) !== '/')) return d || '-';
-    const m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return `${d.substring(0, 2)} ${m[+d.substring(3, 5) - 1]} ${d.substring(6, 10)}${d.substring(10)}`;
+    return `${d.substring(0, 2)}/${d.substring(3, 5)}/${d.substring(6, 10)}${d.substring(10)}`;
   }
 
   openModal(type: string, data: any) {

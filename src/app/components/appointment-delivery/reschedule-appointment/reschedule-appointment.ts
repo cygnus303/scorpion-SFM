@@ -30,8 +30,7 @@ export class RescheduleAppointment {
     if (parts.length !== 3) return dateStr;
     const d = new Date(+parts[2], +parts[1] - 1, +parts[0]);
     if (isNaN(d.getTime())) return dateStr;
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return `${String(d.getDate()).padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
   }
 
   @ViewChild('rescheduleModal') rescheduleModal!: ModalDirective;

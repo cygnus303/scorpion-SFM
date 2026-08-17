@@ -53,7 +53,7 @@
                     </div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Complaint Date</span>
-                        <span class="ld3-card-val">  {{ complaintResponse?.compalaintDate ? commonService.convertToDisplayDate(complaintResponse.compalaintDate) : '--' }}</span>
+                        <span class="ld3-card-val">  {{ complaintResponse?.compalaintDate ? complaintResponse.compalaintDate : '--' }}</span>
                     </div>
                 </div>
 
@@ -178,7 +178,7 @@
                     </div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Added Date</span>
-                        <span class="ld3-card-val">{{ (complaintResponse?.createdDate | date:'dd MMM yyyy') || '--' }}</span>
+                        <span class="ld3-card-val">{{ (complaintResponse?.createdDate | date:'dd/MM/yyyy') || '--' }}</span>
                     </div>
                 </div>
 

@@ -53,7 +53,7 @@
                     </div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Complaint Date</span>
-                        <span class="ld3-card-val">{{ enquiryResponse?.compalaintDate ? commonService.convertToDisplayDate(enquiryResponse?.compalaintDate) : '--' }}</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.compalaintDate ? enquiryResponse?.compalaintDate : '--' }}</span>
                     </div>
                 </div>
 
@@ -125,7 +125,7 @@
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">EDD</span>
                         <span class="ld3-card-val">{{enquiryResponse?.edd ? (enquiryResponse?.edd |
-                            date:'dd MMM yyyy') : '--'}}</span>
+                            date:'dd/MM/yyyy') : '--'}}</span>
                     </div>
                 </div>
 
@@ -136,7 +136,7 @@
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">ADD</span>
                         <span class="ld3-card-val">{{ enquiryResponse?.addDate ? (enquiryResponse?.addDate |
-                            date:'dd MMM yyyy') : '--'}}</span>
+                            date:'dd/MM/yyyy') : '--'}}</span>
                     </div>
                 </div>
 
@@ -178,7 +178,7 @@
                     </div>
                     <div class="ld3-card-body">
                         <span class="ld3-card-label">Added Date</span>
-                        <span class="ld3-card-val">{{ enquiryResponse?.createdDate ? (enquiryResponse?.createdDate | date:'dd MMM yyyy') : '--' }}</span>
+                        <span class="ld3-card-val">{{ enquiryResponse?.createdDate ? (enquiryResponse?.createdDate | date:'dd/MM/yyyy') : '--' }}</span>
                     </div>
                 </div>
 
