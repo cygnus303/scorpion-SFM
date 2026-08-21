@@ -2,12 +2,13 @@ import { Component, inject } from '@angular/core';
 import { CommonService } from '../../shared/services/common.service';
 import { DashboardService } from '../../shared/services/dashboard';
 import { CommonModule } from '@angular/common';
+import { CountUpDirective } from '../../shared/directives/count-up.directive';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-content',
-  imports: [CommonModule],
+  imports: [CommonModule, CountUpDirective],
   templateUrl: './main-content.html',
   styleUrl: './main-content.scss',
 })
@@ -21,13 +22,21 @@ export class MainContent {
   public salesCollectionCount: any = {}
   public latestEvents: any;
   public router = inject(Router);
-  public isSFMMasters: any
+  public isSFMMasters: any;
+  public isLoading: boolean = true;
+  private pendingCalls: number = 0;
+  
+  public skeletonCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  public skeletonBottom = [1, 2, 3];
+  public skeletonRows = [1, 2, 3, 4, 5];
 
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.isSFMMasters = JSON.parse(localStorage.getItem('ISSFMMASTER') || '{}');
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.isLoading = true;
+      this.pendingCalls = 6;
       this.GetLeadPipeline();
       this.GetDashboardSalesOS();
       this.GetProspectLeaderboard();
@@ -65,7 +74,9 @@ export class MainContent {
         if (response.success) {
           this.totalCount = response.data
         }
-      }
+      },
+      complete: () => this.checkLoadComplete(),
+      error: () => this.checkLoadComplete()
     });
   }
 
@@ -92,7 +103,9 @@ export class MainContent {
         if (response.success) {
           this.leadPipeline = response.data;
         }
-      }
+      },
+      complete: () => this.checkLoadComplete(),
+      error: () => this.checkLoadComplete()
     });
   }
 
@@ -109,7 +122,9 @@ export class MainContent {
         if (response.success) {
           this.salesCollectionCount = response.data;
         }
-      }
+      },
+      complete: () => this.checkLoadComplete(),
+      error: () => this.checkLoadComplete()
     });
   }
 
@@ -119,6 +134,7 @@ export class MainContent {
 
     if (!rawStart || !rawEnd) {
       console.warn('Start or End date is missing');
+      this.checkLoadComplete();
       return;
     }
 
@@ -132,6 +148,7 @@ export class MainContent {
 
     if (isNaN(currentStartDate.getTime()) || isNaN(currentEndDate.getTime())) {
       console.warn('Invalid date value:', rawStart, rawEnd);
+      this.checkLoadComplete();
       return;
     }
 
@@ -166,7 +183,9 @@ export class MainContent {
         if (response.success) {
           this.nextMonthSales = response.data;
         }
-      }
+      },
+      complete: () => this.checkLoadComplete(),
+      error: () => this.checkLoadComplete()
     });
   }
 
@@ -196,7 +215,9 @@ export class MainContent {
         if (response.success) {
           this.prospectLeaderboard = response.data;
         }
-      }
+      },
+      complete: () => this.checkLoadComplete(),
+      error: () => this.checkLoadComplete()
     });
   }
 
@@ -206,8 +227,18 @@ export class MainContent {
         if (response.success) {
           this.latestEvents = response.data;
         }
-      }
+      },
+      complete: () => this.checkLoadComplete(),
+      error: () => this.checkLoadComplete()
     });
+  }
+
+  private checkLoadComplete() {
+    this.pendingCalls--;
+    if (this.pendingCalls <= 0) {
+      this.isLoading = false;
+      this.pendingCalls = 0;
+    }
   }
 
   getTimeAgo(dateStr: string): string {

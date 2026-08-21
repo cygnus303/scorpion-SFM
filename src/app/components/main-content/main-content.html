@@ -1,12 +1,44 @@
 <div class="page active fade-in">
-  <div class="g5 card-ui">
+  <!-- Skeleton Loader for Cards -->
+  <ng-container *ngIf="isLoading">
+    <!-- Top Cards Skeleton -->
+    <div class="g5 card-ui">
+      <div class="card-card" *ngFor="let i of skeletonCards">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+          <div class="ci skeleton" style="width:26px;height:26px;border-radius:6px;background:var(--bg)"></div>
+          <div class="skeleton" style="width: 100px; height: 14px; border-radius: 4px;"></div>
+        </div>
+        <div class="skeleton" style="width: 60%; height: 28px; border-radius: 4px; margin-top: 10px;"></div>
+        <div class="skeleton" style="width: 50px; height: 18px; border-radius: 4px; margin-top: 12px;"></div>
+      </div>
+    </div>
+
+    <!-- Bottom Cards Skeleton -->
+    <div class="g3">
+      <div class="card" *ngFor="let j of skeletonBottom">
+        <div class="card-head">
+          <div class="ci skeleton" style="background:var(--bg)"></div>
+          <div class="skeleton" style="width: 120px; height: 16px; border-radius: 4px;"></div>
+        </div>
+        <div style="padding: 16px;">
+          <div *ngFor="let k of skeletonRows" style="display:flex; gap: 10px; margin-bottom: 12px;">
+             <div class="skeleton" style="flex:1; height: 12px; border-radius: 4px;"></div>
+             <div class="skeleton" style="width:30%; height: 12px; border-radius: 4px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoading">
+    <div class="g5 card-ui">
     <div class="card-card" style="--kc:var(--red);cursor:pointer" *ngIf="isSFMMasters?.SFM==='Y'"
       (click)="router.navigate(['/lead'])">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
         <div class="ci" style="width:26px;height:26px;font-size:13px">📋</div><span
           style="font-size:12px;font-weight:600">Lead Pipeline</span>
       </div>
-      <div style="font-size:22px;font-weight:700;color:var(--text1)">{{this.totalCount.totalLeadCount}}</div>
+      <div style="font-size:22px;font-weight:700;color:var(--text1)" [appCountUp]="totalCount.totalLeadCount">0</div>
       <!-- <div style="font-size:11px;color:var(--text3);margin-top:2px">active leads</div> -->
       <div
         style="display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--red-lt);color:var(--red)">
@@ -17,14 +49,14 @@
         <div class="ci g" style="width:26px;height:26px;font-size:13px">💰</div>
         <span style="font-size:12px;font-weight:600">Sales Analysis</span>
       </div>
-      <div style="font-size:22px;font-weight:700;color:var(--text1)">
-        ₹{{ formatAmount(salesCollectionCount?.currentMonthRevenue) }}
+      <div style="font-size:22px;font-weight:700;color:var(--text1)" [appCountUp]="salesCollectionCount?.currentMonthRevenue" [isAmount]="true" prefix="₹">
+        ₹0
       </div>
       <div
         style="display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--amber-lt);color:var(--amber)">
-        {{ formatAmount(salesCollectionCount?.currentMonthRevenue) }}
+        <b style="font-weight:inherit; color:inherit;" [appCountUp]="salesCollectionCount?.currentMonthRevenue" [isAmount]="true">0</b>
         /
-        {{ formatAmount(nextMonthSales?.currentMonthRevenue) }}
+        <b style="font-weight:inherit; color:inherit;" [appCountUp]="nextMonthSales?.currentMonthRevenue" [isAmount]="true">0</b>
 
         <!-- Arrow: up jo current > next, down jo current < next -->
         <span *ngIf="salesCollectionCount?.currentMonthRevenue > nextMonthSales?.currentMonthRevenue"
@@ -44,7 +76,7 @@
         <div class="ci a" style="width:26px;height:26px;font-size:13px">📄</div><span
           style="font-size:12px;font-weight:600">QMS V2</span>
       </div>
-      <div style="font-size:22px;font-weight:700;color:var(--text1)">{{totalCount.totalProspectCount}}</div>
+      <div style="font-size:22px;font-weight:700;color:var(--text1)" [appCountUp]="totalCount.totalProspectCount">0</div>
       <!-- <div style="font-size:11px;color:var(--text3);margin-top:2px">quotes active</div> -->
       <div
         style="display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--amber-lt);color:var(--amber)">
@@ -56,8 +88,8 @@
         <div class="ci" style="width:26px;height:26px;font-size:13px">🚚</div><span
           style="font-size:12px;font-weight:600">PRQ Module</span>
       </div>
-      <div style="font-size:22px;font-weight:700;color:var(--red)">{{this.totalCount.prQ_Module}}<span
-          style="font-size:12px;font-weight:400;color:var(--text3)">/{{this.totalCount.prQ_SuccessRate}}</span></div>
+      <div style="font-size:22px;font-weight:700;color:var(--red)"><b style="font-weight:inherit; color:inherit;" [appCountUp]="totalCount.prQ_Module">0</b><span
+          style="font-size:12px;font-weight:400;color:var(--text3)">/<b style="font-weight:inherit; color:inherit;" [appCountUp]="totalCount.prQ_SuccessRate">0</b></span></div>
       <!-- <div style="font-size:11px;color:var(--red);margin-top:2px">raised today ⚠</div> -->
       <div
         style="display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--red-lt);color:var(--red)">
@@ -79,8 +111,8 @@
         <div class="kpi-label" style="font-size:11px;">Revenue vs Target</div>
         <div class="kpi-icon" style="font-size:16px;">💰</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">
-        ₹{{formatAmount(salesCollectionCount.currentMonthRevenue)}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="salesCollectionCount?.currentMonthRevenue" [isAmount]="true" prefix="₹">
+        ₹0</div>
       <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;"></div>
     </div>
 
@@ -89,7 +121,7 @@
         <div class="kpi-label" style="font-size:11px;">Outstanding Collection</div>
         <div class="kpi-icon" style="font-size:16px;">📊</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">₹{{ formatAmount(salesCollectionCount.totalOS) }}
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="salesCollectionCount?.totalOS" [isAmount]="true" prefix="₹">₹0
       </div>
       <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">
         {{formatAmount(salesCollectionCount.currentMonthOS)}} This Month</div>
@@ -101,7 +133,7 @@
         <div class="kpi-label" style="font-size:11px;">Meetings</div>
         <div class="kpi-icon" style="font-size:16px;">🤝</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{this.totalCount.totalMeetingCount}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="totalCount.totalMeetingCount">0</div>
       <div class="kpi-sub up" style="font-size:10px; margin-top:2px;"></div>
     </div>
 
@@ -111,8 +143,8 @@
         <div class="kpi-label" style="font-size:11px;">BDSL</div>
         <div class="kpi-icon" style="font-size:16px;">🎯</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">
-        {{ totalCount.totalBDSLCount }}%
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="totalCount.totalBDSLCount" suffix="%">
+        0%
       </div>
       <div class="kpi-sub" style="font-size:10px; margin-top:2px; display:flex; align-items:center; gap:5px;"
         [style.color]="totalCount.totalBDSLCount >= 95 ? 'var(--green)' : 'var(--red)'">
@@ -137,7 +169,7 @@
         <div class="kpi-label" style="font-size:11px;">Open Complaints</div>
         <div class="kpi-icon" style="font-size:16px;">🎫</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{totalCount.openComplaints}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="totalCount.openComplaints">0</div>
       <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;"></div>
     </div>
   </div>
@@ -163,8 +195,8 @@
             </div>
           </div>
 
-          <div class="fn">
-            {{ item.totalCount }}
+          <div class="fn" [appCountUp]="item.totalCount">
+            0
           </div>
 
         </div>
@@ -269,7 +301,6 @@
         <!-- <div class="atm">{{getTimeAgo(latestEvents.latestQuotation.eventDate)}}</div> -->
       </div>
 
-      <!-- Fallback empty state if no events -->
       <div
         *ngIf="!latestEvents?.latestPRQ && !latestEvents?.latestComplaint && !latestEvents?.latestMeeting && !latestEvents?.latestCustomer && !latestEvents?.latestQuotation"
         style="padding:15px;text-align:center;color:var(--text3);font-size:12px">
@@ -277,4 +308,5 @@
       </div>
     </div>
   </div>
+  </ng-container>
 </div>

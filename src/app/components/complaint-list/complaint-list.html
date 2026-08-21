@@ -1,5 +1,20 @@
 <!-- ══ COMPLAINT CCM ══ -->
 <div class="page active fade-in">
+  <!-- Skeleton Loader for Cards -->
+  <ng-container *ngIf="isCardsLoading">
+    <div class="kpi-row">
+      <div class="kpi" *ngFor="let i of [1, 2, 3, 4, 5]" style="padding: 10px 12px; border: 1px solid #ececec; border-radius: 18px; position: relative; background: #fff;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start">
+          <div class="skeleton" style="width: 80px; height: 14px; border-radius: 4px;"></div>
+          <div class="ci skeleton" style="width: 24px; height: 24px; border-radius: 6px; background:none; box-shadow: none;"></div>
+        </div>
+        <div class="skeleton" style="width: 60%; height: 24px; border-radius: 4px; margin-top: 10px;"></div>
+        <div class="skeleton" style="width: 40px; height: 12px; border-radius: 4px; margin-top: 8px;"></div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isCardsLoading">
   <div class="kpi-row">
 
     <div class="kpi" style="--kc:var(--red);">
@@ -7,7 +22,7 @@
         <div class="kpi-label" style="font-size:11px;">Total Complaints</div>
         <div class="kpi-icon" style="font-size:16px;">🗂️</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.totalComCount}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="compliantCard?.totalComCount || 0">0</div>
     </div>
 
     <div class="kpi" style="--kc:var(--green);">
@@ -15,7 +30,7 @@
         <div class="kpi-label" style="font-size:11px;">Open Complaints</div>
         <div class="kpi-icon" style="font-size:16px;">📂</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.new}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="compliantCard?.new || 0">0</div>
     </div>
 
     <div class="kpi" style="--kc:var(--amber);">
@@ -23,7 +38,7 @@
         <div class="kpi-label" style="font-size:11px;">Escalated Complaints</div>
         <div class="kpi-icon" style="font-size:16px;">🚨</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.escalated}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="compliantCard?.escalated || 0">0</div>
     </div>
 
     <div class="kpi" style="--kc:var(--red);">
@@ -31,7 +46,7 @@
         <div class="kpi-label" style="font-size:11px;">Updated Complaints</div>
         <div class="kpi-icon" style="font-size:16px;">🔄</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.updated}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="compliantCard?.updated || 0">0</div>
     </div>
 
     <div class="kpi" style="--kc:var(--green);">
@@ -39,7 +54,7 @@
         <div class="kpi-label" style="font-size:11px;">Closed Complaints</div>
         <div class="kpi-icon" style="font-size:16px;">🔒</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{compliantCard?.closed}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="compliantCard?.closed || 0">0</div>
     </div>
 
   </div>
@@ -49,15 +64,16 @@
         <div class="kpi-label" style="font-size:11px;">{{ card.CodeDesc }}</div>
         <div class="kpi-icon" style="font-size:16px;">{{ getIconEmoji(card.Icon) }}</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{ card.CNT || 0}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="card.CNT || 0">0</div>
     </div>
   </div>
   <div class="kpi-row">
     <div class="kpi" style="--kc:var(--blue)">
       <div class="kpi-label">Total Enquiries</div>
-      <div class="kpi-val">{{compliantCard?.enquiryCount}}</div>
+      <div class="kpi-val" [appCountUp]="compliantCard?.enquiryCount || 0">0</div>
     </div>
   </div>
+  </ng-container>
 
   <!-- RAISE  SECTION -->
   <div class="card no-hover" style="padding:8px;">

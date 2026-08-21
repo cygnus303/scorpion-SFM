@@ -8,10 +8,11 @@ import { CommonModule } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
+import { CountUpDirective } from '../../shared/directives/count-up.directive';
 
 @Component({
   selector: 'app-customer-list',
-  imports: [CommonModule, PaginationModule, FormsModule],
+  imports: [CommonModule, PaginationModule, FormsModule, CountUpDirective],
   templateUrl: './customer-list.html',
   styleUrl: './customer-list.scss',
 })
@@ -24,7 +25,7 @@ export class CustomerList {
   public zoneWiseData: ZoneWiseData[] = [];
   public maxCustomerCount: number = 0;
   public csatHealthSummary: CSATHealthSummary | null = null;
-
+  public isCardsLoading: boolean = true;
   @Output() edit = new EventEmitter<CustomerResponse>()
   private destroy$ = new Subject<void>();
 
@@ -37,6 +38,7 @@ export class CustomerList {
 
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.isCardsLoading = true;
       this.getCustomers();
       this.getCustomerfilters();
     });
@@ -110,7 +112,9 @@ export class CustomerList {
     this.customerService.getCustomerfilters(filters).subscribe({
       next: (response) => {
         this.getCustomerCount = response.data;
-      }
+      },
+      complete: () => this.isCardsLoading = false,
+      error: () => this.isCardsLoading = false
     });
   }
 

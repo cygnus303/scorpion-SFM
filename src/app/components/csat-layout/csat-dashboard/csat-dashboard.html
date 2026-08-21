@@ -1,77 +1,52 @@
 <!-- ── TAB: DASHBOARD ── -->
 <div id="csat-panel-dashboard" style="display:flex;flex-direction:column;gap:14px">
 
+    <!-- Skeleton Loader for Cards -->
+    <ng-container *ngIf="isCardsLoading">
+        <div class="kpi-row">
+            <div class="kpi" *ngFor="let i of [1, 2, 3, 4, 5]" style="padding: 10px 12px; border: 1px solid #ececec; border-radius: 18px; position: relative; background: #fff;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start">
+                    <div class="skeleton" style="width: 80px; height: 14px; border-radius: 4px;"></div>
+                    <div class="ci skeleton" style="width: 24px; height: 24px; border-radius: 6px; background:none; box-shadow: none;"></div>
+                </div>
+                <div class="skeleton" style="width: 60%; height: 24px; border-radius: 4px; margin-top: 10px;"></div>
+                <div class="skeleton" style="width: 40px; height: 12px; border-radius: 4px; margin-top: 8px;"></div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!isCardsLoading">
     <div class="kpi-row">
         <div class="kpi" [style.--kc]="getCSATColor(dashboardData?.cards?.avgScore)">
             <div class="kpi-label">Overall CSAT Score</div>
-            <ng-container *ngIf="isLoading; else overallLoaded">
-                <div class="kpi-loader-box">
-                    <div class="csat-shimmer-line" style="width: 75px; height: 26px;"></div>
-                    <div class="csat-shimmer-line" style="width: 50px; height: 12px;"></div>
-                </div>
-            </ng-container>
-            <ng-template #overallLoaded>
-                <div class="kpi-val" id="db2-overall">
-                    {{ dashboardData?.cards?.avgScore !== null && dashboardData?.cards?.avgScore !== undefined ?
-                    (dashboardData.cards.avgScore | number:'1.1-1') : '—' }}<span
-                        style="font-size:14px;font-weight:400;color:var(--text3)">/5</span>
-                </div>
-                <div class="kpi-sub up" id="db2-trend">▲ Active Score</div>
-            </ng-template>
+            <div class="kpi-val" id="db2-overall">
+                <span [appCountUp]="dashboardData?.cards?.avgScore || 0" [decimals]="1">0</span><span
+                    style="font-size:14px;font-weight:400;color:var(--text3)">/5</span>
+            </div>
+            <div class="kpi-sub up" id="db2-trend">▲ Active Score</div>
         </div>
         <div class="kpi" style="--kc:var(--blue)">
             <div class="kpi-label">Surveys Sent MTD</div>
-            <ng-container *ngIf="isLoading; else sentLoaded">
-                <div class="kpi-loader-box">
-                    <div class="csat-shimmer-line" style="width: 55px; height: 26px;"></div>
-                    <div class="csat-shimmer-line" style="width: 65px; height: 12px;"></div>
-                </div>
-            </ng-container>
-            <ng-template #sentLoaded>
-                <div class="kpi-val" id="db2-sent">{{ dashboardData?.cards?.surveySentMTD || 0 }}</div>
-                <div class="kpi-sub up">This month</div>
-            </ng-template>
+            <div class="kpi-val" id="db2-sent" [appCountUp]="dashboardData?.cards?.surveySentMTD || 0">0</div>
+            <div class="kpi-sub up">This month</div>
         </div>
         <div class="kpi" style="--kc:var(--amber)">
             <div class="kpi-label">Response Rate</div>
-            <ng-container *ngIf="isLoading; else rateLoaded">
-                <div class="kpi-loader-box">
-                    <div class="csat-shimmer-line" style="width: 60px; height: 26px;"></div>
-                    <div class="csat-shimmer-line" style="width: 65px; height: 12px;"></div>
-                </div>
-            </ng-container>
-            <ng-template #rateLoaded>
-                <div class="kpi-val" id="db2-rr">{{ dashboardData?.cards?.responseRate || 0 }}%</div>
-                <div class="kpi-sub" [ngClass]="(dashboardData?.cards?.responseRate || 0) >= 80 ? 'up' : 'wn'">Target: 80%</div>
-            </ng-template>
+            <div class="kpi-val" id="db2-rr"><span [appCountUp]="dashboardData?.cards?.responseRate || 0">0</span>%</div>
+            <div class="kpi-sub" [ngClass]="(dashboardData?.cards?.responseRate || 0) >= 80 ? 'up' : 'wn'">Target: 80%</div>
         </div>
         <div class="kpi" style="--kc:var(--red)">
             <div class="kpi-label">Detractors (≤2 ★)</div>
-            <ng-container *ngIf="isLoading; else detLoaded">
-                <div class="kpi-loader-box">
-                    <div class="csat-shimmer-line" style="width: 45px; height: 26px;"></div>
-                    <div class="csat-shimmer-line" style="width: 70px; height: 12px;"></div>
-                </div>
-            </ng-container>
-            <ng-template #detLoaded>
-                <div class="kpi-val" id="db2-detractors">{{ dashboardData?.cards?.detractors || 0 }}</div>
-                <div class="kpi-sub dn">Action needed</div>
-            </ng-template>
+            <div class="kpi-val" id="db2-detractors" [appCountUp]="dashboardData?.cards?.detractors || 0">0</div>
+            <div class="kpi-sub dn">Action needed</div>
         </div>
         <div class="kpi" style="--kc:var(--green)">
             <div class="kpi-label">Promoters (5 ★)</div>
-            <ng-container *ngIf="isLoading; else promLoaded">
-                <div class="kpi-loader-box">
-                    <div class="csat-shimmer-line" style="width: 45px; height: 26px;"></div>
-                    <div class="csat-shimmer-line" style="width: 70px; height: 12px;"></div>
-                </div>
-            </ng-container>
-            <ng-template #promLoaded>
-                <div class="kpi-val" id="db2-promoters">{{ dashboardData?.cards?.promoters || 0 }}</div>
-                <div class="kpi-sub up">5-star reviews</div>
-            </ng-template>
+            <div class="kpi-val" id="db2-promoters" [appCountUp]="dashboardData?.cards?.promoters || 0">0</div>
+            <div class="kpi-sub up">5-star reviews</div>
         </div>
     </div>
+    </ng-container>
 
     <div class="g2">
         <div class="card">

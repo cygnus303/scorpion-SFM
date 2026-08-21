@@ -10,13 +10,14 @@ import { CommonService } from '../../shared/services/common.service';
 import { ExportService } from '../../shared/services/export.service';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule } from '@angular/forms';
+import { CountUpDirective } from '../../shared/directives/count-up.directive';
 
 
 
 @Component({
   selector: 'app-appointment-delivery',
   standalone: true,
-  imports: [CommonModule, AddAppointment, ViewAppointment, RescheduleAppointment, UpdateAppointment, PaginationModule, FormsModule],
+  imports: [CommonModule, AddAppointment, ViewAppointment, RescheduleAppointment, UpdateAppointment, PaginationModule, FormsModule, CountUpDirective],
   templateUrl: './appointment-delivery.html',
   styleUrl: './appointment-delivery.scss',
 })
@@ -26,6 +27,7 @@ export class AppointmentDelivery implements OnInit, OnDestroy {
   public summaryCounts: any = {};
   public totalItems: number = 0;
   public isLoading: boolean = false;
+  public isCardsLoading: boolean = true;
   public isExportLoading: boolean = false;
 
   private appointmentDeliveryService = inject(AppointmentDeliveryService);
@@ -90,10 +92,12 @@ export class AppointmentDelivery implements OnInit, OnDestroy {
     };
 
     this.isLoading = true;
+    this.isCardsLoading = true;
 
     this.appointmentSubscription = this.appointmentDeliveryService.getDeliveryAppointmentData(payload).subscribe({
       next: (response: any) => {
         this.isLoading = false;
+        this.isCardsLoading = false;
         if (response && response.success && response.data) {
           if (response.data.summary) {
             this.summaryCounts = response.data.summary;
@@ -116,6 +120,7 @@ export class AppointmentDelivery implements OnInit, OnDestroy {
       },
       error: (err: any) => {
         this.isLoading = false;
+        this.isCardsLoading = false;
         this.appointments = [];
         this.totalItems = 0;
         this.summaryCounts = {};

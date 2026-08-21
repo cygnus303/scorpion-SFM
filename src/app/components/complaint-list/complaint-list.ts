@@ -19,10 +19,11 @@ import { EnquiryList } from './enquiry-list/enquiry-list';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { ExpenseGeneralService } from '../../shared/services/expense-general.service';
+import { CountUpDirective } from '../../shared/directives/count-up.directive';
 
 @Component({
   selector: 'app-complaint-list',
-  imports: [CommonModule, FormsModule, PopoverModule, PaginationModule, NgSelectModule, ComplaintDetail, AddTicket, PickupRequestList, EnquiryList],
+  imports: [CommonModule, FormsModule, PopoverModule, PaginationModule, NgSelectModule, ComplaintDetail, AddTicket, PickupRequestList, EnquiryList, CountUpDirective],
   templateUrl: './complaint-list.html',
   styleUrl: './complaint-list.scss',
 })
@@ -33,6 +34,7 @@ export class ComplaintList {
   public isExportLoading: boolean = false;
   public isLoading: boolean = false;
   public compliantCard: any;
+  public isCardsLoading: boolean = true;
   public activeTab: string = 'complaint';
   public selectedTab: number = 0;
   selectedFile: File | null = null;
@@ -64,6 +66,7 @@ export class ComplaintList {
 
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.isCardsLoading = true;
       this.getComplaintList();
       this.getPRQCardList()
       this.getCompliantCard();
@@ -258,7 +261,11 @@ export class ComplaintList {
         if (response.success) {
           this.compliantCard = response.data[0];
         }
+        this.isCardsLoading = false;
         this.isExportLoading = false;
+      },
+      error: () => {
+        this.isCardsLoading = false;
       }
     });
   }

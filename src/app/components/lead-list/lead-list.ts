@@ -18,11 +18,12 @@ import { takeUntil } from 'rxjs/operators';
 import { ExternalService } from '../../shared/services/external.service';
 import { GeneralMasterResponse } from '../../shared/models/external.model';
 import { AddMeeting } from '../meeting-list/add-meeting/add-meeting';
+import { CountUpDirective } from '../../shared/directives/count-up.directive';
 
 @Component({
   selector: 'app-lead-list',
   standalone: true,
-  imports: [CommonModule, AddLead, FormsModule, PaginationModule, NgSelectModule, PopoverModule, LeadDetail, AddMeeting],
+  imports: [CommonModule, AddLead, FormsModule, PaginationModule, NgSelectModule, PopoverModule, LeadDetail, AddMeeting, CountUpDirective],
   templateUrl: './lead-list.html',
   styleUrl: './lead-list.scss',
   providers: [BsModalService]

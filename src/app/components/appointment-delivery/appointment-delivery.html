@@ -1,34 +1,46 @@
 <!-- ══ APPOINTMENT & DELIVERY DASHBOARD (COMPACT HIGH-DENSITY UI) ══ -->
 <div class="page active">
+  <!-- Skeleton Loader for Cards -->
+  <ng-container *ngIf="isCardsLoading">
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 14px;">
+      <div *ngFor="let i of [1, 2, 3, 4, 5]" class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #ececec !important; position: relative;">
+        <div class="skeleton" style="width: 80px; height: 12px; border-radius: 4px; margin-bottom: 4px;"></div>
+        <div class="skeleton" style="width: 60%; height: 24px; border-radius: 4px; margin-bottom: 4px;"></div>
+        <div class="skeleton" style="width: 60px; height: 10px; border-radius: 4px;"></div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isCardsLoading">
   <!-- Top KPI Grid (Compact) -->
   <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 14px;">
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #2563EB !important;">
       <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Total Appointment</div>
-      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.totalAppointment || 0 }}</div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;" [appCountUp]="summaryCounts?.totalAppointment || 0">0</div>
       <div class="text-success mb-0" style="font-size: 10px;">▲ All records</div>
     </div>
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #16A34A !important;">
       <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Today's Appointment</div>
-      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.todayAppointment || 0 }}</div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;" [appCountUp]="summaryCounts?.todayAppointment || 0">0</div>
       <div class="text-success mb-0" style="font-size: 10px;">▲ 0 completed</div>
     </div>
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #D97706 !important;">
       <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Rescheduled Appointment</div>
-      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.rescheduledAppointment || 0 }}
-      </div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;" [appCountUp]="summaryCounts?.rescheduledAppointment || 0">0</div>
       <div class="text-warning mb-0" style="font-size: 10px;">⚠️ Today</div>
     </div>
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #CC0000 !important;">
       <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Total CSD Delivery</div>
-      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.totalCSD || 0 }}</div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;" [appCountUp]="summaryCounts?.totalCSD || 0">0</div>
       <div class="text-muted mb-0" style="font-size: 10px;">All records</div>
     </div>
     <div class="kpi bg-white py-2 px-3 border rounded-2 shadow-sm" style="border-top: 3px solid #7C3AED !important;">
       <div class="text-muted small fw-medium mb-0" style="font-size: 11px;">Total Mall Delivery</div>
-      <div class="fw-semibold text-dark my-0" style="font-size: 18px;">{{ summaryCounts?.totalMall || 0 }}</div>
+      <div class="fw-semibold text-dark my-0" style="font-size: 18px;" [appCountUp]="summaryCounts?.totalMall || 0">0</div>
       <div class="text-muted mb-0" style="font-size: 10px;">All records</div>
     </div>
   </div>
+  </ng-container>
 
   <!-- Main Card (Compact) -->
   <div class="card border-0 shadow-sm rounded-3 bg-white overflow-hidden mb-3">

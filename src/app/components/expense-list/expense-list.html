@@ -1,5 +1,19 @@
 <!-- ══ EXPENSE ══ -->
 <div class="page active fade-in">
+  <ng-container *ngIf="isCardsLoading">
+    <div class="g5">
+      <div class="kpi" *ngFor="let i of [1, 2, 3, 4, 5]" style="padding: 10px 12px; border: 1px solid #ececec; border-radius: 18px; position: relative; background: #fff;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start">
+          <div class="skeleton" style="width: 80px; height: 14px; border-radius: 4px;"></div>
+          <div class="ci skeleton" style="width: 24px; height: 24px; border-radius: 6px; background:none; box-shadow: none;"></div>
+        </div>
+        <div class="skeleton" style="width: 60%; height: 24px; border-radius: 4px; margin-top: 10px;"></div>
+        <div class="skeleton" style="width: 40px; height: 12px; border-radius: 4px; margin-top: 8px;"></div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isCardsLoading">
   <div class="g5">
     <div class="kpi" style="--kc:var(--blue); padding: 10px 12px; cursor: pointer;" 
          [class.active]="selectedCardStatus === 'Total'" 
@@ -8,7 +22,7 @@
         <div class="kpi-label" style="font-size:11px;">Total Expenses</div>
         <div class="kpi-icon" style="font-size:16px;">💰</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{expenseCard?.totalCount}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="expenseCard?.totalCount || 0">0</div>
       <div class="kpi-sub" style="font-size:10px; margin-top:2px;">{{expenseCard?.totalText}}</div>
     </div>
 
@@ -19,7 +33,7 @@
         <div class="kpi-label" style="font-size:11px;">Approved</div>
         <div class="kpi-icon" style="font-size:16px;">✅</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{expenseCard?.approvedCount}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="expenseCard?.approvedCount || 0">0</div>
       <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">{{expenseCard?.approvedText}}</div>
     </div>
 
@@ -30,7 +44,7 @@
         <div class="kpi-label" style="font-size:11px;">Pending Approval</div>
         <div class="kpi-icon" style="font-size:16px;">⏳</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{expenseCard?.pendingCount}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="expenseCard?.pendingCount || 0">0</div>
       <div class="kpi-sub wn" style="font-size:10px; margin-top:2px;">{{expenseCard?.pendingText}}</div>
     </div>
 
@@ -41,7 +55,7 @@
         <div class="kpi-label" style="font-size:11px;">Expense Not Created</div>
         <div class="kpi-icon" style="font-size:16px;">⏳</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{expenseCard?.notCreatedCount}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="expenseCard?.notCreatedCount || 0">0</div>
       <div class="kpi-sub wn" style="font-size:10px; margin-top:2px;">{{expenseCard?.notCreatedText}}</div>
     </div>
 
@@ -52,10 +66,11 @@
         <div class="kpi-label" style="font-size:11px;">Rejected</div>
         <div class="kpi-icon" style="font-size:16px;">❌</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{expenseCard?.rejectedCount}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="expenseCard?.rejectedCount || 0">0</div>
       <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">{{expenseCard?.rejectedText}}</div>
     </div>
   </div>
+  </ng-container>
 
   <div>
     <!-- Dynamic Expense Table Card -->

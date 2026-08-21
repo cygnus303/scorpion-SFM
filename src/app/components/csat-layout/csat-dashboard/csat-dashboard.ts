@@ -11,15 +11,17 @@ import { GeneralMaster } from '../../../shared/models/expenseGeneral.model';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IdentityService } from '../../../shared/services/identity.service';
 import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
+import { CountUpDirective } from '../../../shared/directives/count-up.directive';
 
 @Component({
   selector: 'app-csat-dashboard',
-  imports: [CommonModule, RouterModule, NgSelectModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, NgSelectModule, ReactiveFormsModule, CountUpDirective],
   templateUrl: './csat-dashboard.html',
   styleUrl: './csat-dashboard.scss',
 })
 export class CsatDashboard {
   public isLoading: boolean = false;
+  public isCardsLoading: boolean = true;
   public customers: CustResponse[] = [];
   public surveyTriggerTypeData: GeneralMaster[] = [];
   public getDecisionEmail: any;
@@ -52,12 +54,14 @@ export class CsatDashboard {
     this.externalService.getCSATDashboard(userId).subscribe({
       next: (response: any) => {
         this.isLoading = false;
+        this.isCardsLoading = false;
         if (response && response.success) {
           this.dashboardData = response.data;
         }
       },
       error: (err: any) => {
         this.isLoading = false;
+        this.isCardsLoading = false;
         console.error('Error fetching CSAT dashboard:', err);
       }
     });

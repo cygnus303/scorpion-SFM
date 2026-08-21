@@ -14,8 +14,26 @@ export class ExportService {
    * @param fileName Name of the exported Excel file
    */
   exportToExcel(data: any[], fileName: string = 'exported-data') {
-    const worksheet = XLSX.utils?.json_to_sheet(data);
-    const workbook = XLSX.utils?.book_new();
+    if (!data || data.length === 0) return;
+    
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    
+    // Auto-fit columns by finding the max content length in each column
+    const objectKeys = Object.keys(data[0]);
+    const wscols = objectKeys.map(key => {
+      // Start with header length
+      const maxDataLength = data.reduce((max, row) => {
+        const value = row[key] !== null && row[key] !== undefined ? row[key].toString() : '';
+        return Math.max(max, value.length);
+      }, key.length);
+      
+      // Add padding of 2 characters, keep between 10 and 100
+      return { wch: Math.min(Math.max(maxDataLength + 2, 10), 100) };
+    });
+    
+    worksheet['!cols'] = wscols;
+
+    const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
     const excelBuffer: any = XLSX.write(workbook, {

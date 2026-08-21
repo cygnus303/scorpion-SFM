@@ -12,10 +12,11 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ExpenseDetail } from '../expense-list/expense-detail/expense-detail';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CountUpDirective } from '../../shared/directives/count-up.directive';
 
 @Component({
   selector: 'app-expense-approval',
-  imports: [CommonModule, FormsModule, PaginationModule, ExpenseDetail, PopoverModule, NgSelectModule],
+  imports: [CommonModule, FormsModule, PaginationModule, ExpenseDetail, PopoverModule, NgSelectModule, CountUpDirective],
   templateUrl: './expense-approval.html',
   styleUrl: './expense-approval.scss',
 })
@@ -37,6 +38,7 @@ export class ExpenseApproval {
   public listSubscription?: Subscription;
 
   public approvalCard: any;
+  public isCardsLoading: boolean = true;
   public selectedCardFilter: string = 'PENDING';
     public recordOptions = [
     { label: '5', value: 5 },
@@ -87,6 +89,7 @@ export class ExpenseApproval {
       userId: this.commonService.globalFilters.UserID.toString(),
     }
     this.loading = true;
+    this.isCardsLoading = true;
     this.listSubscription =this.expenseService.expenseApprovalList(data).subscribe({
       next: (response:any) => {
         if (response) {
@@ -95,10 +98,12 @@ export class ExpenseApproval {
           this.totalItems = response.data.pagination.totalRecords;
         }
         this.loading = false;
+        this.isCardsLoading = false;
       },
       error: (response: any) => {
         this.sweetAlertService.error(response);
         this.loading = false;
+        this.isCardsLoading = false;
       },
     });
   }

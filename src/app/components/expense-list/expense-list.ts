@@ -15,6 +15,7 @@ import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { Subject, takeUntil, Subscription } from 'rxjs';
 import { ExpenseClaim } from './expense-claim/expense-claim';
 import { ExpenseGeneralService } from '../../shared/services/expense-general.service';
+import { CountUpDirective } from '../../shared/directives/count-up.directive';
 
 @Component({
   selector: 'app-expense-list',
@@ -27,7 +28,8 @@ import { ExpenseGeneralService } from '../../shared/services/expense-general.ser
     PopoverModule,
     BsDatepickerModule,
     ExpenseDetail,
-    AddExpense, ExpenseClaim
+    AddExpense, ExpenseClaim,
+    CountUpDirective
   ],
   templateUrl: './expense-list.html',
   styleUrl: './expense-list.scss',
@@ -39,6 +41,7 @@ export class ExpenseList implements OnInit {
   public loading: boolean = false;
   public isExportLoading = false;
   public expenseCard: any;
+  public isCardsLoading: boolean = true;
   private destroy$ = new Subject<void>();
     public recordOptions = [
     { label: '5', value: 5 },
@@ -91,15 +94,18 @@ export class ExpenseList implements OnInit {
     }
 
     this.loading = true;
+    this.isCardsLoading = true;
     this.expenseSubscription = this.expenseGeneralService.getDynamicData(payload).subscribe({
       next: (response: any) => {
         this.loading = false;
+        this.isCardsLoading = false;
         this.expenseCard = response.Table1[0];
         this.expenses = response.Table3;
         this.totalItems = response.Table2[0].TotalRecords;
       },
       error: () => {
         this.loading = false;
+        this.isCardsLoading = false;
       }
     });
 

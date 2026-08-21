@@ -1,4 +1,18 @@
 <div class="page active fade-in">
+  <ng-container *ngIf="isCardsLoading">
+    <div class="g4">
+      <div class="kpi" *ngFor="let i of [1, 2, 3, 4]" style="padding: 10px 12px; border: 1px solid #ececec; border-radius: 18px; position: relative; background: #fff;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start">
+          <div class="skeleton" style="width: 80px; height: 14px; border-radius: 4px;"></div>
+          <div class="ci skeleton" style="width: 24px; height: 24px; border-radius: 6px; background:none; box-shadow: none;"></div>
+        </div>
+        <div class="skeleton" style="width: 60%; height: 24px; border-radius: 4px; margin-top: 10px;"></div>
+        <div class="skeleton" style="width: 40px; height: 12px; border-radius: 4px; margin-top: 8px;"></div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isCardsLoading">
   <div class="g4">
 
     <div class="kpi" style="--kc:var(--blue); padding: 10px 12px;">
@@ -6,7 +20,7 @@
         <div class="kpi-label" style="font-size:11px;">Total Customers</div>
         <div class="kpi-icon" style="font-size:16px;">👥</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{getCustomerCount?.totalCustomers}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="getCustomerCount?.totalCustomers || 0">0</div>
       <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">▲ +{{getCustomerCount?.newThisMonth}} this month
       </div>
     </div>
@@ -16,7 +30,7 @@
         <div class="kpi-label" style="font-size:11px;">Active Accounts</div>
         <div class="kpi-icon" style="font-size:16px;">✅</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{getCustomerCount?.activeAccounts}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="getCustomerCount?.activeAccounts || 0">0</div>
       <div class="kpi-sub up" style="font-size:10px; margin-top:2px;">{{getCustomerCount?.retentionPct}}% retention
       </div>
     </div>
@@ -26,7 +40,7 @@
         <div class="kpi-label" style="font-size:11px;">At Risk</div>
         <div class="kpi-icon" style="font-size:16px;">⚠️</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{getCustomerCount?.atRisk}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="getCustomerCount?.atRisk || 0">0</div>
       <div class="kpi-sub wn" style="font-size:10px; margin-top:2px;">CSAT below</div>
     </div>
 
@@ -35,10 +49,11 @@
         <div class="kpi-label" style="font-size:11px;">Churned MTD</div>
         <div class="kpi-icon" style="font-size:16px;">📉</div>
       </div>
-      <div class="kpi-val" style="font-size:20px; margin-top:2px;">{{getCustomerCount?.churnedMTD}}</div>
+      <div class="kpi-val" style="font-size:20px; margin-top:2px;" [appCountUp]="getCustomerCount?.churnedMTD || 0">0</div>
       <div class="kpi-sub dn" style="font-size:10px; margin-top:2px;">Needs review</div>
     </div>
   </div>
+  </ng-container>
 
   <div class="g2">
     <div class="card no-hover">
@@ -102,6 +117,25 @@
         </pagination>
       </div>
     </div>
+    
+    <ng-container *ngIf="isCardsLoading">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card" *ngFor="let r of [1, 2]" style="background:#fff;">
+          <div class="card-head">
+            <div class="ci skeleton" style="background:none; box-shadow: none;"></div>
+            <div class="skeleton" style="width: 150px; height: 16px; border-radius: 4px;"></div>
+          </div>
+          <div style="padding: 16px;">
+            <div *ngFor="let l of [1,2,3,4]" style="display:flex; gap: 10px; margin-bottom: 12px;">
+               <div class="skeleton" style="flex:1; height: 12px; border-radius: 4px;"></div>
+               <div class="skeleton" style="width: 30%; height: 12px; border-radius: 4px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!isCardsLoading">
     <div style="display:flex;flex-direction:column;gap:14px">
       <div class="card">
         <div class="card-head">
@@ -152,5 +186,6 @@
         </div>
       </div>
     </div>
+    </ng-container>
   </div>
 </div>

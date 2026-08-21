@@ -14,11 +14,12 @@ import { MeetingDetail } from './meeting-detail/meeting-detail';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SweetAlertService } from '../../shared/services/sweet-alert.service';
+import { CountUpDirective } from '../../shared/directives/count-up.directive';
 
 @Component({
   selector: 'app-meeting-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, PaginationModule, NgSelectModule, PopoverModule, AddMeeting, MeetingDetail],
+  imports: [CommonModule, FormsModule, PaginationModule, NgSelectModule, PopoverModule, AddMeeting, MeetingDetail, CountUpDirective],
   templateUrl: './meeting-list.html',
   styleUrl: './meeting-list.scss'
 })
@@ -32,6 +33,7 @@ export class MeetingList implements OnInit, OnDestroy {
   public meetingCard: any;
   public todaySchedule: TodayScheduleData[] = [];
   public meetingOutcomes: MeetingOutcome[] = [];
+  public isCardsLoading: boolean = true;
 
   @ViewChild('addMeeting') addMeeting!: AddMeeting;
   @ViewChild('meetingDetail') meetingDetail!: MeetingDetail;
@@ -48,6 +50,7 @@ export class MeetingList implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.isCardsLoading = true;
       this.getMeetings();
       this.onMeetingCard();
       this.fetchMeetingOutcomes();
@@ -179,9 +182,11 @@ export class MeetingList implements OnInit, OnDestroy {
         if (response) {
           this.meetingCard = response.data;
         }
+        this.isCardsLoading = false;
       },
       error: (response: any) => {
         this.sweetAlertService.error(response.error.message);
+        this.isCardsLoading = false;
       },
     });
   }
