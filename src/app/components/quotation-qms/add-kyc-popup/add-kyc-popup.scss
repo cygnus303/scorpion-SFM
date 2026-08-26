@@ -122,12 +122,24 @@
     &.bg-light {
       background: #F8F9FA;
     }
+
+    &.is-invalid, &.ng-invalid.ng-touched {
+      border-color: #E90913 !important;
+    }
   }
   
   .hint {
     font-size: 10px;
     color: #6B7280;
     margin-top: 2px;
+  }
+
+  .invalid-feedback {
+    color: #E90913;
+    font-size: 10.5px;
+    margin-top: 2px;
+    display: block;
+    font-weight: 500;
   }
 }
 
@@ -199,4 +211,9 @@
 
 ::ng-deep .ng-dropdown-panel {
   z-index: 9999 !important;
+}
+
+::ng-deep .custom-ng-select.is-invalid .ng-select-container,
+::ng-deep .custom-ng-select.ng-invalid.ng-touched .ng-select-container {
+  border-color: #E90913 !important;
 }

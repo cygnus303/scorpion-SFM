@@ -103,13 +103,18 @@
                 <td>{{ (item.ProspectDate| date :'dd/MM/yyyy')||'--' }}</td>
                 <td><span class="status-badge" [ngClass]="getProspectStatusClass(item.ProspectStatus)">{{ item.ProspectStatus  || '--' }}</span></td>
                 <td>
-                  <button class="qbtn qbtn-red" (click)="openKycPopup()">Add KYC</button>
-                  <button class="qbtn qbtn-teal" (click)="openQmViewPopup(item.CUSTCD)">QM View</button>
-                   <button class="qbtn qbtn-green">Add QM</button>
-                   <button class="qbtn qbtn-amber">Edit QM</button>
-                   <button class="qbtn qbtn-purple">Send For Approval</button>
-                   <button class="qbtn qbtn-brown">Renew QM</button>
-                  <button class="qbtn qbtn-red">Edit KYC</button>
+                  <button class="qbtn qbtn-red" *ngIf="item.ProspectStatus ==='Prospect Generated'" 
+                  (click)="openKycPopup()">Add KYC</button>
+                  <button class="qbtn qbtn-teal" *ngIf="item.ProspectStatus ==='Customer Created'|| item.ProspectStatus ==='Rejected'||item.ProspectStatus === 'Pending for Customer Code Creation'" 
+                    (click)="openQmViewPopup(item.CUSTCD)">QM View</button>
+                   <button class="qbtn qbtn-green" *ngIf="item.ProspectStatus ==='KYC Generated'">Add QM</button>
+                   <button class="qbtn qbtn-amber" *ngIf="item.ProspectStatus ==='Customer Created'|| item.ProspectStatus ==='Rejected'|| item.ProspectStatus === 'Pending for Send for Approval'">Edit QM</button>
+                   <button class="qbtn qbtn-purple" *ngIf="item.ProspectStatus === 'Pending for Send for Approval'"
+                    (click)="openSendForApprovalPopup(item)">Send For Approval</button>
+                   <button class="qbtn qbtn-brown" *ngIf="item.ProspectStatus ==='Customer Created'" >Renew QM</button>
+                  <button class="qbtn qbtn-red" *ngIf="item.ProspectStatus ==='KYC Generated'|| item.ProspectStatus ==='Customer Created'"
+                  (click)="openKycPopup(item.CUSTCD || item.LeadId || item.ContractID)"
+                  >Edit KYC</button>
                 </td>
               </tr>
               <tr *ngIf="!quotationList || quotationList.length === 0">
@@ -155,7 +160,7 @@
                 </td>
                 <td>
                   <button class="qbtn qbtn-teal" (click)="openQmViewPopup(item.CUSTCD)">QM View/Print</button>
-                  <button class="qbtn qbtn-red" (click)="openKycPopup()">Edit KYC</button>
+                  <button class="qbtn qbtn-red" (click)="openKycPopup(item.CUSTCD || item.ContractID || item.LeadId)">Edit KYC</button>
                   <button class="qbtn qbtn-amber" style="background-color: #e5d5c5; color: #fff; border-color: #e5d5c5;">Edit QM</button>
                   <button class="qbtn" style="background-color: #6a0000; color: #fff; border-color: #6a0000;">Renew QM</button>
                 </td>
@@ -186,6 +191,7 @@
     </div>
   </div>
 
-  <app-add-kyc-popup></app-add-kyc-popup>
+  <app-add-kyc-popup (onSuccess)="getQuatationList()"></app-add-kyc-popup>
   <app-qm-view-popup></app-qm-view-popup>
+  <app-send-for-approval-popup (onSuccess)="getQuatationList()"></app-send-for-approval-popup>
 </div>

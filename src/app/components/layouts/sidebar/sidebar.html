@@ -33,7 +33,7 @@
     </div>
 
     <div class="sb-sec" *ngIf="isSFMMasters?.ISSFMMASTER || isSFMMasters?.SFM==='Y'">Sales Tools</div>
-    <div class="nav-item" [routerLink]="['/quotation']" routerLinkActive="active" (click)="onMenuClick('quotation')">
+    <div class="nav-item" [routerLink]="['/quotation']" routerLinkActive="active" (click)="onMenuClick('quotation')" data-title="Quotation">
       <div class="nav-icon">📄</div><span class="nav-text">Quotation - QMS V2</span>
     </div>
     <!-- <div class="nav-item" [routerLink]="['/pickup-request']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
@@ -93,9 +93,9 @@
     </div>
 
     <div class="sb-sec">Learning</div>
-    <div class="nav-item" [routerLink]="['/training']" routerLinkActive="active" (click)="onMenuClick('training')">
+    <!-- <div class="nav-item" [routerLink]="['/training']" routerLinkActive="active" (click)="onMenuClick('training')">
       <div class="nav-icon">🎓</div><span class="nav-text">Training Hub</span>
-    </div>
+    </div> -->
   </div>
   <div class="sb-footer">
     <div class="sb-footer-name">Scorpion Express Pvt Ltd</div>

@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AddKycPopupComponent } from './add-kyc-popup/add-kyc-popup';
 import { QmViewPopupComponent } from './qm-view-popup/qm-view-popup';
+import { SendForApprovalPopupComponent } from './send-for-approval-popup/send-for-approval-popup';
 import { ExpenseGeneralService } from '../../shared/services/expense-general.service';
 import { CommonService } from '../../shared/services/common.service';
 import { IdentityService } from '../../shared/services/identity.service';
@@ -15,7 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 @Component({
   selector: 'app-quotation-qms',
   standalone: true,
-  imports: [CommonModule, AddKycPopupComponent, QmViewPopupComponent,FormsModule,PaginationModule,NgSelectModule],
+  imports: [CommonModule, AddKycPopupComponent, QmViewPopupComponent, SendForApprovalPopupComponent, FormsModule,PaginationModule,NgSelectModule],
   templateUrl: './quotation-qms.html',
   styleUrl: './quotation-qms.scss',
 })
@@ -43,6 +44,7 @@ export class QuotationQMS {
   };
   @ViewChild(AddKycPopupComponent) addKycPopup!: AddKycPopupComponent;
   @ViewChild(QmViewPopupComponent) qmViewPopup!: QmViewPopupComponent;
+  @ViewChild(SendForApprovalPopupComponent) sendForApprovalPopup!: SendForApprovalPopupComponent;
 
   constructor(
     private expenseGeneralService:ExpenseGeneralService,
@@ -70,15 +72,21 @@ export class QuotationQMS {
     this.fetchSubject.next();
   }
 
-  openKycPopup() {
+  openKycPopup(custCode?: string) {
     if (this.addKycPopup) {
-      this.addKycPopup.show();
+      this.addKycPopup.show(custCode);
     }
   }
 
   openQmViewPopup(custCode:string) {
     if (this.qmViewPopup) {
       this.qmViewPopup.show(custCode);
+    }
+  }
+
+  openSendForApprovalPopup(item: any) {
+    if (this.sendForApprovalPopup) {
+      this.sendForApprovalPopup.show(item.ProspectName || item.CustName || 'Prospect', item.ContractID || item.CUSTCD || item.LeadId || '');
     }
   }
   
@@ -192,6 +200,9 @@ export class QuotationQMS {
         if (!this.config.IsActive) {
           this.config.IsActive = 'Active';
         }
+      } else {
+        this.config.QuotationType = 'Prospect Wise';
+        this.config.IsActive = '';
       }
 
       this.commonService.globalFilters.Page = 1;

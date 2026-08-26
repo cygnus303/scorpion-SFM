@@ -9,7 +9,7 @@
       </button>
     </div>
 
-    <div class="modal-body">
+    <div class="modal-body" [formGroup]="kycForm">
       <!-- Prospect Information Section -->
       <div class="section-container">
         <div class="section-header">
@@ -26,71 +26,88 @@
             </div>
             <div class="fg">
               <label>GSTIN No <span class="req">*</span></label>
-              <input type="text" placeholder="GSTIN NO">
+              <input [class.is-invalid]="kycForm.get('gstno')?.invalid && kycForm.get('gstno')?.touched" type="text" placeholder="GSTIN NO" formControlName="gstno" (input)="onGstChange()" maxlength="15">
+              <div class="invalid-feedback" *ngIf="kycForm.get('gstno')?.hasError('required') && (kycForm.get('gstno')?.touched || kycForm.get('gstno')?.dirty)">This field is required</div>
+              <div class="invalid-feedback" *ngIf="kycForm.get('gstno')?.hasError('pattern') && !kycForm.get('gstno')?.hasError('required') && (kycForm.get('gstno')?.touched || kycForm.get('gstno')?.dirty)">Please enter a valid 15-digit GSTIN</div>
               <span class="hint">Enter 15-digit GSTIN - details will be auto captured</span>
             </div>
             <div class="fg">
               <label>Company Legal Name <span class="req">*</span></label>
-              <input type="text" placeholder="Company Legal Name">
+              <input [class.is-invalid]="kycForm.get('company_Name')?.invalid && kycForm.get('company_Name')?.touched" type="text" placeholder="Company Legal Name" formControlName="company_Name">
+              <div class="invalid-feedback" *ngIf="kycForm.get('company_Name')?.invalid && (kycForm.get('company_Name')?.touched || kycForm.get('company_Name')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>Trade Name <span class="req">*</span></label>
-              <input type="text" placeholder="Trade Name">
+              <input [class.is-invalid]="kycForm.get('custnm')?.invalid && kycForm.get('custnm')?.touched" type="text" placeholder="Trade Name" formControlName="custnm">
+              <div class="invalid-feedback" *ngIf="kycForm.get('custnm')?.invalid && (kycForm.get('custnm')?.touched || kycForm.get('custnm')?.dirty)">This field is required</div>
             </div>
 
             <div class="fg">
               <label>Decision Maker Name <span class="req">*</span></label>
-              <input type="text" placeholder="Decision Maker Name">
+              <input [class.is-invalid]="kycForm.get('decision_Name')?.invalid && kycForm.get('decision_Name')?.touched" type="text" placeholder="Decision Maker Name" formControlName="decision_Name">
+              <div class="invalid-feedback" *ngIf="kycForm.get('decision_Name')?.invalid && (kycForm.get('decision_Name')?.touched || kycForm.get('decision_Name')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>Designation <span class="req">*</span></label>
-              <input type="text" placeholder="Designation">
+              <input [class.is-invalid]="kycForm.get('decision_Designation')?.invalid && kycForm.get('decision_Designation')?.touched" type="text" placeholder="Designation" formControlName="decision_Designation">
+              <div class="invalid-feedback" *ngIf="kycForm.get('decision_Designation')?.invalid && (kycForm.get('decision_Designation')?.touched || kycForm.get('decision_Designation')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>Address <span class="req">*</span></label>
-              <input type="text" placeholder="Address">
+              <input [class.is-invalid]="kycForm.get('custAddress')?.invalid && kycForm.get('custAddress')?.touched" type="text" placeholder="Address" formControlName="custAddress">
+              <div class="invalid-feedback" *ngIf="kycForm.get('custAddress')?.invalid && (kycForm.get('custAddress')?.touched || kycForm.get('custAddress')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>State <span class="req">*</span></label>
-              <ng-select [items]="stateData" bindLabel="stnm" bindValue="stateID" placeholder="Search State..."
-                class="custom-ng-select" [dropdownPosition]="'bottom'">
+              <ng-select [items]="stateData" bindLabel="stnm" bindValue="stnm" placeholder="Search State..."
+                class="custom-ng-select" [class.is-invalid]="kycForm.get('cust_State')?.invalid && kycForm.get('cust_State')?.touched" [dropdownPosition]="'bottom'" formControlName="cust_State">
               </ng-select>
+              <div class="invalid-feedback" *ngIf="kycForm.get('cust_State')?.invalid && (kycForm.get('cust_State')?.touched || kycForm.get('cust_State')?.dirty)">This field is required</div>
             </div>
 
             <div class="fg">
               <label>City <span class="req">*</span></label>
                <ng-select [items]="cityData" bindLabel="location" bindValue="location" placeholder="Search City..."
-                class="custom-ng-select" [dropdownPosition]="'bottom'">
+                class="custom-ng-select" [class.is-invalid]="kycForm.get('city')?.invalid && kycForm.get('city')?.touched" [dropdownPosition]="'bottom'" formControlName="city">
               </ng-select>
+              <div class="invalid-feedback" *ngIf="kycForm.get('city')?.invalid && (kycForm.get('city')?.touched || kycForm.get('city')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>Pincode <span class="req">*</span></label>
-              <input type="text" placeholder="Prospect Pincode">
+              <ng-select [items]="pincodeData" bindLabel="pinArea" bindValue="pincode" placeholder="Search Pincode..."
+                class="custom-ng-select" [class.is-invalid]="kycForm.get('pincode')?.invalid && kycForm.get('pincode')?.touched" [dropdownPosition]="'bottom'" formControlName="pincode">
+              </ng-select>
+              <div class="invalid-feedback" *ngIf="kycForm.get('pincode')?.invalid && (kycForm.get('pincode')?.touched || kycForm.get('pincode')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>Email <span class="req">*</span></label>
-              <input type="email" placeholder="Email">
+              <input [class.is-invalid]="kycForm.get('emailids')?.invalid && kycForm.get('emailids')?.touched" type="email" placeholder="Email" formControlName="emailids">
+              <div class="invalid-feedback" *ngIf="kycForm.get('emailids')?.invalid && (kycForm.get('emailids')?.touched || kycForm.get('emailids')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>Phone No <span class="req">*</span></label>
-              <input type="text" placeholder="Phone No">
+              <input [class.is-invalid]="kycForm.get('telno')?.invalid && kycForm.get('telno')?.touched" type="text" placeholder="Phone No" formControlName="telno" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+              <div class="invalid-feedback" *ngIf="kycForm.get('telno')?.hasError('required') && (kycForm.get('telno')?.touched || kycForm.get('telno')?.dirty)">This field is required</div>
+              <div class="invalid-feedback" *ngIf="kycForm.get('telno')?.hasError('pattern') && !kycForm.get('telno')?.hasError('required') && (kycForm.get('telno')?.touched || kycForm.get('telno')?.dirty)">Please enter a valid 10-digit mobile number</div>
             </div>
 
             <div class="fg">
               <label>Business Type <span class="req">*</span></label>
               <ng-select [items]="businessData" bindLabel="codeDesc" bindValue="codeId" placeholder="Search businessType..."
-                class="custom-ng-select" [dropdownPosition]="'bottom'">
+                class="custom-ng-select" [class.is-invalid]="kycForm.get('businessType')?.invalid && kycForm.get('businessType')?.touched" [dropdownPosition]="'bottom'" formControlName="businessType">
               </ng-select>
+              <div class="invalid-feedback" *ngIf="kycForm.get('businessType')?.invalid && (kycForm.get('businessType')?.touched || kycForm.get('businessType')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>If Branch, Office Name and Address</label>
-              <input type="text" placeholder="Office Name and Address">
+              <input type="text" placeholder="Office Name and Address" formControlName="action">
             </div>
             <div class="fg">
               <label>Type of Ownership <span class="req">*</span></label>
               <ng-select [items]="ownerData" bindLabel="codeDesc" bindValue="codeId" placeholder="Select Ownership"
-                class="custom-ng-select" [dropdownPosition]="'bottom'">
+                class="custom-ng-select" [class.is-invalid]="kycForm.get('ownership')?.invalid && kycForm.get('ownership')?.touched" [dropdownPosition]="'bottom'" formControlName="ownership">
               </ng-select>
+              <div class="invalid-feedback" *ngIf="kycForm.get('ownership')?.invalid && (kycForm.get('ownership')?.touched || kycForm.get('ownership')?.dirty)">This field is required</div>
             </div>
           </div>
         </div>
@@ -107,7 +124,7 @@
         <div class="section-body">
           <div class="checkbox-row">
             <label class="custom-checkbox">
-              <input type="checkbox">
+              <input type="checkbox" formControlName="isBillingSame" (change)="onBillingSameChange($event)">
               <span class="checkmark"></span>
               Billing Address Same As Prospect Address ?
             </label>
@@ -116,42 +133,54 @@
           <div class="form-grid">
             <div class="fg">
               <label>Name <span class="req">*</span></label>
-              <input type="text" placeholder="Business name">
+              <input [class.is-invalid]="kycForm.get('businessname')?.invalid && kycForm.get('businessname')?.touched" type="text" placeholder="Business name" formControlName="businessname">
+              <div class="invalid-feedback" *ngIf="kycForm.get('businessname')?.invalid && (kycForm.get('businessname')?.touched || kycForm.get('businessname')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>Account Payable Contact <span class="req">*</span></label>
-              <input type="text" placeholder="MOBILE NO">
+              <input [class.is-invalid]="kycForm.get('decision_Mobile')?.invalid && kycForm.get('decision_Mobile')?.touched" type="text" placeholder="MOBILE NO" formControlName="decision_Mobile" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+              <div class="invalid-feedback" *ngIf="kycForm.get('decision_Mobile')?.hasError('required') && (kycForm.get('decision_Mobile')?.touched || kycForm.get('decision_Mobile')?.dirty)">This field is required</div>
+              <div class="invalid-feedback" *ngIf="kycForm.get('decision_Mobile')?.hasError('pattern') && !kycForm.get('decision_Mobile')?.hasError('required') && (kycForm.get('decision_Mobile')?.touched || kycForm.get('decision_Mobile')?.dirty)">Please enter a valid 10-digit mobile number</div>
             </div>
             <div class="fg">
               <label>Address <span class="req">*</span></label>
-              <input type="text" placeholder="Prospect Address">
+              <input [class.is-invalid]="kycForm.get('address_Bill')?.invalid && kycForm.get('address_Bill')?.touched" type="text" placeholder="Prospect Address" formControlName="address_Bill">
+              <div class="invalid-feedback" *ngIf="kycForm.get('address_Bill')?.invalid && (kycForm.get('address_Bill')?.touched || kycForm.get('address_Bill')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>State <span class="req">*</span></label>
-              <ng-select [items]="stateData" bindLabel="stnm" bindValue="stateID" placeholder="Search State..."
-                class="custom-ng-select" [dropdownPosition]="'bottom'">
+              <ng-select [items]="stateData" bindLabel="stnm" bindValue="stnm" placeholder="Search State..."
+                class="custom-ng-select" [class.is-invalid]="kycForm.get('bill_State')?.invalid && kycForm.get('bill_State')?.touched" [dropdownPosition]="'bottom'" formControlName="bill_State">
               </ng-select>
+              <div class="invalid-feedback" *ngIf="kycForm.get('bill_State')?.invalid && (kycForm.get('bill_State')?.touched || kycForm.get('bill_State')?.dirty)">This field is required</div>
             </div>
 
             <div class="fg">
               <label>City <span class="req">*</span></label>
               <ng-select [items]="cityData" bindLabel="location" bindValue="location" placeholder="Search City..."
-                class="custom-ng-select" [dropdownPosition]="'bottom'">
+                class="custom-ng-select" [class.is-invalid]="kycForm.get('city_Bill')?.invalid && kycForm.get('city_Bill')?.touched" [dropdownPosition]="'bottom'" formControlName="city_Bill">
               </ng-select>
+              <div class="invalid-feedback" *ngIf="kycForm.get('city_Bill')?.invalid && (kycForm.get('city_Bill')?.touched || kycForm.get('city_Bill')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>Pincode <span class="req">*</span></label>
-              <input type="text" placeholder="Billing Pincode">
+              <ng-select [items]="pincodeData" bindLabel="pinArea" bindValue="pincode" placeholder="Search Pincode..."
+                class="custom-ng-select" [class.is-invalid]="kycForm.get('pincode_Bill')?.invalid && kycForm.get('pincode_Bill')?.touched" [dropdownPosition]="'bottom'" formControlName="pincode_Bill">
+              </ng-select>
+              <div class="invalid-feedback" *ngIf="kycForm.get('pincode_Bill')?.invalid && (kycForm.get('pincode_Bill')?.touched || kycForm.get('pincode_Bill')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>Industry Type <span class="req">*</span></label>
               <ng-select [items]="industryData" bindLabel="codeDesc" bindValue="codeId" placeholder="Select Industry"
-                class="custom-ng-select" [dropdownPosition]="'bottom'">
+                class="custom-ng-select" [class.is-invalid]="kycForm.get('industry')?.invalid && kycForm.get('industry')?.touched" [dropdownPosition]="'bottom'" formControlName="industry">
               </ng-select>
+              <div class="invalid-feedback" *ngIf="kycForm.get('industry')?.invalid && (kycForm.get('industry')?.touched || kycForm.get('industry')?.dirty)">This field is required</div>
             </div>
             <div class="fg">
               <label>Estimated Monthly Business Volume Rs. <span class="req">*</span></label>
-              <input type="text" placeholder="0">
+              <input [class.is-invalid]="kycForm.get('turnover')?.invalid && kycForm.get('turnover')?.touched" type="text" placeholder="0" formControlName="turnover" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+              <div class="invalid-feedback" *ngIf="kycForm.get('turnover')?.hasError('required') && (kycForm.get('turnover')?.touched || kycForm.get('turnover')?.dirty)">This field is required</div>
+              <div class="invalid-feedback" *ngIf="(kycForm.get('turnover')?.hasError('min') || kycForm.get('turnover')?.hasError('pattern')) && !kycForm.get('turnover')?.hasError('required') && (kycForm.get('turnover')?.touched || kycForm.get('turnover')?.dirty)">Minimum ₹10,000 is required (digits only)</div>
               <span class="hint">Minimum 5 digits (₹10,000 or more)</span>
             </div>
           </div>
@@ -163,7 +192,7 @@
       <button class="btn-ghost" (click)="closePopup()">
         <span>- Back to List</span>
       </button>
-      <button class="btn-submit">
+      <button class="btn-submit" (click)="onSubmit()">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 6px;">
           <path d="M5.5 11.0858L2.20711 7.79289L0.792893 9.20711L5.5 13.9142L15.2071 4.20711L13.7929 2.79289L5.5 11.0858Z" fill="white"/>
         </svg>

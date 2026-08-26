@@ -30,4 +30,24 @@ export class Quotation {
   getView(custCode:string){
     return this.apiHandlerService.Get(`QuotationManage/QuotationViewPrint?custCode=${custCode}`);
   }
+
+  getPincode(){
+    return this.apiHandlerService.Get(`QuotationManage/GetPinCodeMasterList`);
+  }
+
+  submitKYC(data: any){
+    return this.apiHandlerService.Post(`QuotationManage/SubmitKYCDetails`, data);
+  }
+
+  sendApproval(data: any){
+    return this.apiHandlerService.Post(`QuotationManage/SendForApproval`, data);
+  }
+
+  getKYCDetail(custCode:string){
+    return this.apiHandlerService.Get(`QuotationManage/GetKYCCustomerDetails?custCode=${custCode}`);
+  }
+
+  getGSTDetail(gstNo:string){
+    return this.apiHandlerService.Get(`QuotationManage/GetGSTDetails?gstNo=${gstNo}`);
+  }
 }
