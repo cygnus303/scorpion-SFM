@@ -104,7 +104,7 @@
                 <td><span class="status-badge" [ngClass]="getProspectStatusClass(item.ProspectStatus)">{{ item.ProspectStatus  || '--' }}</span></td>
                 <td>
                   <button class="qbtn qbtn-red" *ngIf="item.ProspectStatus ==='Prospect Generated'" 
-                  (click)="openKycPopup()">Add KYC</button>
+                  (click)="openKycPopup(item)">Add KYC</button>
                   <button class="qbtn qbtn-teal" *ngIf="item.ProspectStatus ==='Customer Created'|| item.ProspectStatus ==='Rejected'||item.ProspectStatus === 'Pending for Customer Code Creation'" 
                     (click)="openQmViewPopup(item.CUSTCD)">QM View</button>
                    <button class="qbtn qbtn-green" *ngIf="item.ProspectStatus ==='KYC Generated'">Add QM</button>
@@ -113,7 +113,7 @@
                     (click)="openSendForApprovalPopup(item)">Send For Approval</button>
                    <button class="qbtn qbtn-brown" *ngIf="item.ProspectStatus ==='Customer Created'" >Renew QM</button>
                   <button class="qbtn qbtn-red" *ngIf="item.ProspectStatus ==='KYC Generated'|| item.ProspectStatus ==='Customer Created'"
-                  (click)="openKycPopup(item.CUSTCD || item.LeadId || item.ContractID)"
+                  (click)="openKycPopup(item)"
                   >Edit KYC</button>
                 </td>
               </tr>
@@ -160,7 +160,7 @@
                 </td>
                 <td>
                   <button class="qbtn qbtn-teal" (click)="openQmViewPopup(item.CUSTCD)">QM View/Print</button>
-                  <button class="qbtn qbtn-red" (click)="openKycPopup(item.CUSTCD || item.ContractID || item.LeadId)">Edit KYC</button>
+                  <button class="qbtn qbtn-red" (click)="openKycPopup(item)">Edit KYC</button>
                   <button class="qbtn qbtn-amber" style="background-color: #e5d5c5; color: #fff; border-color: #e5d5c5;">Edit QM</button>
                   <button class="qbtn" style="background-color: #6a0000; color: #fff; border-color: #6a0000;">Renew QM</button>
                 </td>

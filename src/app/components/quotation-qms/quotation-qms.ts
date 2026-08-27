@@ -72,9 +72,16 @@ export class QuotationQMS {
     this.fetchSubject.next();
   }
 
-  openKycPopup(custCode?: string) {
+  openKycPopup(item?: any) {
     if (this.addKycPopup) {
-      this.addKycPopup.show(custCode);
+      if (item && typeof item === 'object') {
+        const custCode = item.CUSTCD || item.LeadId || item.ContractID;
+        const custName = item.ProspectName || item.CustName;
+        const isEdit = item.IsKYCdone === 'Y' || item.ProspectStatus === 'KYC Generated' || item.ProspectStatus === 'Customer Created';
+        this.addKycPopup.show(custCode, custName, isEdit);
+      } else {
+        this.addKycPopup.show(item);
+      }
     }
   }
 

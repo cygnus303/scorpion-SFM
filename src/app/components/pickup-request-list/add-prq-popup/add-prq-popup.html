@@ -162,6 +162,21 @@
                         </div>
                     </div>
 
+                      <div class="form-row">
+                        <div>
+                            <label
+                                style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Pickup
+                                Branch <span style="color:#D0021B">*</span></label>
+                            <ng-select [items]="branchList" bindLabel="locName" bindValue="locCode"
+                                formControlName="pickupBranch" placeholder="Select Pickup Branch" [searchable]="true"
+                                [clearable]="true" class="custom-ng-select clear-icon"
+                                [ngClass]="{'is-invalid-ng-select': prqForm.get('pickupBranch')?.invalid && prqForm.get('pickupBranch')?.touched}">
+                            </ng-select>
+                            <div *ngIf="prqForm.get('pickupBranch')?.invalid && prqForm.get('pickupBranch')?.touched" class="error-msg">This field is required</div>
+                        </div>
+                        <div></div>
+                    </div>
+
                     <div class="form-row">
                         <div>
                             <label

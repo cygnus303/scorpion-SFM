@@ -12,6 +12,7 @@ import { ExpenseGeneralService } from '../../../shared/services/expense-general.
 import { IdentityService } from '../../../shared/services/identity.service';
 import Swal from 'sweetalert2';
 import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
+import { ComplaintService } from '../../../shared/services/complaint.service';
 
 @Component({
   selector: 'app-add-prq-popup',
@@ -61,6 +62,7 @@ export class AddPrqPopup {
   public fleetTypeData: any[] = [];
   public serviceData: any[] = [];
   public PRQNo: any;
+  public branchList :any;
   public vehicleCountList = Array.from({ length: 10 }, (_, i) => ({ id: i + 1, text: (i + 1).toString() }));
   public minDate = new Date();
   public serviceTypes = [
@@ -76,9 +78,11 @@ export class AddPrqPopup {
   private datePipe = inject(DatePipe);
   private sweetAlertService = inject(SweetAlertService);
   public commonService = inject(CommonService);
+  public complaintService = inject(ComplaintService);
 
   ngOnInit(): void {
     this.initForm();
+    this.getLocations();
 
     // Customer Search Subscription
     this.customerSearchSubject.pipe(debounceTime(400)).subscribe((term: string) => {
@@ -260,6 +264,7 @@ export class AddPrqPopup {
       ewayBill: new FormControl('without'),
       fromCity: new FormControl('', Validators.required),
       fromCityCode: new FormControl(''),
+      pickupBranch:new FormControl(null, Validators.required),
       transportMode: new FormControl(null, Validators.required),
       coldChainCategory: new FormControl(null),
       tempRange: new FormControl(''),
@@ -473,10 +478,27 @@ export class AddPrqPopup {
               consigneePin: data.ConsigneePincode,
               consignorContactNo:data.ConsignorContactno,
               consigneeContactNo:data.ConsigneeContactno,
+              pickupBranch:data.PickupBranch
             });
           }, 500);
         }
 
+      },
+      error: (response: any) => {
+        this.sweetAlertService.error(response);
+      },
+    });
+  }
+
+   getLocations() {
+    this.complaintService.getTicketAddressTo().subscribe({
+      next: (response) => {
+        if (response) {
+          this.branchList = response.data.map((user: any) => ({
+            locCode: user.locCode,
+            locName: `${user.locCode}: ${user.locName}`,
+          }));
+        }
       },
       error: (response: any) => {
         this.sweetAlertService.error(response);
@@ -519,6 +541,7 @@ export class AddPrqPopup {
         eWayBillDateStr: formData.ewayBillDate || '',
         eWayBillExpiryDateStr: formData.ewayExpDate || '',
         invoiceNo: formData.invoiceNo || '',
+        pickupBranch:formData.pickupBranch || '',
         invoiceDateStr: formData.invoiceDate ? (this.datePipe.transform(formData.invoiceDate, 'dd/MM/yyyy') || '') : '',
         invoiceValue: Number(formData.invoiceValue) || 0,
         consignorName: formData.consignorName || '',

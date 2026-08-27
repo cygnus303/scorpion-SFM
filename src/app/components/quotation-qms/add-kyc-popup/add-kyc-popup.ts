@@ -23,6 +23,8 @@ export class AddKycPopupComponent {
   public industryData: any;
   public stateData: any;
   public cityData: any;
+  public prospectIdName: string = '';
+  public isEditMode: boolean = false;
 
   @Output() onSuccess = new EventEmitter<void>();
 
@@ -71,46 +73,60 @@ export class AddKycPopupComponent {
     });
   }
 
-  show(custCode?: string) {
+  show(custCode?: string, custName?: string, isEdit: boolean = false) {
+    this.isEditMode = isEdit;
+    this.prospectIdName = '';
     this.kycForm.reset({ custcd: '', turnover: '', prospectStatus: 0, isBillingSame: false });
     this.modalRef = this.modalService.show(this.kycTemplate, { class: 'modal-xl modal-dialog-centered modal-dialog-scrollable', backdrop: 'static' });
     
     if (custCode) {
-      this.quotationService.getKYCDetail(custCode).subscribe((res: any) => {
-        if (res && res.success && res.data) {
-          const data = res.data;
-          this.kycForm.patchValue({
-            custcd: data.custcd || '',
-            custnm: data.custnm || '',
-            company_Name: data.company_Name || '',
-            decision_Name: data.decision_Name || '',
-            decision_Designation: data.decision_Designation || '',
-            custAddress: data.custAddress || '',
-            city: data.city || null,
-            cust_State: data.cust_State || null,
-            pincode: data.pincode || null,
-            telno: data.telno || data.mobileno || '',
-            mobileno: data.mobileno || '',
-            decision_Mobile: data.decision_Mobile || '',
-            emailids: data.emailids || '',
-            businessType: data.businessType || null,
-            gstno: data.gstno || '',
-            industry: data.industry || null,
-            turnover: data.turnover || '',
-            businessname: data.businessname || '',
-            address_Bill: data.address_Bill || '',
-            pincode_Bill: data.pincode_Bill || null,
-            city_Bill: data.city_Bill || null,
-            prospectStatus: data.prospectStatus || 0,
-            action: data.action || '',
-            bill_State: data.bill_State || null,
-            isKYCdone: data.isKYCdone || '',
-            pan_no: data.pan_no || '',
-            ownership: data.ownership || null,
-            isBillingSame: false
-          });
-        }
-      });
+      if (custName) {
+        this.prospectIdName = `${custCode}:${custName}`;
+        this.kycForm.patchValue({
+          custcd: custCode,
+          custnm: custName,
+          company_Name: custName
+        });
+      } else {
+        this.prospectIdName = custCode;
+        this.kycForm.patchValue({ custcd: custCode });
+      }
+
+        this.quotationService.getKYCDetail(custCode).subscribe((res: any) => {
+          if (res && res.success && res.data) {
+            const data = res.data;
+            this.kycForm.patchValue({
+              custcd: data.custcd || '',
+              custnm: data.custnm || '',
+              company_Name: data.company_Name || '',
+              decision_Name: data.decision_Name || '',
+              decision_Designation: data.decision_Designation || '',
+              custAddress: data.custAddress || '',
+              city: data.city || null,
+              cust_State: data.cust_State || null,
+              pincode: data.pincode || null,
+              telno: data.telno || data.mobileno || '',
+              mobileno: data.mobileno || '',
+              decision_Mobile: data.decision_Mobile || '',
+              emailids: data.emailids || '',
+              businessType: data.businessType || null,
+              gstno: data.gstno || '',
+              industry: data.industry || null,
+              turnover: data.turnover || '',
+              businessname: data.businessname || '',
+              address_Bill: data.address_Bill || '',
+              pincode_Bill: data.pincode_Bill || null,
+              city_Bill: data.city_Bill || null,
+              prospectStatus: data.prospectStatus || 0,
+              action: data.action || '',
+              bill_State: data.bill_State || null,
+              isKYCdone: data.isKYCdone || '',
+              pan_no: data.pan_no || '',
+              ownership: data.ownership || null,
+              isBillingSame: false
+            });
+          }
+        });
     }
 
     this.getBusinessData();
@@ -212,15 +228,37 @@ export class AddKycPopupComponent {
       this.kycForm.markAllAsTouched();
       return;
     }
-    const payload = { ...this.kycForm.value };
-    delete payload.isBillingSame;
-    
-    // Convert null values to empty strings
-    Object.keys(payload).forEach(key => {
-      if (payload[key] === null) {
-        payload[key] = '';
-      }
-    });
+
+    const formValue = this.kycForm.value;
+    const payload = {
+      custcd: formValue.custcd?.toString() || "",
+      custnm: formValue.custnm?.toString() || "",
+      company_Name: formValue.company_Name?.toString() || "",
+      decision_Name: formValue.decision_Name?.toString() || "",
+      decision_Designation: formValue.decision_Designation?.toString() || "",
+      custAddress: formValue.custAddress?.toString() || "",
+      city: formValue.city?.toString() || "",
+      cust_State: formValue.cust_State?.toString() || "",
+      pincode: formValue.pincode?.toString() || "",
+      telno: formValue.telno?.toString() || "",
+      mobileno: formValue.mobileno?.toString() || "",
+      decision_Mobile: formValue.decision_Mobile?.toString() || "",
+      emailids: formValue.emailids?.toString() || "",
+      businessType: formValue.businessType?.toString() || "",
+      gstno: formValue.gstno?.toString() || "",
+      industry: formValue.industry?.toString() || "",
+      turnover: Number(formValue.turnover) || 0,
+      businessname: formValue.businessname?.toString() || "",
+      address_Bill: formValue.address_Bill?.toString() || "",
+      pincode_Bill: formValue.pincode_Bill?.toString() || "",
+      city_Bill: formValue.city_Bill?.toString() || "",
+      prospectStatus: Number(formValue.prospectStatus) || 0,
+      action: formValue.action?.toString() || "",
+      bill_State: formValue.bill_State?.toString() || "",
+      isKYCdone: formValue.isKYCdone?.toString() || "",
+      pan_no: formValue.pan_no?.toString() || "",
+      ownership: formValue.ownership?.toString() || ""
+    };
     
     this.quotationService.submitKYC(payload).subscribe({
       next: (res: any) => {
