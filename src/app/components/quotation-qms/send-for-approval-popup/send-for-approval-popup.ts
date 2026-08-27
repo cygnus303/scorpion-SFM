@@ -17,6 +17,7 @@ export class SendForApprovalPopupComponent {
   public modalRef!: BsModalRef;
   public prospectName: string = '';
   public contractId: string = '';
+  public customerCode: string = '';
   public isSubmitted: boolean = false;
   public selectedFile: File | null = null;
   @Output() onSuccess = new EventEmitter<void>();
@@ -28,9 +29,10 @@ export class SendForApprovalPopupComponent {
 
   @ViewChild('approvalTemplate') approvalTemplate!: TemplateRef<any>;
 
-  show(prospectName: string, contractId: string = '') {
+  show(prospectName: string, contractId: string = '', customerCode: string = '') {
     this.prospectName = prospectName;
     this.contractId = contractId;
+    this.customerCode = customerCode;
     this.isSubmitted = false;
     this.selectedFile = null;
     this.modalRef = this.modalService.show(this.approvalTemplate, { class: 'modal-md modal-dialog-centered modal-dialog-scrollable', backdrop: 'static' });
@@ -53,7 +55,7 @@ export class SendForApprovalPopupComponent {
     formData.append('file', this.selectedFile);
     formData.append('contractId', this.contractId);
 
-    this.quotationService.sendApproval(formData).subscribe({
+    this.quotationService.sendApproval(this.customerCode, formData).subscribe({
       next: (res: any) => {
         if (res && res.success) {
           this.sweetAlertService.success(res.message || 'Successfully sent for approval.');

@@ -86,7 +86,7 @@ export class QuotationQMS {
 
   openSendForApprovalPopup(item: any) {
     if (this.sendForApprovalPopup) {
-      this.sendForApprovalPopup.show(item.ProspectName || item.CustName || 'Prospect', item.ContractID || item.CUSTCD || item.LeadId || '');
+      this.sendForApprovalPopup.show(item.ProspectName || item.CustName || 'Prospect', item.ContractID || item.CUSTCD || item.LeadId || '', item.CUSTCD || '');
     }
   }
   

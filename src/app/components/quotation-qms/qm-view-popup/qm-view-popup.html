@@ -4,11 +4,11 @@
     <div class="modal-header">
       <h2 class="modal-title">Quotation Agreement Report — Kelvin Auto Parts</h2>
       <div class="header-actions">
-        <button class="btn-print">
+        <button class="btn-print" (click)="printPopup()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
           Print / PDF
         </button>
-        <button class="btn-close" (click)="closePopup()">
+        <button class="header-close-btn" (click)="closePopup()">
           <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M13 1L1 13M1 1L13 13" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -22,7 +22,7 @@
       <!-- Report Header -->
       <div class="report-header">
         <div class="logo">
-          <i>Scorpion</i>
+          <img src="assets/images/logo_login.jpg" alt="Scorpion Logo" height="60px">
         </div>
         <div class="company-info">
           <h3>SCORPION EXPRESS PVT LTD</h3>

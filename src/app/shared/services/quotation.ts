@@ -39,8 +39,8 @@ export class Quotation {
     return this.apiHandlerService.Post(`QuotationManage/SubmitKYCDetails`, data);
   }
 
-  sendApproval(data: any){
-    return this.apiHandlerService.Post(`QuotationManage/SendForApproval`, data);
+  sendApproval(customerCode:string,data: any){
+    return this.apiHandlerService.Post(`QuotationManage/SendForApproval?custCd=${customerCode}`, data);
   }
 
   getKYCDetail(custCode:string){

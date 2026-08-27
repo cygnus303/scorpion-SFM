@@ -31,6 +31,10 @@ export class QmViewPopupComponent {
     this.modalRef?.hide();
   }
 
+  printPopup() {
+    window.print();
+  }
+
   getViewDetail(custCode:string){
 
     this.quotationService.getView(custCode).subscribe({

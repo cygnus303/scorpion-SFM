@@ -5,6 +5,7 @@ import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { Quotation } from '../../../shared/services/quotation';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
 
 @Component({
   selector: 'app-add-kyc-popup',
@@ -27,6 +28,7 @@ export class AddKycPopupComponent {
 
   private modalService = inject(BsModalService);
   private toasterService = inject(ToastrService);
+  private sweetAlertService = inject(SweetAlertService);
   public kycForm!: FormGroup;
   private fb = inject(FormBuilder);
 
@@ -213,24 +215,31 @@ export class AddKycPopupComponent {
     const payload = { ...this.kycForm.value };
     delete payload.isBillingSame;
     
+    // Convert null values to empty strings
+    Object.keys(payload).forEach(key => {
+      if (payload[key] === null) {
+        payload[key] = '';
+      }
+    });
+    
     this.quotationService.submitKYC(payload).subscribe({
       next: (res: any) => {
         if(res && res.success){
-          this.toasterService.success(res.message || 'KYC details submitted successfully.');
+          this.sweetAlertService.success(res.message || 'KYC details submitted successfully.');
           this.onSuccess.emit();
           this.closePopup();
         } else {
-          this.toasterService.error(res?.message || 'Failed to submit KYC details.');
+          this.sweetAlertService.error(res?.message || 'Failed to submit KYC details.');
         }
       },
       error: (err: any) => {
         if (err.error && err.error.errors) {
-          const errorMessages = Object.values(err.error.errors).flat().join(', ');
-          this.toasterService.error(errorMessages || 'Validation failed.');
+          const errorMessages = Object.values(err.error.errors).flat().join('\n');
+          this.sweetAlertService.error(errorMessages || 'Validation failed.');
         } else if (err.error && err.error.message) {
-          this.toasterService.error(err.error.message);
+          this.sweetAlertService.error(err.error.message);
         } else {
-          this.toasterService.error(err.message || 'Failed to submit KYC details.');
+          this.sweetAlertService.error(err.message || 'Failed to submit KYC details.');
         }
       }
     });
