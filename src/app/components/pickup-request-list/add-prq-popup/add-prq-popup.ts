@@ -317,7 +317,8 @@ export class AddPrqPopup {
         this.prqForm.patchValue({
           branchCode: loc.branch,
           fromCity: loc.city,
-          fromCityCode: loc.cityCode
+          fromCityCode: loc.cityCode,
+          pickupBranch: loc.locCode,
         });
       }
     });

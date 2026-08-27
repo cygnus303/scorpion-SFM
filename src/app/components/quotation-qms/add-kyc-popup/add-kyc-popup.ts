@@ -81,11 +81,15 @@ export class AddKycPopupComponent {
     
     if (custCode) {
       if (custName) {
-        this.prospectIdName = `${custCode}:${custName}`;
+        let cleanName = custName;
+        if (cleanName.startsWith(custCode)) {
+          cleanName = cleanName.substring(custCode.length).replace(/^[\s:-]+/, '');
+        }
+        this.prospectIdName = `${custCode}:${cleanName}`;
         this.kycForm.patchValue({
           custcd: custCode,
-          custnm: custName,
-          company_Name: custName
+          custnm: cleanName,
+          company_Name: cleanName
         });
       } else {
         this.prospectIdName = custCode;
