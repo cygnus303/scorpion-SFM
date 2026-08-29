@@ -3,7 +3,7 @@
     <div class="nav-tab active">Quotation Listing</div>
   </div>
 
-  <div class="screen active">
+  <div class="screen active" *ngIf="currentScreen === 'list'">
     <div class="list-header">
       <div>
         <div class="page-title">Customer Rate Masters</div>
@@ -107,7 +107,7 @@
                   (click)="openKycPopup(item)">Add KYC</button>
                   <button class="qbtn qbtn-teal" *ngIf="item.ProspectStatus ==='Customer Created'|| item.ProspectStatus ==='Rejected'||item.ProspectStatus === 'Pending for Customer Code Creation'" 
                     (click)="openQmViewPopup(item.CUSTCD)">QM View</button>
-                   <button class="qbtn qbtn-green" *ngIf="item.ProspectStatus ==='KYC Generated'">Add QM</button>
+                   <button class="qbtn qbtn-green" *ngIf="item.ProspectStatus ==='KYC Generated'" (click)="openAddQmView(item)">Add QM</button>
                    <button class="qbtn qbtn-amber" *ngIf="item.ProspectStatus ==='Customer Created'|| item.ProspectStatus ==='Rejected'|| item.ProspectStatus === 'Pending for Send for Approval'">Edit QM</button>
                    <button class="qbtn qbtn-purple" *ngIf="item.ProspectStatus === 'Pending for Send for Approval'"
                     (click)="openSendForApprovalPopup(item)">Send For Approval</button>
@@ -190,6 +190,8 @@
     </div>
     </div>
   </div>
+
+  <app-add-qm *ngIf="currentScreen === 'add-qm'" [customerData]="selectedCustomerDataForQm" (onBack)="currentScreen = 'list'"></app-add-qm>
 
   <app-add-kyc-popup (onSuccess)="getQuatationList()"></app-add-kyc-popup>
   <app-qm-view-popup></app-qm-view-popup>

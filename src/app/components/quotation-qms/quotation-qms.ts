@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AddKycPopupComponent } from './add-kyc-popup/add-kyc-popup';
 import { QmViewPopupComponent } from './qm-view-popup/qm-view-popup';
 import { SendForApprovalPopupComponent } from './send-for-approval-popup/send-for-approval-popup';
+import { AddQmComponent } from './add-qm/add-qm.component';
 import { ExpenseGeneralService } from '../../shared/services/expense-general.service';
 import { CommonService } from '../../shared/services/common.service';
 import { IdentityService } from '../../shared/services/identity.service';
@@ -16,7 +17,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 @Component({
   selector: 'app-quotation-qms',
   standalone: true,
-  imports: [CommonModule, AddKycPopupComponent, QmViewPopupComponent, SendForApprovalPopupComponent, FormsModule,PaginationModule,NgSelectModule],
+  imports: [CommonModule, AddKycPopupComponent, QmViewPopupComponent, SendForApprovalPopupComponent, FormsModule,PaginationModule,NgSelectModule, AddQmComponent],
   templateUrl: './quotation-qms.html',
   styleUrl: './quotation-qms.scss',
 })
@@ -29,6 +30,8 @@ export class QuotationQMS {
   public quotationList: any[] = [];
   public cardList: any[] = [];
   public customerData:any[]=[];
+  public currentScreen: 'list' | 'add-qm' = 'list';
+  public selectedCustomerDataForQm: any = null;
 
   public config = {
     fromDateStr: new Date(),
@@ -95,6 +98,11 @@ export class QuotationQMS {
     if (this.sendForApprovalPopup) {
       this.sendForApprovalPopup.show(item.ProspectName || item.CustName || 'Prospect', item.ContractID || item.CUSTCD || item.LeadId || '', item.CUSTCD || '');
     }
+  }
+
+  openAddQmView(item: any) {
+    this.selectedCustomerDataForQm = item;
+    this.currentScreen = 'add-qm';
   }
   
   formatDate = (dateStr: string) => {

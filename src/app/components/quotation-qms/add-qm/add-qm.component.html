@@ -1,0 +1,893 @@
+<div class="add-qm-wrapper">
+  <!-- Top Header Nav -->
+  <div class="qm-header d-flex justify-content-between align-items-center mb-3 p-3 bg-white rounded-3 shadow-sm">
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-light btn-sm border d-flex align-items-center gap-1" (click)="goBack()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <span class="badge text-secondary border bg-light">RM - 1001</span>
+      <span class="badge text-secondary border bg-light">Draft</span>
+    </div>
+    <button class="btn btn-light btn-sm border">Save Draft</button>
+  </div>
+
+  <div class="alert bg-white border-0 shadow-sm rounded-3 py-2 px-3 text-secondary" style="font-size: 12.5px;">
+    All *marked sections are mandatory
+  </div>
+
+  <form [formGroup]="qmForm" (ngSubmit)="onSave()">
+    
+    <!-- CUSTOMER DETAILS -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">CUSTOMER DETAILS</h6>
+      <div class="row g-3">
+        <div class="col-md-2">
+          <label class="form-label">Customer Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="customerName" placeholder="Customer Name" readonly>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Customer Code <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="customerCode" placeholder="e.g. ACME001" readonly>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Signing Location <span class="text-danger">*</span></label>
+          <ng-select [items]="locationCodes" bindLabel="name" bindValue="id" formControlName="signingLocation" placeholder="— Select —"></ng-select>
+          <small class="text-muted" style="font-size: 10px;">Location codes from Location Master</small>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Contract Validity From <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', containerClass: 'theme-default' }" formControlName="validityFrom" placeholder="mm / dd / yyyy">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Contract Validity To <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', containerClass: 'theme-default' }" formControlName="validityTo" placeholder="mm / dd / yyyy">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Billing Frequency <span class="text-danger">*</span></label>
+          <ng-select [items]="billingFrequencies" formControlName="billingFrequency" placeholder="— Select —"></ng-select>
+        </div>
+      </div>
+      
+      <div class="row g-3 mt-1">
+        <div class="col-md-2">
+          <label class="form-label">Customer Representative <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="customerRep" placeholder="e.g. Suresh Patil">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Designation <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="designation" placeholder="e.g. Logistics Head">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Email ID <span class="text-danger">*</span></label>
+          <input type="email" class="form-control" formControlName="email" placeholder="name@company.com">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Contact Number <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="contactNumber" placeholder="10-digit mobile">
+          <small class="text-muted" style="font-size: 10px;">10 digits</small>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">PayBase <span class="text-danger">*</span></label>
+          <ng-select [items]="['To Pay', 'Paid', 'TBB']" formControlName="payBase" placeholder="— Select —"></ng-select>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOMER GROUP NAME -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">CUSTOMER GROUP NAME <span class="text-danger">*</span></h6>
+      <div class="d-flex flex-wrap gap-4 mt-2">
+        <label class="custom-radio">
+          <input type="radio" formControlName="groupName" value="Group">
+          <span>Group</span>
+        </label>
+        <label class="custom-radio">
+          <input type="radio" formControlName="groupName" value="Corporate">
+          <span>Corporate</span>
+        </label>
+        <label class="custom-radio">
+          <input type="radio" formControlName="groupName" value="Non Group Non Corporate">
+          <span>Non Group Non Corporate</span>
+        </label>
+        <label class="custom-radio">
+          <input type="radio" formControlName="groupName" value="Integrated Logistics">
+          <span>Integrated Logistics</span>
+        </label>
+        <label class="custom-radio">
+          <input type="radio" formControlName="groupName" value="Aggregator">
+          <span>Aggregator</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- COMPANY DETAILS -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">COMPANY DETAILS</h6>
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Company Employee Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control bg-light" formControlName="companyEmpName" placeholder="Rajesh Kumar" readonly>
+          <small class="text-muted" style="font-size: 10px;">Logged-in user</small>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Designation <span class="text-danger">*</span></label>
+          <input type="text" class="form-control bg-light" formControlName="companyDesignation" placeholder="Sales Manager - West" readonly>
+          <small class="text-muted" style="font-size: 10px;">From User Master</small>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Email ID <span class="text-danger">*</span></label>
+          <input type="email" class="form-control bg-light" formControlName="companyEmail" placeholder="rajesh.kumar@scorpionexpress.in" readonly>
+          <small class="text-muted" style="font-size: 10px;">From User Master</small>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Contact Number <span class="text-danger">*</span></label>
+          <input type="text" class="form-control bg-light" formControlName="companyContact" placeholder="9876543210" readonly>
+          <small class="text-muted" style="font-size: 10px;">From User Master</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- C.S.E. DETAILS -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">C.S.E. DETAILS</h6>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">C.S.E. Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="cseName" placeholder="Search Customer Support users...">
+          <small class="text-muted" style="font-size: 10px;">User Master — Customer Support role only</small>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Email ID <span class="text-danger">*</span></label>
+          <input type="email" class="form-control bg-light" formControlName="cseEmail" readonly>
+          <small class="text-muted" style="font-size: 10px;">From User Master</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE TYPE & TRANSIT MODE -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">SERVICE TYPE & TRANSIT MODE <span class="text-danger">*</span></h6>
+      <p class="text-muted mb-2" style="font-size: 12px;">Click a cell to select a combination. Greyed cells are not permitted.</p>
+      
+      <div class="table-responsive">
+        <table class="table matrix-table table-bordered text-center align-middle m-0">
+          <thead>
+            <tr class="bg-light">
+              <th class="text-start" style="width: 120px;">Service \\ Mode</th>
+              <th>ROAD CARGO</th>
+              <th>AIR</th>
+              <th>SAMPLE</th>
+              <th>INCINERATION</th>
+              <th>COLD CHAIN</th>
+              <th>PTL</th>
+              <th>SUPER EXPRESS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of serviceMatrix; let i = index">
+              <td class="text-start fw-bold bg-light">{{ row.name }}</td>
+              <td [class.selected]="row.road" (click)="toggleMatrix(i, 'road')"></td>
+              <td [class.selected]="row.air" [class.not-permitted]="row.name === 'FTL'" (click)="row.name !== 'FTL' && toggleMatrix(i, 'air')">{{ row.name === 'FTL' ? '—' : '' }}</td>
+              <td [class.selected]="row.sample" [class.not-permitted]="row.name === 'FTL'" (click)="row.name !== 'FTL' && toggleMatrix(i, 'sample')">{{ row.name === 'FTL' ? '—' : '' }}</td>
+              <td [class.selected]="row.incineration" (click)="toggleMatrix(i, 'incineration')"></td>
+              <td [class.selected]="row.coldChain" (click)="toggleMatrix(i, 'coldChain')"></td>
+              <td [class.selected]="row.ptl" [class.not-permitted]="row.name === 'FTL'" (click)="row.name !== 'FTL' && toggleMatrix(i, 'ptl')">{{ row.name === 'FTL' ? '—' : '' }}</td>
+              <td [class.selected]="row.superExpress" (click)="toggleMatrix(i, 'superExpress')"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex gap-3 mt-3 align-items-center" style="font-size: 11px; color: #666;">
+        <div class="d-flex align-items-center gap-1"><span class="legend-box selected">&#10003;</span> Selected</div>
+        <div class="d-flex align-items-center gap-1"><span class="legend-box available"></span> Available</div>
+        <div class="d-flex align-items-center gap-1"><span class="legend-box not-permitted"></span> Not permitted</div>
+      </div>
+      <p class="mt-2 mb-0 text-muted" style="font-size: 12px;" *ngIf="selectedCombinations.length === 0">No combinations selected</p>
+      
+      <div class="mt-3" *ngIf="selectedCombinations.length > 0">
+        <span style="font-size: 11px; font-weight: 600; color: #6b7280; margin-right: 10px;">{{ selectedCombinations.length }} combinations selected:</span>
+        <span class="badge border bg-light text-dark me-2 mb-2" *ngFor="let comb of selectedCombinations">
+          {{ comb.service }}-{{ comb.mode }}
+        </span>
+      </div>
+    </div>
+
+    <!-- COMMERCIALS -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">COMMERCIALS <span class="text-danger">*</span></h6>
+      
+      <div *ngIf="!activeCombinationKey" class="d-flex flex-column align-items-center justify-content-center py-5 text-muted" style="min-height: 150px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <span style="font-size: 13px;">Select combinations from the matrix above</span>
+        <span style="font-size: 11px;">One commercial block per selected combination</span>
+      </div>
+
+      <div *ngIf="activeCombinationKey && getActiveCommercialGroup()">
+        <!-- Tabs & Actions -->
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+          <div class="d-flex gap-2 flex-wrap">
+            <div class="badge combination-tab" *ngFor="let comb of selectedCombinations" 
+                 [class.active]="comb.key === activeCombinationKey"
+                 (click)="setActiveCombination(comb.key)">
+              <span class="service">{{ comb.service }}</span> &middot; <span class="mode">{{ comb.mode }}</span>
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary btn-sm" style="font-size: 11px;">&#8595; Download Template</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" style="font-size: 11px;">&#8593; Upload</button>
+            <span class="badge bg-warning text-dark border d-flex align-items-center px-3" style="background-color: #fef3c7 !important; color: #b45309 !important; border-color: #fde68a !important;">Pending</span>
+          </div>
+        </div>
+
+        <div class="alert bg-light border text-muted py-2 px-3" style="font-size: 11px;">
+           <i class="fa fa-info-circle me-1"></i> Fill Contract Validity dates in Customer Details above
+        </div>
+
+        <div [formGroup]="getActiveCommercialGroup()!">
+          <!-- 1. Freight Commercials -->
+          <div class="mt-4">
+            <h6 style="font-size: 12px; font-weight: 700; color: #dc2626;"><span class="badge rounded-circle bg-danger text-white me-1 p-1 px-2" style="font-size: 10px;">1</span> Freight Commercials <span class="text-danger">*</span></h6>
+            <div class="d-flex gap-4 my-3 ms-2">
+              <label class="custom-radio"><input type="radio" formControlName="freightCommercialsSlab" value="With Slab"><span>With Slab</span></label>
+              <label class="custom-radio"><input type="radio" formControlName="freightCommercialsSlab" value="Without Slab"><span>Without Slab</span></label>
+            </div>
+            
+            <!-- With Slab View -->
+            <div class="mt-3 ms-2" style="max-width: 100%;" *ngIf="getActiveCommercialGroup()?.get('freightCommercialsSlab')?.value === 'With Slab'">
+              <div class="mb-4">
+                <label class="form-label text-muted">Matrices <span class="text-danger">*</span></label>
+                <ng-select [items]="[]" formControlName="matrices" placeholder="— Select —"></ng-select>
+              </div>
+
+              <!-- Slabs Grid -->
+              <div class="slabs-grid" formArrayName="slabs">
+                <!-- Headers -->
+                <div class="row g-2 mb-1">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-1"><label class="form-label" style="font-size:10px;">From <span class="text-danger">*</span></label></div>
+                  <div class="col-md-1"><label class="form-label" style="font-size:10px;">To</label></div>
+                  <div class="col-md-2"><label class="form-label" style="font-size:10px;">Transport Mode</label></div>
+                  <div class="col-md-2"><label class="form-label" style="font-size:10px;">Rate Type <span class="text-danger">*</span></label></div>
+                  <div class="col-md-1"><label class="form-label" style="font-size:10px;">Rate <span class="text-danger">*</span></label></div>
+                  <div class="col-md-1"><label class="form-label" style="font-size:10px;">Std. TAT</label></div>
+                  <div class="col-md-2"><label class="form-label" style="font-size:10px;">Cust. TAT</label></div>
+                  <div class="col-md-1"></div>
+                </div>
+
+                <!-- Rows -->
+                <div class="row g-2 align-items-center mb-2" *ngFor="let slab of getActiveSlabsArray().controls; let i = index" [formGroupName]="i">
+                  <div class="col-md-1 text-end text-muted" style="font-size: 11px;">Slab {{ i + 1 }}</div>
+                  <div class="col-md-1">
+                    <input type="text" class="form-control form-control-sm bg-white" formControlName="from">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" class="form-control form-control-sm bg-white" formControlName="to">
+                  </div>
+                  <div class="col-md-2">
+                    <input type="text" class="form-control form-control-sm" formControlName="transportMode" readonly style="background-color: #f9fafb;">
+                  </div>
+                  <div class="col-md-2">
+                    <ng-select [items]="[]" formControlName="rateType" placeholder="— Select —" class="custom-ng-select-sm"></ng-select>
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" class="form-control form-control-sm bg-white" formControlName="rate">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" class="form-control form-control-sm text-muted" formControlName="stdTat" readonly style="background-color: #f9fafb;">
+                  </div>
+                  <div class="col-md-2">
+                    <input type="text" class="form-control form-control-sm bg-white" formControlName="custTat">
+                  </div>
+                  <div class="col-md-1 text-start">
+                    <span style="color: #9ca3af; cursor: pointer; font-size: 14px;" (click)="removeSlab(i)">&times;</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="d-flex gap-2 mt-3 ms-4 ps-4">
+                <button type="button" class="btn btn-outline-secondary btn-sm bg-white text-muted" style="font-size: 11px; padding: 4px 12px; font-weight: 500;" (click)="addSlab()">+ Add Slab</button>
+                <button type="button" class="btn btn-outline-danger btn-sm bg-white" style="font-size: 11px; padding: 4px 12px; font-weight: 500; border-color: #dc2626; color: #dc2626;">+ Add New Row</button>
+              </div>
+            </div>
+
+            <!-- Without Slab View -->
+            <div class="mt-3 ms-2" *ngIf="getActiveCommercialGroup()?.get('freightCommercialsSlab')?.value === 'Without Slab'">
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <label class="form-label text-muted">Freight Rate Type <span class="text-danger">*</span></label>
+                  <ng-select [items]="[]" formControlName="freightRateType" placeholder="— Select —"></ng-select>
+                </div>
+                <div class="col-md-8">
+                  <label class="form-label text-muted">Matrices <span class="text-danger">*</span></label>
+                  <ng-select [items]="[]" formControlName="matrices" placeholder="— Select —"></ng-select>
+                </div>
+              </div>
+              <div class="row g-3 align-items-end justify-content-end">
+                <div class="col-md-2">
+                  <label class="form-label text-muted d-block text-start">Freight Rate (₹) <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control text-start" formControlName="freightRate">
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label text-muted d-block text-start">Std. TAT (days)</label>
+                  <input type="text" class="form-control text-start" formControlName="stdTat" placeholder="Auto" readonly style="background-color: #f9fafb;">
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label text-muted d-block text-start">Cust. TAT (days)</label>
+                  <input type="text" class="form-control text-start" formControlName="custTat" placeholder="Enter TAT">
+                </div>
+                <div class="col-md-auto">
+                  <button type="button" class="btn btn-outline-danger btn-sm bg-white" style="font-size: 11px; padding: 6px 12px; font-weight: 500; border-color: #dc2626; color: #dc2626;">+ Add New Row</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4" style="border-color: #e5e7eb;">
+
+          <!-- 2. Value Added Service Charges -->
+          <div>
+             <h6 style="font-size: 12px; font-weight: 700; color: #dc2626;"><span class="badge rounded-circle bg-danger text-white me-1 p-1 px-2" style="font-size: 10px;">2</span> Value Added Service Charges <span class="text-danger">*</span></h6>
+             
+             <!-- GRID OF CHARGES -->
+             <div class="row g-3 mt-2 charges-grid" formGroupName="valueAddedCharges">
+               
+                <!-- Dynamic Loop for the 20 Charges -->
+                <ng-container *ngFor="let charge of valueAddedChargeKeys">
+                  <div [ngClass]="getChargeColClass(charge.key)" [formGroupName]="charge.key">
+                    <div class="charge-card p-3 border rounded-3 bg-light h-100" [ngStyle]="{'background-color': isChargeActive(charge.key) ? '#f9fafb' : '#fcfcfc'}">
+                      
+                      <!-- Header -->
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="charge-title text-truncate fw-bold" [title]="charge.label" style="font-size: 11px; color: #374151;">{{ charge.label }}</span>
+                        <label class="toggle-switch">
+                          <input type="checkbox" formControlName="active">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+
+                      <!-- Expanded View Always Visible, Disabled if Not Active -->
+                      <div [class.opacity-50]="!isChargeActive(charge.key)" [class.pe-none]="!isChargeActive(charge.key)">
+                        <div class="d-flex gap-3 mb-2 mt-2">
+                          <label class="custom-radio mini"><input type="radio" formControlName="slabType" value="With Slab"><span>With Slab</span></label>
+                          <label class="custom-radio mini"><input type="radio" formControlName="slabType" value="Without Slab"><span>Without Slab</span></label>
+                        </div>
+
+                        <!-- Without Slab View -->
+                        <div *ngIf="isChargeActive(charge.key) && getChargeSlabType(charge.key) === 'Without Slab'" class="row g-2 mt-1">
+                          <div class="col-md-6">
+                            <label class="form-label text-muted" style="font-size:10px;">Rate Type</label>
+                            <ng-select [items]="[]" formControlName="rateType" placeholder="— Select —" class="custom-ng-select-sm"></ng-select>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label text-danger" style="font-size:10px;">Rate Value *</label>
+                            <input type="text" class="form-control form-control-sm bg-white" formControlName="rateValue">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label text-danger" style="font-size:10px;">Min Amount *</label>
+                            <input type="text" class="form-control form-control-sm bg-white" formControlName="minAmount">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label text-danger" style="font-size:10px;">Max Amount *</label>
+                            <input type="text" class="form-control form-control-sm bg-white" formControlName="maxAmount">
+                          </div>
+                        </div>
+
+                        <!-- With Slab View -->
+                        <div *ngIf="isChargeActive(charge.key) && getChargeSlabType(charge.key) === 'With Slab'" class="mt-3">
+                          <div class="row g-2 mb-1 border-bottom pb-1">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3"><label class="form-label text-danger mb-0" style="font-size:10px;">From *</label></div>
+                            <div class="col-md-3"><label class="form-label text-muted mb-0" style="font-size:10px;">To</label></div>
+                            <div class="col-md-2"><label class="form-label text-danger mb-0" style="font-size:10px;">Rate Type *</label></div>
+                            <div class="col-md-2"><label class="form-label text-danger mb-0" style="font-size:10px;">Rate *</label></div>
+                            <div class="col-md-1"></div>
+                          </div>
+
+                          <div formArrayName="slabs">
+                            <div class="row g-2 align-items-center mb-2" *ngFor="let slab of getChargeSlabs(charge.key).controls; let i = index" [formGroupName]="i">
+                              <div class="col-md-1 text-end text-muted" style="font-size: 11px;">Slab {{ i + 1 }}</div>
+                              <div class="col-md-3">
+                                <input type="text" class="form-control form-control-sm bg-white" formControlName="from">
+                              </div>
+                              <div class="col-md-3">
+                                <input type="text" class="form-control form-control-sm bg-white" formControlName="to">
+                              </div>
+                              <div class="col-md-2">
+                                <ng-select [items]="[]" formControlName="rateType" placeholder="— Select —" class="custom-ng-select-sm"></ng-select>
+                              </div>
+                              <div class="col-md-2">
+                                <input type="text" class="form-control form-control-sm bg-white" formControlName="rate">
+                              </div>
+                              <div class="col-md-1 text-start">
+                                <span style="color: #9ca3af; cursor: pointer; font-size: 14px;" (click)="removeChargeSlab(charge.key, i)">&times;</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div class="mt-2 text-start">
+                            <button type="button" class="btn btn-outline-secondary btn-sm bg-white text-muted" style="font-size: 10px; padding: 2px 8px; font-weight: 500;" (click)="addChargeSlab(charge.key)">+ Add Slab</button>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Loading Charges -->
+                <div class="col-lg-2 col-md-3 col-sm-4">
+                  <div class="charge-card p-2 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="charge-title text-truncate">Loading Charges</span>
+                      <label class="toggle-switch"><input type="checkbox" formControlName="loadingCharges"><span class="slider round"></span></label>
+                    </div>
+                    <div class="d-flex justify-content-between gap-1">
+                      <label class="custom-radio mini"><input type="radio" formControlName="loadingChargesType" value="As per Actual"><span>As per Actual</span></label>
+                      <label class="custom-radio mini"><input type="radio" formControlName="loadingChargesType" value="Custom"><span>Custom</span></label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Unloading Charges -->
+                <div class="col-lg-2 col-md-3 col-sm-4">
+                  <div class="charge-card p-2 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="charge-title text-truncate">Unloading Charges</span>
+                      <label class="toggle-switch"><input type="checkbox" formControlName="unloadingCharges"><span class="slider round"></span></label>
+                    </div>
+                    <div class="d-flex justify-content-between gap-1">
+                      <label class="custom-radio mini"><input type="radio" formControlName="unloadingChargesType" value="As per Actual"><span>As per Actual</span></label>
+                      <label class="custom-radio mini"><input type="radio" formControlName="unloadingChargesType" value="Custom"><span>Custom</span></label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Min Basic Freight -->
+                <div class="col-lg-2 col-md-3 col-sm-4">
+                  <div class="charge-card p-2 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="charge-title text-truncate">Min. Basic Freight (Rs)</span>
+                      <label class="toggle-switch"><input type="checkbox" formControlName="minBasicFreight"><span class="slider round"></span></label>
+                    </div>
+                    <div>
+                      <input type="text" class="form-control form-control-sm border-0" formControlName="minBasicFreightValue">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Min Chargeable Weight -->
+                <div class="col">
+                  <div class="charge-card p-2 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                    <div class="mb-2">
+                      <span class="charge-title d-block text-truncate">Min. Chargeable Weight (kg)</span>
+                    </div>
+                    <div>
+                      <input type="text" class="form-control form-control-sm border-0" formControlName="minChargeableWeight">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Min Chargeable Pkg -->
+                <div class="col">
+                  <div class="charge-card p-2 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                    <div class="mb-2">
+                      <span class="charge-title d-block text-truncate">Min. Chargeable Pkg (pkgs)</span>
+                    </div>
+                    <div>
+                      <input type="text" class="form-control form-control-sm border-0" formControlName="minChargeablePkg">
+                    </div>
+                  </div>
+                </div>
+
+             </div>
+             
+             <div class="mt-4 ms-2">
+               <button type="button" class="btn btn-outline-danger btn-sm px-4 fw-bold" style="border-radius: 4px; font-size: 11px;">Save &amp; Continue &rsaquo;</button>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOLUMETRIC DETAILS -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">VOLUMETRIC DETAILS <span class="text-danger">*</span></h6>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Weight to Consider</label>
+          <div class="d-flex flex-column gap-2 mt-1">
+            <label class="custom-radio">
+              <input type="radio" formControlName="weightToConsider" value="Higher of Volumetric and Actual Wt">
+              <span>Higher of Volumetric and Actual Wt</span>
+            </label>
+            <label class="custom-radio">
+              <input type="radio" formControlName="weightToConsider" value="Always Actual Wt">
+              <span>Always Actual Wt</span>
+            </label>
+            <label class="custom-radio">
+              <input type="radio" formControlName="weightToConsider" value="Always Volumetric Wt">
+              <span>Always Volumetric Wt</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Ratio</label>
+          <ng-select [items]="['1 CFT = 10 KG', '1 CFT = 12 KG']" formControlName="ratio" placeholder="— Select —"></ng-select>
+          <small class="text-muted" style="font-size: 10px;">From General Master</small>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Measurement</label>
+          <div class="d-flex gap-4 mt-2">
+            <label class="custom-radio">
+              <input type="radio" formControlName="measurement" value="INCHES">
+              <span>INCHES</span>
+            </label>
+            <label class="custom-radio">
+              <input type="radio" formControlName="measurement" value="CM">
+              <span>CM</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEMURRAGE DETAILS -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">DEMURRAGE DETAILS <span class="text-danger">*</span></h6>
+      <div class="mb-3">
+        <label class="form-label d-block text-muted" style="font-size: 11px;">Demurrage Charge Applicable</label>
+        <div class="d-flex gap-4">
+          <label class="custom-radio"><input type="radio" formControlName="demurrageApplicable" value="Yes"><span>Yes</span></label>
+          <label class="custom-radio"><input type="radio" formControlName="demurrageApplicable" value="No"><span>No</span></label>
+        </div>
+      </div>
+
+      <div [class.opacity-50]="qmForm.get('demurrageApplicable')?.value !== 'Yes'" [class.pe-none]="qmForm.get('demurrageApplicable')?.value !== 'Yes'">
+        <div class="mb-3">
+          <label class="form-label d-block text-muted" style="font-size: 11px;">Demurrage Calculation Basis</label>
+          <div class="d-flex gap-4">
+            <label class="custom-radio"><input type="radio" formControlName="demurrageBasis" value="Inclusive of Free Storage Days"><span>Inclusive of Free Storage Days</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="demurrageBasis" value="Exclusive of Free Storage Days"><span>Exclusive of Free Storage Days</span></label>
+          </div>
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-md-3">
+            <label class="form-label text-muted" style="font-size: 10px;">Free Storage Days</label>
+            <ng-select [items]="[]" formControlName="freeStorageDays" placeholder="— Select —" class="custom-ng-select-sm bg-white"></ng-select>
+            <small class="text-muted" style="font-size: 9px; color: #d1d5db !important;">From Master</small>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-muted" style="font-size: 10px;">Demurrage Rate</label>
+            <ng-select [items]="[]" formControlName="demurrageRateType" placeholder="— Select —" class="custom-ng-select-sm bg-white"></ng-select>
+            <small class="text-muted" style="font-size: 9px; color: #d1d5db !important;">From Master</small>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-muted" style="font-size: 10px;">Min Amount</label>
+            <input type="text" class="form-control form-control-sm bg-white" formControlName="minAmount">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-muted" style="font-size: 10px;">Max Amount</label>
+            <input type="text" class="form-control form-control-sm bg-white" formControlName="maxAmount">
+          </div>
+        </div>
+        <div>
+          <label class="form-label d-block text-muted" style="font-size: 11px;">Rate Type</label>
+          <div class="d-flex gap-4">
+            <label class="custom-radio mini"><input type="radio" formControlName="demRateTypeRadio" value="% of invoice"><span>% of invoice</span></label>
+            <label class="custom-radio mini"><input type="radio" formControlName="demRateTypeRadio" value="Per Kg Per Day"><span>Per Kg Per Day</span></label>
+            <label class="custom-radio mini"><input type="radio" formControlName="demRateTypeRadio" value="Per Pkg Per Day"><span>Per Pkg Per Day</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RISK INFORMATION -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">RISK INFORMATION <span class="text-danger">*</span></h6>
+      <div class="d-flex gap-4">
+        <label class="custom-radio"><input type="radio" formControlName="riskInfo" value="Owner Risk"><span>Owner Risk</span></label>
+        <label class="custom-radio"><input type="radio" formControlName="riskInfo" value="Carrier Risk"><span>Carrier Risk</span></label>
+      </div>
+    </div>
+
+    <!-- DIESEL HIKE INFORMATION -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">DIESEL HIKE INFORMATION <span class="text-danger">*</span></h6>
+      <div class="mb-3">
+        <label class="form-label d-block">DPH Applicable</label>
+        <div class="d-flex gap-4">
+          <label class="custom-radio"><input type="radio" formControlName="dphApplicable" value="Yes"><span>Yes</span></label>
+          <label class="custom-radio"><input type="radio" formControlName="dphApplicable" value="No"><span>No</span></label>
+        </div>
+      </div>
+      <div class="row g-3" [class.opacity-50]="qmForm.get('dphApplicable')?.value !== 'Yes'" [class.pe-none]="qmForm.get('dphApplicable')?.value !== 'Yes'">
+        <div class="col-md-2">
+          <label class="form-label text-muted">Base Diesel Rate</label>
+          <input type="text" class="form-control bg-light" formControlName="baseDieselRate" readonly>
+          <small class="text-muted" style="font-size: 10px;">Diesel Master — TMS</small>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label text-muted">Current Diesel Rate</label>
+          <input type="text" class="form-control bg-light" formControlName="currentDieselRate" readonly>
+          <small class="text-muted" style="font-size: 10px;">Diesel Master — TMS</small>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label text-muted">Fuel Component on Basic Freight</label>
+          <input type="text" class="form-control" formControlName="fuelComponent" placeholder="e.g. 30%">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label text-muted">Escalation Limit</label>
+          <div class="d-flex gap-3 mt-2">
+            <label class="custom-radio"><input type="radio" formControlName="escalationLimitType" value="In Rs"><span>In Rs</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="escalationLimitType" value="In %"><span>In %</span></label>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label text-muted">De-escalation Limit</label>
+          <div class="d-flex gap-3 mt-2">
+            <label class="custom-radio"><input type="radio" formControlName="deEscalationLimitType" value="In Rs"><span>In Rs</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="deEscalationLimitType" value="In %"><span>In %</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ODA CHARGES -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">ODA CHARGES <span class="text-danger">*</span></h6>
+      <div class="p-2 border rounded-3 bg-light mb-2">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <label class="custom-radio d-inline-block me-2 mb-0" style="vertical-align: middle;">
+              <input type="radio" formControlName="odaChargeType" value="PerKg"><span></span>
+            </label>
+            <span class="text-muted" style="font-size: 13px;">Per KG ODA Rate</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" formControlName="odaPerKgActive">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        
+        <div class="mt-3 ms-4" *ngIf="qmForm.get('odaPerKgActive')?.value">
+          <label class="form-label d-block text-muted" style="font-size: 11px;">Mode</label>
+          <div class="d-flex gap-4">
+            <label class="custom-radio mini">
+              <input type="radio" formControlName="odaPerKgMode" value="As per Standard"><span>As per Standard</span>
+            </label>
+            <label class="custom-radio mini">
+              <input type="radio" formControlName="odaPerKgMode" value="Custom"><span>Custom</span>
+            </label>
+          </div>
+          
+          <div class="mt-3" *ngIf="qmForm.get('odaPerKgMode')?.value === 'As per Standard'">
+            <div class="table-responsive border rounded-3 bg-white">
+              <table class="table table-borderless table-sm mb-0" style="font-size: 11px; --bs-table-bg: transparent;">
+                <thead class="border-bottom text-muted" style="font-size: 10px;">
+                  <tr>
+                    <th class="fw-normal px-3 py-2">Category</th>
+                    <th class="fw-normal px-3 py-2">Rate Type</th>
+                    <th class="fw-normal px-3 py-2">Rate</th>
+                    <th class="fw-normal px-3 py-2">TAT</th>
+                    <th class="fw-normal px-3 py-2">Min</th>
+                    <th class="fw-normal px-3 py-2">Max</th>
+                  </tr>
+                </thead>
+                <tbody class="border-top-0">
+                  <tr class="border-bottom" style="color: #4b5563;">
+                    <td class="px-3 py-2">A</td>
+                    <td class="px-3 py-2">Flat</td>
+                    <td class="px-3 py-2">100</td>
+                    <td class="px-3 py-2">1</td>
+                    <td class="px-3 py-2">100</td>
+                    <td class="px-3 py-2">99999</td>
+                  </tr>
+                  <tr class="border-bottom" style="color: #4b5563;">
+                    <td class="px-3 py-2">B</td>
+                    <td class="px-3 py-2">Per Kg</td>
+                    <td class="px-3 py-2">1</td>
+                    <td class="px-3 py-2">2</td>
+                    <td class="px-3 py-2">1000</td>
+                    <td class="px-3 py-2">99999</td>
+                  </tr>
+                  <tr class="border-bottom" style="color: #4b5563;">
+                    <td class="px-3 py-2">C</td>
+                    <td class="px-3 py-2">Per Kg</td>
+                    <td class="px-3 py-2">2</td>
+                    <td class="px-3 py-2">3</td>
+                    <td class="px-3 py-2">2000</td>
+                    <td class="px-3 py-2">99999</td>
+                  </tr>
+                  <tr style="color: #4b5563;">
+                    <td class="px-3 py-2">D</td>
+                    <td class="px-3 py-2">Per Kg</td>
+                    <td class="px-3 py-2">3</td>
+                    <td class="px-3 py-2">4</td>
+                    <td class="px-3 py-2">3000</td>
+                    <td class="px-3 py-2">99999</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <small class="text-muted mt-1 d-block" style="font-size: 10px; color: #9ca3af !important;">From General Master</small>
+          </div>
+          
+          <!-- Custom Mode -->
+          <div class="mt-3" *ngIf="qmForm.get('odaPerKgMode')?.value === 'Custom'">
+            <div formArrayName="odaPerKgCustomSlabs">
+              <div *ngFor="let slab of odaCustomSlabs.controls; let i = index" [formGroupName]="i" class="mb-3 border rounded-3 overflow-hidden bg-white shadow-sm">
+                
+                <!-- Slab Header -->
+                <div class="d-flex justify-content-between align-items-center p-2" style="background-color: #fce8e8; border-bottom: 1px solid #fee2e2;">
+                  <span class="text-danger fw-medium" style="font-size: 11px;">Slab {{ i + 1 }}</span>
+                  <button type="button" class="btn btn-outline-danger btn-sm bg-white" style="font-size: 10px; padding: 2px 8px;" (click)="removeOdaSlab(i)">
+                    &times; Remove
+                  </button>
+                </div>
+                
+                <div class="p-2">
+                  <div class="row g-2 mb-2 align-items-center">
+                    <div class="col-md-6">
+                      <label class="form-label text-muted mb-1" style="font-size: 10px;">From</label>
+                      <input type="text" class="form-control form-control-sm" formControlName="from">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label text-muted mb-1" style="font-size: 10px;">To</label>
+                      <input type="text" class="form-control form-control-sm" formControlName="to">
+                    </div>
+                  </div>
+                  
+                  <div class="table-responsive">
+                    <table class="table table-borderless table-sm mb-0" style="font-size: 11px; --bs-table-bg: transparent;">
+                      <thead class="border-bottom text-muted" style="font-size: 10px;">
+                        <tr>
+                          <th class="fw-normal px-2 py-2">Category</th>
+                          <th class="fw-normal px-2 py-2">Rate Type</th>
+                          <th class="fw-normal px-2 py-2">Rate</th>
+                          <th class="fw-normal px-2 py-2">TAT</th>
+                          <th class="fw-normal px-2 py-2">Min</th>
+                          <th class="fw-normal px-2 py-2">Max</th>
+                        </tr>
+                      </thead>
+                      <tbody class="border-top-0" formArrayName="categories">
+                        <tr class="border-bottom" *ngFor="let cat of getOdaCategories(i).controls; let j = index" [formGroupName]="j">
+                          <td class="px-2 py-1 align-middle" style="color: #4b5563;">{{ cat.get('category')?.value }}</td>
+                          <td class="px-2 py-1"><ng-select [items]="['Flat', 'Per Kg', '- Select -']" [clearable]="false" formControlName="rateType" class="custom-ng-select-sm"></ng-select></td>
+                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="rate"></td>
+                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="tat"></td>
+                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="min"></td>
+                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="max"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-2 text-start">
+              <button type="button" class="btn btn-outline-secondary btn-sm bg-white text-muted" style="font-size: 10px; padding: 2px 8px; font-weight: 500;" (click)="addOdaSlab()">+ Add Slab</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILLING INFORMATION -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title text-primary d-flex align-items-center gap-1">
+        BILLING INFORMATION
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </h6>
+      <div class="row g-3 mb-4">
+        <div class="col-md-2">
+          <label class="form-label">Bill Generation Location</label>
+          <input type="text" class="form-control" formControlName="billGenerationLoc">
+          <small class="text-muted" style="font-size: 10px;">Location Master - default logged in branch</small>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Bill Submission Location</label>
+          <input type="text" class="form-control" formControlName="billSubmissionLoc">
+          <small class="text-muted" style="font-size: 10px;">Location Master - default logged in branch</small>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Bill Collection Location</label>
+          <input type="text" class="form-control" formControlName="billCollectionLoc">
+          <small class="text-muted" style="font-size: 10px;">Location Master - default logged in branch</small>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Billing State</label>
+          <input type="text" class="form-control bg-light" formControlName="billingState" readonly>
+          <small class="text-muted" style="font-size: 10px;">Auto from Bill Generation Location</small>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Com. Business</label>
+          <input type="text" class="form-control bg-light" formControlName="comBusiness" readonly>
+          <small class="text-muted" style="font-size: 10px;">Auto populated from Prospect - editable</small>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Bill Generation Cycle</label>
+          <ng-select [items]="[]" formControlName="billGenerationCycle" placeholder="— Select —"></ng-select>
+          <small class="text-muted" style="font-size: 10px;">From Master</small>
+        </div>
+        <div class="col-md-3 mt-2">
+          <label class="form-label text-muted" style="font-size: 10px; line-height: 1.2;">Maximum Deduction Allowed in Case of<br>Damage/Shortage</label>
+          <input type="text" class="form-control form-control-sm" formControlName="maxDeduction" placeholder="e.g. 5,000 or 2% of Invoice">
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-2">
+          <label class="form-label d-block">Billing Instance</label>
+          <div class="d-flex flex-column gap-2 mt-2">
+            <label class="custom-radio"><input type="radio" formControlName="billingInstance" value="On Booking"><span>On Booking</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingInstance" value="On Delivery"><span>On Delivery</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingInstance" value="On POD Closure"><span>On POD Closure</span></label>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label d-block">Billing Schedule</label>
+          <div class="d-flex flex-column gap-2 mt-2">
+            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="Monthly"><span>Monthly</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="Weekly"><span>Weekly</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="Fortnightly"><span>Fortnightly</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="Others"><span>Others</span></label>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label d-block">Billing Base <span class="text-danger">*</span></label>
+          <div class="d-flex gap-3 mt-2">
+            <label class="custom-radio"><input type="radio" formControlName="billingBase" value="Origin Base"><span>Origin Base</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingBase" value="Destination Base"><span>Destination Base</span></label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label d-block">POD Type <span class="text-danger">*</span></label>
+          <div class="d-flex gap-3 mt-2">
+            <label class="custom-radio"><input type="radio" formControlName="podType" value="With POD"><span>With POD</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="podType" value="Without POD"><span>Without POD</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="podType" value="E-POD"><span>E-POD</span></label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label d-block">Bill Submission Type</label>
+          <div class="d-flex gap-3 mt-2">
+            <label class="custom-radio"><input type="radio" formControlName="billSubmissionType" value="Physical Copy"><span>Physical Copy</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billSubmissionType" value="Digital/Soft Copy"><span>Digital/Soft Copy</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREDIT DETAILS -->
+    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+      <h6 class="section-title">CREDIT DETAILS <span class="text-danger">*</span></h6>
+      <div class="mb-3">
+        <label class="form-label d-block text-muted" style="font-size: 11px;">Credit Limit Active?</label>
+        <div class="d-flex gap-4">
+          <label class="custom-radio"><input type="radio" formControlName="creditLimitActive" value="Yes"><span>Yes</span></label>
+          <label class="custom-radio"><input type="radio" formControlName="creditLimitActive" value="No"><span>No</span></label>
+        </div>
+      </div>
+      
+      <div class="row g-3" [class.opacity-50]="qmForm.get('creditLimitActive')?.value !== 'Yes'" [class.pe-none]="qmForm.get('creditLimitActive')?.value !== 'Yes'">
+        <div class="col-md-3">
+          <label class="form-label text-muted" style="font-size: 10px;">Credit Days</label>
+          <ng-select [items]="[]" formControlName="creditDays" placeholder="— Select —" class="custom-ng-select-sm bg-white"></ng-select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label text-muted" style="font-size: 10px;">Credit Limit (Rs)</label>
+          <input type="text" class="form-control form-control-sm bg-white" formControlName="creditLimitRs" placeholder="e.g. 5,00,000">
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Button Container -->
+    <div class="d-flex justify-content-end mb-4 align-items-center">
+      <span class="text-muted me-3" style="font-size: 12px;">Select combinations above to begin</span>
+      <button type="submit" class="btn btn-success px-4 fw-bold" style="background-color: #1c7c31; border: none; border-radius: 4px;">Save &rsaquo;</button>
+    </div>
+
+  </form>
+</div>

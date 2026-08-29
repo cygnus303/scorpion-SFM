@@ -234,11 +234,43 @@
     cursor: pointer;
 
     input[type="radio"] {
-      accent-color: $accent;
-      width: 16px;
-      height: 16px;
+      appearance: none !important;
+      -webkit-appearance: none !important;
+      width: 14px !important;
+      height: 14px !important;
+      min-width: 14px !important;
+      min-height: 14px !important;
+      max-width: 14px !important;
+      max-height: 14px !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+      border: 1px solid #9ca3af;
+      border-radius: 50% !important;
+      margin: 0 !important;
+      margin-right: 6px !important;
+      position: relative;
+      outline: none;
+      background-color: #fff;
       cursor: pointer;
       margin: 0;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+
+      &:checked {
+        border: 1.5px solid #dc2626 !important;
+      }
+      
+      &:checked::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 7px !important;
+        height: 7px !important;
+        border-radius: 50% !important;
+        background-color: #dc2626;
+      }
     }
   }
 
