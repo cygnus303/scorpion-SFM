@@ -84,7 +84,9 @@
             <!-- CUSTOMER NAME -->
             <td class="px-3 py-2">
               <div class="d-flex flex-column" style="gap: 2px;">
-                <span class="fw-bold text-dark" style="font-size: 12.5px;">{{ data.CustomerName || '--' }}</span>
+                <span class="fw-bold text-dark" style="font-size: 12.5px;">
+                  {{ data.CustomerCode ? data.CustomerCode + ' : ' : '' }}{{ data.CustomerName || '--' }}
+                </span>
               </div>
             </td>
              <td class="px-3 py-2">

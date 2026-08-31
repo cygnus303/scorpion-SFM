@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, Query, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { Quotation } from '../../../shared/services/quotation';
+import { ExpenseGeneralService } from '../../../shared/services/expense-general.service';
 
 @Component({
   selector: 'app-add-qm',
@@ -14,15 +16,34 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 export class AddQmComponent implements OnInit {
   @Input() customerData: any; // Passed from parent when clicking "Add QM"
   @Output() onBack = new EventEmitter<void>();
+  public signingLocationList:any;
+  public payBaseList: any[] = [];
+  public customerSupportUserDetailList: any[] = [];
+  public stateList: any[] = [];
+  public cityList: any[] = [];
+  public pincodeList: any[] = [];
+  public zoneList: any[] = [];
+  public matricesData = [
+    { label: 'City to City', value: 'C' },
+    { label: 'Zone to Zone', value: 'Z' },
+    { label: 'State to State', value: 'S' },
+    { label: 'Pin Code to Pin Code', value: 'P' }
+  ];
+  public weightConsiderList = [
+    { label: 'Higher of Volumetric and Actual Weight', value: 'H' },
+    { label: 'Always Actual weight', value: 'A' },
+    { label: 'Always Volumetric weight', value: 'V' },
+  ];
+  public freightRateTypeList = [
+    { label: 'In % of Freight', value: 'H' },
+    { label: 'Flat (In Rs.)', value: 'F' },
+    { label: 'PerKg', value: 'W' },
+    { label: 'PerPkg', value: 'P' },
+    { label: 'PerTon', value: 'T' }
+  ];
 
   public qmForm!: FormGroup;
   private fb = inject(FormBuilder);
-
-  public locationCodes = [
-    { id: 'MUM', name: 'Mumbai' },
-    { id: 'DEL', name: 'Delhi' },
-    { id: 'BLR', name: 'Bangalore' },
-  ]; // Mock data
 
   public billingFrequencies = ['Monthly', 'Weekly', 'Fortnightly'];
   
@@ -57,8 +78,17 @@ export class AddQmComponent implements OnInit {
     { key: 'multiDeliveryCharges', label: 'Multi Delivery Charges' }
   ];
 
+  constructor(
+    private quotationService:Quotation,
+    private expenseGeneralService: ExpenseGeneralService
+  ){}
+
   ngOnInit() {
     this.initForm();
+    this.getSigningLocation();
+    this.getPayBaseList();
+    this.getCustomerSupportUserDetail();
+    this.fetchMasterLists();
     if (this.customerData) {
       // Patch initial data based on prospect
       this.qmForm.patchValue({
@@ -152,6 +182,20 @@ export class AddQmComponent implements OnInit {
 
     // Add initial ODA Custom Slab
     this.addOdaSlab();
+
+    // Subscribe to cseName changes to auto-fill cseEmail
+    this.qmForm.get('cseName')?.valueChanges.subscribe(userId => {
+      if (userId && this.customerSupportUserDetailList) {
+        const user = this.customerSupportUserDetailList.find(u => u.userId === userId);
+        if (user) {
+          this.qmForm.patchValue({ cseEmail: user.emailId });
+        } else {
+          this.qmForm.patchValue({ cseEmail: '' });
+        }
+      } else {
+        this.qmForm.patchValue({ cseEmail: '' });
+      }
+    });
   }
 
   get commercialsArray() {
@@ -208,6 +252,10 @@ export class AddQmComponent implements OnInit {
       combinationKey: [key],
       freightCommercialsSlab: ['With Slab'],
       matrices: [null],
+      fromState: [null], toState: [null],
+      fromCity: [null], toCity: [null],
+      fromPincode: [null], toPincode: [null],
+      fromZone: [null], toZone: [null],
       slabs: defaultSlabs,
       freightRateType: [null],
       freightRate: ['0.00'],
@@ -418,5 +466,46 @@ export class AddQmComponent implements OnInit {
     } else {
       this.qmForm.markAllAsTouched();
     }
+  }
+
+  getSigningLocation(){
+    this.quotationService.signingLocation().subscribe({
+      next:(res:any)=>{
+        this.signingLocationList = res.data;
+      }
+    })
+  }
+
+  getPayBaseList() {
+    this.expenseGeneralService.getGeneralMaster('','PAYTYP').subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.payBaseList = res.data;
+        }
+      }
+    });
+  }
+
+  getCustomerSupportUserDetail(){
+    this.quotationService.customerSupportUserDetail().subscribe({
+      next:(res:any)=>{
+        this.customerSupportUserDetailList = res.data;
+      }
+    })
+  }
+
+  fetchMasterLists() {
+    this.quotationService.getState().subscribe({
+      next: (res: any) => { if (res && res.data) this.stateList = res.data; }
+    });
+    this.quotationService.getCity().subscribe({
+      next: (res: any) => { if (res && res.data) this.cityList = res.data; }
+    });
+    this.quotationService.getPincode().subscribe({
+      next: (res: any) => { if (res && res.data) this.pincodeList = res.data; }
+    });
+    this.quotationService.getGeneralMasterData('ZONE').subscribe({
+      next: (res: any) => { if (res && res.data) this.zoneList = res.data; }
+    });
   }
 }

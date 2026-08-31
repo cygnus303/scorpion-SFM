@@ -50,4 +50,12 @@ export class Quotation {
   getGSTDetail(gstNo:string){
     return this.apiHandlerService.Get(`QuotationManage/GetGSTDetails?gstNo=${gstNo}`);
   }
+
+  signingLocation(){
+    return this.apiHandlerService.Get(`QuotationManage/GetSigningLocation`);
+  }
+
+  customerSupportUserDetail(){
+    return this.apiHandlerService.Get(`QuotationManage/GetCustomerSupportUsers`);
+  }
 }

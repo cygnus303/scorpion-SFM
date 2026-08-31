@@ -30,7 +30,9 @@
   color: $text-primary;
   min-height: calc(100vh - 60px);
 
-  * { box-sizing: border-box; }
+  * {
+    box-sizing: border-box;
+  }
 
   .topnav {
     background: $bg-primary;
@@ -59,7 +61,7 @@
       color: $accent-text;
       border-bottom-color: $accent;
     }
-    
+
     &:hover:not(.active) {
       color: $text-primary;
     }
@@ -100,7 +102,7 @@
     border-radius: 10px;
     border: 1px solid $border-light;
     border-top: 4px solid #CCC;
-    box-shadow: 0 1px 4px rgba(20,25,30,.06);
+    box-shadow: 0 1px 4px rgba(20, 25, 30, .06);
     padding: 12px 14px;
     display: flex;
     flex-direction: column;
@@ -111,7 +113,7 @@
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 5px 12px rgba(20,25,30,.12);
+      box-shadow: 0 5px 12px rgba(20, 25, 30, .12);
     }
 
     .stat-top {
@@ -146,12 +148,59 @@
     }
   }
 
-  .stat-green { border-top-color: #12B76A; .stat-num, .stat-icon { color: #12B76A; } }
-  .stat-blue { border-top-color: #2970FF; .stat-num, .stat-icon { color: #2970FF; } }
-  .stat-amber { border-top-color: #F5A600; .stat-num, .stat-icon { color: #F5A600; } }
-  .stat-red { border-top-color: #E92C2C; .stat-num, .stat-icon { color: #E92C2C; } }
-  .stat-purple { border-top-color: #7A5AF8; .stat-num, .stat-icon { color: #7A5AF8; } }
-  .stat-teal { border-top-color: #12B76A; .stat-num, .stat-icon { color: #12B76A; } }
+  .stat-green {
+    border-top-color: #12B76A;
+
+    .stat-num,
+    .stat-icon {
+      color: #12B76A;
+    }
+  }
+
+  .stat-blue {
+    border-top-color: #2970FF;
+
+    .stat-num,
+    .stat-icon {
+      color: #2970FF;
+    }
+  }
+
+  .stat-amber {
+    border-top-color: #F5A600;
+
+    .stat-num,
+    .stat-icon {
+      color: #F5A600;
+    }
+  }
+
+  .stat-red {
+    border-top-color: #E92C2C;
+
+    .stat-num,
+    .stat-icon {
+      color: #E92C2C;
+    }
+  }
+
+  .stat-purple {
+    border-top-color: #7A5AF8;
+
+    .stat-num,
+    .stat-icon {
+      color: #7A5AF8;
+    }
+  }
+
+  .stat-teal {
+    border-top-color: #12B76A;
+
+    .stat-num,
+    .stat-icon {
+      color: #12B76A;
+    }
+  }
 
   .card {
     background: $bg-primary;
@@ -159,12 +208,12 @@
     border-radius: $radius-lg;
     padding: 1.25rem 1.5rem;
     margin-bottom: 1.25rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   }
 
   .table-card {
     padding: 1.25rem 0;
-    
+
     .sec-title {
       padding: 0 1.5rem;
     }
@@ -259,7 +308,7 @@
       &:checked {
         border: 1.5px solid #dc2626 !important;
       }
-      
+
       &:checked::after {
         content: '';
         position: absolute;
@@ -343,7 +392,7 @@
     tr:hover td {
       background: $bg-secondary;
     }
-    
+
     tr:last-child td {
       border-bottom: none;
     }
@@ -352,14 +401,14 @@
   .status-badge {
     font-size: 11.5px;
     font-weight: 500;
-    
+
     &.bg-grey {
       background: #F0F1F3;
       color: #5B6B7E;
       padding: 4px 10px;
       border-radius: 12px;
     }
-    
+
     &.bg-green {
       background: $green-bg;
       color: $green-text;
@@ -387,17 +436,17 @@
       padding: 4px 10px;
       border-radius: 12px;
     }
-    
+
     &.text-red {
       color: $red-text;
       font-weight: 600;
     }
-    
+
     &.text-amber {
       color: #D97706;
       font-weight: 600;
     }
-    
+
     &.text-green {
       color: $green-text;
       font-weight: 600;
@@ -418,15 +467,35 @@
     margin: 2px 5px 2px 0;
     box-shadow: 0 1px 2px rgba(20, 25, 30, .12);
     transition: opacity .15s, transform .1s;
-    &:hover { transform: translateY(-1px); }
+
+    &:hover {
+      transform: translateY(-1px);
+    }
   }
 
-  .qbtn-red { background: #E90913; }
-  .qbtn-green { background: #12B76A; }
-  .qbtn-amber { background: #F5A600; }
-  .qbtn-purple { background: #6c4fc9c7; }
-  .qbtn-brown { background: #5681f9; }
-  .qbtn-teal { background: #1EBAB4; }
+  .qbtn-red {
+    background: #E90913;
+  }
+
+  .qbtn-green {
+    background: #12B76A;
+  }
+
+  .qbtn-amber {
+    background: #F5A600;
+  }
+
+  .qbtn-purple {
+    background: #6c4fc9c7;
+  }
+
+  .qbtn-brown {
+    background: #5681f9;
+  }
+
+  .qbtn-teal {
+    background: #1EBAB4;
+  }
 }
 
 ::ng-deep .ng-dropdown-panel {

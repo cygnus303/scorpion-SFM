@@ -19,7 +19,7 @@
   <form [formGroup]="qmForm" (ngSubmit)="onSave()">
     
     <!-- CUSTOMER DETAILS -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">CUSTOMER DETAILS</h6>
       <div class="row g-3">
         <div class="col-md-2">
@@ -32,7 +32,7 @@
         </div>
         <div class="col-md-2">
           <label class="form-label">Signing Location <span class="text-danger">*</span></label>
-          <ng-select [items]="locationCodes" bindLabel="name" bindValue="id" formControlName="signingLocation" placeholder="— Select —"></ng-select>
+          <ng-select [items]="signingLocationList" bindLabel="signingLoc" bindValue="locCode" formControlName="signingLocation" placeholder="— Select —"></ng-select>
           <small class="text-muted" style="font-size: 10px;">Location codes from Location Master</small>
         </div>
         <div class="col-md-2">
@@ -69,13 +69,13 @@
         </div>
         <div class="col-md-2">
           <label class="form-label">PayBase <span class="text-danger">*</span></label>
-          <ng-select [items]="['To Pay', 'Paid', 'TBB']" formControlName="payBase" placeholder="— Select —"></ng-select>
+          <ng-select [items]="payBaseList" bindLabel="codeDesc" bindValue="codeId" formControlName="payBase" placeholder="— Select —"></ng-select>
         </div>
       </div>
     </div>
 
     <!-- CUSTOMER GROUP NAME -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">CUSTOMER GROUP NAME <span class="text-danger">*</span></h6>
       <div class="d-flex flex-wrap gap-4 mt-2">
         <label class="custom-radio">
@@ -102,7 +102,7 @@
     </div>
 
     <!-- COMPANY DETAILS -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">COMPANY DETAILS</h6>
       <div class="row g-3">
         <div class="col-md-3">
@@ -129,12 +129,12 @@
     </div>
 
     <!-- C.S.E. DETAILS -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">C.S.E. DETAILS</h6>
       <div class="row g-3">
         <div class="col-md-6">
           <label class="form-label">C.S.E. Name <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" formControlName="cseName" placeholder="Search Customer Support users...">
+            <ng-select [items]="customerSupportUserDetailList" bindLabel="username" bindValue="userId" formControlName="cseName" placeholder="— Select —"></ng-select>
           <small class="text-muted" style="font-size: 10px;">User Master — Customer Support role only</small>
         </div>
         <div class="col-md-6">
@@ -146,7 +146,7 @@
     </div>
 
     <!-- SERVICE TYPE & TRANSIT MODE -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">SERVICE TYPE & TRANSIT MODE <span class="text-danger">*</span></h6>
       <p class="text-muted mb-2" style="font-size: 12px;">Click a cell to select a combination. Greyed cells are not permitted.</p>
       
@@ -194,7 +194,7 @@
     </div>
 
     <!-- COMMERCIALS -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">COMMERCIALS <span class="text-danger">*</span></h6>
       
       <div *ngIf="!activeCombinationKey" class="d-flex flex-column align-items-center justify-content-center py-5 text-muted" style="min-height: 150px;">
@@ -235,9 +235,59 @@
             
             <!-- With Slab View -->
             <div class="mt-3 ms-2" style="max-width: 100%;" *ngIf="getActiveCommercialGroup()?.get('freightCommercialsSlab')?.value === 'With Slab'">
-              <div class="mb-4">
-                <label class="form-label text-muted">Matrices <span class="text-danger">*</span></label>
-                <ng-select [items]="[]" formControlName="matrices" placeholder="— Select —"></ng-select>
+              <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                  <label class="form-label text-muted">Matrices <span class="text-danger">*</span></label>
+                  <ng-select [items]="matricesData" formControlName="matrices" placeholder="— Select —" bindLabel="label" bindValue="value"></ng-select>
+                </div>
+                
+                <!-- State Selection -->
+                <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'S'">
+                  <div class="col-md-4">
+                    <label class="form-label text-muted">From State <span class="text-danger">*</span></label>
+                    <ng-select [items]="stateList" formControlName="fromState" bindLabel="stnm" bindValue="stnm" placeholder="— Select —"></ng-select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label text-muted">To State <span class="text-danger">*</span></label>
+                    <ng-select [items]="stateList" formControlName="toState" bindLabel="stnm" bindValue="stnm" placeholder="— Select —"></ng-select>
+                  </div>
+                </ng-container>
+
+                <!-- City Selection -->
+                <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'C'">
+                  <div class="col-md-4">
+                    <label class="form-label text-muted">From City <span class="text-danger">*</span></label>
+                    <ng-select [items]="cityList" formControlName="fromCity" bindLabel="location" bindValue="location" placeholder="— Select —"></ng-select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label text-muted">To City <span class="text-danger">*</span></label>
+                    <ng-select [items]="cityList" formControlName="toCity" bindLabel="location" bindValue="location" placeholder="— Select —"></ng-select>
+                  </div>
+                </ng-container>
+
+                <!-- Pincode Selection -->
+                <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'P'">
+                  <div class="col-md-4">
+                    <label class="form-label text-muted">From Pincode <span class="text-danger">*</span></label>
+                    <ng-select [items]="pincodeList" formControlName="fromPincode" bindLabel="pinArea" bindValue="pincode" placeholder="— Select —"></ng-select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label text-muted">To Pincode <span class="text-danger">*</span></label>
+                    <ng-select [items]="pincodeList" formControlName="toPincode" bindLabel="pinArea" bindValue="pincode" placeholder="— Select —"></ng-select>
+                  </div>
+                </ng-container>
+
+                <!-- Zone Selection -->
+                <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'Z'">
+                  <div class="col-md-4">
+                    <label class="form-label text-muted">From Zone <span class="text-danger">*</span></label>
+                    <ng-select [items]="zoneList" formControlName="fromZone" bindLabel="codeDesc" bindValue="codeId" placeholder="— Select —"></ng-select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label text-muted">To Zone <span class="text-danger">*</span></label>
+                    <ng-select [items]="zoneList" formControlName="toZone" bindLabel="codeDesc" bindValue="codeId" placeholder="— Select —"></ng-select>
+                  </div>
+                </ng-container>
               </div>
 
               <!-- Slabs Grid -->
@@ -268,7 +318,7 @@
                     <input type="text" class="form-control form-control-sm" formControlName="transportMode" readonly style="background-color: #f9fafb;">
                   </div>
                   <div class="col-md-2">
-                    <ng-select [items]="[]" formControlName="rateType" placeholder="— Select —" class="custom-ng-select-sm"></ng-select>
+                    <ng-select [items]="freightRateTypeList" formControlName="rateType" placeholder="— Select —" class="custom-ng-select-sm" bindLabel="label" bindValue="value"></ng-select>
                   </div>
                   <div class="col-md-1">
                     <input type="text" class="form-control form-control-sm bg-white" formControlName="rate">
@@ -297,11 +347,63 @@
               <div class="row g-3 mb-3">
                 <div class="col-md-4">
                   <label class="form-label text-muted">Freight Rate Type <span class="text-danger">*</span></label>
-                  <ng-select [items]="[]" formControlName="freightRateType" placeholder="— Select —"></ng-select>
+                  <ng-select [items]="freightRateTypeList" formControlName="freightRateType" placeholder="— Select —" bindLabel="label" bindValue="value"></ng-select>
                 </div>
                 <div class="col-md-8">
-                  <label class="form-label text-muted">Matrices <span class="text-danger">*</span></label>
-                  <ng-select [items]="[]" formControlName="matrices" placeholder="— Select —"></ng-select>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label text-muted">Matrices <span class="text-danger">*</span></label>
+                      <ng-select [items]="matricesData" formControlName="matrices" placeholder="— Select —" bindLabel="label" bindValue="value"></ng-select>
+                    </div>
+                    
+                    <!-- State Selection -->
+                    <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'S'">
+                      <div class="col-md-3">
+                        <label class="form-label text-muted">From State <span class="text-danger">*</span></label>
+                        <ng-select [items]="stateList" formControlName="fromState" bindLabel="stateName" bindValue="stateId" placeholder="— Select —"></ng-select>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label text-muted">To State <span class="text-danger">*</span></label>
+                        <ng-select [items]="stateList" formControlName="toState" bindLabel="stateName" bindValue="stateId" placeholder="— Select —"></ng-select>
+                      </div>
+                    </ng-container>
+
+                    <!-- City Selection -->
+                    <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'C'">
+                      <div class="col-md-3">
+                        <label class="form-label text-muted">From City <span class="text-danger">*</span></label>
+                        <ng-select [items]="cityList" formControlName="fromCity" bindLabel="cityName" bindValue="cityId" placeholder="— Select —"></ng-select>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label text-muted">To City <span class="text-danger">*</span></label>
+                        <ng-select [items]="cityList" formControlName="toCity" bindLabel="cityName" bindValue="cityId" placeholder="— Select —"></ng-select>
+                      </div>
+                    </ng-container>
+
+                    <!-- Pincode Selection -->
+                    <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'P'">
+                      <div class="col-md-3">
+                        <label class="form-label text-muted">From Pincode <span class="text-danger">*</span></label>
+                        <ng-select [items]="pincodeList" formControlName="fromPincode" bindLabel="pinArea" bindValue="pincode" placeholder="— Select —"></ng-select>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label text-muted">To Pincode <span class="text-danger">*</span></label>
+                        <ng-select [items]="pincodeList" formControlName="toPincode" bindLabel="pinArea" bindValue="pincode" placeholder="— Select —"></ng-select>
+                      </div>
+                    </ng-container>
+
+                    <!-- Zone Selection -->
+                    <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'Z'">
+                      <div class="col-md-3">
+                        <label class="form-label text-muted">From Zone <span class="text-danger">*</span></label>
+                        <ng-select [items]="zoneList" formControlName="fromZone" bindLabel="codeDesc" bindValue="codeId" placeholder="— Select —"></ng-select>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label text-muted">To Zone <span class="text-danger">*</span></label>
+                        <ng-select [items]="zoneList" formControlName="toZone" bindLabel="codeDesc" bindValue="codeId" placeholder="— Select —"></ng-select>
+                      </div>
+                    </ng-container>
+                  </div>
                 </div>
               </div>
               <div class="row g-3 align-items-end justify-content-end">
@@ -331,11 +433,12 @@
              <h6 style="font-size: 12px; font-weight: 700; color: #dc2626;"><span class="badge rounded-circle bg-danger text-white me-1 p-1 px-2" style="font-size: 10px;">2</span> Value Added Service Charges <span class="text-danger">*</span></h6>
              
              <!-- GRID OF CHARGES -->
-             <div class="row g-3 mt-2 charges-grid" formGroupName="valueAddedCharges">
+             <div class="row g-3 mt-2 charges-grid">
                
-                <!-- Dynamic Loop for the 20 Charges -->
-                <ng-container *ngFor="let charge of valueAddedChargeKeys">
-                  <div [ngClass]="getChargeColClass(charge.key)" [formGroupName]="charge.key">
+                <ng-container formGroupName="valueAddedCharges">
+                  <!-- Dynamic Loop for the 20 Charges -->
+                  <ng-container *ngFor="let charge of valueAddedChargeKeys">
+                    <div [ngClass]="getChargeColClass(charge.key)" [formGroupName]="charge.key">
                     <div class="charge-card p-3 border rounded-3 bg-light h-100" [ngStyle]="{'background-color': isChargeActive(charge.key) ? '#f9fafb' : '#fcfcfc'}">
                       
                       <!-- Header -->
@@ -413,7 +516,8 @@
 
                       </div>
                     </div>
-                  </div>
+                    </div>
+                  </ng-container>
                 </ng-container>
 
                 <!-- Loading Charges -->
@@ -492,22 +596,22 @@
     </div>
 
     <!-- VOLUMETRIC DETAILS -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">VOLUMETRIC DETAILS <span class="text-danger">*</span></h6>
       <div class="row g-3">
         <div class="col-md-4">
           <label class="form-label">Weight to Consider</label>
           <div class="d-flex flex-column gap-2 mt-1">
             <label class="custom-radio">
-              <input type="radio" formControlName="weightToConsider" value="Higher of Volumetric and Actual Wt">
+              <input type="radio" formControlName="weightToConsider" value="H">
               <span>Higher of Volumetric and Actual Wt</span>
             </label>
             <label class="custom-radio">
-              <input type="radio" formControlName="weightToConsider" value="Always Actual Wt">
+              <input type="radio" formControlName="weightToConsider" value="A">
               <span>Always Actual Wt</span>
             </label>
             <label class="custom-radio">
-              <input type="radio" formControlName="weightToConsider" value="Always Volumetric Wt">
+              <input type="radio" formControlName="weightToConsider" value="V">
               <span>Always Volumetric Wt</span>
             </label>
           </div>
@@ -534,7 +638,7 @@
     </div>
 
     <!-- DEMURRAGE DETAILS -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">DEMURRAGE DETAILS <span class="text-danger">*</span></h6>
       <div class="mb-3">
         <label class="form-label d-block text-muted" style="font-size: 11px;">Demurrage Charge Applicable</label>
@@ -548,8 +652,8 @@
         <div class="mb-3">
           <label class="form-label d-block text-muted" style="font-size: 11px;">Demurrage Calculation Basis</label>
           <div class="d-flex gap-4">
-            <label class="custom-radio"><input type="radio" formControlName="demurrageBasis" value="Inclusive of Free Storage Days"><span>Inclusive of Free Storage Days</span></label>
-            <label class="custom-radio"><input type="radio" formControlName="demurrageBasis" value="Exclusive of Free Storage Days"><span>Exclusive of Free Storage Days</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="demurrageBasis" value="1"><span>Inclusive of Free Storage Days</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="demurrageBasis" value="2"><span>Exclusive of Free Storage Days</span></label>
           </div>
         </div>
         <div class="row g-3 mb-3">
@@ -575,16 +679,16 @@
         <div>
           <label class="form-label d-block text-muted" style="font-size: 11px;">Rate Type</label>
           <div class="d-flex gap-4">
-            <label class="custom-radio mini"><input type="radio" formControlName="demRateTypeRadio" value="% of invoice"><span>% of invoice</span></label>
-            <label class="custom-radio mini"><input type="radio" formControlName="demRateTypeRadio" value="Per Kg Per Day"><span>Per Kg Per Day</span></label>
-            <label class="custom-radio mini"><input type="radio" formControlName="demRateTypeRadio" value="Per Pkg Per Day"><span>Per Pkg Per Day</span></label>
+            <label class="custom-radio mini"><input type="radio" formControlName="demRateTypeRadio" value="%I"><span>% of invoice</span></label>
+            <label class="custom-radio mini"><input type="radio" formControlName="demRateTypeRadio" value="WD"><span>Per Kg Per Day</span></label>
+            <label class="custom-radio mini"><input type="radio" formControlName="demRateTypeRadio" value="PD"><span>Per Pkg Per Day</span></label>
           </div>
         </div>
       </div>
     </div>
 
     <!-- RISK INFORMATION -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">RISK INFORMATION <span class="text-danger">*</span></h6>
       <div class="d-flex gap-4">
         <label class="custom-radio"><input type="radio" formControlName="riskInfo" value="Owner Risk"><span>Owner Risk</span></label>
@@ -593,7 +697,7 @@
     </div>
 
     <!-- DIESEL HIKE INFORMATION -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">DIESEL HIKE INFORMATION <span class="text-danger">*</span></h6>
       <div class="mb-3">
         <label class="form-label d-block">DPH Applicable</label>
@@ -635,7 +739,7 @@
     </div>
 
     <!-- ODA CHARGES -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">ODA CHARGES <span class="text-danger">*</span></h6>
       <div class="p-2 border rounded-3 bg-light mb-2">
         <div class="d-flex justify-content-between align-items-center">
@@ -776,7 +880,7 @@
     </div>
 
     <!-- BILLING INFORMATION -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title text-primary d-flex align-items-center gap-1">
         BILLING INFORMATION
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
@@ -821,47 +925,47 @@
         <div class="col-md-2">
           <label class="form-label d-block">Billing Instance</label>
           <div class="d-flex flex-column gap-2 mt-2">
-            <label class="custom-radio"><input type="radio" formControlName="billingInstance" value="On Booking"><span>On Booking</span></label>
-            <label class="custom-radio"><input type="radio" formControlName="billingInstance" value="On Delivery"><span>On Delivery</span></label>
-            <label class="custom-radio"><input type="radio" formControlName="billingInstance" value="On POD Closure"><span>On POD Closure</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingInstance" value="BKG"><span>On Booking</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingInstance" value="DEL"><span>On Delivery</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingInstance" value="PC"><span>On POD Closure</span></label>
           </div>
         </div>
         <div class="col-md-2">
           <label class="form-label d-block">Billing Schedule</label>
           <div class="d-flex flex-column gap-2 mt-2">
-            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="Monthly"><span>Monthly</span></label>
-            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="Weekly"><span>Weekly</span></label>
-            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="Fortnightly"><span>Fortnightly</span></label>
-            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="Others"><span>Others</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="1"><span>Monthly</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="2"><span>Weekly</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="3"><span>Fortnightly</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingSchedule" value="4"><span>Others</span></label>
           </div>
         </div>
         <div class="col-md-2">
           <label class="form-label d-block">Billing Base <span class="text-danger">*</span></label>
           <div class="d-flex gap-3 mt-2">
-            <label class="custom-radio"><input type="radio" formControlName="billingBase" value="Origin Base"><span>Origin Base</span></label>
-            <label class="custom-radio"><input type="radio" formControlName="billingBase" value="Destination Base"><span>Destination Base</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingBase" value="O"><span>Origin Base</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billingBase" value="D"><span>Destination Base</span></label>
           </div>
         </div>
         <div class="col-md-3">
           <label class="form-label d-block">POD Type <span class="text-danger">*</span></label>
           <div class="d-flex gap-3 mt-2">
-            <label class="custom-radio"><input type="radio" formControlName="podType" value="With POD"><span>With POD</span></label>
-            <label class="custom-radio"><input type="radio" formControlName="podType" value="Without POD"><span>Without POD</span></label>
-            <label class="custom-radio"><input type="radio" formControlName="podType" value="E-POD"><span>E-POD</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="podType" value="P"><span>With POD</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="podType" value="WP"><span>Without POD</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="podType" value="EP"><span>E-POD</span></label>
           </div>
         </div>
         <div class="col-md-3">
           <label class="form-label d-block">Bill Submission Type</label>
           <div class="d-flex gap-3 mt-2">
-            <label class="custom-radio"><input type="radio" formControlName="billSubmissionType" value="Physical Copy"><span>Physical Copy</span></label>
-            <label class="custom-radio"><input type="radio" formControlName="billSubmissionType" value="Digital/Soft Copy"><span>Digital/Soft Copy</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billSubmissionType" value="P"><span>Physical Copy</span></label>
+            <label class="custom-radio"><input type="radio" formControlName="billSubmissionType" value="D"><span>Digital/Soft Copy</span></label>
           </div>
         </div>
       </div>
     </div>
 
     <!-- CREDIT DETAILS -->
-    <div class="card p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
+    <div class="card no-hover p-3 pb-4 mb-3 border-0 shadow-sm rounded-3">
       <h6 class="section-title">CREDIT DETAILS <span class="text-danger">*</span></h6>
       <div class="mb-3">
         <label class="form-label d-block text-muted" style="font-size: 11px;">Credit Limit Active?</label>
