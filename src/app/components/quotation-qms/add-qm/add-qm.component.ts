@@ -96,6 +96,20 @@ export class AddQmComponent implements OnInit {
         customerCode: this.customerData.CUSTCD || this.customerData.LeadId
       });
     }
+    
+    // Patch logged-in user details
+    const loginUserStr = localStorage.getItem('loginUser');
+    if (loginUserStr) {
+      try {
+        const loginUser = JSON.parse(loginUserStr);
+        this.qmForm.patchValue({
+          companyEmpName: loginUser.name || '',
+          companyDesignation: loginUser.designation || '',
+          companyEmail: loginUser.email || loginUser.emailId || '',
+          companyContact: loginUser.mobileNo || loginUser.contactNo || loginUser.phone || loginUser.mobile || ''
+        });
+      } catch (e) {}
+    }
   }
 
   initForm() {
@@ -158,7 +172,9 @@ export class AddQmComponent implements OnInit {
       currentDieselRate: ['92.40'],
       fuelComponent: [''],
       escalationLimitType: [null],
+      escalationLimitValue: ['0.00'],
       deEscalationLimitType: [null],
+      deEscalationLimitValue: ['0.00'],
 
       // BILLING INFORMATION
       billGenerationLoc: ['Mumbai - Andheri'],
@@ -232,8 +248,6 @@ export class AddQmComponent implements OnInit {
       minAmount: ['0.00'],
       maxAmount: ['999999'],
       slabs: this.fb.array([
-        this.createValueAddedSlabGroup(),
-        this.createValueAddedSlabGroup(),
         this.createValueAddedSlabGroup()
       ])
     });
@@ -242,9 +256,6 @@ export class AddQmComponent implements OnInit {
   createCommercialGroup(key: string) {
     const mode = key.split('-')[1] || 'ROAD CARGO';
     const defaultSlabs = this.fb.array([
-      this.createSlabGroup(mode),
-      this.createSlabGroup(mode),
-      this.createSlabGroup(mode),
       this.createSlabGroup(mode)
     ]);
 

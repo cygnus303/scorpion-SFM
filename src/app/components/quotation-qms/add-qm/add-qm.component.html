@@ -24,52 +24,52 @@
       <div class="row g-3">
         <div class="col-md-2">
           <label class="form-label">Customer Name <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" formControlName="customerName" placeholder="Customer Name" readonly>
+          <input type="text" class="form-control" formControlName="customerName" placeholder="Enter Customer Name" readonly>
         </div>
         <div class="col-md-2">
           <label class="form-label">Customer Code <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" formControlName="customerCode" placeholder="e.g. ACME001" readonly>
+          <input type="text" class="form-control" formControlName="customerCode" placeholder="Enter Customer Code" readonly>
         </div>
         <div class="col-md-2">
           <label class="form-label">Signing Location <span class="text-danger">*</span></label>
-          <ng-select [items]="signingLocationList" bindLabel="signingLoc" bindValue="locCode" formControlName="signingLocation" placeholder="— Select —"></ng-select>
+          <ng-select [items]="signingLocationList" bindLabel="signingLoc" bindValue="locCode" formControlName="signingLocation" placeholder="Enter Signing Location"></ng-select>
           <small class="text-muted" style="font-size: 10px;">Location codes from Location Master</small>
         </div>
         <div class="col-md-2">
           <label class="form-label">Contract Validity From <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', containerClass: 'theme-default' }" formControlName="validityFrom" placeholder="mm / dd / yyyy">
+          <input type="text" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', containerClass: 'theme-default' }" formControlName="validityFrom" placeholder="Enter Contract Validity From">
         </div>
         <div class="col-md-2">
           <label class="form-label">Contract Validity To <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', containerClass: 'theme-default' }" formControlName="validityTo" placeholder="mm / dd / yyyy">
+          <input type="text" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', containerClass: 'theme-default' }" formControlName="validityTo" placeholder="Enter Contract Validity To">
         </div>
         <div class="col-md-2">
           <label class="form-label">Billing Frequency <span class="text-danger">*</span></label>
-          <ng-select [items]="billingFrequencies" formControlName="billingFrequency" placeholder="— Select —"></ng-select>
+          <ng-select [items]="billingFrequencies" formControlName="billingFrequency" placeholder="Enter Billing Frequency"></ng-select>
         </div>
       </div>
       
       <div class="row g-3 mt-1">
         <div class="col-md-2">
           <label class="form-label">Customer Representative <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" formControlName="customerRep" placeholder="e.g. Suresh Patil">
+          <input type="text" class="form-control" formControlName="customerRep" placeholder="Enter Customer Representative">
         </div>
         <div class="col-md-2">
           <label class="form-label">Designation <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" formControlName="designation" placeholder="e.g. Logistics Head">
+          <input type="text" class="form-control" formControlName="designation" placeholder="Enter Designation">
         </div>
         <div class="col-md-3">
           <label class="form-label">Email ID <span class="text-danger">*</span></label>
-          <input type="email" class="form-control" formControlName="email" placeholder="name@company.com">
+          <input type="email" class="form-control" formControlName="email" placeholder="Enter Email ID">
         </div>
         <div class="col-md-2">
           <label class="form-label">Contact Number <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" formControlName="contactNumber" placeholder="10-digit mobile">
+          <input type="text" class="form-control" formControlName="contactNumber" placeholder="Enter Contact Number">
           <small class="text-muted" style="font-size: 10px;">10 digits</small>
         </div>
         <div class="col-md-2">
           <label class="form-label">PayBase <span class="text-danger">*</span></label>
-          <ng-select [items]="payBaseList" bindLabel="codeDesc" bindValue="codeId" formControlName="payBase" placeholder="— Select —"></ng-select>
+          <ng-select [items]="payBaseList" bindLabel="codeDesc" bindValue="codeId" formControlName="payBase" placeholder="Enter PayBase"></ng-select>
         </div>
       </div>
     </div>
@@ -107,22 +107,22 @@
       <div class="row g-3">
         <div class="col-md-3">
           <label class="form-label">Company Employee Name <span class="text-danger">*</span></label>
-          <input type="text" class="form-control bg-light" formControlName="companyEmpName" placeholder="Rajesh Kumar" readonly>
+          <input type="text" class="form-control bg-light" formControlName="companyEmpName" placeholder="Enter Company Employee Name" readonly>
           <small class="text-muted" style="font-size: 10px;">Logged-in user</small>
         </div>
         <div class="col-md-3">
           <label class="form-label">Designation <span class="text-danger">*</span></label>
-          <input type="text" class="form-control bg-light" formControlName="companyDesignation" placeholder="Sales Manager - West" readonly>
+          <input type="text" class="form-control bg-light" formControlName="companyDesignation" placeholder="Enter Designation" readonly>
           <small class="text-muted" style="font-size: 10px;">From User Master</small>
         </div>
         <div class="col-md-3">
           <label class="form-label">Email ID <span class="text-danger">*</span></label>
-          <input type="email" class="form-control bg-light" formControlName="companyEmail" placeholder="rajesh.kumar@scorpionexpress.in" readonly>
+          <input type="email" class="form-control bg-light" formControlName="companyEmail" placeholder="Enter Email ID" readonly>
           <small class="text-muted" style="font-size: 10px;">From User Master</small>
         </div>
         <div class="col-md-3">
           <label class="form-label">Contact Number <span class="text-danger">*</span></label>
-          <input type="text" class="form-control bg-light" formControlName="companyContact" placeholder="9876543210" readonly>
+          <input type="text" class="form-control bg-light" formControlName="companyContact" placeholder="Enter Contact Number" readonly>
           <small class="text-muted" style="font-size: 10px;">From User Master</small>
         </div>
       </div>
@@ -134,7 +134,7 @@
       <div class="row g-3">
         <div class="col-md-6">
           <label class="form-label">C.S.E. Name <span class="text-danger">*</span></label>
-            <ng-select [items]="customerSupportUserDetailList" bindLabel="username" bindValue="userId" formControlName="cseName" placeholder="— Select —"></ng-select>
+            <ng-select [items]="customerSupportUserDetailList" bindLabel="username" bindValue="userId" formControlName="cseName" placeholder="Enter C.S.E. Name"></ng-select>
           <small class="text-muted" style="font-size: 10px;">User Master — Customer Support role only</small>
         </div>
         <div class="col-md-6">
@@ -238,18 +238,18 @@
               <div class="row g-3 mb-4">
                 <div class="col-md-4">
                   <label class="form-label text-muted">Matrices <span class="text-danger">*</span></label>
-                  <ng-select [items]="matricesData" formControlName="matrices" placeholder="— Select —" bindLabel="label" bindValue="value"></ng-select>
+                  <ng-select [items]="matricesData" formControlName="matrices" placeholder="Enter Matrices" bindLabel="label" bindValue="value"></ng-select>
                 </div>
                 
                 <!-- State Selection -->
                 <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'S'">
                   <div class="col-md-4">
                     <label class="form-label text-muted">From State <span class="text-danger">*</span></label>
-                    <ng-select [items]="stateList" formControlName="fromState" bindLabel="stnm" bindValue="stnm" placeholder="— Select —"></ng-select>
+                    <ng-select [items]="stateList" formControlName="fromState" bindLabel="stnm" bindValue="stnm" placeholder="Enter From State"></ng-select>
                   </div>
                   <div class="col-md-4">
                     <label class="form-label text-muted">To State <span class="text-danger">*</span></label>
-                    <ng-select [items]="stateList" formControlName="toState" bindLabel="stnm" bindValue="stnm" placeholder="— Select —"></ng-select>
+                    <ng-select [items]="stateList" formControlName="toState" bindLabel="stnm" bindValue="stnm" placeholder="Enter To State"></ng-select>
                   </div>
                 </ng-container>
 
@@ -257,11 +257,11 @@
                 <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'C'">
                   <div class="col-md-4">
                     <label class="form-label text-muted">From City <span class="text-danger">*</span></label>
-                    <ng-select [items]="cityList" formControlName="fromCity" bindLabel="location" bindValue="location" placeholder="— Select —"></ng-select>
+                    <ng-select [items]="cityList" formControlName="fromCity" bindLabel="location" bindValue="location" placeholder="Enter From City"></ng-select>
                   </div>
                   <div class="col-md-4">
                     <label class="form-label text-muted">To City <span class="text-danger">*</span></label>
-                    <ng-select [items]="cityList" formControlName="toCity" bindLabel="location" bindValue="location" placeholder="— Select —"></ng-select>
+                    <ng-select [items]="cityList" formControlName="toCity" bindLabel="location" bindValue="location" placeholder="Enter To City"></ng-select>
                   </div>
                 </ng-container>
 
@@ -269,11 +269,11 @@
                 <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'P'">
                   <div class="col-md-4">
                     <label class="form-label text-muted">From Pincode <span class="text-danger">*</span></label>
-                    <ng-select [items]="pincodeList" formControlName="fromPincode" bindLabel="pinArea" bindValue="pincode" placeholder="— Select —"></ng-select>
+                    <ng-select [items]="pincodeList" formControlName="fromPincode" bindLabel="pinArea" bindValue="pincode" placeholder="Enter From Pincode"></ng-select>
                   </div>
                   <div class="col-md-4">
                     <label class="form-label text-muted">To Pincode <span class="text-danger">*</span></label>
-                    <ng-select [items]="pincodeList" formControlName="toPincode" bindLabel="pinArea" bindValue="pincode" placeholder="— Select —"></ng-select>
+                    <ng-select [items]="pincodeList" formControlName="toPincode" bindLabel="pinArea" bindValue="pincode" placeholder="Enter To Pincode"></ng-select>
                   </div>
                 </ng-container>
 
@@ -281,11 +281,11 @@
                 <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'Z'">
                   <div class="col-md-4">
                     <label class="form-label text-muted">From Zone <span class="text-danger">*</span></label>
-                    <ng-select [items]="zoneList" formControlName="fromZone" bindLabel="codeDesc" bindValue="codeId" placeholder="— Select —"></ng-select>
+                    <ng-select [items]="zoneList" formControlName="fromZone" bindLabel="codeDesc" bindValue="codeId" placeholder="Enter From Zone"></ng-select>
                   </div>
                   <div class="col-md-4">
                     <label class="form-label text-muted">To Zone <span class="text-danger">*</span></label>
-                    <ng-select [items]="zoneList" formControlName="toZone" bindLabel="codeDesc" bindValue="codeId" placeholder="— Select —"></ng-select>
+                    <ng-select [items]="zoneList" formControlName="toZone" bindLabel="codeDesc" bindValue="codeId" placeholder="Enter To Zone"></ng-select>
                   </div>
                 </ng-container>
               </div>
@@ -309,25 +309,25 @@
                 <div class="row g-2 align-items-center mb-2" *ngFor="let slab of getActiveSlabsArray().controls; let i = index" [formGroupName]="i">
                   <div class="col-md-1 text-end text-muted" style="font-size: 11px;">Slab {{ i + 1 }}</div>
                   <div class="col-md-1">
-                    <input type="text" class="form-control form-control-sm bg-white" formControlName="from">
+                    <input type="text" class="form-control form-control-sm bg-white" formControlName="from" placeholder="Enter From">
                   </div>
                   <div class="col-md-1">
-                    <input type="text" class="form-control form-control-sm bg-white" formControlName="to">
+                    <input type="text" class="form-control form-control-sm bg-white" formControlName="to" placeholder="Enter To">
                   </div>
                   <div class="col-md-2">
                     <input type="text" class="form-control form-control-sm" formControlName="transportMode" readonly style="background-color: #f9fafb;">
                   </div>
                   <div class="col-md-2">
-                    <ng-select [items]="freightRateTypeList" formControlName="rateType" placeholder="— Select —" class="custom-ng-select-sm" bindLabel="label" bindValue="value"></ng-select>
+                    <ng-select [items]="freightRateTypeList" formControlName="rateType" placeholder="Enter Rate Type" class="custom-ng-select-sm" bindLabel="label" bindValue="value"></ng-select>
                   </div>
                   <div class="col-md-1">
-                    <input type="text" class="form-control form-control-sm bg-white" formControlName="rate">
+                    <input type="text" class="form-control form-control-sm bg-white" formControlName="rate" placeholder="Enter Rate">
                   </div>
                   <div class="col-md-1">
                     <input type="text" class="form-control form-control-sm text-muted" formControlName="stdTat" readonly style="background-color: #f9fafb;">
                   </div>
                   <div class="col-md-2">
-                    <input type="text" class="form-control form-control-sm bg-white" formControlName="custTat">
+                    <input type="text" class="form-control form-control-sm bg-white" formControlName="custTat" placeholder="Enter Cust. TAT">
                   </div>
                   <div class="col-md-1 text-start">
                     <span style="color: #9ca3af; cursor: pointer; font-size: 14px;" (click)="removeSlab(i)">&times;</span>
@@ -347,24 +347,24 @@
               <div class="row g-3 mb-3">
                 <div class="col-md-4">
                   <label class="form-label text-muted">Freight Rate Type <span class="text-danger">*</span></label>
-                  <ng-select [items]="freightRateTypeList" formControlName="freightRateType" placeholder="— Select —" bindLabel="label" bindValue="value"></ng-select>
+                  <ng-select [items]="freightRateTypeList" formControlName="freightRateType" placeholder="Enter Freight Rate Type" bindLabel="label" bindValue="value"></ng-select>
                 </div>
                 <div class="col-md-8">
                   <div class="row g-3">
                     <div class="col-md-6">
                       <label class="form-label text-muted">Matrices <span class="text-danger">*</span></label>
-                      <ng-select [items]="matricesData" formControlName="matrices" placeholder="— Select —" bindLabel="label" bindValue="value"></ng-select>
+                      <ng-select [items]="matricesData" formControlName="matrices" placeholder="Enter Matrices" bindLabel="label" bindValue="value"></ng-select>
                     </div>
                     
                     <!-- State Selection -->
                     <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'S'">
                       <div class="col-md-3">
                         <label class="form-label text-muted">From State <span class="text-danger">*</span></label>
-                        <ng-select [items]="stateList" formControlName="fromState" bindLabel="stateName" bindValue="stateId" placeholder="— Select —"></ng-select>
+                        <ng-select [items]="stateList" formControlName="fromState" bindLabel="stateName" bindValue="stateId" placeholder="Enter From State"></ng-select>
                       </div>
                       <div class="col-md-3">
                         <label class="form-label text-muted">To State <span class="text-danger">*</span></label>
-                        <ng-select [items]="stateList" formControlName="toState" bindLabel="stateName" bindValue="stateId" placeholder="— Select —"></ng-select>
+                        <ng-select [items]="stateList" formControlName="toState" bindLabel="stateName" bindValue="stateId" placeholder="Enter To State"></ng-select>
                       </div>
                     </ng-container>
 
@@ -372,11 +372,11 @@
                     <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'C'">
                       <div class="col-md-3">
                         <label class="form-label text-muted">From City <span class="text-danger">*</span></label>
-                        <ng-select [items]="cityList" formControlName="fromCity" bindLabel="cityName" bindValue="cityId" placeholder="— Select —"></ng-select>
+                        <ng-select [items]="cityList" formControlName="fromCity" bindLabel="cityName" bindValue="cityId" placeholder="Enter From City"></ng-select>
                       </div>
                       <div class="col-md-3">
                         <label class="form-label text-muted">To City <span class="text-danger">*</span></label>
-                        <ng-select [items]="cityList" formControlName="toCity" bindLabel="cityName" bindValue="cityId" placeholder="— Select —"></ng-select>
+                        <ng-select [items]="cityList" formControlName="toCity" bindLabel="cityName" bindValue="cityId" placeholder="Enter To City"></ng-select>
                       </div>
                     </ng-container>
 
@@ -384,11 +384,11 @@
                     <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'P'">
                       <div class="col-md-3">
                         <label class="form-label text-muted">From Pincode <span class="text-danger">*</span></label>
-                        <ng-select [items]="pincodeList" formControlName="fromPincode" bindLabel="pinArea" bindValue="pincode" placeholder="— Select —"></ng-select>
+                        <ng-select [items]="pincodeList" formControlName="fromPincode" bindLabel="pinArea" bindValue="pincode" placeholder="Enter From Pincode"></ng-select>
                       </div>
                       <div class="col-md-3">
                         <label class="form-label text-muted">To Pincode <span class="text-danger">*</span></label>
-                        <ng-select [items]="pincodeList" formControlName="toPincode" bindLabel="pinArea" bindValue="pincode" placeholder="— Select —"></ng-select>
+                        <ng-select [items]="pincodeList" formControlName="toPincode" bindLabel="pinArea" bindValue="pincode" placeholder="Enter To Pincode"></ng-select>
                       </div>
                     </ng-container>
 
@@ -396,11 +396,11 @@
                     <ng-container *ngIf="getActiveCommercialGroup()?.get('matrices')?.value === 'Z'">
                       <div class="col-md-3">
                         <label class="form-label text-muted">From Zone <span class="text-danger">*</span></label>
-                        <ng-select [items]="zoneList" formControlName="fromZone" bindLabel="codeDesc" bindValue="codeId" placeholder="— Select —"></ng-select>
+                        <ng-select [items]="zoneList" formControlName="fromZone" bindLabel="codeDesc" bindValue="codeId" placeholder="Enter From Zone"></ng-select>
                       </div>
                       <div class="col-md-3">
                         <label class="form-label text-muted">To Zone <span class="text-danger">*</span></label>
-                        <ng-select [items]="zoneList" formControlName="toZone" bindLabel="codeDesc" bindValue="codeId" placeholder="— Select —"></ng-select>
+                        <ng-select [items]="zoneList" formControlName="toZone" bindLabel="codeDesc" bindValue="codeId" placeholder="Enter To Zone"></ng-select>
                       </div>
                     </ng-container>
                   </div>
@@ -409,7 +409,7 @@
               <div class="row g-3 align-items-end justify-content-end">
                 <div class="col-md-2">
                   <label class="form-label text-muted d-block text-start">Freight Rate (₹) <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control text-start" formControlName="freightRate">
+                  <input type="text" class="form-control text-start" formControlName="freightRate" placeholder="Enter Freight Rate">
                 </div>
                 <div class="col-md-2">
                   <label class="form-label text-muted d-block text-start">Std. TAT (days)</label>
@@ -461,19 +461,19 @@
                         <div *ngIf="isChargeActive(charge.key) && getChargeSlabType(charge.key) === 'Without Slab'" class="row g-2 mt-1">
                           <div class="col-md-6">
                             <label class="form-label text-muted" style="font-size:10px;">Rate Type</label>
-                            <ng-select [items]="[]" formControlName="rateType" placeholder="— Select —" class="custom-ng-select-sm"></ng-select>
+                            <ng-select [items]="freightRateTypeList" formControlName="rateType" placeholder="Enter Rate Type" class="custom-ng-select-sm" bindLabel="label" bindValue="value"></ng-select>
                           </div>
                           <div class="col-md-6">
                             <label class="form-label text-danger" style="font-size:10px;">Rate Value *</label>
-                            <input type="text" class="form-control form-control-sm bg-white" formControlName="rateValue">
+                            <input type="text" class="form-control form-control-sm bg-white" formControlName="rateValue" placeholder="Enter Rate Value">
                           </div>
                           <div class="col-md-6">
                             <label class="form-label text-danger" style="font-size:10px;">Min Amount *</label>
-                            <input type="text" class="form-control form-control-sm bg-white" formControlName="minAmount">
+                            <input type="text" class="form-control form-control-sm bg-white" formControlName="minAmount" placeholder="Enter Min Amount">
                           </div>
                           <div class="col-md-6">
                             <label class="form-label text-danger" style="font-size:10px;">Max Amount *</label>
-                            <input type="text" class="form-control form-control-sm bg-white" formControlName="maxAmount">
+                            <input type="text" class="form-control form-control-sm bg-white" formControlName="maxAmount" placeholder="Enter Max Amount">
                           </div>
                         </div>
 
@@ -492,16 +492,16 @@
                             <div class="row g-2 align-items-center mb-2" *ngFor="let slab of getChargeSlabs(charge.key).controls; let i = index" [formGroupName]="i">
                               <div class="col-md-1 text-end text-muted" style="font-size: 11px;">Slab {{ i + 1 }}</div>
                               <div class="col-md-3">
-                                <input type="text" class="form-control form-control-sm bg-white" formControlName="from">
+                                <input type="text" class="form-control form-control-sm bg-white" formControlName="from" placeholder="Enter From">
                               </div>
                               <div class="col-md-3">
-                                <input type="text" class="form-control form-control-sm bg-white" formControlName="to">
+                                <input type="text" class="form-control form-control-sm bg-white" formControlName="to" placeholder="Enter To">
                               </div>
                               <div class="col-md-2">
-                                <ng-select [items]="[]" formControlName="rateType" placeholder="— Select —" class="custom-ng-select-sm"></ng-select>
+                                <ng-select [items]="freightRateTypeList" formControlName="rateType" placeholder="Enter Rate Type" class="custom-ng-select-sm" bindLabel="label" bindValue="value"></ng-select>
                               </div>
                               <div class="col-md-2">
-                                <input type="text" class="form-control form-control-sm bg-white" formControlName="rate">
+                                <input type="text" class="form-control form-control-sm bg-white" formControlName="rate" placeholder="Enter Rate">
                               </div>
                               <div class="col-md-1 text-start">
                                 <span style="color: #9ca3af; cursor: pointer; font-size: 14px;" (click)="removeChargeSlab(charge.key, i)">&times;</span>
@@ -556,7 +556,7 @@
                       <label class="toggle-switch"><input type="checkbox" formControlName="minBasicFreight"><span class="slider round"></span></label>
                     </div>
                     <div>
-                      <input type="text" class="form-control form-control-sm border-0" formControlName="minBasicFreightValue">
+                      <input type="text" class="form-control form-control-sm border-0" formControlName="minBasicFreightValue" placeholder="Enter Min Basic Freight">
                     </div>
                   </div>
                 </div>
@@ -568,7 +568,7 @@
                       <span class="charge-title d-block text-truncate">Min. Chargeable Weight (kg)</span>
                     </div>
                     <div>
-                      <input type="text" class="form-control form-control-sm border-0" formControlName="minChargeableWeight">
+                      <input type="text" class="form-control form-control-sm border-0" formControlName="minChargeableWeight" placeholder="Enter Min Weight">
                     </div>
                   </div>
                 </div>
@@ -580,7 +580,7 @@
                       <span class="charge-title d-block text-truncate">Min. Chargeable Pkg (pkgs)</span>
                     </div>
                     <div>
-                      <input type="text" class="form-control form-control-sm border-0" formControlName="minChargeablePkg">
+                      <input type="text" class="form-control form-control-sm border-0" formControlName="minChargeablePkg" placeholder="Enter Min Pkg">
                     </div>
                   </div>
                 </div>
@@ -618,7 +618,7 @@
         </div>
         <div class="col-md-3">
           <label class="form-label">Ratio</label>
-          <ng-select [items]="['1 CFT = 10 KG', '1 CFT = 12 KG']" formControlName="ratio" placeholder="— Select —"></ng-select>
+          <ng-select [items]="['1 CFT = 10 KG', '1 CFT = 12 KG']" formControlName="ratio" placeholder="Enter Ratio"></ng-select>
           <small class="text-muted" style="font-size: 10px;">From General Master</small>
         </div>
         <div class="col-md-3">
@@ -659,21 +659,21 @@
         <div class="row g-3 mb-3">
           <div class="col-md-3">
             <label class="form-label text-muted" style="font-size: 10px;">Free Storage Days</label>
-            <ng-select [items]="[]" formControlName="freeStorageDays" placeholder="— Select —" class="custom-ng-select-sm bg-white"></ng-select>
+            <ng-select [items]="[]" formControlName="freeStorageDays" placeholder="Enter Free Storage Days" class="custom-ng-select-sm bg-white"></ng-select>
             <small class="text-muted" style="font-size: 9px; color: #d1d5db !important;">From Master</small>
           </div>
           <div class="col-md-3">
             <label class="form-label text-muted" style="font-size: 10px;">Demurrage Rate</label>
-            <ng-select [items]="[]" formControlName="demurrageRateType" placeholder="— Select —" class="custom-ng-select-sm bg-white"></ng-select>
+            <ng-select [items]="[]" formControlName="demurrageRateType" placeholder="Enter Demurrage Rate" class="custom-ng-select-sm bg-white"></ng-select>
             <small class="text-muted" style="font-size: 9px; color: #d1d5db !important;">From Master</small>
           </div>
           <div class="col-md-3">
             <label class="form-label text-muted" style="font-size: 10px;">Min Amount</label>
-            <input type="text" class="form-control form-control-sm bg-white" formControlName="minAmount">
+            <input type="text" class="form-control form-control-sm bg-white" formControlName="minAmount" placeholder="Enter Min Amount">
           </div>
           <div class="col-md-3">
             <label class="form-label text-muted" style="font-size: 10px;">Max Amount</label>
-            <input type="text" class="form-control form-control-sm bg-white" formControlName="maxAmount">
+            <input type="text" class="form-control form-control-sm bg-white" formControlName="maxAmount" placeholder="Enter Max Amount">
           </div>
         </div>
         <div>
@@ -719,7 +719,7 @@
         </div>
         <div class="col-md-3">
           <label class="form-label text-muted">Fuel Component on Basic Freight</label>
-          <input type="text" class="form-control" formControlName="fuelComponent" placeholder="e.g. 30%">
+          <input type="text" class="form-control" formControlName="fuelComponent" placeholder="Enter Fuel Component">
         </div>
         <div class="col-md-2">
           <label class="form-label text-muted">Escalation Limit</label>
@@ -727,12 +727,18 @@
             <label class="custom-radio"><input type="radio" formControlName="escalationLimitType" value="In Rs"><span>In Rs</span></label>
             <label class="custom-radio"><input type="radio" formControlName="escalationLimitType" value="In %"><span>In %</span></label>
           </div>
+          <div class="mt-2" *ngIf="qmForm.get('escalationLimitType')?.value">
+            <input type="text" class="form-control" formControlName="escalationLimitValue" placeholder="Enter Escalation Limit">
+          </div>
         </div>
         <div class="col-md-2">
           <label class="form-label text-muted">De-escalation Limit</label>
           <div class="d-flex gap-3 mt-2">
             <label class="custom-radio"><input type="radio" formControlName="deEscalationLimitType" value="In Rs"><span>In Rs</span></label>
             <label class="custom-radio"><input type="radio" formControlName="deEscalationLimitType" value="In %"><span>In %</span></label>
+          </div>
+          <div class="mt-2" *ngIf="qmForm.get('deEscalationLimitType')?.value">
+            <input type="text" class="form-control" formControlName="deEscalationLimitValue" placeholder="Enter De-escalation Limit">
           </div>
         </div>
       </div>
@@ -835,11 +841,11 @@
                   <div class="row g-2 mb-2 align-items-center">
                     <div class="col-md-6">
                       <label class="form-label text-muted mb-1" style="font-size: 10px;">From</label>
-                      <input type="text" class="form-control form-control-sm" formControlName="from">
+                      <input type="text" class="form-control form-control-sm" formControlName="from" placeholder="Enter From">
                     </div>
                     <div class="col-md-6">
                       <label class="form-label text-muted mb-1" style="font-size: 10px;">To</label>
-                      <input type="text" class="form-control form-control-sm" formControlName="to">
+                      <input type="text" class="form-control form-control-sm" formControlName="to" placeholder="Enter To">
                     </div>
                   </div>
                   
@@ -858,11 +864,11 @@
                       <tbody class="border-top-0" formArrayName="categories">
                         <tr class="border-bottom" *ngFor="let cat of getOdaCategories(i).controls; let j = index" [formGroupName]="j">
                           <td class="px-2 py-1 align-middle" style="color: #4b5563;">{{ cat.get('category')?.value }}</td>
-                          <td class="px-2 py-1"><ng-select [items]="['Flat', 'Per Kg', '- Select -']" [clearable]="false" formControlName="rateType" class="custom-ng-select-sm"></ng-select></td>
-                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="rate"></td>
-                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="tat"></td>
-                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="min"></td>
-                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="max"></td>
+                          <td class="px-2 py-1"><ng-select [items]="['Flat', 'Per Kg', '- Select -']" [clearable]="false" formControlName="rateType" class="custom-ng-select-sm" placeholder="Enter Rate Type"></ng-select></td>
+                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="rate" placeholder="Enter Rate"></td>
+                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="tat" placeholder="Enter TAT"></td>
+                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="min" placeholder="Enter Min"></td>
+                          <td class="px-2 py-1"><input type="text" class="form-control form-control-sm bg-white" formControlName="max" placeholder="Enter Max"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -888,37 +894,37 @@
       <div class="row g-3 mb-4">
         <div class="col-md-2">
           <label class="form-label">Bill Generation Location</label>
-          <input type="text" class="form-control" formControlName="billGenerationLoc">
+          <input type="text" class="form-control" formControlName="billGenerationLoc" placeholder="Enter Generation Loc">
           <small class="text-muted" style="font-size: 10px;">Location Master - default logged in branch</small>
         </div>
         <div class="col-md-2">
           <label class="form-label">Bill Submission Location</label>
-          <input type="text" class="form-control" formControlName="billSubmissionLoc">
+          <input type="text" class="form-control" formControlName="billSubmissionLoc" placeholder="Enter Submission Loc">
           <small class="text-muted" style="font-size: 10px;">Location Master - default logged in branch</small>
         </div>
         <div class="col-md-2">
           <label class="form-label">Bill Collection Location</label>
-          <input type="text" class="form-control" formControlName="billCollectionLoc">
+          <input type="text" class="form-control" formControlName="billCollectionLoc" placeholder="Enter Collection Loc">
           <small class="text-muted" style="font-size: 10px;">Location Master - default logged in branch</small>
         </div>
         <div class="col-md-2">
           <label class="form-label">Billing State</label>
-          <input type="text" class="form-control bg-light" formControlName="billingState" readonly>
+          <input type="text" class="form-control bg-light" formControlName="billingState" readonly placeholder="Enter Billing State">
           <small class="text-muted" style="font-size: 10px;">Auto from Bill Generation Location</small>
         </div>
         <div class="col-md-2">
           <label class="form-label">Com. Business</label>
-          <input type="text" class="form-control bg-light" formControlName="comBusiness" readonly>
+          <input type="text" class="form-control bg-light" formControlName="comBusiness" readonly placeholder="Enter Com. Business">
           <small class="text-muted" style="font-size: 10px;">Auto populated from Prospect - editable</small>
         </div>
         <div class="col-md-2">
           <label class="form-label">Bill Generation Cycle</label>
-          <ng-select [items]="[]" formControlName="billGenerationCycle" placeholder="— Select —"></ng-select>
+          <ng-select [items]="[]" formControlName="billGenerationCycle" placeholder="Enter Generation Cycle"></ng-select>
           <small class="text-muted" style="font-size: 10px;">From Master</small>
         </div>
         <div class="col-md-3 mt-2">
           <label class="form-label text-muted" style="font-size: 10px; line-height: 1.2;">Maximum Deduction Allowed in Case of<br>Damage/Shortage</label>
-          <input type="text" class="form-control form-control-sm" formControlName="maxDeduction" placeholder="e.g. 5,000 or 2% of Invoice">
+          <input type="text" class="form-control form-control-sm" formControlName="maxDeduction" placeholder="Enter Max Deduction">
         </div>
       </div>
       <div class="row g-3">
@@ -978,11 +984,11 @@
       <div class="row g-3" [class.opacity-50]="qmForm.get('creditLimitActive')?.value !== 'Yes'" [class.pe-none]="qmForm.get('creditLimitActive')?.value !== 'Yes'">
         <div class="col-md-3">
           <label class="form-label text-muted" style="font-size: 10px;">Credit Days</label>
-          <ng-select [items]="[]" formControlName="creditDays" placeholder="— Select —" class="custom-ng-select-sm bg-white"></ng-select>
+          <ng-select [items]="[]" formControlName="creditDays" placeholder="Enter Credit Days" class="custom-ng-select-sm bg-white"></ng-select>
         </div>
         <div class="col-md-3">
           <label class="form-label text-muted" style="font-size: 10px;">Credit Limit (Rs)</label>
-          <input type="text" class="form-control form-control-sm bg-white" formControlName="creditLimitRs" placeholder="e.g. 5,00,000">
+          <input type="text" class="form-control form-control-sm bg-white" formControlName="creditLimitRs" placeholder="Enter Credit Limit">
         </div>
       </div>
     </div>
