@@ -28,6 +28,7 @@ import { CsatSurveyLog } from './components/csat-layout/csat-survey-log/csat-sur
 import { SurveySubmittedGuard } from './shared/guards/survey-submitted.guard';
 import { SurveyDone } from './components/csat-layout/survey-done/survey-done';
 import { AppointmentDelivery } from './components/appointment-delivery/appointment-delivery';
+import { MyCustomerList } from './components/my-customer-list/my-customer-list';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -56,7 +57,8 @@ export const routes: Routes = [
   { path: 'collection-dashboard', component: CollectionDashboard, canActivate: [authGuard] },
   { path: 'cs-dashboard', component: CSLevelDashboard, canActivate: [authGuard] },
   { path: 'complaint', component: ComplaintList, canActivate: [authGuard] },
-  { path: 'appointment-delivery', component: AppointmentDelivery, canActivate: [authGuard] },
+  { path: 'my-customer', component: MyCustomerList, canActivate: [authGuard] },
+  { path: 'appointment-delivery', component: AppointmentDelivery , canActivate: [authGuard] },
   {
     path: 'csat',
     component: CsatLayout,

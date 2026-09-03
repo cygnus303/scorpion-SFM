@@ -1,0 +1,112 @@
+<div class="page active" id="p-my-customer">
+  <!-- Revenue Date Filter -->
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div style="font-size:12px;font-weight:600;color:var(--text2)">Revenue Period</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap" id="mcRevenueFilterRow">
+        <button class="tc" [class.on]="selectedRevenuePeriod === 'This Month'" (click)="setRevenuePeriod('This Month')">This Month</button>
+        <button class="tc" [class.on]="selectedRevenuePeriod === 'This Quarter'" (click)="setRevenuePeriod('This Quarter')">This Quarter</button>
+        <button class="tc" [class.on]="selectedRevenuePeriod === 'This Year'" (click)="setRevenuePeriod('This Year')">This Year</button>
+      </div>
+      <div style="margin-left:auto;font-size:10.5px;color:var(--text3);font-style:italic">Applies to Revenue figures only — customer list & counts are not affected</div>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="g3">
+    <div class="kpi mc-kpi-card" id="mcCardTotal" style="--kc:var(--blue)" [class.mc-kpi-active]="selectedStatus === 'All'" (click)="setStatus('All')"><div class="kpi-label">Total Customer</div><div class="kpi-val" id="mcKpiTotalVal">{{summaryData?.TotalCustomer || 0}}</div><div class="kpi-sub">All customer contracts</div></div>
+    <div class="kpi mc-kpi-card" id="mcCardActive" style="--kc:var(--green)" [class.mc-kpi-active]="selectedStatus === 'Active'" (click)="setStatus('Active')"><div class="kpi-label">Active Customer</div><div class="kpi-val" id="mcKpiActiveVal">{{summaryData?.ActiveCustomer || 0}}</div><div class="kpi-sub up">Contract currently valid</div></div>
+    <div class="kpi mc-kpi-card" id="mcCardExpired" style="--kc:var(--red)" [class.mc-kpi-active]="selectedStatus === 'Expired'" (click)="setStatus('Expired')"><div class="kpi-label">Expired Customer</div><div class="kpi-val" id="mcKpiExpiredVal">{{summaryData?.ExpiredCustomer || 0}}</div><div class="kpi-sub dn">Contract end date passed</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="ci b">🗂</div>
+      <div class="card-title">Customer & Contract Listing</div>
+      <div style="margin-left:auto; display:flex; align-items:center; gap:20px;">
+        <div class="status-switch">
+          <label class="ss-btn">
+            <input type="radio" name="mcStatusRadio" value="All" [checked]="selectedStatus === 'All'" (change)="setStatus('All')">
+            <span><div class="dot all"></div>All Status</span>
+          </label>
+          <label class="ss-btn">
+            <input type="radio" name="mcStatusRadio" value="Active" [checked]="selectedStatus === 'Active'" (change)="setStatus('Active')">
+            <span><div class="dot active"></div>Active</span>
+          </label>
+          <label class="ss-btn">
+            <input type="radio" name="mcStatusRadio" value="Expired" [checked]="selectedStatus === 'Expired'" (change)="setStatus('Expired')">
+            <span><div class="dot expired"></div>Expired</span>
+          </label>
+        </div>
+        <button type="button" class="btn btn-red" style="font-size:12px;padding:7px 16px;display:flex;align-items:center;gap:8px" [disabled]="isExportLoading" (click)="downloadXLS()">
+          <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
+          <svg *ngIf="!isExportLoading" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download XLS
+        </button>
+      </div>
+    </div>
+    <table class="mt">
+      <thead>
+        <tr>
+          <th>Customer Name</th>
+          <th>Contract ID</th>
+          <th>Contract Start Date</th>
+          <th>Contract End Date</th>
+          <th>Sales Person</th>
+          <th>C.S.E. Name</th>
+          <th>Status</th>
+          <th>Revenue</th>
+        </tr>
+      </thead>
+      <tbody>
+          <ng-container>
+            <tr *ngIf="isLoading && customerList.length===0">
+              <td colspan="10" style="text-align:center; padding:40px;">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="mt-2 text-muted small">Fetching data...</div>
+              </td>
+            </tr>
+          </ng-container>
+
+          <!-- No Data (Exactly matching screenshot) -->
+          <tr *ngIf="customerList.length === 0 && !isLoading">
+            <td colspan="10" class="text-muted small py-3 px-3 text-center" style="font-size: 12px;">
+              No record Found
+            </td>
+          </tr>
+          <tr *ngFor="let customer of customerList">
+            <td><strong>{{customer.Custname}}</strong></td>
+            <td>{{customer.ContractId || '-'}}</td>
+            <td>{{customer.Contract_Stdate || '-'}}</td>
+            <td>{{customer.Contract_Eddate || '-'}}</td>
+            <td>{{customer.SalesPerson || '-'}}</td>
+            <td>{{customer.CSEName || '-'}}</td>
+            <td>
+              <span class="pill mc-status" [class.pg]="customer.Status === 'Active'" [class.pr]="customer.Status === 'Expired'">{{customer.Status}}</span>
+            </td>
+            <td class="mc-revenue">{{customer.Revenue != null ? (customer.Revenue | currency:'INR') : '-'}}</td>
+          </tr>
+      </tbody>
+    </table>
+    <!-- Pagination Footer exactly inside original card -->
+    <div class="d-flex justify-content-between align-items-center mt-3 px-3 pb-3"
+      *ngIf="summaryData?.TotalRecords > 0">
+      <div class="small text-muted" style="font-size: 12px;">
+        Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
+        commonService.globalFilters.Page * commonService.globalFilters.PageSize > summaryData?.TotalRecords ?
+        summaryData?.TotalRecords : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
+        of {{ summaryData?.TotalRecords }} entries
+      </div>
+      <pagination *ngIf="summaryData?.TotalRecords > commonService.globalFilters.PageSize" [totalItems]="summaryData?.TotalRecords" [(ngModel)]="commonService.globalFilters.Page"
+        [itemsPerPage]="commonService.globalFilters.PageSize" (pageChanged)="onPageChange($event)" [maxSize]="5"
+        [boundaryLinks]="true" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+      </pagination>
+    </div>
+  </div>
+</div>

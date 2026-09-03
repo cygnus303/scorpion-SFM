@@ -265,6 +265,7 @@ export class Header implements OnInit, OnDestroy {
       'meeting-MOM': 'meeting-MOM',
       'payment': 'payment',
       'appointment-delivery': 'appointment-delivery',
+      'my-customer': 'my-customer',
     };
 
     let menuKey = routeToMenuKey[cleanUrl];
