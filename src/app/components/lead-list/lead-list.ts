@@ -18,6 +18,8 @@ import { takeUntil } from 'rxjs/operators';
 import { ExternalService } from '../../shared/services/external.service';
 import { GeneralMasterResponse } from '../../shared/models/external.model';
 import { AddMeeting } from '../meeting-list/add-meeting/add-meeting';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 import { CountUpDirective } from '../../shared/directives/count-up.directive';
 
 @Component({
@@ -42,6 +44,8 @@ export class LeadList implements OnInit, OnDestroy {
   public leadCategories: GeneralMasterResponse[] = [];
   public leadCardsCard: any;
   public isCardsLoading: boolean = false;
+  selectedFile: File | null = null;
+
 
   private leadService = inject(LeadService);
   public commonService = inject(CommonService); // Public to access globalFilters in HTML
@@ -201,5 +205,115 @@ export class LeadList implements OnInit, OnDestroy {
     const percentage = (value / this.leadCardsCard.funnel_Lead) * 100;
     return `${percentage}%`;
   }
+
+   downloadSampleImport(event: any) {
+    event.preventDefault();
+    this.leadService.downloadSampleLeadUpload(this.identityService.getLoggedUserId()).subscribe({
+      next: (response: Blob) => {
+        const blob = new Blob([response], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+        const url = window.URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = 'LeadImport.xlsx';
+        anchor.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (response: any) => {
+        this.toasterService.error(response);
+        this.commonService.updateLoader(false);
+      },
+    });
+  }
+
+    triggerFileInput(event: Event, disappointed: void) {
+    event.preventDefault();
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput.click();
+  }
+
+  onFileChange(event: any) {
+    const fileInput = event.target as HTMLInputElement;
+    const file = fileInput.files?.[0];
+
+
+    if (file) {
+      const validExcelTypes = [
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // XLSX
+        'application/vnd.ms-excel', // XLS
+        'text/csv', // CSV
+        'application/vnd.ms-excel.sheet.binary.macroEnabled.12', // XLSB
+        'application/vnd.ms-excel.sheet.macroEnabled.12', // XLSM
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.template', // XLTX
+        'application/vnd.ms-excel.template.macroEnabled.12', // XLTM
+      ];
+      if (validExcelTypes.includes(file.type)) {
+        this.selectedFile = file;
+        const formData = new FormData();
+        formData.append('file', file);
+        this.importLead(formData);
+      } else {
+        this.toasterService.error(
+          'Please upload a valid excel file (XLSX, XLS, or CSV).'
+        );
+        this.selectedFile = null;
+      }
+      fileInput.value = '';
+    }
+  }
+  importLead(dataToSubmit: any): void {
+    this.commonService.updateLoader(true);
+
+    this.leadService.importLead(this.identityService.getLoggedUserId(), dataToSubmit).subscribe({
+      next: (response) => {
+        this.commonService.updateLoader(false);
+
+        if (response.success) {
+          const invalidLeads = response.data.filter((lead: any) => lead.IsValid === false);
+
+          if (invalidLeads.length > 0) {
+            this.toasterService.error(`Import completed with ${invalidLeads.length} invalid record(s). Downloading error file...`);
+            this.getLeads();
+            this.downloadInvalidLeadsExcel(invalidLeads);
+          } else {
+            this.toasterService.success(response.data[0]?.Message || 'Lead(s) Created Successfully');
+            this.getLeads();
+          }
+        } else {
+          this.toasterService.error(response.error?.message || 'Import failed.');
+        }
+      },
+      error: (error: any) => {
+        this.toasterService.error(error.message || 'An error occurred during import.');
+        this.commonService.updateLoader(false);
+      },
+    });
+  }
+
+    downloadInvalidLeadsExcel(invalidLeads: any[]): void {
+    const cleanedLeads = invalidLeads.map(({ IsValid, ...rest }) => rest);
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(cleanedLeads, {
+      skipHeader: false,
+    });
+
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'Invalid Leads': worksheet },
+      SheetNames: ['Invalid Leads'],
+    };
+
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+
+    const blob: Blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    FileSaver.saveAs(blob, `Invalid_Leads_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  }
+
 
 }

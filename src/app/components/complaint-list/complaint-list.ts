@@ -82,13 +82,42 @@ export class ComplaintList {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+   formatDateToISO(dateVal: any): string | null {
+    if (!dateVal) return null;
+    let d: Date;
+    if (typeof dateVal === 'string') {
+      const parts = dateVal.includes('/') ? dateVal.split('/') : dateVal.split('-');
+      if (parts.length === 3) {
+        if (parts[2].length === 4) {
+          d = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+        } else if (parts[0].length === 4) {
+          d = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+        } else {
+          d = new Date(dateVal);
+        }
+      } else {
+        d = new Date(dateVal);
+      }
+    } else {
+      d = new Date(dateVal);
+    }
+
+    if (isNaN(d.getTime())) return null;
+
+    const year = d.getFullYear();
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = monthNames[d.getMonth()];
+    const day = ('0' + d.getDate()).slice(-2);
+    return `${day} ${month} ${year}`;
+  }
   
     getPRQCardList() {
     const payload = {
       "FilterJson": {
         "ReportId": "224",
-        "FromDate": this.formatDate(this.commonService.globalFilters.startDate),
-        "ToDate": this.formatDate(this.commonService.globalFilters.endDate),
+        "FromDate": this.formatDateToISO(this.commonService.globalFilters.startDate),
+        "ToDate": this.formatDateToISO(this.commonService.globalFilters.endDate),
         "BaseLocation":this.identityService.getBranchCode(),
         "UserName": this.identityService.getUserName(),
         "SearchText":this.commonService.globalFilters.searchText || "",
