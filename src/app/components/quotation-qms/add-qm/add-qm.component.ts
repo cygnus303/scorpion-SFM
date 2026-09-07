@@ -23,12 +23,11 @@ export class AddQmComponent implements OnInit {
   public cityList: any[] = [];
   public pincodeList: any[] = [];
   public zoneList: any[] = [];
-  public matricesData = [
-    { label: 'City to City', value: 'C' },
-    { label: 'Zone to Zone', value: 'Z' },
-    { label: 'State to State', value: 'S' },
-    { label: 'Pin Code to Pin Code', value: 'P' }
-  ];
+  public ratioList: any[] = [];
+  public freeStorageDaysList: any[] = [];
+  public demurrageRateList: any[] = [];
+  public creditDaysList: any[] = [];
+  public matricesData: any[] = [];
   public weightConsiderList = [
     { label: 'Higher of Volumetric and Actual Weight', value: 'H' },
     { label: 'Always Actual weight', value: 'A' },
@@ -40,6 +39,11 @@ export class AddQmComponent implements OnInit {
     { label: 'PerKg', value: 'W' },
     { label: 'PerPkg', value: 'P' },
     { label: 'PerTon', value: 'T' }
+  ];
+  public billGenerationCycleList = [
+    { label: '7 Days', value: '7' },
+    { label: '15 Days', value: '15' },
+    { label: '30 Days', value: '30' }
   ];
 
   public qmForm!: FormGroup;
@@ -87,6 +91,11 @@ export class AddQmComponent implements OnInit {
     this.initForm();
     this.getSigningLocation();
     this.getPayBaseList();
+    this.getRatioList();
+    this.getFreeStorageDaysList();
+    this.getDemurrageRateList();
+    this.getCreditDaysList();
+    this.getMatricesDataList();
     this.getCustomerSupportUserDetail();
     this.fetchMasterLists();
     if (this.customerData) {
@@ -492,6 +501,56 @@ export class AddQmComponent implements OnInit {
       next: (res: any) => {
         if (res && res.data) {
           this.payBaseList = res.data;
+        }
+      }
+    });
+  }
+
+  getRatioList() {
+    this.expenseGeneralService.getGeneralMaster('','CFTRATIO').subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.ratioList = res.data;
+        }
+      }
+    });
+  }
+
+  getFreeStorageDaysList() {
+    this.expenseGeneralService.getGeneralMaster('','FREEDAYS').subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.freeStorageDaysList = res.data;
+        }
+      }
+    });
+  }
+
+  getDemurrageRateList() {
+    this.expenseGeneralService.getGeneralMaster('','SCHG14').subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.demurrageRateList = res.data;
+        }
+      }
+    });
+  }
+
+  getCreditDaysList() {
+    this.expenseGeneralService.getGeneralMaster('','CRDDAYS').subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.creditDaysList = res.data;
+        }
+      }
+    });
+  }
+
+  getMatricesDataList() {
+    this.expenseGeneralService.getGeneralMaster('','MXTYPE').subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.matricesData = res.data;
         }
       }
     });

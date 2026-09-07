@@ -238,7 +238,7 @@
               <div class="row g-3 mb-4">
                 <div class="col-md-4">
                   <label class="form-label text-muted">Matrices <span class="text-danger">*</span></label>
-                  <ng-select [items]="matricesData" formControlName="matrices" placeholder="Enter Matrices" bindLabel="label" bindValue="value"></ng-select>
+                  <ng-select [items]="matricesData" formControlName="matrices" placeholder="Enter Matrices" bindLabel="codeDesc" bindValue="codeId"></ng-select>
                 </div>
                 
                 <!-- State Selection -->
@@ -353,7 +353,7 @@
                   <div class="row g-3">
                     <div class="col-md-6">
                       <label class="form-label text-muted">Matrices <span class="text-danger">*</span></label>
-                      <ng-select [items]="matricesData" formControlName="matrices" placeholder="Enter Matrices" bindLabel="label" bindValue="value"></ng-select>
+                      <ng-select [items]="matricesData" formControlName="matrices" placeholder="Enter Matrices" bindLabel="codeDesc" bindValue="codeId"></ng-select>
                     </div>
                     
                     <!-- State Selection -->
@@ -618,7 +618,7 @@
         </div>
         <div class="col-md-3">
           <label class="form-label">Ratio</label>
-          <ng-select [items]="['1 CFT = 10 KG', '1 CFT = 12 KG']" formControlName="ratio" placeholder="Enter Ratio"></ng-select>
+          <ng-select [items]="ratioList" bindLabel="codeDesc" bindValue="codeId" formControlName="ratio" placeholder="Enter Ratio"></ng-select>
           <small class="text-muted" style="font-size: 10px;">From General Master</small>
         </div>
         <div class="col-md-3">
@@ -659,12 +659,12 @@
         <div class="row g-3 mb-3">
           <div class="col-md-3">
             <label class="form-label text-muted" style="font-size: 10px;">Free Storage Days</label>
-            <ng-select [items]="[]" formControlName="freeStorageDays" placeholder="Enter Free Storage Days" class="custom-ng-select-sm bg-white"></ng-select>
+            <ng-select [items]="freeStorageDaysList" bindLabel="codeDesc" bindValue="codeId" formControlName="freeStorageDays" placeholder="Enter Free Storage Days" class="custom-ng-select-sm bg-white"></ng-select>
             <small class="text-muted" style="font-size: 9px; color: #d1d5db !important;">From Master</small>
           </div>
           <div class="col-md-3">
             <label class="form-label text-muted" style="font-size: 10px;">Demurrage Rate</label>
-            <ng-select [items]="[]" formControlName="demurrageRateType" placeholder="Enter Demurrage Rate" class="custom-ng-select-sm bg-white"></ng-select>
+            <ng-select [items]="demurrageRateList" bindLabel="codeDesc" bindValue="codeId" formControlName="demurrageRateType" placeholder="Enter Demurrage Rate" class="custom-ng-select-sm bg-white"></ng-select>
             <small class="text-muted" style="font-size: 9px; color: #d1d5db !important;">From Master</small>
           </div>
           <div class="col-md-3">
@@ -919,7 +919,7 @@
         </div>
         <div class="col-md-2">
           <label class="form-label">Bill Generation Cycle</label>
-          <ng-select [items]="[]" formControlName="billGenerationCycle" placeholder="Enter Generation Cycle"></ng-select>
+          <ng-select [items]="billGenerationCycleList" bindLabel="label" bindValue="value" formControlName="billGenerationCycle" placeholder="Enter Generation Cycle"></ng-select>
           <small class="text-muted" style="font-size: 10px;">From Master</small>
         </div>
         <div class="col-md-3 mt-2">
@@ -984,7 +984,7 @@
       <div class="row g-3" [class.opacity-50]="qmForm.get('creditLimitActive')?.value !== 'Yes'" [class.pe-none]="qmForm.get('creditLimitActive')?.value !== 'Yes'">
         <div class="col-md-3">
           <label class="form-label text-muted" style="font-size: 10px;">Credit Days</label>
-          <ng-select [items]="[]" formControlName="creditDays" placeholder="Enter Credit Days" class="custom-ng-select-sm bg-white"></ng-select>
+          <ng-select [items]="creditDaysList" bindLabel="codeDesc" bindValue="codeId" formControlName="creditDays" placeholder="Enter Credit Days" class="custom-ng-select-sm bg-white"></ng-select>
         </div>
         <div class="col-md-3">
           <label class="form-label text-muted" style="font-size: 10px;">Credit Limit (Rs)</label>
