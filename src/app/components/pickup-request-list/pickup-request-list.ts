@@ -135,7 +135,7 @@ export class PickupRequestList {
       ReportId:'222',
       FromDate: this.formatDateToISO(this.commonService.globalFilters.startDate),
       ToDate: this.formatDateToISO(this.commonService.globalFilters.endDate),
-      BaseLocation: this.identityService.getBranchCode(),
+      BaseLocation: '',
       UserName:this.commonService.globalFilters.UserID.toString(),
       Status:"All",
       SearchText:this.commonService.globalFilters.searchText || "",
@@ -193,7 +193,7 @@ export class PickupRequestList {
       ReportId:'222',
       FromDate: this.formatDate(this.commonService.globalFilters.startDate),
       ToDate: this.formatDate(this.commonService.globalFilters.endDate),
-      BaseLocation: this.identityService.getBranchCode(),
+      BaseLocation: '',
       UserName:this.commonService.globalFilters.UserID.toString(),
       Status:"",
       SearchText:this.commonService.globalFilters.searchText || "",
@@ -412,7 +412,7 @@ export class PickupRequestList {
         ...item,
         prqDate: item.requiredPlacementDateTime
       })),
-      baseLocation: this.identityService.getBranchCode() || '',
+      baseLocation: '',
       baseUserName: this.commonService.globalFilters.UserID?.toString() || '',
       baseFinYear: this.identityService.getFinYear() || ''
     };

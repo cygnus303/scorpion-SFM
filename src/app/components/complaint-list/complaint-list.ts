@@ -118,7 +118,7 @@ export class ComplaintList {
         "ReportId": "224",
         "FromDate": this.formatDateToISO(this.commonService.globalFilters.startDate),
         "ToDate": this.formatDateToISO(this.commonService.globalFilters.endDate),
-        "BaseLocation":this.identityService.getBranchCode(),
+        "BaseLocation":'',
         "UserName": this.identityService.getUserName(),
         "SearchText":this.commonService.globalFilters.searchText || "",
       }
