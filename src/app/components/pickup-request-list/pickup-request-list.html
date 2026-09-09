@@ -128,9 +128,10 @@
             <td class="px-3 py-2">
               <span class="pill" [ngClass]="{
                 'pg': (data.PRQStatus || '') === 'ARRANGED',
-                'pgy': (data.PRQStatus || '') === 'Cancelled',
+                'pr': (data.PRQStatus || '') === 'Cancelled',
                 'pb':  (data.PRQStatus || '') === 'Assigned',
-                'pa':  (data.PRQStatus || '') === 'Generated'
+                'pa':  (data.PRQStatus || '') === 'Generated',
+                'pgy': (data.PRQStatus || '') === 'Auto Cancelled'
               }" style="font-size: 11px; padding: 3px 10px;">
                 {{ data.PRQStatus || '--' }}
               </span>
@@ -160,12 +161,12 @@
                 </button>
                 <button type="button" class="btn btn-danger px-2 py-1 fw-semibold rounded-1"
                   style="font-size: 11px; background-color: #F59E0B; border-color: #fff;"
-                  [disabled]="data.PRQStatus === 'Cancelled' || data.PRQStatus === 'Assigned' || data.PRQStatus === 'ARRANGED'"
+                  [disabled]="data.PRQStatus === 'Cancelled' || data.PRQStatus === 'Assigned' || data.PRQStatus === 'ARRANGED'|| data.PRQStatus === 'Auto Cancelled'"
                   (click)="selectPrqType(data.PRQNo)">
                   Edit
                 </button>
                 <button type="button" class="btn btn-danger px-2 py-1 fw-semibold rounded-1"
-                  [disabled]="data.PRQStatus === 'Cancelled' || data.PRQStatus === 'Assigned'|| data.PRQStatus === 'ARRANGED'"
+                  [disabled]="data.PRQStatus === 'Cancelled' || data.PRQStatus === 'Assigned'|| data.PRQStatus === 'ARRANGED' || data.PRQStatus === 'Auto Cancelled'"
                   style="font-size: 11px; background-color: #CC0000; border-color: #CC0000;"
                   (click)="onCancel(data.PRQNo)">
                   Cancel
