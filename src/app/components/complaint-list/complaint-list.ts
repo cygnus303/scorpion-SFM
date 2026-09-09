@@ -116,8 +116,8 @@ export class ComplaintList {
     const payload = {
       "FilterJson": {
         "ReportId": "224",
-        "FromDate": this.formatDate(this.commonService.globalFilters.startDate),
-        "ToDate": this.formatDate(this.commonService.globalFilters.endDate),
+        "FromDate": this.formatDateToISO(this.commonService.globalFilters.startDate),
+        "ToDate": this.formatDateToISO(this.commonService.globalFilters.endDate),
         "BaseLocation":'',
         "UserName": this.commonService.globalFilters.UserID.toString(),
         "SearchText":this.commonService.globalFilters.searchText || "",
