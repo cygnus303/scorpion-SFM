@@ -47,4 +47,12 @@ export class DashboardService {
   GetLatestEvents(): Observable<IApiBaseResponse<any>> {
     return this.apiHandlerService.Get(`Dashboard/GetLatestEvents`);
   }
+
+  getTrackingDetail(searchNo: string): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Get(`GeneralMaster/DashboardLRTrackSearch?searchNo=${searchNo}`);
+  }
+
+  getDocketDetail(dockNo: string): Observable<IApiBaseResponse<any>> {
+    return this.apiHandlerService.Get(`GeneralMaster/View_LR_Details?lrNumber=${dockNo}`);
+  }
 }

@@ -3,26 +3,30 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonService } from '../../../shared/services/common.service';
 import { HeaderService } from '../../../shared/services/header.service';
+import { DashboardService } from '../../../shared/services/dashboard';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DateRangePickerComponent } from '../../../shared/components/date-range-picker/date-range-picker';
 import { Subject, Subscription } from 'rxjs';
+import { LrView } from '../../lr-view/lr-view';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, BsDatepickerModule, DateRangePickerComponent],
+  imports: [CommonModule, FormsModule, BsDatepickerModule, DateRangePickerComponent, LrView],
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })
 export class Header implements OnInit, OnDestroy {
   @ViewChild('dateRangePicker') dateRangePickerComponent?: DateRangePickerComponent;
+  @ViewChild('lrViewModal') lrViewModal!: LrView;
   private closeTimeout?: any;
   public headerService = inject(HeaderService);
-  public headerTitle$ = this.headerService.headerTitle$;
   public commonService = inject(CommonService);
+  public dashboardService = inject(DashboardService);
+  public headerTitle$ = this.headerService.headerTitle$;
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
   public modalService = inject(BsModalService);
@@ -32,6 +36,11 @@ export class Header implements OnInit, OnDestroy {
   public searchQuery: string = '';
   public activeQuickFilter: string = 'today';
   public selectedDateRange: Date[] = [new Date(), new Date()];
+
+  public docketNumber: string = '';
+  public trackingResult: any = null;
+  public errorMessage: string = '';
+  public showTrackingModal: boolean = false;
 
   private searchSubject = new Subject<string>();
   private searchSubscription?: Subscription;
@@ -306,5 +315,85 @@ export class Header implements OnInit, OnDestroy {
         this.dateRangePickerComponent.closePicker();
       }
     }, 200);
+  }
+
+  openTrackingModal() {
+    this.showTrackingModal = true;
+    this.docketNumber = '';
+    this.trackingResult = null;
+    this.errorMessage = '';
+  }
+
+  closeTrackingModal() {
+    this.trackingResult = null;
+    this.showTrackingModal = false;
+  }
+
+  openLrView() {
+    if (this.lrViewModal) {
+      this.lrViewModal.showPopup(this.docketNumber);
+    }
+  }
+
+  trackDocket() {
+    this.errorMessage = '';
+    this.trackingResult = null;
+    
+    if (!this.docketNumber || this.docketNumber.trim() === '') {
+      this.errorMessage = 'Please enter a valid docket number';
+      return;
+    }
+    
+    this.dashboardService.getTrackingDetail(this.docketNumber).subscribe({
+      next: (res: any) => {
+        const data = res.data || res.Data || res.result || res;
+        
+        if (data && data.HeaderMeta && data.HeaderMeta.length > 0) {
+          const header = data.HeaderMeta[0];
+          const timeline = data.Timeline || [];
+          
+          this.trackingResult = {
+            docket: header.dockno || this.docketNumber.toUpperCase(),
+            manualDocket: header.manual_dockno || header.dockno || '-',
+            originDest: header.Origin_dest || '-',
+            dest: header.destcd || '-',
+            cnoteDate: header.dockdt || '-',
+            consignor: header.Cnor || '-',
+            consignee: header.Cnee || '-',
+            currentStatus: header.CurrentStatus || 'In Transit',
+            edd: header.EDD || '-',
+            add: header.ADDDate || '-',
+            serviceType: header.ServiceType || '-',
+            transportMode: header.TransportMode || '-',
+            paybase: header.Paybase || '-',
+            complaintsCount: data.Complaints ? data.Complaints.length : 0,
+            prqCount: data.PRQ ? data.PRQ.length : 0,
+            history: timeline.map((t: any) => {
+              // Extract time from ASDTTime (e.g. "31 May 2026 18:01:19:957" -> "18:01")
+              let timeStr = '00:00';
+              if (t.ASDTTime && t.ASDTTime.length > 11) {
+                const parts = t.ASDTTime.split(' ');
+                if (parts.length > 3) {
+                  timeStr = parts[3].substring(0, 5); // "18:01"
+                }
+              }
+              return {
+                date: t.ASDTDate,
+                time: timeStr,
+                status: t.ACTIVITY,
+                docNo: t.DOCNO || '',
+                tripStatus: t.TripStatus || ''
+              };
+            })
+          };
+        } else {
+          this.errorMessage = 'Docket not found. Please try another number.';
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Failed to fetch tracking details. Please try again.';
+      }
+    });
   }
 }

@@ -1,0 +1,731 @@
+<ng-template #TemplateRef>
+    <div class="modal-body p-0 position-relative" style="padding: 0px !important;">
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-3 no-print"
+            style="z-index: 1050; filter: invert(1);" aria-label="Close" (click)="modalRef.hide()"></button>
+        
+        <div *ngIf="isLoading" class="d-flex flex-column align-items-center justify-content-center py-5" style="min-height: 400px; background: white;">
+            <div class="spinner-border text-danger" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="mt-3 fw-bold fs-5 text-muted">Loading LR Details...</div>
+        </div>
+
+        <div class="docket-container" *ngIf="!isLoading">
+
+            <!-- ──────── HEADER ──────── -->
+            <div class="docket-header">
+                <div class="header-left">
+                    <h1>🚀 SCORPION EXPRESS</h1>
+                    <p>
+                        <strong>GOODS CONSIGNMENT NOTE (GCN)</strong><br>
+                        Corp. Office: 405, Shah and Nahar Industrial Estate<br>
+                        Dr. E. Moses Road, Worli, Mumbai - 400 018<br>
+                        PH: 6264506385 | Website: scorpiongroup.in
+                    </p>
+                </div>
+                <div class="header-right d-flex flex-column align-items-end justify-content-center">
+                    
+                    <!-- <div class="print-info mt-2">Printed On: 04/06/2026 09:47</div> -->
+                </div>
+            </div>
+            <div class="docket-content">
+
+                <!-- ──────── SHIPPER & CONSIGNEE ──────── -->
+                <div class="party-section">
+                    <div class="party-box">
+                        <div class="party-title">📌 Consignor (Shipper)</div>
+                        <div class="party-name">{{ lrDetails?.ConsignorName || '—' }}</div>
+                        <div class="party-info">
+                            <strong>GSTIN:</strong> {{lrDetails?.ConsignorGSTIN || '—' }}<br>
+                            <strong>Location:</strong>{{lrDetails?.ORGNCD}} :{{ lrDetails?.OriginCity || '—' }}<br>
+                            <strong>Phone:</strong> {{ lrDetails?.ConsignorMobile || '—' }}<br>
+                            <strong>PIN Code:</strong> {{ lrDetails?.ConsignorPincode || '—' }}<br>
+                            <strong>Date:</strong> {{ lrDetails?.bookingdate ? (parseDate(lrDetails?.bookingdate) |
+                            date:'dd MMM yyyy') : '—' }}
+                        </div>
+                    </div>
+                    <div class="party-box">
+                        <div class="party-title">📍 Consignee (Receiver)</div>
+                        <div class="party-name">{{ lrDetails?.ConsigneeName || '—' }}</div>
+                        <div class="party-info">
+                            <strong>GSTIN:</strong> {{ lrDetails?.ConsigneeGSTIN ||'—' }}<br>
+                            <strong>Address:</strong> {{ lrDetails?.ConsigneeAddress || '—' }}<br>
+                            <strong>PIN Code:</strong> {{ lrDetails?.DestinationPincode || '—' }}<br>
+                            <strong>Phone:</strong> {{ lrDetails?.ConsigneeMobile || '—' }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ──────── GCN DETAILS ──────── -->
+                <div class="gcn-section">
+                    <div class="gcn-grid">
+                        <div class="gcn-item">
+                            <div class="gcn-label">GCN No.</div>
+                            <div class="gcn-value">{{ lrDetails?.LR_Number || '—' }}</div>
+                        </div>
+                        <div class="gcn-item">
+                            <div class="gcn-label">Contract ID</div>
+                            <div class="gcn-value">{{ lrDetails?.ContractID || '—' }}</div>
+                        </div>
+                        <div class="gcn-item">
+                            <div class="gcn-label">Billing Party</div>
+                            <div class="gcn-value">{{ lrDetails?.BillingParty || '—' }}</div>
+                        </div>
+                        <div class="gcn-item">
+                            <div class="gcn-label">Billing Code</div>
+                            <div class="gcn-value">{{ lrDetails?.BillingCode || '—' }}</div>
+                        </div>
+                        <div class="gcn-item">
+                            <div class="gcn-label">PAN</div>
+                            <div class="gcn-value">{{ lrDetails?.PAN || '—' }}</div>
+                        </div>
+                        <div class="gcn-item">
+                            <div class="gcn-label">Service Zone</div>
+                            <div class="gcn-value">{{ lrDetails?.FromCityZone}} - {{lrDetails?.ToCityZone }}</div>
+                        </div>
+                        <div class="gcn-item">
+                            <div class="gcn-label">Service Type</div>
+                            <div class="gcn-value">{{ lrDetails?.Service_Type || '—' }}</div>
+                        </div>
+                        <div class="gcn-item">
+                            <div class="gcn-label">Movement Type</div>
+                            <div class="gcn-value">{{ lrDetails?.MoveMentType || '—' }}</div>
+                        </div>
+                        <div class="gcn-item">
+                            <div class="gcn-label">Indent No</div>
+                            <div class="gcn-value">{{ lrDetails?.IndentNo || '—' }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ──────── MOVEMENT DETAILS ──────── -->
+                <div class="movement-section">
+                    <div class="movement-box">
+                        <div class="movement-label">Mode of Movement</div>
+                        <div class="movement-value">{{ lrDetails?.MoveMentType ||'—' }}</div>
+                    </div>
+                    <div class="movement-box">
+                        <div class="movement-label">Date of Booking</div>
+                        <div class="movement-value">{{ lrDetails?.bookingdate ? (parseDate(lrDetails?.bookingdate) |
+                            date:'dd MMM yyyy') : '—' }}</div>
+                    </div>
+                    <div class="movement-box">
+                        <div class="movement-label">Date of Shipping</div>
+                        <div class="movement-value">{{ lrDetails?.shippingDate ? (parseDate(lrDetails?.shippingDate) |
+                            date:'dd MMM yyyy') : '—' }}</div>
+                    </div>
+                    <div class="movement-box">
+                        <div class="movement-label">Expected Delivery Date</div>
+                        <div class="movement-value">{{ lrDetails?.EDDDate ? (parseDate(lrDetails?.EDDDate) | date:'dd MMM yyyy') : '—' }}</div>
+                    </div>
+                    <div class="movement-box">
+                        <div class="movement-label">Carrier Risk</div>
+                        <div class="movement-value">{{ lrDetails?.RiskType || '—' }}</div>
+                    </div>
+                     <div class="movement-box">
+                        <div class="movement-label">Is Audited</div>
+                        <div class="movement-value">{{ lrDetails?.IsAoudited ? 'Yes' : 'No' }}</div>
+                    </div>
+                    <!--<div class="movement-box">
+                        <div class="movement-label">Audited By</div>
+                        <div class="movement-value">{{ lrDetails?.AouditedBy || '—' }}</div>
+                    </div>
+                    <div class="movement-box">
+                        <div class="movement-label">Audited Date</div>
+                        <div class="movement-value">{{ lrDetails?.AouditedDate ? (parseDate(lrDetails?.AouditedDate) | date:'dd MMM yyyy') : '—' }}</div>
+                    </div>
+                    <div class="movement-box">
+                        <div class="movement-label">Cancelled By</div>
+                        <div class="movement-value">{{ lrDetails?.CancelledBy || '—' }}</div>
+                    </div>
+                    <div class="movement-box">
+                        <div class="movement-label">Cancelled Date</div>
+                        <div class="movement-value">{{ lrDetails?.cancceldate ? (parseDate(lrDetails?.cancceldate) | date:'dd MMM yyyy') : '—' }}</div>
+                    </div> -->
+                </div>
+
+                <!-- ──────── ROUTE DETAILS ──────── -->
+                <div class="route-section">
+                    <div class="route-box">
+                        <div class="route-title">📤 Origin</div>
+                        <div class="route-details">
+                            <div class="route-detail">
+                                <div class="route-detail-label">Code</div>
+                                <div class="route-detail-value">{{ lrDetails?.ORGNCD || '—' }}</div>
+                            </div>
+                            <div class="route-detail">
+                                <div class="route-detail-label">From City</div>
+                                <div class="route-detail-value">{{ lrDetails?.OriginCity || '—' }}</div>
+                            </div>
+                            <div class="route-detail">
+                                <div class="route-detail-label">From City Zone</div>
+                                <div class="route-detail-value">{{ lrDetails?.FromCityZone || '—' }}</div>
+                            </div>
+                             <div class="route-detail">
+                                <div class="route-detail-label">Charged Zone Matrix</div>
+                                <div class="route-detail-value">{{ lrDetails?.ChargeZoneMatrix ||'—' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="route-box">
+                        <div class="route-title">📥 Destination</div>
+                        <div class="route-details">
+                            <div class="route-detail">
+                                <div class="route-detail-label">Code</div>
+                                <div class="route-detail-value">{{ lrDetails?.DESTCD || '—' }}</div>
+                            </div>
+                            <div class="route-detail">
+                                <div class="route-detail-label">To City</div>
+                                <div class="route-detail-value">{{ lrDetails?.DestinationCity || '—' }}</div>
+                            </div>
+                            <div class="route-detail">
+                                <div class="route-detail-label">To City Zone</div>
+                                <div class="route-detail-value">{{ lrDetails?.ToCityZone || '—' }}</div>
+                            </div>
+                            <div class="route-detail">
+                                <div class="route-detail-label">Rate Type</div>
+                                <div class="route-detail-value">{{ lrDetails?.RateType ||'—' }}</div>
+                            </div>
+                            <div class="route-detail">
+                                <div class="route-detail-label">Rate</div>
+                                <div class="route-detail-value">{{ lrDetails?.Rate}}</div>
+                            </div>
+                            <div class="route-detail">
+                                <div class="route-detail-label">Destination Pincode</div>
+                                <div class="route-detail-value">{{ lrDetails?.DestinationPincode}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ──────── SHIPMENT DETAILS ──────── -->
+                <div class="shipment-section">
+                    <div class="section-title">📦 Shipment Information</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No. of Packages</th>
+                                <th>Packing Method</th>
+                                <th>Actual wt (KG)</th>
+                                <!-- <th>Actual Weight</th> -->
+                                <th>Charged Weight</th>
+                                <th>Goods Type</th>
+                                <th>Delivery Terms</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>{{ lrDetails?.Packages || '—' }}</strong></td>
+                                <td>{{ lrDetails?.PackingMethod || '—' }}</td>
+                                <td><strong>{{ lrDetails?.ActualWeight || '—' }}</strong></td>
+                                <!-- <td>{{ lrDetails?.ActualWeight || '—' }}</td> -->
+                                <td>{{ lrDetails?.ChargedWeight || '—' }}</td>
+                                <td>{{ lrDetails?.GoodsType||'—' }}</td>
+                                <td>{{ lrDetails?.deliveryterm || '—' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ──────── PROCESSING DETAILS ──────── -->
+                <div class="shipment-section">
+                    <div class="section-title">⚙️ Processing & Tracking Details</div>
+                    <!-- <table>
+                        <thead>
+                            <tr>
+                                <th>Added By</th>
+                                <th>Date</th>
+                                <th>Completed By/Edited By</th>
+                                <th>Completed Date / Edited Date</th>
+                              <th>Destination Pincode</th> 
+                                <th>Source CNote</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ lrDetails?.AddedBy || '—' }}</td>
+                                <td>{{ lrDetails?.AddedDate ? (parseDate(lrDetails?.AddedDate) | date:'dd MMM yyyy') :
+                                    '—' }}</td>
+                                <td>
+                                    <ng-container *ngIf="!lrDetails?.CompleteBy && !lrDetails?.EditedBy">—</ng-container>
+                                    <ng-container *ngIf="lrDetails?.CompleteBy || lrDetails?.EditedBy">
+                                        {{ lrDetails?.CompleteBy || '—' }} / {{ lrDetails?.EditedBy || '—' }}
+                                    </ng-container>
+                                </td>
+                                <td>
+                                    <ng-container *ngIf="!lrDetails?.Completed_DT && !lrDetails?.EditedDate">—</ng-container>
+                                    <ng-container *ngIf="lrDetails?.Completed_DT || lrDetails?.EditedDate">
+                                        {{ lrDetails?.Completed_DT ? (parseDate(lrDetails?.Completed_DT) | date:'dd MMM yyyy') : '—' }} / 
+                                        {{ lrDetails?.EditedDate ? (parseDate(lrDetails?.EditedDate) | date:'dd MMM yyyy') : '—' }}
+                                    </ng-container>
+                                </td>
+                                <td><strong>{{ lrDetails?.DestinationPincode || '—' }}</strong></td>
+                                <td>{{ lrDetails?.SourceCNote ||'—' }}</td>
+                            </tr>
+                        </tbody>
+                    </table> -->
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Local Docket Y/N</th>
+                                <th>ODA Y/N</th>
+                                <th>Volumetric Y/N</th>
+                                <th>Bulk Invoke Y/N</th>
+                                <th>Exemption Service/Category</th>
+                                <th>Bulk Invoke By</th>
+                                <th>Bulk Invoke Date</th>
+                                <th>Source CNote</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ lrDetails?.LocalCN_YN || '—' }}</td>
+                                <td>{{ lrDetails?.Is_ODA_Apply || '—' }}</td>
+                                <td>{{ lrDetails?.vol_yn || '—' }}</td>
+                                <td>{{ lrDetails?.BulkInvokeYN || '—' }}</td>
+                                <td>
+                                    <span>{{ lrDetails?.ExmptServices ? ('Y / ' + lrDetails.ExmptServices) : 'N / -' }}</span>
+                                    <a *ngIf="lrDetails?.GSTDeclarationDoc"  style="cursor: pointer; font-size: 16px; vertical-align: middle;" title="View GST Declaration Image">
+                                        👁️
+                                    </a>
+                                </td>
+                                <td>{{ lrDetails?.BulkInvokBy || '—' }}</td>
+                                <td>
+                                    {{ lrDetails?.BulkInvokeDate ? (parseDate(lrDetails?.BulkInvokeDate) | date:'dd MMM yyyy') : '—' }}</td>
+                                 <td>{{ lrDetails?.SourceCNote ||'—' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ──────── APPOINTMENT DETAILS ──────── -->
+                <div class="shipment-section">
+                    <div class="section-title">📅 Appointment Details</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Appointment No</th>
+                                <th>Appointment Date Time</th>
+                                <th>Apmt Entry By</th>
+                                <th>Apmt Entry Date</th>
+                                <th>Apmt Update By</th>
+                                <th>Apmt Update Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ lrDetails?.AppointmentNo || '—' }}</td>
+                                <td>{{ lrDetails?.AppointmentDT ? (parseDate(lrDetails?.AppointmentDT) | date:'dd MMM yyyy') : '—' }}</td>
+                                <td>{{lrDetails?.ApmtEntryBy || '—' }}</td>
+                                <td>{{lrDetails?.ApmtEntryDate ? (parseDate(lrDetails?.ApmtEntryDate) | date:'dd MMM yyyy') : '—'}}</td>
+                                <td>{{ lrDetails?.ApmtUpdateBy ||'—' }}</td>
+                                <td>{{ lrDetails?.ApmtUdateDate ? (parseDate(lrDetails?.ApmtUdateDate) | date:'dd MMM yyyy') : '—' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ──────── CSD & MALL DELIVERY ──────── -->
+                <div class="shipment-section">
+                    <div class="section-title">🏪 CSD & Mall Delivery Details</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>CSD Delivery ID</th>
+                                <th>CSD Date Time</th>
+                                <th>CSD Entry By</th>
+                                <th>Mall Delivery ID</th>
+                                <th>Mall Date Time</th>
+                                <th>Mall Entry By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ lrDetails?.CSDNo ||'—' }}</td>
+                                <td>
+                                    {{ lrDetails?.CSDDate ? (parseDate(lrDetails?.CSDDate) | date:'dd MMM yyyy') : '—'}}</td>
+                                <td>{{lrDetails?.CSDEntryBy || '—' }}</td>
+                                <td>{{lrDetails?.MSDNo || '—' }}</td>
+                                <td>
+                                    {{ lrDetails?.MSDDate ? (parseDate(lrDetails?.MSDDate) | date:'dd MMM yyyy') : '—'}}</td>
+                                <td>{{ lrDetails?.MSDEntryBy ||'—' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ──────── INVOICE DETAILS ──────── -->
+                <div class="shipment-section">
+                    <div class="section-title">📄 Docket Entry Invoice Details</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Invoice No</th>
+                                <th>Invoice Date</th>
+                                <th>EWayBill No</th>
+                                <th>EWayBill Expiry Date</th>
+                                <th>Declared Value (₹)</th>
+                                <th>Special Instructions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ lrDetails?.INVNO || '—' }}</td>
+                                <td>{{ lrDetails?.INVDT ? (parseDate(lrDetails?.INVDT) | date:'dd MMM yyyy') : '—' }}
+                                </td>
+                                <td>{{ lrDetails?.EWayBillNo || '—' }}</td>
+                                <td>{{ lrDetails?.EWayBillExpiredDate ? (parseDate(lrDetails?.EWayBillExpiredDate) | date:'dd MMM yyyy') : '—' }}</td>
+                                <td><strong>₹ {{ (lrDetails?.DECLVAL || 0) | number:'1.2-2' }}</strong></td>
+                                <td>{{lrDetails?.Comments || '—' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ──────── BOX DETAILS ──────── -->
+                <div class="shipment-section">
+                    <div class="section-title">📦 Docket Entry Box Details</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sr No</th>
+                                <th>Length (cm)</th>
+                                <th>Breadth (cm)</th>
+                                <th>Height (cm)</th>
+                                <th>Packages No</th>
+                                <th>Cubic Weight (Kg)</th>
+                                <th>Actual Weight (Kg)</th>
+                                <th>CFT Ratio</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="boxDetails?.length">
+                            <tr *ngFor="let box of boxDetails;let i=index">
+                                <td>{{ i+1 }}</td>
+                                <td>{{ box?.VOL_L || '—' }}</td>
+                                <td>{{ box?.VOL_B || '—' }}</td>
+                                <td>{{ box?.VOL_H || '—' }}</td>
+                                <td>{{ box?.PKGSNO || '—' }}</td>
+                                <td>{{ box?.CubicWeight || '—' }}</td>
+                                <td>{{ box?.ACTUWT || '—' }}</td>
+                                <td>{{ box?.TOT_CFT ||'—' }}</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="!boxDetails || !boxDetails?.length">
+                            <tr>
+                                <td colspan="8" class="text-center text-muted py-3">No Box Details Available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ──────── COMMERCIAL CHARGES ──────── -->
+                <div class="charges-section">
+                    <div class="section-title">💰 Commercial Charges (₹)</div>
+
+                    <div class="charges-grid">
+                        <div class="charge-item">
+                            <div class="charge-label">Basic Freight</div>
+                            <div class="charge-value">{{ (lrDetails?.BasicFreight || 0) | number:'1.2-2' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Other Charges</div>
+                            <div class="charge-value">{{ lrDetails?.OtherCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Document Charges</div>
+                            <div class="charge-value">{{ lrDetails?.DocumentCharges ||'0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Extra Handling</div>
+                            <div class="charge-value">{{ lrDetails?.ExtraHandlingCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Special Charges</div>
+                            <div class="charge-value">{{ lrDetails?.SpecialCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">ODA Charges</div>
+                            <div class="charge-value">{{ lrDetails?.ODACharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">FOV Charges</div>
+                            <div class="charge-value">{{ lrDetails?.FOVCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">CSD Delivery</div>
+                            <div class="charge-value">{{ lrDetails?.CSDDeliveryCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">J & K Delivery</div>
+                            <div class="charge-value">{{ lrDetails?.JKDeliveryCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Pickup Charges</div>
+                            <div class="charge-value">{{ lrDetails?.PickupCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Cartage Charges</div>
+                            <div class="charge-value">{{ lrDetails?.CartageCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Mall Delivery</div>
+                            <div class="charge-value">{{ lrDetails?.MallDeliveryCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Extra Delivery</div>
+                            <div class="charge-value">{{ lrDetails?.ExtraDeliveryCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">North East Charges</div>
+                            <div class="charge-value">{{ lrDetails?.NorthEastCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">GreenTax Delivery</div>
+                            <div class="charge-value">{{ lrDetails?.GreenTaxDeliveryCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Sikkim Tax (SNT)</div>
+                            <div class="charge-value">{{ lrDetails?.SikkimTaxCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Varai Charges</div>
+                            <div class="charge-value">{{ lrDetails?.VaraiCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">West Bengal Delivery</div>
+                            <div class="charge-value">{{ lrDetails?.WestBengalDeliveryCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Diesel Hike (FSC)</div>
+                            <div class="charge-value">{{ lrDetails?.DieselHikeFSCCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Kerala Charges</div>
+                            <div class="charge-value">{{ lrDetails?.KeralaCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Unloading Charges</div>
+                            <div class="charge-value">{{ lrDetails?.UnloadingCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">2nd Attempt Delivery</div>
+                            <div class="charge-value">{{ lrDetails?.SecondAttemptDeliveryCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Loading Charges</div>
+                            <div class="charge-value">{{ lrDetails?.LoadingCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">To Pay Charges</div>
+                            <div class="charge-value">{{ lrDetails?.ToPayCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Appointment Charges</div>
+                            <div class="charge-value">{{ lrDetails?.AppointmentCharges || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Fuel Surcharge</div>
+                            <div class="charge-value">{{ lrDetails?.FuelSurcharge || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Discount Rate Type</div>
+                            <div class="charge-value">{{ lrDetails?.Discount_RateType || '—' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Discount Rate (%)</div>
+                            <div class="charge-value">{{ lrDetails?.DiscountRate || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item">
+                            <div class="charge-label">Discount (-)</div>
+                            <div class="charge-value">{{ lrDetails?.DiscountAmount || '0.00' }}</div>
+                        </div>
+                        <div class="charge-item total">
+                            <div class="charge-label">Total Freight</div>
+                            <div class="charge-value">{{ lrDetails?.TotalFreight || '0.00' }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ──────── SUMMARY ──────── -->
+                <div class="summary-section">
+                    <div class="summary-box">
+                        <div class="section-title">📊 Tax Summary</div>
+                        <div class="summary-row">
+                            <span class="summary-label">SGST(9%)</span>
+                            <span class="summary-value amount">₹ {{ lrDetails?.SGSTAmount }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">TGST (9%)</span>
+                            <span class="summary-value amount">₹ {{ lrDetails?.UGSTAmount }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">CGST (9%)</span>
+                            <span class="summary-value amount">₹ {{ lrDetails?.CGSTAmount || '0.00' }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">IGST (18%)</span>
+                            <span class="summary-value amount">₹ {{ lrDetails?.IGSTAmount || '0.00' }}</span>
+                        </div>
+                    </div>
+                    <div class="summary-box">
+                        <div class="section-title">💵 Total Amount Payable</div>
+                        <div
+                            style="padding: 20px; text-align: center; background: #E63946; color: white; border-radius: 4px; font-size: 24px; font-weight: bold;">
+                            ₹ {{ lrDetails?.TotalAmountPayable || '0.00' }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ──────── AUDIT TRAIL DETAILS ──────── -->
+                <div class="shipment-section">
+                    <div class="section-title">🛡️ Audit Trail Details</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Added By & Date</th>
+                                <th>Edited By & Date</th>
+                                <th>Completed By & Date</th>
+                                <th>Cancelled By & Date</th>
+                                <th>Audited By & Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div><strong>{{ lrDetails?.AddedBy || '—' }}</strong></div>
+                                    <div style="color: #555; font-size: 9px; margin-top: 2px;">{{ lrDetails?.AddedDate ? (parseDate(lrDetails?.AddedDate) | date:'dd MMM yyyy') : '' }}</div>
+                                </td>
+                                <td>
+                                    <div><strong>{{ lrDetails?.EditedBy || '—' }}</strong></div>
+                                    <div style="color: #555; font-size: 9px; margin-top: 2px;">{{ lrDetails?.EditedDate ? (parseDate(lrDetails?.EditedDate) | date:'dd MMM yyyy') : '' }}</div>
+                                </td>
+                                <td>
+                                    <div><strong>{{ lrDetails?.CompleteBy || '—' }}</strong></div>
+                                    <div style="color: #555; font-size: 9px; margin-top: 2px;">{{ lrDetails?.Completed_DT ? (parseDate(lrDetails?.Completed_DT) | date:'dd MMM yyyy') : '' }}</div>
+                                </td>
+                                <td>
+                                    <div><strong>{{ lrDetails?.CancelledBy || '—' }}</strong></div>
+                                    <div style="color: #555; font-size: 9px; margin-top: 2px;">{{ lrDetails?.cancceldate ? (parseDate(lrDetails?.cancceldate) | date:'dd MMM yyyy') : '' }}</div>
+                                </td>
+                                <td>
+                                    <div><strong>{{ lrDetails?.AouditedBy || '—' }}</strong></div>
+                                    <div style="color: #555; font-size: 9px; margin-top: 2px;">{{ lrDetails?.AouditedDate ? (parseDate(lrDetails?.AouditedDate) | date:'dd MMM yyyy') : '' }}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ──────── PAYMENT TERMS ──────── -->
+                <div class="payment-section">
+                    <div class="section-title">💳 Payment Details</div>
+                    <div class="payment-row">
+                        <div class="payment-item">
+                            <div class="payment-label">Payment Terms</div>
+                            <div class="payment-value">{{ lrDetails?.PaymentTerms || '—' }}</div>
+                        </div>
+                        <div class="payment-item">
+                            <div class="payment-label">Bank Name</div>
+                            <div class="payment-value">{{ lrDetails?.BankName || '—' }}</div>
+                        </div>
+                        <div class="payment-item">
+                            <div class="payment-label">Branch</div>
+                            <div class="payment-value">{{ lrDetails?.BranchName || '—' }}</div>
+                        </div>
+                        <div class="payment-item">
+                            <div class="payment-label">Account No.</div>
+                            <div class="payment-value">{{ lrDetails?.AccountNo || '—' }}</div>
+                        </div>
+                        <div class="payment-item">
+                            <div class="payment-label">IFSC Code</div>
+                            <div class="payment-value">{{ lrDetails?.IFSCCode || '—' }}</div>
+                        </div>
+                        <div class="payment-item">
+                            <div class="payment-label">GST Payable By</div>
+                            <div class="payment-value">{{ lrDetails?.GSTPayableBy || '—' }}</div>
+                        </div>
+                    </div>
+                    <div style="padding-top: 15px; border-top: 1px solid #ccc; font-size: 11px; color: #666;">
+                        <strong>Note:</strong> This is a Job Order. Actual Invoice will be raised separately.
+                    </div>
+                </div>
+
+                <!-- ──────── DECLARATION & ACKNOWLEDGMENT ──────── -->
+                <div
+                    style="padding: 10px; background: white; border-bottom: 2px solid #e0e0e0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 9px; line-height: 1.3;">
+                    <!-- Declaration -->
+                    <div style="padding: 8px; border: 1px solid #ddd; background: #f9f9f9;">
+                        <strong style="font-size: 9px; color: #E63946;">Declaration:</strong>
+                        <p style="margin: 4px 0; font-size: 8px;">We have carefully checked & verified the contents
+                            filled in this GCN and agree to the terms and conditions printed and will pay all charges as
+                            per tariff mentioned in this GCN as per agreement.</p>
+                    </div>
+
+                    <!-- Acknowledgment -->
+                    <div style="padding: 8px; border: 1px solid #ddd; background: #f9f9f9;">
+                        <strong style="font-size: 9px; color: #E63946;">Acknowledgment</strong><br>
+                        <strong style="font-size: 8px;">For SCORPION EXPRESS PVT LTD</strong><br>
+                        <p style="margin: 4px 0; font-size: 8px;">Received the goods in order & in intact condition.</p>
+                        <div style="margin-top: 15px; padding-top: 5px; border-top: 1px solid #ddd; font-size: 8px;">
+                            <strong>Date:</strong> ________<br>
+                            <strong>Time</strong><br>
+                            <strong>Consignee Signature /Name</strong><br>
+                            <strong>Signature/Name</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ──────── TERMS & CONDITIONS ──────── -->
+                <div style="padding: 10px; background: white; border-bottom: 2px solid #e0e0e0;">
+                    <div
+                        style="background: #E63946; color: white; padding: 6px 10px; margin-bottom: 8px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase;">
+                        TERMS & CONDITIONS OF THE CONTRACT OF CARRIAGE</div>
+
+                    <div
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 8px; line-height: 1.3;">
+                        <div style="padding: 8px; background: #f9f9f9; border-left: 2px solid #E63946;">
+                            <strong>Key Considerations Before Making a LR Entry:</strong>
+                            <p style="margin: 4px 0;">
+                                1. The LR entry represents the initial stage for gathering Quality Data which helps in
+                                Visibility, saves Revenue Loss.<br>
+                                2. Prior to data entry, ensure that the following information is accurately obtained and
+                                entered.<br>
+                                3. The LR Date should match the booking date, unless the pickup was performed post
+                                cut-off time. For the respective branch's cut-off time, consult with the Operations
+                                Personnel.<br>
+                                4. Ensure you enter the correct Pin Code from the E-way Bill or Invoice in the
+                                Destination Field do not enter Destination Branch's Name.<br>
+                                5. Before proceeding with data entry, verify that the Billing Party code is active.
+                            </p>
+                        </div>
+                        <div style="padding: 8px; background: #f9f9f9; border-left: 2px solid #E63946;">
+                            <strong>Additional Information:</strong>
+                            <p style="margin: 4px 0;">
+                                • All charges must be calculated as per the approved tariff.<br>
+                                • GST applicable as per current government regulations.<br>
+                                • Any disputes must be reported within 24 hours of receipt.<br>
+                                • The consignee has the right to refuse damaged goods.<br>
+                                • Claims if any must be filed with supporting documents.<br>
+                                • The transporter is not responsible for loss/damage unless insured.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ──────── FOOTER ──────── -->
+                <div class="footer">
+                    <p>
+                        🌐 Website: <a href="#" class="footer-link">{{ lrDetails?.Website || '—'}}</a> |
+                        📧 Email: <a href="#" class="footer-link">{{ lrDetails?.Email || '—'}}</a> |
+                        📞 Phone: {{ lrDetails?.ContactNo || '—'}}
+                    </p>
+                    <p style="margin-top: 10px; font-size: 10px; opacity: 0.8;">
+                        © 2026 Scorpion Express Pvt Ltd. | Terms & Conditions Apply
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</ng-template>

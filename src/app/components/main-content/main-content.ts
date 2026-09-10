@@ -25,7 +25,11 @@ export class MainContent {
   public isSFMMasters: any;
   public isLoading: boolean = true;
   private pendingCalls: number = 0;
-  
+
+  // Docket Tracking State
+  public showDocketTracking: boolean = false;
+  public trackingDocketNo: string = '';
+
   public skeletonCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   public skeletonBottom = [1, 2, 3];
   public skeletonRows = [1, 2, 3, 4, 5];
@@ -34,7 +38,14 @@ export class MainContent {
 
   ngOnInit(): void {
     this.isSFMMasters = JSON.parse(localStorage.getItem('ISSFMMASTER') || '{}');
-    this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe((filters: any) => {
+      // Check for docket tracking search
+      if (filters && filters.searchText && filters.searchText.trim() !== '') {
+        this.trackingDocketNo = filters.searchText.trim();
+        this.showDocketTracking = true;
+        return; // Don't trigger dashboard refresh for search
+      }
+
       this.isLoading = true;
       this.pendingCalls = 6;
       this.GetLeadPipeline();
@@ -49,6 +60,13 @@ export class MainContent {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  closeDocketTracking() {
+    this.showDocketTracking = false;
+    this.trackingDocketNo = '';
+    // Optional: Clear the search box via commonService
+    this.commonService.updateFilters({ searchText: '' });
   }
 
   formatDate = (dateStr: string) => {
