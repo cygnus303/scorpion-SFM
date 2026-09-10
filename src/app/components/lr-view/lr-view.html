@@ -399,7 +399,7 @@
                                 <th>CFT Ratio</th>
                             </tr>
                         </thead>
-                        <tbody *ngIf="boxDetails?.length">
+                        <tbody *ngIf="boxDetails.length">
                             <tr *ngFor="let box of boxDetails;let i=index">
                                 <td>{{ i+1 }}</td>
                                 <td>{{ box?.VOL_L || '—' }}</td>
@@ -411,7 +411,7 @@
                                 <td>{{ box?.TOT_CFT ||'—' }}</td>
                             </tr>
                         </tbody>
-                        <tbody *ngIf="!boxDetails || !boxDetails?.length">
+                        <tbody *ngIf="!boxDetails || !boxDetails.length">
                             <tr>
                                 <td colspan="8" class="text-center text-muted py-3">No Box Details Available</td>
                             </tr>
