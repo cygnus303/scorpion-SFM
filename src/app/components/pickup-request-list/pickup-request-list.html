@@ -49,7 +49,7 @@
         <tbody>
           <ng-container>
             <tr *ngIf="isLoading && PRQList.length===0">
-              <td colspan="10" style="text-align:center; padding:40px;">
+              <td colspan="11" style="text-align:center; padding:40px;">
                 <div class="spinner-border text-primary" role="status">
                   <span class="visually-hidden">Loading...</span>
                 </div>
@@ -60,7 +60,7 @@
 
           <!-- No Data (Exactly matching screenshot) -->
           <tr *ngIf="PRQList.length === 0 && !isLoading">
-            <td colspan="10" class="text-muted small py-3 px-3 text-center" style="font-size: 12px;">
+            <td colspan="11" class="text-muted small py-3 px-3 text-center" style="font-size: 12px;">
               No record Found
             </td>
           </tr>
@@ -163,7 +163,7 @@
                   style="font-size: 11px; background-color: #F59E0B; border-color: #fff;"
                   [disabled]="data.PRQStatus === 'Cancelled' || data.PRQStatus === 'Assigned' || data.PRQStatus === 'ARRANGED'|| data.PRQStatus === 'Auto Cancelled'"
                   (click)="selectPrqType(data.PRQNo)">
-                  Edit
+                  Reschedule 
                 </button>
                 <button type="button" class="btn btn-danger px-2 py-1 fw-semibold rounded-1"
                   [disabled]="data.PRQStatus === 'Cancelled' || data.PRQStatus === 'Assigned'|| data.PRQStatus === 'ARRANGED' || data.PRQStatus === 'Auto Cancelled'"

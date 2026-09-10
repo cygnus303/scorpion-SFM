@@ -1,4 +1,5 @@
 import { Component, inject, PLATFORM_ID, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonService } from '../../../shared/services/common.service';
@@ -41,6 +42,7 @@ export class Header implements OnInit, OnDestroy {
   public trackingResult: any = null;
   public errorMessage: string = '';
   public showTrackingModal: boolean = false;
+  public isTrackingDocket: boolean = false;
 
   private searchSubject = new Subject<string>();
   private searchSubscription?: Subscription;
@@ -344,8 +346,10 @@ export class Header implements OnInit, OnDestroy {
       return;
     }
     
+    this.isTrackingDocket = true;
     this.dashboardService.getTrackingDetail(this.docketNumber).subscribe({
       next: (res: any) => {
+        this.isTrackingDocket = false;
         const data = res.data || res.Data || res.result || res;
         
         if (data && data.HeaderMeta && data.HeaderMeta.length > 0) {
@@ -366,6 +370,7 @@ export class Header implements OnInit, OnDestroy {
             serviceType: header.ServiceType || '-',
             transportMode: header.TransportMode || '-',
             paybase: header.Paybase || '-',
+            podName: header.PODName || header.podName || '',
             complaintsCount: data.Complaints ? data.Complaints.length : 0,
             prqCount: data.PRQ ? data.PRQ.length : 0,
             history: timeline.map((t: any) => {
@@ -391,9 +396,33 @@ export class Header implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
+        this.isTrackingDocket = false;
         console.error(err);
         this.errorMessage = 'Failed to fetch tracking details. Please try again.';
       }
     });
+  }
+
+  viewPod() {
+    if (this.trackingResult && this.trackingResult.podName) {
+      const url = `https://sepltms.scorpiongroup.in/Images/FMScanDocument/${this.trackingResult.podName}`;
+       const popup = window.open('', 'popupWindow',
+      'width=900,height=600,top=100,left=200,resizable=yes,scrollbars=yes'
+    );
+        if (popup) {
+      popup.location.href = url;
+    }
+    }
+  }
+
+  openTrack(dockno: string){
+      const url = `https://sfm.scorpiongroup.in/Tracking/LRLifecycleTracker?DocketNo=${dockno}&DockSf=.&src=angular`;
+    const popup = window.open('', 'popupWindow',
+      'width=900,height=600,top=100,left=200,resizable=yes,scrollbars=yes'
+    );
+
+    if (popup) {
+      popup.location.href = url;
+    }
   }
 }

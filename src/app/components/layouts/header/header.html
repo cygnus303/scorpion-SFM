@@ -24,11 +24,15 @@
 
   <div class="topbar-actions">
     <div class="filters-wrapper">
-      <div *ngIf="(headerTitle$ | async) !==  'CSAT'">
+      <div *ngIf="(headerTitle$ | async) ===  'Dashboard'">
         <button (click)="openTrackingModal()" style="display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 8px; background: var(--red, #CC0000); color: white; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(204,0,0,0.2);">
           <span>📦</span> Track
         </button>
       </div>
+      <div class="search-box" *ngIf="(headerTitle$ | async) !==  'Dashboard' && (headerTitle$ | async) !==  'CSAT'">
+      <span class="search-icon">🔍</span>
+      <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search here...">
+    </div>
       <div class="tc" [class.on]="activeQuickFilter === 'today'" (click)="setFilter('today')"
         *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'Expense' && (headerTitle$ | async) !==  'CSAT'">
         Today</div>
@@ -82,7 +86,10 @@
             <span class="search-icon">🔍</span>
             <input type="text" [(ngModel)]="docketNumber" placeholder="Enter Docket Number (e.g. 63442091)">
           </div>
-          <button class="tbtn" (click)="trackDocket()" style="padding: 9px 20px; font-size: 13px;">Search</button>
+          <button class="tbtn" (click)="trackDocket()" style="padding: 9px 20px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 5px;" [disabled]="isTrackingDocket">
+            <span *ngIf="isTrackingDocket" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            {{ isTrackingDocket ? 'Searching...' : 'Search' }}
+          </button>
         </div>
         <div *ngIf="errorMessage" style="color: var(--red); margin-top: 15px; font-size: 13px; text-align: center; padding: 10px; background: var(--red-lt); border-radius: 8px; font-weight: 500;">
           {{ errorMessage }}
@@ -192,9 +199,9 @@
         </div>
 
         <div style="padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; background: var(--white);">
-          <!-- <button class="tc" style="display: flex; align-items: center; gap: 6px; border-radius: 8px; padding: 6px 14px;"><i class="ri-file-search-line"></i> View POD</button> -->
+          <button *ngIf="trackingResult.podName" class="tc" (click)="viewPod()" style="display: flex; align-items: center; gap: 6px; border-radius: 8px; padding: 6px 14px;"><i class="ri-file-search-line"></i> View POD</button>
           <button class="tc" (click)="openLrView()" style="display: flex; align-items: center; gap: 6px; border-radius: 8px; padding: 6px 14px;"><i class="ri-file-list-line"></i> CNote View</button>
-          <!-- <button class="tc" style="display: flex; align-items: center; gap: 6px; border-radius: 8px; padding: 6px 14px;"><i class="ri-history-line"></i> Full Lifecycle</button> -->
+          <!-- <button class="tc" (click)="openTrack(trackingResult.docket)" style="display: flex; align-items: center; gap: 6px; border-radius: 8px; padding: 6px 14px;"><i class="ri-history-line"></i> Full Lifecycle</button> -->
         </div>
 
         <!-- Clean Timeline Area -->
