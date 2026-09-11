@@ -23,11 +23,16 @@
   <div class="tsp"></div>
 
   <div class="topbar-actions">
-    <div class="search-box" *ngIf="(headerTitle$ | async) !==  'Dashboard' && (headerTitle$ | async) !==  'CSAT'">
+    <div class="filters-wrapper">
+      <div *ngIf="(headerTitle$ | async) ===  'Dashboard'">
+        <button (click)="openTrackingModal()" style="display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 8px; background: var(--red, #CC0000); color: white; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(204,0,0,0.2);">
+          <span>📦</span> Track
+        </button>
+      </div>
+      <div class="search-box" *ngIf="(headerTitle$ | async) !==  'Dashboard' && (headerTitle$ | async) !==  'CSAT'">
       <span class="search-icon">🔍</span>
       <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search here...">
     </div>
-    <div class="filters-wrapper">
       <div class="tc" [class.on]="activeQuickFilter === 'today'" (click)="setFilter('today')"
         *ngIf="(headerTitle$ | async) !==  'Call' && (headerTitle$ | async) !==  'Expense General Master' && (headerTitle$ | async) !==  'Payment' && (headerTitle$ | async) !==  'Meeting MOM' && (headerTitle$ | async) !==  'Expense' && (headerTitle$ | async) !==  'CSAT'">
         Today</div>
@@ -64,4 +69,190 @@
       </div>
     </div>
   </div>
+
+  <!-- Tracking Modal Overlay -->
+  <div *ngIf="showTrackingModal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); z-index: 99999; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s ease; cursor: default;">
+    
+    <!-- When not searched yet -->
+    <div *ngIf="!trackingResult" class="card" style="width: 100%; max-width: 500px; margin: 20px; box-shadow: var(--shadow-md); padding: 0; display: flex; flex-direction: column;">
+      <div class="card-head" style="padding: 16px 20px; margin-bottom: 0;">
+        <div class="ci b">📦</div>
+        <div class="card-title" style="flex: 1; font-size: 15px;">Docket Tracking</div>
+        <button (click)="closeTrackingModal()" style="background: none; border: none; color: var(--text2); font-size: 24px; cursor: pointer; line-height: 1;">&times;</button>
+      </div>
+      <div style="padding: 20px;">
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <div class="search-box" style="flex: 1; width: auto;">
+            <span class="search-icon">🔍</span>
+            <input type="text" [(ngModel)]="docketNumber" placeholder="Enter Docket Number (e.g. 63442091)">
+          </div>
+          <button class="tbtn" (click)="trackDocket()" style="padding: 9px 20px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 5px;" [disabled]="isTrackingDocket">
+            <span *ngIf="isTrackingDocket" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            {{ isTrackingDocket ? 'Searching...' : 'Search' }}
+          </button>
+        </div>
+        <div *ngIf="errorMessage" style="color: var(--red); margin-top: 15px; font-size: 13px; text-align: center; padding: 10px; background: var(--red-lt); border-radius: 8px; font-weight: 500;">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+
+    <!-- When searched (Detailed UI) -->
+    <div *ngIf="trackingResult" class="card" style="width: 100%; max-width: 900px; height: 90vh; margin: 20px; box-shadow: 0 24px 48px rgba(0,0,0,0.2); padding: 0; display: flex; flex-direction: column; background: var(--white); border-radius: 20px; border: none; overflow: hidden;">
+      
+      <!-- Custom Scroll Style for this modal only -->
+      <style>
+        .tracking-scroll::-webkit-scrollbar { width: 6px; }
+        .tracking-scroll::-webkit-scrollbar-track { background: transparent; }
+        .tracking-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+        .tracking-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
+      </style>
+
+      <!-- Premium Header Gradient (Fixed) -->
+      <div style="background: linear-gradient(135deg, var(--red) 0%, #900 100%); padding: 12px 24px; color: white; display: flex; align-items: flex-start; justify-content: space-between; flex-shrink: 0; z-index: 10;">
+        
+        <!-- Left Side: Docket and Route (Stacked) -->
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <!-- Docket Info -->
+          <div style="display: flex; align-items: baseline; gap: 8px;">
+            <span style="font-size: 22px; font-weight: 700; letter-spacing: 1px; line-height: 1;">{{ trackingResult.docket }}</span>
+          </div>
+          
+          <!-- Route Pill -->
+          <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2); padding: 3px 10px; border-radius: 16px; width: fit-content;">
+            <div style="font-weight: 600; font-size: 11px; letter-spacing: 0.5px;">{{ trackingResult.originDest.split(':')[0] || 'Origin' }}</div>
+            <i class="ri-arrow-right-line" style="font-size: 11px; color: rgba(255,255,255,0.7);"></i>
+            <div style="font-weight: 600; font-size: 11px; letter-spacing: 0.5px;">{{ trackingResult.dest || 'Destination' }}</div>
+          </div>
+        </div>
+
+        <!-- Right Side: Status and Close -->
+        <div style="display: flex; align-items: center; gap: 15px; padding-top: 2px;">
+          <!-- Status Pill -->
+          <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">
+            <i class="ri-checkbox-circle-fill" *ngIf="trackingResult.currentStatus.includes('Delivered')" style="font-size: 14px; color: #4ade80;"></i>
+            <i class="ri-truck-fill" *ngIf="!trackingResult.currentStatus.includes('Delivered')" style="font-size: 14px; color: #fbbf24;"></i>
+            <span style="font-size: 12px; font-weight: 600;">{{ trackingResult.currentStatus }}</span>
+          </div>
+          
+          <!-- Close Button -->
+          <button (click)="closeTrackingModal()" style="background: rgba(255,255,255,0.1); border: none; border-radius: 50%; width: 26px; height: 26px; color: white; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Scrollable Body Content -->
+      <div class="tracking-scroll" style="flex: 1; overflow-y: auto;">
+        
+        <!-- Quick Info Cards (Grey Background) -->
+        <div style="background: var(--bg); padding: 20px 30px; border-bottom: 1px solid var(--border);">
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+            <!-- Card 1 -->
+            <div style="background: var(--white); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600;">CNote Date</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text1);">{{ trackingResult.cnoteDate }}</div>
+            </div>
+            <!-- Card 2 -->
+            <div style="background: var(--white); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600;">EDD</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text1);">{{ trackingResult.edd }}</div>
+            </div>
+            <!-- Card 3 -->
+            <div style="background: var(--white); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600;">Consignor</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" [title]="trackingResult.consignor">{{ trackingResult.consignor }}</div>
+            </div>
+            <!-- Card 4 -->
+            <div style="background: var(--white); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600;">Consignee</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" [title]="trackingResult.consignee">{{ trackingResult.consignee }}</div>
+            </div>
+            <!-- Card 5 -->
+            <div style="background: var(--white); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600;">Transport Mode</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text1);">{{ trackingResult.transportMode }}</div>
+            </div>
+            <!-- Card 6 -->
+            <div style="background: var(--white); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600;">Service Type</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text1);">{{ trackingResult.serviceType }}</div>
+            </div>
+            <!-- Card 7 -->
+            <div style="background: var(--white); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600;">Paybase</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text1);">{{ trackingResult.paybase }}</div>
+            </div>
+            <!-- Card 8 -->
+            <div style="background: var(--white); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; gap: 10px; align-items: center;">
+              <div style="flex: 1;">
+                <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; font-weight: 600;">Complaints</div>
+                <div style="font-size: 14px; font-weight: 700; color: var(--red);">{{ trackingResult.complaintsCount }}</div>
+              </div>
+              <div style="width: 1px; height: 20px; background: var(--border);"></div>
+              <div style="flex: 1;">
+                <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; font-weight: 600;">PRQ</div>
+                <div style="font-size: 14px; font-weight: 700; color: var(--text1);">{{ trackingResult.prqCount }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; background: var(--white);">
+          <button *ngIf="trackingResult.podName" class="tc" (click)="viewPod()" style="display: flex; align-items: center; gap: 6px; border-radius: 8px; padding: 6px 14px;"><i class="ri-file-search-line"></i> View POD</button>
+          <button class="tc" (click)="openLrView()" style="display: flex; align-items: center; gap: 6px; border-radius: 8px; padding: 6px 14px;"><i class="ri-file-list-line"></i> CNote View</button>
+          <!-- <button class="tc" (click)="openTrack(trackingResult.docket)" style="display: flex; align-items: center; gap: 6px; border-radius: 8px; padding: 6px 14px;"><i class="ri-history-line"></i> Full Lifecycle</button> -->
+        </div>
+
+        <!-- Clean Timeline Area -->
+        <div style="padding: 30px; background: var(--white);">
+          <div style="font-size: 14px; font-weight: 700; color: var(--text1); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 0.5px;">Tracking History</div>
+          
+          <div *ngFor="let step of trackingResult.history; let i = index; let last = last" style="display: flex; position: relative;">
+            
+            <!-- Vertical Colored Line -->
+            <div *ngIf="!last" style="position: absolute; left: 87px; top: 28px; bottom: -8px; width: 2px; z-index: 1;"
+                 [ngStyle]="{'background': i === 0 ? 'var(--blue)' : 'var(--amber)'}"></div>
+            
+            <!-- Date/Time Column -->
+            <div style="width: 70px; text-align: right; padding-right: 15px; flex-shrink: 0; padding-top: 6px;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text1);">{{ step.date | slice:0:6 }}</div>
+              <div style="font-size: 11px; color: var(--text3); font-weight: 600; margin-top: 2px;">{{ step.time }}</div>
+            </div>
+            
+            <!-- Timeline Icon -->
+            <div style="width: 36px; flex-shrink: 0; display: flex; justify-content: center; position: relative; z-index: 2;">
+              <div style="width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 0 0 4px var(--white);"
+                   [ngStyle]="{
+                     'background': i === 0 ? 'var(--blue)' : (last ? 'var(--purple)' : 'var(--amber)')
+                   }">
+                <i *ngIf="i === 0" class="ri-file-text-line" style="font-size: 14px;"></i>
+                <i *ngIf="i > 0 && !last" class="ri-truck-fill" style="font-size: 14px;"></i>
+                <i *ngIf="last" class="ri-map-pin-fill" style="font-size: 14px;"></i>
+              </div>
+            </div>
+            
+            <!-- Content Detail -->
+            <div style="flex: 1; padding-bottom: 30px; padding-left: 5px;">
+              <div style="font-size: 13px; font-weight: 700; color: var(--text1); margin-bottom: 4px; padding-top: 4px;"
+                   [ngStyle]="{'color': i === 0 ? 'var(--blue)' : (last ? 'var(--purple)' : 'var(--text1)')}">
+                {{ step.status }}
+              </div>
+              
+              <div *ngIf="step.docNo || step.tripStatus" style="background: var(--bg); border-radius: 8px; padding: 10px 14px; margin-top: 8px; border: 1px solid var(--border); display: inline-block;">
+                <div *ngIf="step.docNo" style="font-size: 11px; font-weight: 600; color: var(--text2); display: flex; align-items: center; gap: 6px;">
+                  <i class="ri-file-text-line"></i> {{ step.docNo }}
+                </div>
+                <div *ngIf="step.tripStatus" style="font-size: 11px; color: var(--text3); margin-top: 4px; display: flex; align-items: center; gap: 6px;">
+                  <i class="ri-map-pin-line"></i> {{ step.tripStatus }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<app-lr-view #lrViewModal></app-lr-view>

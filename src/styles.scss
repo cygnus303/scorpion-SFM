@@ -338,7 +338,12 @@ body {
   background: var(--red);
   color: #fff;
   border: none;
-  cursor: pointer
+  cursor: pointer;
+}
+
+.tbtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .tbtn.dk {
