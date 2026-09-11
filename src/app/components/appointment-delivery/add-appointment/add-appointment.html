@@ -116,12 +116,15 @@
           <div class="col-lg-6 col-md-6 col-12">
             <label class="form-label fw-bold" style="font-size: 12px; color: var(--text1, #334155); margin-bottom: 5px;">Appointment Date <span class="text-danger">*</span></label>
             <div class="position-relative d-flex align-items-center">
-              <input type="text" class="form-control pe-5" placeholder="dd-mm-yyyy" formControlName="appointmentDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD MMM YYYY', containerClass: 'theme-red', showWeekNumbers: false }" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
-                [ngClass]="{'is-invalid': appointmentForm.get('appointmentDate')?.invalid && appointmentForm.get('appointmentDate')?.touched}">
+              <input type="text" class="form-control pe-5" placeholder="dd-mm-yyyy" formControlName="appointmentDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD MMM YYYY', containerClass: 'theme-red', showWeekNumbers: false }" [minDate]="minAppointmentDate" style="border-radius: 6px; font-size: 13px; padding: 8px 12px; font-weight: 500;"
+                [ngClass]="{'is-invalid': (appointmentForm.get('appointmentDate')?.invalid && appointmentForm.get('appointmentDate')?.touched) || (appointmentForm.get('appointmentDate')?.touched && isDateLessThanEdd())}">
               <i class="ri-calendar-line position-absolute end-0 me-3 text-secondary" style="pointer-events: none; font-size: 16px;"></i>
             </div>
-            <div *ngIf="appointmentForm.get('appointmentDate')?.invalid && appointmentForm.get('appointmentDate')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+            <div *ngIf="appointmentForm.get('appointmentDate')?.invalid && appointmentForm.get('appointmentDate')?.touched && !appointmentForm.get('appointmentDate')?.value" class="text-danger mt-1" style="font-size: 11px;">
               Appointment Date is required.
+            </div>
+            <div *ngIf="appointmentForm.get('appointmentDate')?.touched && isDateLessThanEdd()" class="text-danger mt-1" style="font-size: 11px;">
+              Appointment Date cannot be earlier than EDD.
             </div>
           </div>
           <div class="col-lg-6 col-md-6 col-12">

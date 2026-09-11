@@ -19,10 +19,51 @@ export class RescheduleAppointment {
   appointmentData: any = null;
   isLoading: boolean = false;
   isSaving: boolean = false;
+  minAppointmentDate?: Date;
 
   private appointmentService = inject(AppointmentDeliveryService);
   public commonService = inject(CommonService);
   private sweetAlertService = inject(SweetAlertService);
+
+  parseDate(dateStr: any): Date | null {
+    if (!dateStr) return null;
+    if (dateStr instanceof Date) return dateStr;
+    
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) return d;
+    
+    if (typeof dateStr === 'string') {
+      const parts = dateStr.split(/[\/\-]/);
+      if (parts.length === 3) {
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const year = parseInt(parts[2], 10);
+        
+        if (day <= 31 && month >= 0 && month <= 11 && year > 1000) {
+          const date = new Date(year, month, day);
+          if (!isNaN(date.getTime())) return date;
+        }
+      }
+    }
+    return null;
+  }
+
+  isDateLessThanEdd(): boolean {
+    const eddStr = this.rescheduleForm.get('edd')?.value;
+    const apmtDateObj = this.rescheduleForm.get('appointmentDate')?.value;
+    
+    if (!eddStr || !apmtDateObj) return false;
+
+    const eddDate = this.parseDate(eddStr);
+    const apmtDate = this.parseDate(apmtDateObj);
+
+    if (eddDate && apmtDate) {
+      eddDate.setHours(0, 0, 0, 0);
+      apmtDate.setHours(0, 0, 0, 0);
+      return apmtDate < eddDate;
+    }
+    return false;
+  }
 
   formatDisplayDate(dateStr: string): string {
     if (!dateStr || !dateStr.includes('-')) return dateStr;
@@ -83,6 +124,9 @@ export class RescheduleAppointment {
           let apmtDateRaw = apiData.appointmentDT || apiData.csdDate || apiData.msdDate || '';
           let parsedApmtDate = apmtDateRaw ? new Date(apmtDateRaw.split('-').reverse().join('-')) : '';
 
+          const displayEdd = this.formatDisplayDate(apiData.edd || '');
+          this.minAppointmentDate = this.parseDate(displayEdd) || undefined;
+
           this.rescheduleForm.patchValue({
             docketNo: apiData.dockno || '',
             docketDate: this.formatDisplayDate(apiData.cNoteDate || ''),
@@ -113,6 +157,12 @@ export class RescheduleAppointment {
 
   onSubmit() {
     if (this.rescheduleForm.valid) {
+      if (this.isDateLessThanEdd()) {
+        const eddValue = this.rescheduleForm.get('edd')?.value;
+        this.sweetAlertService.error(`Appointment Date cannot be earlier than EDD (${eddValue}).`);
+        return;
+      }
+
       const formValue = this.rescheduleForm.getRawValue();
       let appointmentDateIso = '';
       if (formValue.appointmentDate) {

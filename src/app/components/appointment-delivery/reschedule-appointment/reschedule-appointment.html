@@ -58,12 +58,15 @@
                   APPOINTMENT DATE <span class="text-danger">*</span>
                 </label>
                 <div class="position-relative d-flex align-items-center">
-                  <input type="text" class="form-control form-control-sm pe-5 py-2 px-3" placeholder="dd/mm/yyyy" formControlName="appointmentDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red', showWeekNumbers: false }" style="border-radius: 6px; border-color: #dee2e6;"
-                         [class.is-invalid]="rescheduleForm.get('appointmentDate')?.invalid && rescheduleForm.get('appointmentDate')?.touched">
+                  <input type="text" class="form-control form-control-sm pe-5 py-2 px-3" placeholder="dd/mm/yyyy" formControlName="appointmentDate" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red', showWeekNumbers: false }" [minDate]="minAppointmentDate" style="border-radius: 6px; border-color: #dee2e6;"
+                         [class.is-invalid]="(rescheduleForm.get('appointmentDate')?.invalid && rescheduleForm.get('appointmentDate')?.touched) || (rescheduleForm.get('appointmentDate')?.touched && isDateLessThanEdd())">
                   <i class="ri-calendar-line position-absolute end-0 me-3 text-secondary" style="pointer-events: none; font-size: 16px;"></i>
                 </div>
-                <div *ngIf="rescheduleForm.get('appointmentDate')?.invalid && rescheduleForm.get('appointmentDate')?.touched" class="text-danger mt-1" style="font-size: 11px;">
+                <div *ngIf="rescheduleForm.get('appointmentDate')?.invalid && rescheduleForm.get('appointmentDate')?.touched && !rescheduleForm.get('appointmentDate')?.value" class="text-danger mt-1" style="font-size: 11px;">
                   Appointment Date is required.
+                </div>
+                <div *ngIf="rescheduleForm.get('appointmentDate')?.touched && isDateLessThanEdd()" class="text-danger mt-1" style="font-size: 11px;">
+                  Appointment Date cannot be earlier than EDD.
                 </div>
               </div>
 

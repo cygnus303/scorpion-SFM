@@ -29,6 +29,7 @@ export class AddAppointment implements OnInit {
   isSaving: boolean = false;
   isDocketLoading: boolean = false;
   docketEligibilityError: string = '';
+  minAppointmentDate?: Date;
 
   appointmentForm = new FormGroup({
     entryType: new FormControl('APMT'),
@@ -121,10 +122,67 @@ export class AddAppointment implements OnInit {
     const formValue = this.appointmentForm.value;
 
     if (formValue.entryType === 'APMT') {
+      const eddDate = this.parseDate(formValue.edd);
+      const apmtDate = this.parseDate(formValue.appointmentDate);
+
+      if (eddDate && apmtDate) {
+        eddDate.setHours(0, 0, 0, 0);
+        apmtDate.setHours(0, 0, 0, 0);
+        if (apmtDate < eddDate) {
+          this.sweetAlertService.error(`Appointment Date cannot be earlier than EDD (${formValue.edd}).`);
+          return;
+        }
+      }
+
       this.saveApmt(formValue);
     } else if (formValue.entryType === 'CSD' || formValue.entryType === 'MSD') {
       this.saveCsdMsd(formValue);
     }
+  }
+
+  parseDate(dateStr: any): Date | null {
+    if (!dateStr) return null;
+    if (dateStr instanceof Date) return dateStr;
+    
+    // Try standard parsing
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) return d;
+    
+    // Try DD-MM-YYYY or DD/MM/YYYY
+    if (typeof dateStr === 'string') {
+      const parts = dateStr.split(/[\/\-]/);
+      if (parts.length === 3) {
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const year = parseInt(parts[2], 10);
+        
+        if (day <= 31 && month >= 0 && month <= 11 && year > 1000) {
+          const date = new Date(year, month, day);
+          if (!isNaN(date.getTime())) return date;
+        }
+      }
+    }
+    return null;
+  }
+
+  isDateLessThanEdd(): boolean {
+    const entryType = this.appointmentForm.get('entryType')?.value;
+    if (entryType !== 'APMT') return false;
+
+    const eddStr = this.appointmentForm.get('edd')?.value;
+    const apmtStr = this.appointmentForm.get('appointmentDate')?.value;
+    
+    if (!eddStr || !apmtStr) return false;
+
+    const eddDate = this.parseDate(eddStr);
+    const apmtDate = this.parseDate(apmtStr);
+
+    if (eddDate && apmtDate) {
+      eddDate.setHours(0, 0, 0, 0);
+      apmtDate.setHours(0, 0, 0, 0);
+      return apmtDate < eddDate;
+    }
+    return false;
   }
 
   saveCsdMsd(formValue: any) {
@@ -254,6 +312,8 @@ export class AddAppointment implements OnInit {
                 originCode: res.data.originCode || '',
                 desitnationCode: res.data.desitnationCode || ''
               });
+
+              this.minAppointmentDate = this.parseDate(res.data.edd) || undefined;
             }
           },
           error: (err) => {
