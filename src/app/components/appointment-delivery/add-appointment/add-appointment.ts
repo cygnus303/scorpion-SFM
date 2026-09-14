@@ -144,11 +144,6 @@ export class AddAppointment implements OnInit {
     if (!dateStr) return null;
     if (dateStr instanceof Date) return dateStr;
     
-    // Try standard parsing
-    const d = new Date(dateStr);
-    if (!isNaN(d.getTime())) return d;
-    
-    // Try DD-MM-YYYY or DD/MM/YYYY
     if (typeof dateStr === 'string') {
       const parts = dateStr.split(/[\/\-]/);
       if (parts.length === 3) {
@@ -162,6 +157,10 @@ export class AddAppointment implements OnInit {
         }
       }
     }
+
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) return d;
+    
     return null;
   }
 

@@ -29,9 +29,6 @@ export class RescheduleAppointment {
     if (!dateStr) return null;
     if (dateStr instanceof Date) return dateStr;
     
-    const d = new Date(dateStr);
-    if (!isNaN(d.getTime())) return d;
-    
     if (typeof dateStr === 'string') {
       const parts = dateStr.split(/[\/\-]/);
       if (parts.length === 3) {
@@ -45,6 +42,10 @@ export class RescheduleAppointment {
         }
       }
     }
+
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) return d;
+    
     return null;
   }
 
