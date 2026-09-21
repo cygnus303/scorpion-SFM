@@ -129,7 +129,6 @@ export class RescheduleAppointment {
               timeTo = timeParts[1].trim();
             }
           }
-          debugger
           let apmtDateRaw = apiData.appointmentDT || apiData.csdDate || apiData.msdDate || '';
           let parsedApmtDate = apmtDateRaw ? new Date(apmtDateRaw.split('-').reverse().join('-')) : '';
 
@@ -192,7 +191,6 @@ export class RescheduleAppointment {
         const day = String(d.getDate()).padStart(2, '0');
         appointmentDateIso = `${year}-${month}-${day}T00:00:00.000Z`;
       }
-debugger
       const payload = {
         appointmentNo: this.appointmentData?.appointmentNo || this.appointmentData?.id || "",
         dockno: formValue.docketNo || "",

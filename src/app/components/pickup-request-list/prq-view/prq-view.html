@@ -179,7 +179,7 @@
                     </div>
                     <div class="info-row">
                         <span class="label">Arranged By</span>
-                        <span class="value">{{ prqData.ArrangedBy || '--' }}</span>
+                        <span class="value">{{ prqData.ArrangedBy1 || '--' }}</span>
                     </div>
                     <div class="info-row">
                         <span class="label">Arranged Date</span>
@@ -223,10 +223,9 @@
                 <div class="docket-header d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-3 flex-wrap">
                         <span class="docket-no">{{ docket.dockNo }}</span>
-                        <!-- You can bind actual Docket Date/Pkgs/Weight if available in the group, otherwise fallback to PRQ details if they match -->
-                        <span class="docket-badge bg-light text-muted border rounded px-2 py-1" style="font-size: 11px;" *ngIf="prqData.DocketDate">{{ (prqData.DocketDate | date:'dd/MM/yyyy') || '—' }}</span>
-                        <span class="docket-badge bg-light text-muted border rounded px-2 py-1" style="font-size: 11px;">{{ prqData.PKGS || '—' }} pkgs • {{ prqData.ApproxWeight ? prqData.ApproxWeight + ' kg' : '—' }}</span>
-                        <span class="docket-badge bg-light text-muted border rounded px-2 py-1" style="font-size: 11px;">{{ prqData.Pickup_Branch?.split(' : ')[0] || '—' }} → {{ prqData.DestCd?.split(' : ')[0] || '—' }}</span>
+                        <span class="docket-badge bg-light text-muted border rounded px-2 py-1" style="font-size: 11px;" *ngIf="docket.DOCKDT">{{ (docket.DOCKDT | date:'dd/MM/yyyy') || '—' }}</span>
+                        <span class="docket-badge bg-light text-muted border rounded px-2 py-1" style="font-size: 11px;">{{ docket.PKGSNO || '—' }} pkgs • {{ docket.ACTUWT ? docket.ACTUWT + ' kg' : '—' }}</span>
+                        <span class="docket-badge bg-light text-muted border rounded px-2 py-1" style="font-size: 11px;">{{ docket.from_loc || '—' }} → {{ docket.to_loc || '—' }}</span>
                     </div>
                     <div class="docket-entered-by text-muted bg-light border rounded px-2 py-1" style="font-size: 11px;">
                         Entered by {{ prqData.EntryBy || '—' | lowercase }}
