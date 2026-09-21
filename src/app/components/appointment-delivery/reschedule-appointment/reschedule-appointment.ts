@@ -3,19 +3,22 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalDirective, ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { AppointmentDeliveryService } from '../../../shared/services/appointment-delivery.service';
 import { CommonService } from '../../../shared/services/common.service';
 import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
+import { ExpenseGeneralService } from '../../../shared/services/expense-general.service';
 
 @Component({
   selector: 'app-reschedule-appointment',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ModalModule, BsDatepickerModule],
+  imports: [CommonModule, ReactiveFormsModule, ModalModule, BsDatepickerModule, NgSelectModule],
   templateUrl: './reschedule-appointment.html',
   styleUrls: ['./reschedule-appointment.scss']
 })
 export class RescheduleAppointment {
   activeType: string = '';
+  reasonData:any;
   appointmentData: any = null;
   isLoading: boolean = false;
   isSaving: boolean = false;
@@ -24,6 +27,8 @@ export class RescheduleAppointment {
   private appointmentService = inject(AppointmentDeliveryService);
   public commonService = inject(CommonService);
   private sweetAlertService = inject(SweetAlertService);
+    public expenseGeneralService=inject(ExpenseGeneralService)
+
 
   parseDate(dateStr: any): Date | null {
     if (!dateStr) return null;
@@ -88,6 +93,7 @@ export class RescheduleAppointment {
     timeTo: new FormControl('', Validators.required),
     personName: new FormControl('', Validators.required),
     contactNo: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
+    reschedule: new FormControl(null, Validators.required),
     appointmentRemarks: new FormControl('')
   });
 
@@ -95,6 +101,8 @@ export class RescheduleAppointment {
     this.activeType = type;
     this.appointmentData = data;
     this.rescheduleForm.reset();
+     this.getReason('PRQRESCHEDULEREASON');
+
 
     const id = data?.appointmentNo || data?.csdNo || data?.msdNo || data?.id || '';
 
@@ -138,7 +146,8 @@ export class RescheduleAppointment {
             contactNo: apiData.mobileno || apiData.csgeMobile || '',
             appointmentRemarks: apiData.apmtRemark || '',
             timeFrom: timeFrom,
-            timeTo: timeTo
+            timeTo: timeTo,
+            reschedule: apiData.reschedule || null,
           });
         }
       },
@@ -149,6 +158,16 @@ export class RescheduleAppointment {
     });
 
     this.rescheduleModal.show();
+  }
+
+   getReason(codeType: string) {
+    this.expenseGeneralService.getGeneralMaster(codeType,'').subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.reasonData = response.data;
+        }
+      },
+    });
   }
 
   closeModal() {
@@ -184,6 +203,7 @@ debugger
         isEnabled: true,
         person: formValue.personName || "",
         mobile: formValue.contactNo || "",
+        reschedule: formValue.reschedule || "",
         remark: formValue.appointmentRemarks || "",
         fromTime: formValue.timeFrom || "",
         toTime: formValue.timeTo || "",

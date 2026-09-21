@@ -6,8 +6,8 @@
       style="background: #CC0000; color: #fff; border-radius: 14px 14px 0 0;">
       <div class="d-flex align-items-center gap-2">
         <div class="d-flex align-items-center justify-content-center rounded-2 bg-white shadow-sm"
-          style="width: 32px; height: 32px; font-size: 16px; color: #CC0000;">
-          <i class="ri-line-chart-line"></i>
+          style="width: 32px; height: 32px; font-size: 18px;">
+          👁️
         </div>
         <div>
           <div class="fw-bold lh-1" style="font-size: 14px; letter-spacing: 0.3px;">
@@ -214,9 +214,18 @@
             <span>REMARKS</span>
           </div>
           <div class="p-3 px-4 mb-4 rounded-3" style="background: #F8FAFC;">
-            <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">
-              REMARKS</div>
-            <div class="fw-semibold text-dark" style="font-size: 13px; line-height: 1.5;">{{ item?.apmtRemark || '—' }}
+            <div class="row g-3">
+              <div class="col-md-6 col-12" *ngIf="activeType === 'APMT'">
+                <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">
+                  Reason for Reschedule</div>
+                <div class="fw-semibold text-dark" style="font-size: 13px; line-height: 1.5;">{{ item?.reschedulereason || '—' }}</div>
+              </div>
+              <div class="col-md-6 col-12">
+                <div class="fw-bold text-uppercase mb-1" style="font-size: 11px; color: #CC0000; letter-spacing: 0.5px;">
+                  REMARKS</div>
+                <div class="fw-semibold text-dark" style="font-size: 13px; line-height: 1.5;">{{ item?.apmtRemark || '—' }}
+                </div>
+              </div>
             </div>
           </div>
         </ng-container>

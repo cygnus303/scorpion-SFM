@@ -178,7 +178,10 @@
     <div class="modal-footer border-0 py-3 px-4 bg-white shadow-lg" style="flex-shrink: 0; border-top: 1px solid #e2e8f0 !important; z-index: 10;">
       <div style="display:flex;gap:12px;justify-content:flex-end;width:100%;">
         <button type="button" class="btn btn-secondary px-4 py-2 rounded-3 fw-bold" (click)="closeModal()" style="font-size: 13px; background: #64748B; border: none; min-width: 100px;">Cancel</button>
-        <button type="button" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none" (click)="submitForm()" style="background: var(--red, #CC0000); border-color: var(--red, #CC0000); font-size: 13px; min-width: 120px;">Submit</button>
+       <button type="button" class="btn btn-danger px-4 py-2 rounded-3 fw-bold shadow-none d-flex justify-content-center align-items-center gap-2" (click)="submitForm()" style="background: var(--red, #CC0000); border-color: var(--red, #CC0000); font-size: 13px; min-width: 120px;" [disabled]="isSaving">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isSaving"></span>
+          {{ isSaving ? 'Submitting...' : 'Submit' }}
+        </button>
       </div>
     </div>
     </form>
