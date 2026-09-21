@@ -249,7 +249,7 @@
                     <label class="form-label fw-bold">Add Attendees</label>
                     <ng-select [items]="users" bindLabel="displayText" bindValue="userId" formControlName="attendeeIDs"
                         [multiple]="true" placeholder="Search team members..." appendTo="body"
-                        [class.disabled]="checkOutValue !== '-' || meetingRole?true:false">
+                        [class.disabled]="checkOutValue !== '-' || meetingRole ? true : false">
                     </ng-select>
                 </div>
 
@@ -263,19 +263,18 @@
                             [ngClass]="{ 'border-danger': meetingForm.controls['meetingLocation'].invalid && meetingForm.controls['meetingLocation'].touched}">
                         </ng-select>
                     </div>
-
+                     <small class="text-danger small mt-1" *ngIf="meetingForm.controls['meetingLocation'].invalid && meetingForm.controls['meetingLocation'].touched">
+                        Location is required.</small>
                     &nbsp;
                     <div>
                         <ng-select [items]="geoLocation" (input)="getGeoLocation($event)" formControlName="geoLocation"
                             (change)="getLatLongData($event)" placeholder="Search Location" [searchable]="true"
                             appendTo="body" [clearable]="true" [class.disabled]="checkOutValue !== '-' || meetingRole"
-                            required
+                            
                             [ngClass]="{ 'border-danger': meetingForm.controls['geoLocation'].invalid && meetingForm.controls['geoLocation'].touched}">
                         </ng-select>
                     </div>
-                    <small class="text-danger small mt-1"
-                        *ngIf="meetingForm.controls['meetingLocation'].invalid && meetingForm.controls['meetingLocation'].touched">Location
-                        is required.</small>
+                    
                 </div>
 
                 <!-- Map (Conditional) -->
