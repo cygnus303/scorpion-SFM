@@ -162,7 +162,7 @@ export class RescheduleAppointment {
   }
 
    getReason(codeType: string) {
-    this.expenseGeneralService.getGeneralMaster(codeType,'').subscribe({
+    this.expenseGeneralService.getGeneralMaster('',codeType).subscribe({
       next: (response) => {
         if (response.success) {
           this.reasonData = response.data;
