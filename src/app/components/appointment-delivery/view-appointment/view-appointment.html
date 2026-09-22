@@ -210,9 +210,9 @@
         <ng-container *ngIf="activeType === 'APMT'">
           <div class="py-2 px-3 mb-3 rounded-2 fw-bold text-white d-flex align-items-center gap-2"
             style="background: #B90000; font-size: 13px; letter-spacing: 0.5px;">
-            <span class="bg-white d-inline-block rounded-1" style="width: 3.5px; height: 14px;"></span>
-            <span>REMARKS</span>
-          </div>
+              <span class="bg-white d-inline-block rounded-1" style="width: 3.5px; height: 14px;"></span>
+              <span>REMARKS</span>
+            </div>
           <div class="p-3 px-4 mb-4 rounded-3" style="background: #F8FAFC;">
             <div class="row g-3">
               <div class="col-md-6 col-12" *ngIf="activeType === 'APMT'">
@@ -339,8 +339,41 @@
         </div>
       </div>
 
-      <!-- Item 2: Rescheduled (Conditional) -->
-      <div class="d-flex" style="position: relative; z-index: 2;" *ngIf="item?.rescheduledDate">
+      <!-- Loader for History -->
+      <div *ngIf="isHistoryLoading" class="text-center py-3">
+        <div class="spinner-border spinner-border-sm text-danger" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Items from API (Multiple Reschedules) -->
+      <ng-container *ngIf="!isHistoryLoading && rescheduleHistory && rescheduleHistory.length > 0">
+        <div class="d-flex" style="position: relative; z-index: 2;" *ngFor="let res of rescheduleHistory; let last = last" [class.mb-4]="!last">
+          <!-- Dot -->
+          <div class="flex-shrink-0 d-flex align-items-start justify-content-center" style="width: 35px; padding-top: 5px;">
+            <div class="rounded-circle" style="width: 10px; height: 10px; background-color: #CC0000; border: 2px solid #fff; box-shadow: 0 0 0 1px #CC0000;"></div>
+          </div>
+          <!-- Content -->
+          <div class="flex-grow-1 ps-2">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="badge px-2 py-1 bg-warning bg-opacity-10 fw-bold border border-warning border-opacity-25" style="border-radius: 4px; font-size: 11px; color: #D97706; background-color: rgba(217, 119, 6, 0.1) !important;">Rescheduled</span>
+              <span class="text-muted fw-medium" style="font-size: 12px;">{{ formatDate(res.EntryDate) || '--' }}</span>
+            </div>
+            <div class="text-dark fw-medium mb-1" style="font-size: 13px;">
+              Appointment moved to {{ formatDate(res.AppointmentDT) || '-' }}, {{ res.FromToToTime || '-' }}
+            </div>
+            <div class="text-muted" style="font-size: 12px;">
+              By: {{ res.EntryBy || '-' }}
+            </div>
+            <div class="text-muted mt-1" style="font-size: 12px;" *ngIf="res.RESCHEDULEREASON">
+              Reason: {{ res.RESCHEDULEREASON }}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Item 2: Rescheduled (Conditional Fallback) -->
+      <div class="d-flex" style="position: relative; z-index: 2;" *ngIf="!isHistoryLoading && rescheduleHistory.length === 0 && item?.rescheduledDate">
         <!-- Dot -->
         <div class="flex-shrink-0 d-flex align-items-start justify-content-center" style="width: 35px; padding-top: 5px;">
           <div class="rounded-circle" style="width: 10px; height: 10px; background-color: #CC0000; border: 2px solid #fff; box-shadow: 0 0 0 1px #CC0000;"></div>
@@ -356,6 +389,9 @@
           </div>
           <div class="text-muted" style="font-size: 12px;">
             By: {{ item?.rescheduledBy || '-' }}
+          </div>
+          <div class="text-muted mt-1" style="font-size: 12px;" *ngIf="item?.reschedulereason">
+            Reason: {{ item?.reschedulereason }}
           </div>
         </div>
       </div>

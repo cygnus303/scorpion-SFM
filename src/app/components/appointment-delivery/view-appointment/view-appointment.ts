@@ -2,6 +2,7 @@ import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BsModalService, BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { AppointmentDeliveryService } from '../../../shared/services/appointment-delivery.service';
+import { ExpenseGeneralService } from '../../../shared/services/expense-general.service';
 
 @Component({
   selector: 'app-view-appointment',
@@ -18,11 +19,14 @@ export class ViewAppointment {
   historyModalRef?: BsModalRef;
   private modalService = inject(BsModalService);
   private appointmentService = inject(AppointmentDeliveryService);
+  public expenseGeneralService=inject(ExpenseGeneralService)
 
   item: any = null;
   activeType: string = 'APMT';
   isLoading: boolean = false;
   listData:any;
+  rescheduleHistory: any[] = [];
+  isHistoryLoading: boolean = false;
 
   formatDate(d: string): string {
     if (!d || (d.charAt(2) !== '-' && d.charAt(2) !== '/')) return d || '-';
@@ -68,6 +72,29 @@ export class ViewAppointment {
   }
 
   openHistoryModal() {
+    this.rescheduleHistory = [];
+    if (this.activeType === 'APMT' && this.item?.appointmentNo) {
+      this.isHistoryLoading = true;
+      const payload = {
+        "FilterJson": {
+          "ReportId": "387",
+          "AppointmentNo": this.item.appointmentNo
+        }
+      };
+      this.expenseGeneralService.getDynamicData(payload).subscribe({
+        next: (res: any) => {
+          this.isHistoryLoading = false;
+          if (res && res.Table1) {
+            this.rescheduleHistory = res.Table1;
+          }
+        },
+        error: (err: any) => {
+          this.isHistoryLoading = false;
+          console.error('Error fetching history', err);
+        }
+      });
+    }
+
     this.historyModalRef = this.modalService.show(this.historyModal, {
       class: 'modal-md modal-dialog-centered',
       backdrop: 'static'
