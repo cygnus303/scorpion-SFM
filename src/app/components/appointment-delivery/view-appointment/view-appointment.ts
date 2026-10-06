@@ -40,7 +40,7 @@ export class ViewAppointment {
     this.listData=data
 
     this.modalRef = this.modalService.show(this.viewModal, {
-      class: 'modal-lg modal-dialog-centered',
+      class: 'modal-xl modal-dialog-centered',
       backdrop: 'static'
     });
 
@@ -56,6 +56,7 @@ export class ViewAppointment {
         this.isLoading = false;
         if (res && res.success && res.data) {
           this.item = res.data;
+          this.fetchHistoryInline();
         }
       },
       error: (err: any) => {
@@ -72,13 +73,26 @@ export class ViewAppointment {
   }
 
   openHistoryModal() {
+    this.historyModalRef = this.modalService.show(this.historyModal, {
+      class: 'modal-md modal-dialog-centered',
+      backdrop: 'static'
+    });
+  }
+
+  closeHistoryModal() {
+    if (this.historyModalRef) {
+      this.historyModalRef.hide();
+    }
+  }
+
+  fetchHistoryInline() {
     this.rescheduleHistory = [];
     if (this.activeType === 'APMT' && this.item?.appointmentNo) {
       this.isHistoryLoading = true;
       const payload = {
         "FilterJson": {
           "ReportId": "387",
-          "AppointmentNo": this.item.appointmentNo
+          "AppointmentNo": this.item?.appointmentNo
         }
       };
       this.expenseGeneralService.getDynamicData(payload).subscribe({
@@ -90,20 +104,9 @@ export class ViewAppointment {
         },
         error: (err: any) => {
           this.isHistoryLoading = false;
-          console.error('Error fetching history', err);
+          console.error('Error fetching inline history', err);
         }
       });
-    }
-
-    this.historyModalRef = this.modalService.show(this.historyModal, {
-      class: 'modal-md modal-dialog-centered',
-      backdrop: 'static'
-    });
-  }
-
-  closeHistoryModal() {
-    if (this.historyModalRef) {
-      this.historyModalRef.hide();
     }
   }
 
