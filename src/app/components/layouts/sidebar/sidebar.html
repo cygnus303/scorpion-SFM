@@ -88,9 +88,9 @@
       (click)="onMenuClick('CSAT')" data-title="CSAT">
       <div class="nav-icon">⭐</div><span class="nav-text">CSAT Module</span>
     </div>
-    <!-- <div class="nav-item" [routerLink]="['/task']" routerLinkActive="active" (click)="onMenuClick('task')">
+    <div class="nav-item" [routerLink]="['/task']" routerLinkActive="active" (click)="onMenuClick('task')">
       <div class="nav-icon">✅</div><span class="nav-text">Task</span>
-    </div> -->
+    </div>
     <div class="nav-item" [routerLink]="['/calendar']" *ngIf="isSFMMasters?.SFM==='Y'" routerLinkActive="active"
       (click)="onMenuClick('calendar')" data-title="My Calendar">
       <div class="nav-icon">📅</div><span class="nav-text">My Calendar</span>
