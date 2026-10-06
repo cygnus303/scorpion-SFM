@@ -35,7 +35,7 @@
         </div>
 
         <!-- Login Form -->
-        <form [formGroup]="loginForm" class="form">
+        <form [formGroup]="loginForm" class="form" (ngSubmit)="login()">
           <div class="form-group">
             <input type="text" formControlName="username" class="form-control" placeholder="Email or Employee Code"
               [class.error]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" />
@@ -76,7 +76,7 @@
             </label>
           </div>
 
-          <button type="submit" class="btn-confirm" (click)="login()" [disabled]="loading">
+          <button type="submit" class="btn-confirm" [disabled]="loading">
             <ng-container *ngIf="!loading; else loadingTemplate">
               CONFIRM & LOG IN
             </ng-container>
