@@ -1,0 +1,270 @@
+/* ===== KPI Cards Responsiveness ===== */
+.meeting-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi {
+    min-width: 0;
+
+    .kpi-label, .kpi-sub {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .kpi-val {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+/* ===== Page Grid Layout ===== */
+.meeting-page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 14px;
+  align-items: start;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Main Card & Header ===== */
+.meeting-main-card {
+  min-width: 0; // Prevents grid blowout
+  width: 100%;
+}
+
+.meeting-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.meeting-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+
+  .meeting-user-select {
+    width: 240px;
+    min-width: 180px;
+  }
+
+  .action-btn-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .action-btn-new {
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    height: 32px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+
+    .meeting-user-select {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    gap: 6px;
+
+    .action-btn-new {
+      padding: 4px 10px !important;
+    }
+  }
+}
+
+/* ===== Table Responsiveness & Frozen Action Column ===== */
+.meeting-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  min-height: 240px;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+
+    &:hover {
+      background: #94a3b8;
+    }
+  }
+}
+
+.meeting-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+
+  th {
+    white-space: nowrap;
+  }
+
+  .th-customer, .td-customer {
+    min-width: 160px;
+    max-width: 240px;
+  }
+
+  .th-datetime, .td-datetime {
+    min-width: 140px;
+    white-space: nowrap;
+  }
+
+  .th-createdby, .td-createdby {
+    min-width: 150px;
+    max-width: 220px;
+  }
+
+  .th-attendees, .td-attendees {
+    min-width: 140px;
+    max-width: 200px;
+  }
+
+  .th-status, .td-status {
+    min-width: 90px;
+    white-space: nowrap;
+  }
+
+  /* FROZEN ACTION COLUMN */
+  .th-action, .td-action {
+    width: 64px;
+    min-width: 64px;
+    white-space: nowrap;
+    position: sticky;
+    right: 0;
+    background: #fff;
+    box-shadow: -3px 0 6px rgba(0, 0, 0, 0.05);
+    border-left: 1px solid var(--border, #e8e8ec);
+  }
+
+  .th-action {
+    z-index: 5;
+  }
+
+  .td-action {
+    z-index: 4;
+
+    &:has(.dropdown-menu.show) {
+      z-index: 25;
+    }
+  }
+
+  tr:hover .td-action {
+    background: #fbfbfb;
+  }
+}
+
+/* ===== Pagination ===== */
+.meeting-pagination {
+  flex-wrap: wrap;
+  gap: 12px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center;
+    gap: 10px;
+
+    .pagination-info {
+      text-align: center;
+      width: 100%;
+    }
+  }
+}
+
+/* ===== Right-Side Cards (Outcomes & Today's Schedule) ===== */
+.meeting-side-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card {
+    min-width: 0;
+  }
+
+  .hbar {
+    .hbr {
+      min-width: 0;
+
+      .hbl {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .tl {
+    .tl-item {
+      min-width: 0;
+
+      .tl-content {
+        min-width: 0;
+
+        .tl-title {
+          word-break: break-word;
+        }
+
+        .tl-meta {
+          word-break: break-word;
+        }
+      }
+    }
+  }
+}
+

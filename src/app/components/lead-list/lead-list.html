@@ -1,6 +1,6 @@
 <div class="page active fade-in">
   <ng-container *ngIf="isCardsLoading">
-    <div class="kpi-row">
+    <div class="kpi-row lead-kpi-row">
       <div class="kpi" *ngFor="let i of [1, 2, 3, 4, 5]"
         style="padding: 10px 12px; border: 1px solid #ececec; border-radius: 18px; position: relative; background: #fff;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start">
@@ -14,7 +14,7 @@
   </ng-container>
 
   <ng-container *ngIf="!isCardsLoading">
-    <div class="kpi-row">
+    <div class="kpi-row lead-kpi-row">
 
       <div class="kpi" style="--kc:var(--blue); padding: 10px 12px;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start">
@@ -62,129 +62,135 @@
       </div>
     </div>
   </ng-container>
-  <div class="g2">
-    <div class="card no-hover">
-      <div class="card-head">
-        <div class="ci text-light">◎</div>
-        <div class="card-title">Lead List</div>
-        <div style="margin-left:auto; display:flex; gap:8px;">
-          <button class="btn btn-primary rounded-3 d-flex align-items-center gap-1" style="padding:5px 12px;font-size:12px; font-weight: 500;" (click)="downloadSampleImport($event)">
-            <i class="ri-download-line" style="font-size: 14px;"></i> Download Template
+
+  <div class="g2 lead-page-grid">
+    <div class="card no-hover lead-main-card">
+      <div class="card-head lead-card-head">
+        <div class="lead-head-title d-flex align-items-center gap-2">
+          <div class="ci text-light">◎</div>
+          <div class="card-title mb-0">Lead List</div>
+        </div>
+        <div class="lead-actions">
+          <button class="btn btn-primary rounded-3 d-flex align-items-center gap-1 action-btn" (click)="downloadSampleImport($event)">
+            <i class="ri-download-line"></i> <span>Download Template</span>
           </button>
-          <button class="btn rounded-3 text-white d-flex align-items-center gap-1" style="background-color: #a855f7; padding:5px 12px;font-size:12px; font-weight: 500;" (click)="triggerFileInput($event)">
-            <i class="ri-upload-line" style="font-size: 14px;"></i> Upload File
+          <button class="btn rounded-3 text-white d-flex align-items-center gap-1 action-btn btn-upload" (click)="triggerFileInput($event)">
+            <i class="ri-upload-line"></i> <span>Upload File</span>
           </button>
-           <div class="file-upload">
-              <input type="file" id="fileInput" (change)="onFileChange($event)" class="file" />
-            </div>
-          <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
-            (click)="downloadLeads()">
+          <div class="file-upload">
+            <input type="file" id="fileInput" (change)="onFileChange($event)" class="file" />
+          </div>
+          <button class="btn btn-square btn-primary rounded-3 action-btn-icon" [disabled]="isExportLoading"
+            (click)="downloadLeads()" title="Export Leads">
             <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
             <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
           </button>
-          <button class="tbtn" style="padding:5px 12px;font-size:11px" (click)="openLeadModal()">＋ New Lead</button>
+          <button class="tbtn rounded-3 action-btn action-btn-new" (click)="openLeadModal()">＋ New Lead</button>
         </div>
       </div>
-      <div style="display:flex;gap:8px;margin-bottom:12px">
-        <ng-select [items]="leadCategories" bindLabel="codeDesc" bindValue="codeDesc" style="width: 50%;"
+
+      <div class="lead-filters">
+        <ng-select [items]="leadCategories" bindLabel="codeDesc" bindValue="codeDesc" class="lead-filter-select"
           placeholder="Search Lead Category" [clearable]="true" [searchable]="true" (change)="getLeads()"
           [(ngModel)]="selectedLeadCategory">
         </ng-select>
         <ng-select [items]="commonService.users" bindLabel="name" bindValue="userId" [placeholder]="'Search User'"
-          style="width: 50%;" [clearable]="true" [searchable]="true" (change)="getLeads()" [(ngModel)]="selectedUser"
-          class="form-control border-start-1 line-height p-0 border-remover">
+          class="lead-filter-select form-control border-start-1 line-height p-0 border-remover" [clearable]="true" [searchable]="true" (change)="getLeads()" [(ngModel)]="selectedUser">
         </ng-select>
       </div>
-      <table class="mt">
-        <thead>
-          <tr>
-            <th>Lead ID</th>
-            <th>Company</th>
-            <th>Contact</th>
-            <th>Customer Name</th>
-            <th>Stage</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Local Table Loader -->
-          <tr *ngIf="isLoading">
-            <td colspan="7" class="py-5 text-center">
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-              <div class="mt-2 text-muted small">Fetching data...</div>
-            </td>
-          </tr>
 
-          <ng-container *ngIf="!isLoading">
-            <tr *ngFor="let lead of leads">
-              <td><small class="text-muted">{{ lead.leadId }}</small></td>
-              <td><strong>{{ lead.companyName }}</strong></td>
-              <td><span class="pill pgy">{{ lead.contactName }}</span></td>
-              <td>{{ lead.customerName }}</td>
-              <td>{{ lead.leadCategory }}</td>
-
-              <td>
-                <span class="pill" [ngClass]="lead.isActive ? 'pg' : 'pr'">
-                  {{ lead.isActive ? 'Active' : 'Inactive' }}
-                </span>
-              </td>
-              <td>
-                <div class="btn-group dropstart">
-                  <button type="button"
-                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
-                    data-bs-toggle="dropdown" aria-expanded="false" style="width:32px; height:32px; padding:0;">
-                    <i class="ri-more-2-fill" style="font-size: 18px;"></i>
-                  </button>
-                  <ul class="dropdown-menu shadow-lg border-0 py-1" style="min-width: fit-content;">
-                    <li class="d-flex px-2 gap-2">
-                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:30px; height:30px; background:var(--red); color:white;"
-                        [ngClass]="{'disabled-image': !lead.leadCreated}"
-                        (click)="lead.leadCreated ? openLeadModal(lead.leadId):null" [popover]="'Edit'" placement="auto"
-                        triggers="hover" [outsideClick]="true" container="body">
-                        <i class="ri-pencil-fill"></i>
-                      </button>
-                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:30px; height:30px; background:var(--red); border:none; color:white;"
-                        (click)="openLeadDetailModal(lead.leadId)" [popover]="'View'" placement="auto" triggers="hover"
-                        [outsideClick]="true" container="body">
-                        <i class="ri-eye-fill"></i>
-                      </button>
-                      <!-- <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:30px; height:30px; background:var(--red); border:none; color:white;"
-                        [popover]="'Call'" placement="auto" triggers="hover" [outsideClick]="true" container="body">
-                        <i class="ri-phone-line"></i>
-                      </button> -->
-                      <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
-                        style="width:30px; height:30px; background:var(--red); border:none; color:white;"
-                        (click)="meetingModal(lead)" [popover]="'Meeting'" placement="auto" triggers="hover"
-                        [outsideClick]="true" container="body">
-                        <i class="ri-team-fill"></i>
-                      </button>
-                    </li>
-                  </ul>
+      <div class="table-responsive lead-table-responsive">
+        <table class="mt lead-table">
+          <thead>
+            <tr>
+              <th class="th-id">Lead ID</th>
+              <th class="th-company">Company</th>
+              <th class="th-contact">Contact</th>
+              <th class="th-customer">Customer Name</th>
+              <th class="th-stage">Stage</th>
+              <th class="th-status">Status</th>
+              <th class="th-action text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Local Table Loader -->
+            <tr *ngIf="isLoading">
+              <td colspan="7" class="py-5 text-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
                 </div>
+                <div class="mt-2 text-muted small">Fetching data...</div>
               </td>
             </tr>
 
-            <!-- Empty State -->
-            <tr *ngIf="leads.length === 0">
-              <td colspan="7" style="text-align:center; padding:40px;">
-                <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
-                <div style="font-size:12px; color:#999; margin-top:12px;">Sorry! No Data Found</div>
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
+            <ng-container *ngIf="!isLoading">
+              <tr *ngFor="let lead of leads">
+                <td class="td-id"><small class="text-muted">{{ lead.leadId }}</small></td>
+                <td class="td-company"><strong>{{ lead.companyName }}</strong></td>
+                <td class="td-contact"><span class="pill pgy">{{ lead.contactName }}</span></td>
+                <td class="td-customer">{{ lead.customerName }}</td>
+                <td class="td-stage">{{ lead.leadCategory }}</td>
+
+                <td class="td-status">
+                  <span class="pill" [ngClass]="lead.isActive ? 'pg' : 'pr'">
+                    {{ lead.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td class="td-action text-center">
+                  <div class="btn-group dropstart">
+                    <button type="button"
+                      class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center m-auto"
+                      data-bs-toggle="dropdown" aria-expanded="false" style="width:32px; height:32px; padding:0;">
+                      <i class="ri-more-2-fill" style="font-size: 18px;"></i>
+                    </button>
+                    <ul class="dropdown-menu shadow-lg border-0 py-1" style="min-width: fit-content;">
+                      <li class="d-flex px-2 gap-2">
+                        <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                          style="width:30px; height:30px; background:var(--red); color:white;"
+                          [ngClass]="{'disabled-image': !lead.leadCreated}"
+                          (click)="lead.leadCreated ? openLeadModal(lead.leadId):null" [popover]="'Edit'" placement="auto"
+                          triggers="hover" [outsideClick]="true" container="body">
+                          <i class="ri-pencil-fill"></i>
+                        </button>
+                        <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                          style="width:30px; height:30px; background:var(--red); border:none; color:white;"
+                          (click)="openLeadDetailModal(lead.leadId)" [popover]="'View'" placement="auto" triggers="hover"
+                          [outsideClick]="true" container="body">
+                          <i class="ri-eye-fill"></i>
+                        </button>
+                        <!-- <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                          style="width:30px; height:30px; background:var(--red); border:none; color:white;"
+                          [popover]="'Call'" placement="auto" triggers="hover" [outsideClick]="true" container="body">
+                          <i class="ri-phone-line"></i>
+                        </button> -->
+                        <button class="btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center"
+                          style="width:30px; height:30px; background:var(--red); border:none; color:white;"
+                          (click)="meetingModal(lead)" [popover]="'Meeting'" placement="auto" triggers="hover"
+                          [outsideClick]="true" container="body">
+                          <i class="ri-team-fill"></i>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Empty State -->
+              <tr *ngIf="leads.length === 0">
+                <td colspan="7" style="text-align:center; padding:40px;">
+                  <i class="ri-file-list-3-line display-4 text-muted opacity-50"></i>
+                  <div style="font-size:12px; color:#999; margin-top:12px;">Sorry! No Data Found</div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
 
       <!-- Pagination -->
-      <div class="d-flex justify-content-between align-items-center mt-3"
+      <div class="lead-pagination d-flex justify-content-between align-items-center mt-3"
         *ngIf="totalItems > commonService.globalFilters.PageSize">
-        <div class="small text-muted">
+        <div class="small text-muted pagination-info">
           Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
           commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
           totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
@@ -198,7 +204,7 @@
     </div>
 
     <ng-container *ngIf="isCardsLoading">
-      <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="lead-side-cards">
         <div class="card" *ngFor="let r of [1, 2]" style="background:#fff;">
           <div class="card-head">
             <div class="ci skeleton" style="background:none; box-shadow: none;"></div>
@@ -215,7 +221,7 @@
     </ng-container>
 
     <ng-container *ngIf="!isCardsLoading">
-      <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="lead-side-cards">
         <div class="card">
           <div class="card-head">
             <div class="ci">📋</div>

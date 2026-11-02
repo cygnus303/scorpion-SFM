@@ -1,7 +1,7 @@
 <div class="page active fade-in">
   <!-- Skeleton Loader for Cards -->
   <ng-container *ngIf="isCardsLoading">
-    <div class="g4">
+    <div class="g4 meeting-kpi-row">
       <div class="kpi" *ngFor="let i of [1, 2, 3, 4]" style="padding: 10px 12px; border: 1px solid #ececec; border-radius: 18px; position: relative; background: #fff;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start">
           <div class="skeleton" style="width: 80px; height: 14px; border-radius: 4px;"></div>
@@ -14,7 +14,7 @@
   </ng-container>
 
   <ng-container *ngIf="!isCardsLoading">
-  <div class="g4">
+  <div class="g4 meeting-kpi-row">
     <div class="kpi" style="--kc:var(--blue); padding: 10px 12px;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start">
         <div class="kpi-label" style="font-size:11px;">Meetings This Week</div>
@@ -54,22 +54,25 @@
     </div>
   </div>
   </ng-container>
-  <div class="g2">
-    <div class="card no-hover">
-      <div class="card-head">
-        <div class="ci b text-light">◷</div>
-        <div style="margin-left:auto; display:flex; gap:8px;">
+
+  <div class="g2 meeting-page-grid">
+    <div class="card no-hover meeting-main-card">
+      <div class="card-head meeting-card-head">
+        <div class="d-flex align-items-center gap-2">
+          <div class="ci b text-light">◷</div>
+          <div class="card-title mb-0">Meeting List</div>
+        </div>
+        <div class="meeting-actions">
           <ng-select [items]="commonService.users" bindLabel="name" bindValue="userId" [placeholder]="'Search User'"
             [clearable]="true" [searchable]="true" (change)="getMeetings()" [(ngModel)]="selectedUser"
-            class="form-control border-start-1 line-height p-0 border-remover" style="width: 250px;">
+            class="meeting-user-select form-control border-start-1 line-height p-0 border-remover">
           </ng-select>
-          <button class="btn btn-square btn-primary pull-right rounded-3" [disabled]="isExportLoading"
-            (click)="downloadMeetings()">
+          <button class="btn btn-square btn-primary pull-right rounded-3 action-btn-icon" [disabled]="isExportLoading"
+            (click)="downloadMeetings()" title="Export Meetings">
             <span *ngIf="isExportLoading" class="spinner-border spinner-border-sm"></span>
             <i *ngIf="!isExportLoading" class="ri-download-fill"></i>
           </button>
-          <button class="tbtn" style="margin-left:auto;padding:5px 12px;font-size:11px"
-            (click)="openMeetingModal('Add')">
+          <button class="tbtn rounded-3 action-btn-new" (click)="openMeetingModal('Add')">
             ＋ Meeting
           </button>
         </div>
@@ -80,44 +83,45 @@
           class="form-control border-start-1 line-height p-0 border-remover" style="width: 250px;">
         </ng-select>
       </div> -->
-      <div class="table-responsive">
-        <table class="mt">
+
+      <div class="table-responsive meeting-table-responsive">
+        <table class="mt meeting-table">
           <thead>
             <tr>
-              <th>Customer</th>
-              <th>Date & Time</th>
-              <th>CreatedBy</th>
-              <th>Attendees</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th class="th-customer">Customer</th>
+              <th class="th-datetime">Date & Time</th>
+              <th class="th-createdby">CreatedBy</th>
+              <th class="th-attendees">Attendees</th>
+              <th class="th-status">Status</th>
+              <th class="th-action text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let meeting of meetings">
-              <td style="max-width: 150px;">
-                <div class="fw-bold text-dark" [title]="meeting.customerName">{{ meeting.customerName }}</div>
+              <td class="td-customer">
+                <div class="fw-bold text-dark text-truncate" [title]="meeting.customerName">{{ meeting.customerName }}</div>
                 <small class="text-muted" [title]="meeting.meetingId">ID: {{ meeting.meetingId }}</small>
               </td>
-              <td>
-                <div>{{ meeting.meetingDate }}</div>
-                <small class="text-primary fw-semibold">{{ meeting.startTime }} - {{ meeting.endTime }}</small>
+              <td class="td-datetime">
+                <div class="text-nowrap">{{ meeting.meetingDate }}</div>
+                <small class="text-primary fw-semibold text-nowrap">{{ meeting.startTime }} - {{ meeting.endTime }}</small>
               </td>
-              <td>
+              <td class="td-createdby">
                 <div class="text-truncate" style="max-width: 200px;"
                   [title]="meeting.createdBy + ':' + meeting.createdName">
                   {{meeting.createdBy}}:{{meeting.createdName}}
                 </div>
               </td>
-              <td>
-                <div class="text-truncate" style="max-width: 150px;" [title]="meeting.attendeeNames">
+              <td class="td-attendees">
+                <div class="text-truncate" style="max-width: 160px;" [title]="meeting.attendeeNames">
                   {{ meeting.attendeeNames }}
                 </div>
               </td>
-              <td><span class="pill pg" [title]="meeting.meetingStatus">{{ meeting.meetingStatus}}</span></td>
-              <td>
+              <td class="td-status"><span class="pill pg" [title]="meeting.meetingStatus">{{ meeting.meetingStatus}}</span></td>
+              <td class="td-action text-center">
                 <div class="btn-group dropstart">
                   <button type="button"
-                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center m-auto"
                     data-bs-toggle="dropdown" aria-expanded="false" style="width:32px; height:32px; padding:0;">
                     <i class="ri-more-2-fill" style="font-size: 18px;"></i>
                   </button>
@@ -172,9 +176,9 @@
       </div>
 
       <!-- Pagination -->
-      <div class="d-flex justify-content-between align-items-center mt-3"
+      <div class="meeting-pagination d-flex justify-content-between align-items-center mt-3"
         *ngIf="totalItems > commonService.globalFilters.PageSize">
-        <div class="small text-muted">
+        <div class="small text-muted pagination-info">
           Showing {{ (commonService.globalFilters.Page - 1) * commonService.globalFilters.PageSize + 1 }} to {{
           commonService.globalFilters.Page * commonService.globalFilters.PageSize > totalItems ?
           totalItems : commonService.globalFilters.Page * commonService.globalFilters.PageSize }}
@@ -188,7 +192,7 @@
     </div>
     
     <ng-container *ngIf="isCardsLoading">
-      <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="meeting-side-cards">
         <div class="card" *ngFor="let r of [1, 2]" style="background:#fff;">
           <div class="card-head">
             <div class="ci skeleton" style="background:none; box-shadow: none;"></div>
@@ -205,7 +209,7 @@
     </ng-container>
 
     <ng-container *ngIf="!isCardsLoading">
-    <div style="display:flex;flex-direction:column;gap:14px">
+    <div class="meeting-side-cards">
       <div class="card">
         <div class="card-head">
           <div class="ci">📊</div>
