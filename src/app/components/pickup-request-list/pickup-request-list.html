@@ -213,14 +213,34 @@
     <p class="text-muted mb-4" style="font-size: 18px;">PRQ <span class="fw-bold text-dark">{{cancelPrqNo}}</span> will
       be cancelled. This action cannot be undone.</p>
 
-    <div class="text-start mb-4">
+    <div class="text-start mb-3">
       <label
         style="font-size: 13px; font-weight: 700; color: #4b5563; margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px;">Cancellation
         Reason <span class="text-danger">*</span></label>
-      <textarea [(ngModel)]="cancelReason" class="form-control" rows="3"
+      <ng-select [items]="cancelReasonList" bindLabel="codeDesc" bindValue="codeId"
+        [(ngModel)]="selectedCancelReasonId" (change)="onCancelReasonChange($event)"
+        [placeholder]="'-- Select Cancellation Reason --'"
+        [clearable]="true" [searchable]="true" [loading]="isCancelReasonLoading"
+        appendTo="body" 
+        [ngClass]="{'border-danger': isCancelSubmitted && !selectedCancelReasonId, 'shake-animation': isShaking && !selectedCancelReasonId}">
+      </ng-select>
+      <div *ngIf="isCancelSubmitted && !selectedCancelReasonId" class="text-danger mt-1" style="font-size: 12px;">
+        Please select a cancellation reason
+      </div>
+    </div>
+
+    <!-- Other Cancellation Reason Textarea (Required when codeId 8 / Others is selected) -->
+    <div class="text-start mb-4" *ngIf="isOtherReasonSelected()">
+      <label
+        style="font-size: 13px; font-weight: 700; color: #4b5563; margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px;">Specify
+        Reason <span class="text-danger">*</span></label>
+      <textarea [(ngModel)]="otherCancelReason" class="form-control" rows="3"
         placeholder="Please enter reason for cancellation..."
         style="font-size: 13px; border-radius: 8px; border: 1px solid #d1d5db; resize: none; box-shadow: none;"
-        [ngClass]="{'is-invalid': isCancelSubmitted && !cancelReason.trim(), 'shake-animation': isShaking}"></textarea>
+        [ngClass]="{'is-invalid': isCancelSubmitted && (!otherCancelReason || !otherCancelReason.trim()), 'shake-animation': isShaking && (!otherCancelReason || !otherCancelReason.trim())}"></textarea>
+      <div *ngIf="isCancelSubmitted && (!otherCancelReason || !otherCancelReason.trim())" class="text-danger mt-1" style="font-size: 12px;">
+        Please enter cancellation reason
+      </div>
     </div>
 
     <div class="d-flex justify-content-center gap-3">

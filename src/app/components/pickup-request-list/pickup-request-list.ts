@@ -14,12 +14,14 @@ import { AddPrqPopup } from './add-prq-popup/add-prq-popup';
 import { ExpenseGeneralService } from '../../shared/services/expense-general.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { GeneralMaster } from '../../shared/models/expenseGeneral.model';
 import * as XLSX from 'xlsx';
 import { PrqView } from './prq-view/prq-view';
 
 @Component({
   selector: 'app-pickup-request-list',
-  imports: [CommonModule, AddPrq, PaginationModule, FormsModule, PrqDetail,AddPrqPopup,PrqView, PopoverModule],
+  imports: [CommonModule, AddPrq, PaginationModule, FormsModule, PrqDetail,AddPrqPopup,PrqView, PopoverModule, NgSelectModule],
   templateUrl: './pickup-request-list.html',
   styleUrl: './pickup-request-list.scss',
 })
@@ -46,7 +48,10 @@ export class PickupRequestList {
   // Cancel Modal properties
   public cancelModalRef?: BsModalRef;
   public cancelPrqNo: string = '';
-  public cancelReason: string = '';
+  public selectedCancelReasonId: any = null;
+  public otherCancelReason: string = '';
+  public cancelReasonList: GeneralMaster[] = [];
+  public isCancelReasonLoading: boolean = false;
   public isCancelSubmitted: boolean = false;
   @ViewChild('cancelPrqModal') cancelPrqModalTemplate!: TemplateRef<any>;
 
@@ -67,6 +72,7 @@ export class PickupRequestList {
   ) { }
 
   ngOnInit() {
+    this.getCancelReason();
     this.commonService.filterChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       // this.getPRQCardList();
       this.getPRQList()
@@ -357,25 +363,58 @@ export class PickupRequestList {
 
   onCancel(prqNo: string) {
     this.cancelPrqNo = prqNo;
-    this.cancelReason = '';
+    this.selectedCancelReasonId = null;
+    this.otherCancelReason = '';
     this.isCancelSubmitted = false;
+    this.getCancelReason();
     this.cancelModalRef = this.modalService.show(this.cancelPrqModalTemplate, { class: 'modal-dialog-centered cancel-prq-modal', backdrop: 'static' });
   }
 
   closeCancelModal() {
     this.cancelModalRef?.hide();
     this.cancelPrqNo = '';
-    this.cancelReason = '';
+    this.selectedCancelReasonId = null;
+    this.otherCancelReason = '';
     this.isCancelSubmitted = false;
+  }
+
+  onCancelReasonChange(item: any) {
+    if (!this.isOtherReasonSelected()) {
+      this.otherCancelReason = '';
+    }
+  }
+
+  isOtherReasonSelected(): boolean {
+    if (!this.selectedCancelReasonId) return false;
+    if (this.selectedCancelReasonId == '8' || this.selectedCancelReasonId === 8) return true;
+    const item = this.cancelReasonList.find(x => x.codeId == this.selectedCancelReasonId);
+    return item?.codeDesc?.toLowerCase().includes('other') || false;
   }
 
   confirmCancel() {
     this.isCancelSubmitted = true;
-    if (!this.cancelReason || !this.cancelReason.trim()) {
-      this.isShaking = false;
-      setTimeout(() => this.isShaking = true, 10);
-      setTimeout(() => this.isShaking = false, 400);
+
+    // Validate dropdown selection
+    if (!this.selectedCancelReasonId) {
+      this.triggerShake();
       return;
+    }
+
+    const isOther = this.isOtherReasonSelected();
+    // If Others (codeId 8), textarea is required
+    if (isOther && (!this.otherCancelReason || !this.otherCancelReason.trim())) {
+      this.triggerShake();
+      return;
+    }
+
+    const selectedItem = this.cancelReasonList.find(x => x.codeId == this.selectedCancelReasonId);
+    const codeDesc = selectedItem?.codeDesc || '';
+    const codeId = selectedItem?.codeId ? selectedItem.codeId.toString() : this.selectedCancelReasonId.toString();
+
+    // Prepare CancelReason: if Others, format is "codeDesc - otherReason"
+    let cancelReasonText = codeDesc;
+    if (isOther) {
+      cancelReasonText = `${codeDesc} - ${this.otherCancelReason.trim()}`;
     }
 
     const payload = {
@@ -383,7 +422,8 @@ export class PickupRequestList {
         "ReportId": "221",
         "PRQNo": this.cancelPrqNo,
         "UserName": this.commonService.globalFilters.UserID.toString(),
-        "CancelReason": this.cancelReason.trim()
+        "CancelReason": cancelReasonText,
+        "CancelReasoncd": codeId
       }
     };
     
@@ -400,6 +440,12 @@ export class PickupRequestList {
         this.sweetAlertService.error(response?.error?.message || "Failed to cancel PRQ");
       }
     });
+  }
+
+  private triggerShake() {
+    this.isShaking = false;
+    setTimeout(() => this.isShaking = true, 10);
+    setTimeout(() => this.isShaking = false, 400);
   }
 
   onSubmitBulkUpload() {
@@ -434,6 +480,22 @@ export class PickupRequestList {
       error: (error: any) => {
         this.isLoading = false;
         this.sweetAlertService.error("Failed to submit bulk PRQ");
+      }
+    });
+  }
+
+  getCancelReason(searchText: string | null = null) {
+    this.isCancelReasonLoading = true;
+    this.expenseGeneralService.getGeneralMaster(searchText, 'PRQ_CANCEL_REASON').subscribe({
+      next: (response: any) => {
+        this.isCancelReasonLoading = false;
+        if (response && response.data) {
+          this.cancelReasonList = response.data;
+        }
+      },
+      error: (err: any) => {
+        this.isCancelReasonLoading = false;
+        console.error('Failed to get PRQ cancel reasons', err);
       }
     });
   }
