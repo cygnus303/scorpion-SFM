@@ -59,7 +59,7 @@ export class PrqService {
      return this.apiHandlerService.Get(`PRQ/GetEwaybillDetail?ewaybillNo=${ewaybillNo}`)
   }
 
-  getContractDetail(custCode:string,paybas:string){
+  getContractDetail(custCode: string, paybas: string = '') {
      return this.apiHandlerService.Get(`PRQ/GetContractForPRQ?custCode=${custCode}&PayBas=${paybas}`)
   }
 

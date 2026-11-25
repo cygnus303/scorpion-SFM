@@ -135,7 +135,9 @@ export class AddPrqPopup {
       if (term?.trim() && term.length >= 2) {
         this.getPincodeData(term, 'consignor');
       } else {
-        this.consignorPincodeData = [];
+       const currentVal = this.prqForm.get('consignorPin')?.value;
+        const currentItem = this.consignorPincodeData.find((d: any) => d.Value === currentVal);
+        this.consignorPincodeData = currentItem ? [currentItem] : [];
         this.consignorPincodeNotFoundText = 'Please enter 3 more characters';
       }
     });
@@ -145,7 +147,9 @@ export class AddPrqPopup {
       if (term?.trim() && term.length >= 2) {
         this.getPincodeData(term, 'consignee');
       } else {
-        this.consigneePincodeData = [];
+         const currentVal = this.prqForm.get('consigneePin')?.value;
+        const currentItem = this.consigneePincodeData.find((d: any) => d.Value === currentVal);
+        this.consigneePincodeData = currentItem ? [currentItem] : [];
         this.consigneePincodeNotFoundText = 'Please enter 3 more characters';
       }
     });
@@ -185,11 +189,21 @@ export class AddPrqPopup {
           this.isDestPincodeLoading = false;
           if (data.length === 0) this.destPincodeNotFoundText = 'No pincode found';
         } else if (type === 'consignor') {
+          const currentVal = this.prqForm.get('consignorPin')?.value;
+          const currentItem = this.consignorPincodeData.find((d: any) => d.Value === currentVal);
           this.consignorPincodeData = data;
+           if (currentItem && !this.consignorPincodeData.some((d: any) => d.Value === currentVal)) {
+            this.consignorPincodeData = [currentItem, ...this.consignorPincodeData];
+          }
           this.isConsignorPincodeLoading = false;
           if (data.length === 0) this.consignorPincodeNotFoundText = 'No pincode found';
         } else if (type === 'consignee') {
+          const currentVal = this.prqForm.get('consigneePin')?.value;
+          const currentItem = this.consigneePincodeData.find((d: any) => d.Value === currentVal);
           this.consigneePincodeData = data;
+          if (currentItem && !this.consigneePincodeData.some((d: any) => d.Value === currentVal)) {
+            this.consigneePincodeData = [currentItem, ...this.consigneePincodeData];
+          }
           this.isConsigneePincodeLoading = false;
           if (data.length === 0) this.consigneePincodeNotFoundText = 'No pincode found';
         }
@@ -315,8 +329,12 @@ export class AddPrqPopup {
     this.emailNotFoundText = 'Please enter 3 more characters';
     this.pincodeData = [];
     this.destPincodeData = [];
+     this.consignorPincodeData = [];
+    this.consigneePincodeData = [];
     this.pincodeNotFoundText = 'Please enter 3 more characters';
     this.destPincodeNotFoundText = 'Please enter 3 more characters';
+     this.consignorPincodeNotFoundText = 'Please enter 3 more characters';
+    this.consigneePincodeNotFoundText = 'Please enter 3 more characters';
      this.allowedPaybasList = null;
     this.contractErrorMsg = '';
     this.paybaseData = [...this.allPaybaseData];
@@ -325,7 +343,29 @@ export class AddPrqPopup {
   onChangePincode(event: any) {
     this.pincodeData = [];
     this.pincodeNotFoundText = 'Please enter 3 more characters';
-    this.prqService.getBranchCityFromPincode(event?.Value).subscribe((res: any) => {
+    if (!event) {
+      this.prqForm.patchValue({
+        branchCode: '',
+        fromCity: '',
+        fromCityCode: '',
+        PickupBranch: null,
+        consignorPin: null
+      });
+      return;
+    }
+
+    const pinVal = event?.Value || event;
+    const pinText = event?.Text || event?.Value || event;
+    const pinObj = { Text: pinText, Value: pinVal };
+
+    const exists = this.consignorPincodeData.some((item: any) => item.Value === pinVal);
+    if (!exists) {
+      this.consignorPincodeData = [pinObj, ...this.consignorPincodeData];
+    }
+    this.prqForm.patchValue({
+      consignorPin: pinVal
+    });
+    this.prqService.getBranchCityFromPincode(pinVal).subscribe((res: any) => {
       if (res.success && res.data && res.data.length > 0) {
         const loc = res.data[0];
         this.prqForm.patchValue({
@@ -341,7 +381,26 @@ export class AddPrqPopup {
   onChangeDestPincode(event: any) {
     this.destPincodeData = [];
     this.destPincodeNotFoundText = 'Please enter 3 more characters';
-    this.prqService.getBranchCityFromPincode(event?.Value).subscribe((res: any) => {
+     if (!event) {
+      this.prqForm.patchValue({
+        desBranchCode: '',
+        consigneePin: null
+      });
+      return;
+    }
+
+    const pinVal = event?.Value || event;
+    const pinText = event?.Text || event?.Value || event;
+    const pinObj = { Text: pinText, Value: pinVal };
+
+    const exists = this.consigneePincodeData.some((item: any) => item.Value === pinVal);
+    if (!exists) {
+      this.consigneePincodeData = [pinObj, ...this.consigneePincodeData];
+    }
+    this.prqForm.patchValue({
+      consigneePin: pinVal
+    });
+    this.prqService.getBranchCityFromPincode(pinVal).subscribe((res: any) => {
       if (res.success && res.data && res.data.length > 0) {
         const loc = res.data[0];
         this.prqForm.patchValue({
@@ -359,7 +418,9 @@ export class AddPrqPopup {
           payBase: null,
         transportMode: null,
         service_Type: null,
-        ftlType: null
+        ftlType: null,
+        coldChainCategory: null,
+        tempRange: ''
       });
     } else {
       this.prqForm.patchValue({
@@ -367,7 +428,9 @@ export class AddPrqPopup {
         payBase: null,
         transportMode: null,
         service_Type: null,
-        ftlType: null
+        ftlType: null,
+        coldChainCategory: null,
+        tempRange: ''
       });
       this.allowedPaybasList = null;
       this.paybaseData = [...this.allPaybaseData];
@@ -416,23 +479,40 @@ export class AddPrqPopup {
 
    
       const current = this.prqForm.get('payBase')?.value;
-      if (current && !this.paybaseData.some(p => p.codeId === current)) {
+      if (current && !this.paybaseData.some(p => p.codeId === current || p.codeDesc === current)) {
         this.prqForm.patchValue({ payBase: null });
+      }
+      if (this.paybaseData.length === 1 && !this.PRQNo) {
+        const singlePay = this.paybaseData[0].codeId;
+        if (current !== singlePay) {
+          this.prqForm.patchValue({ payBase: singlePay });
+          const customerId = this.prqForm.get('customerCode')?.value;
+          if (customerId) {
+            this.getContract(customerId, singlePay);
+          }
+        }
       }
   }
 
   onPayBasChange(event: any) {
     this.contractErrorMsg = '';
-     this.prqForm.patchValue({
+    this.prqForm.patchValue({
       transportMode: null,
       service_Type: null,
-      ftlType: null
+      ftlType: null,
+      coldChainCategory: null,
+      tempRange: ''
     });
     const paybas = event ? (event.codeId || (typeof event === 'string' ? event : '')) : '';
     if (!paybas) {
       this.serviceData = [];
       this.transportModes = [];
       return;
+    }
+
+    const customerId = this.prqForm.get('customerCode')?.value || (this.customerData && this.customerData.length > 0 ? this.customerData[0].id : null);
+    if (customerId) {
+      this.getContract(customerId, paybas);
     }
   }
 
@@ -452,6 +532,9 @@ export class AddPrqPopup {
       next: (response: any) => {
         if (response) {
           this.transportModes = response.data.filter((item: any) => mode?.includes(item.codeDesc) || mode?.includes(item.codeId));
+         if (this.transportModes.length === 1) {
+            this.prqForm.patchValue({ transportMode: this.transportModes[0].codeId });
+          }
         }
       },
       error: (response: any) => {
@@ -474,8 +557,17 @@ export class AddPrqPopup {
         if (response && response.data && response.data.length > 0) {
           const item = response.data[0];
           const contractId = (item.contractId || '').toString().trim();
-          const serviceTypesStr = item.serviceTypes || '';
-          const transportTypesStr = item.transportTypes || '';
+          const allTransports: string[] = [];
+          response.data.forEach((d: any) => {
+            if (d.transportTypes) allTransports.push(d.transportTypes);
+          });
+          const transportTypesStr = allTransports.length > 0 ? allTransports.join(', ') : (item.transportTypes || '');
+
+          const allServices: string[] = [];
+          response.data.forEach((d: any) => {
+            if (d.serviceTypes) allServices.push(d.serviceTypes);
+          });
+          const serviceTypesStr = allServices.length > 0 ? allServices.join(', ') : (item.serviceTypes || '');
            const custcatStr = (item.custcat || item.payBas || '').toString().trim().toUpperCase();
           const custcatList = custcatStr.split(',').map((c: string) => c.trim()).filter(Boolean);
 
@@ -517,7 +609,9 @@ export class AddPrqPopup {
               payBase: null,
               transportMode: null,
               service_Type: null,
-              ftlType: null
+              ftlType: null,
+              coldChainCategory: null,
+              tempRange: ''
             });
             this.serviceData = [];
             this.transportModes = [];
@@ -533,7 +627,9 @@ export class AddPrqPopup {
               payBase: null,
               transportMode: null,
               service_Type: null,
-              ftlType: null
+              ftlType: null,
+              coldChainCategory: null,
+              tempRange: ''
             });
             this.serviceData = [];
             this.transportModes = [];
@@ -576,7 +672,9 @@ export class AddPrqPopup {
               payBase: null,
               transportMode: null,
               service_Type: null,
-              ftlType: null
+              ftlType: null,
+              coldChainCategory: null,
+              tempRange: ''
             });
             this.serviceData = [];
             this.transportModes = [];
@@ -616,12 +714,15 @@ export class AddPrqPopup {
           }
 
           if (serviceTypesStr) {
-            this.serviceData = serviceTypesStr.split(',').map((s: string) => ({ name: s.trim(), value: s.trim() })).filter((s: any) => s.value !== '');
+            const uniqueServices = Array.from(new Set(
+              serviceTypesStr.split(',').map((s: string) => s.trim()).filter(Boolean)
+            ));
+            this.serviceData = uniqueServices.map(s => ({ name: s, value: s }));
+            if (this.serviceData.length === 1) {
+              this.prqForm.patchValue({ service_Type: this.serviceData[0].value });
+            }
           } else {
             this.serviceData = [];
-          }
-          if (this.serviceData.length === 1) {
-            this.prqForm.patchValue({ service_Type: this.serviceData[0].value });
           }
         } else {
           const errorMsg = paybasValue
@@ -636,7 +737,9 @@ export class AddPrqPopup {
               payBase: null ,
               transportMode: null,
               service_Type: null,
-              ftlType: null
+              ftlType: null,
+              coldChainCategory: null,
+              tempRange: ''
             });
           } else if (isPaybasBlank) {
             this.paybaseData = [];
@@ -680,7 +783,10 @@ export class AddPrqPopup {
       next: (response: any) => {
         if (response && response.Table1 && response.Table1.length > 0) {
           const data = response.Table1[0];
-          this.getTransportModes('', data.TransitMode)
+          // Initial fallback until contract API responds
+          if (data.TransitMode) {
+            this.getTransportModes('', data.TransitMode);
+          }
           if (data.CustomerCode) this.customerData = [{ id: data.CustomerCode, text: data.CustomerName }];
           // if (data.TransitMode) this.transportModes = [{ codeId: data.TransitMode, codeDesc: data.TransitMode }];
           if (data.FTLType) this.fleetTypeData = [{ codeId: data.FTLType, codeDesc: data.FTLType }];
@@ -689,6 +795,69 @@ export class AddPrqPopup {
           if (data.ConsignorPincode) this.consignorPincodeData = [{ Value: data.ConsignorPincode, Text: data.ConsignorPincode }];
           if (data.ConsigneePincode) this.consigneePincodeData = [{ Value: data.ConsigneePincode, Text: data.ConsigneePincode }];
 
+          // Call Customer Contract API to fetch custcat, transportTypes, and serviceTypes
+          if (data.CustomerCode) {
+            this.prqService.getContractDetail(data.CustomerCode, '').subscribe({
+              next: (contractRes: any) => {
+                if (contractRes && contractRes.data && contractRes.data.length > 0) {
+                  const item = contractRes.data[0];
+
+                  // 1. Custcat / Paybasis from contract API
+                  const allCustCats: string[] = [];
+                  contractRes.data.forEach((d: any) => {
+                    const c = d.custcat || d.custCat || d.CustCat || d.payBas || d.paybas || d.PayBas;
+                    if (c) {
+                      if (typeof c === 'string') {
+                        allCustCats.push(...c.split(',').map((s: string) => s.trim()).filter(Boolean));
+                      } else if (Array.isArray(c)) {
+                        allCustCats.push(...c);
+                      }
+                    }
+                  });
+
+                  const paybasSource = allCustCats.length > 0 ? allCustCats : (item.custcat || item.payBas || '');
+                  if (paybasSource) {
+                    this.allowedPaybasList = paybasSource;
+                    this.filterPaybase(paybasSource);
+                  }
+
+                  // 2. Transport Modes from contract API
+                  const allTransports: string[] = [];
+                  contractRes.data.forEach((d: any) => {
+                    if (d.transportTypes) allTransports.push(d.transportTypes);
+                  });
+                  const transportTypesStr = allTransports.length > 0 ? allTransports.join(', ') : (item.transportTypes || '');
+                  if (transportTypesStr) {
+                    this.getTransportModes('', transportTypesStr);
+                  }
+
+                  // 3. Service Types from contract API
+                  const allServices: string[] = [];
+                  contractRes.data.forEach((d: any) => {
+                    if (d.serviceTypes) allServices.push(d.serviceTypes);
+                  });
+                  const serviceTypesStr = allServices.length > 0 ? allServices.join(', ') : (item.serviceTypes || '');
+                  if (serviceTypesStr) {
+                    const uniqueServices = Array.from(new Set(
+                      serviceTypesStr.split(',').map((s: string) => s.trim()).filter(Boolean)
+                    ));
+                    this.serviceData = uniqueServices.map(s => ({ name: s, value: s }));
+                  }
+
+                  // 4. Contract ID
+                  if (item.contractId) {
+                    this.prqForm.patchValue({
+                      contractID: item.contractId
+                    });
+                  }
+                }
+              },
+              error: (err: any) => {
+                console.error('Error fetching contract details in editPRQ:', err);
+              }
+            });
+          }
+
           let parsedDate = new Date();
           let parsedTime = `${parsedDate.getHours().toString().padStart(2, '0')}:${parsedDate.getMinutes().toString().padStart(2, '0')}`;
           if (data.PRQDate) {
@@ -696,6 +865,32 @@ export class AddPrqPopup {
             parsedTime = `${parsedDate.getHours().toString().padStart(2, '0')}:${parsedDate.getMinutes().toString().padStart(2, '0')}`;
           }
           setTimeout(() => {
+            let matchedPayBase = data.PayBas;
+            if (this.paybaseData && this.paybaseData.length > 0) {
+              const matched = this.paybaseData.find((p: any) =>
+                p.codeId === data.PayBas ||
+                p.codeDesc === data.PayBas ||
+                (p.codeId && p.codeId.toUpperCase() === (data.PayBas || '').toUpperCase()) ||
+                (p.codeDesc && p.codeDesc.toUpperCase() === (data.PayBas || '').toUpperCase())
+              );
+              if (matched) {
+                matchedPayBase = matched.codeId;
+              }
+            }
+
+            let matchedTransportMode = data.TransitMode;
+            if (this.transportModes && this.transportModes.length > 0) {
+              const matched = this.transportModes.find((t: any) =>
+                t.codeId === data.TransitMode ||
+                t.codeDesc === data.TransitMode ||
+                (t.codeId && t.codeId.toUpperCase() === (data.TransitMode || '').toUpperCase()) ||
+                (t.codeDesc && t.codeDesc.toUpperCase() === (data.TransitMode || '').toUpperCase())
+              );
+              if (matched) {
+                matchedTransportMode = matched.codeId;
+              }
+            }
+
             // Map the available fields from ReportId 222
             this.prqForm.patchValue({
               groupCode: data.PRQNo,
@@ -710,7 +905,7 @@ export class AddPrqPopup {
               customer_Name: data.CustomerName,
               pkgs: data.PKGS,
               weight: data.ApproxWeight,
-              transportMode: data.TransitMode,
+              transportMode: matchedTransportMode,
               ftlType: data.FTLType,
               pinCode: data.PickupPincode,
               desPincode: data.DeliveryPincode,
@@ -725,7 +920,8 @@ export class AddPrqPopup {
               consigneePin: data.ConsigneePincode,
               consignorContactNo:data.ConsignorContactno,
               consigneeContactNo:data.ConsigneeContactno,
-              pickupBranch:data.PickupBranch
+              pickupBranch:data.PickupBranch,
+              payBase: matchedPayBase         
             });
           }, 500);
         }
