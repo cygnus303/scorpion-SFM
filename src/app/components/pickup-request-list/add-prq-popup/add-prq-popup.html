@@ -322,7 +322,7 @@
                                <div class="input-group">
                                     <input class="form-control" placeholder="dd/mm/yyyy" #dpUpdate2="bsDatepicker" bsDatepicker 
                                         formControlName="invoiceDate" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [isDisabled]="true"
-                                        [minDate]="minDate"
+                                        [maxDate]="minDate"
                                         [class.disabled-input]="true"
                                         [ngClass]="{'is-invalid-field': prqForm.get('invoiceDate')?.invalid && prqForm.get('invoiceDate')?.touched}">
                                     <button class="btn btn-outline-secondary border shadow-none" (click)="dpUpdate2.toggle()" type="button">📅</button>
@@ -334,7 +334,8 @@
                             <label
                                 style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Invoice
                                 Value (&#8377;)</label>
-                            <input type="text" formControlName="invoiceValue" placeholder="Auto-filled from Eway Bill"
+                            <input type="text" formControlName="invoiceValue" placeholder="Auto-filled from Eway Bill"  maxlength="16"
+                            oninput="this.value = this.value.replace(/[^0-9]/g,'');" 
                                 [readonly]="prqForm.get('ewayBill')?.value === 'with'">
                         </div>
                         <div></div>
